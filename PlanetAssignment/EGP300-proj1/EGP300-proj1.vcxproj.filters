@@ -1,0 +1,274 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\2D Rendering">
+      <UniqueIdentifier>{b1f026b5-d19b-4bb1-a148-686d630c4893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D Rendering">
+      <UniqueIdentifier>{00ec8168-afdd-4b1c-80aa-f5b96ecaa907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\TinyXML">
+      <UniqueIdentifier>{ee7e5219-e738-42c8-b59c-1f128c22fad9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Tiny XML">
+      <UniqueIdentifier>{f481ab42-6af3-4551-9ec0-fcadba468a0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LodePNG">
+      <UniqueIdentifier>{7712004a-d30d-4e1b-865f-03395afbae85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{53f5ecd1-9cf7-4939-8929-7048c232f15b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics">
+      <UniqueIdentifier>{cad3746a-a757-49c6-bd38-4864b157942a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\3D Rendering">
+      <UniqueIdentifier>{12e9b50a-f09f-41c8-be00-91be4f546c33}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3D Rendering">
+      <UniqueIdentifier>{45a6c98d-d8bd-40a7-ada0-e17e3f56230d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicGeometry.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite2D.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="tinystr.cpp">
+      <Filter>Source Files\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxml.cpp">
+      <Filter>Source Files\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlerror.cpp">
+      <Filter>Source Files\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="tinyxmlparser.cpp">
+      <Filter>Source Files\TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="lodepng.cpp">
+      <Filter>LodePNG</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform2D.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIImage.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUISystem.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite2DManager.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIButton.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rigidbody.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Planet.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Material.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshCreator.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelData.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelOld.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PointLight.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rectangle2D.cpp">
+      <Filter>Source Files\2D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayObject3D.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="PlanetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libs\gltools.lib" />
+    <Library Include="libs\freeglut_static.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GLfiles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicGeometry.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FixedArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite2D.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="tinystr.h">
+      <Filter>Header Files\Tiny XML</Filter>
+    </ClInclude>
+    <ClInclude Include="tinyxml.h">
+      <Filter>Header Files\Tiny XML</Filter>
+    </ClInclude>
+    <ClInclude Include="lodepng.h">
+      <Filter>LodePNG</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIImage.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform2D.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GUISystem.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GuiOperationEnum.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite2DManager.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIButton.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rectangle2D.h">
+      <Filter>Header Files\2D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="RigidBody.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceGenerator.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleDrag.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Comments.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Planet.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshCreator.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshData.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelData.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="PointLight.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayObject3D.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Geometry.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="PlanetManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

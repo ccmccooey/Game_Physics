@@ -1,0 +1,15 @@
+#ifndef _GUI_OPERATION_ENUM_H
+#define _GUI_OPERATION_ENUM_H
+
+enum GuiOperationEnum
+{
+	INVALID_OPERATION = -1,
+
+	PLAY_GAME,
+	STOP_GAME,
+	PAUSE_BUTTON,
+
+	TOTAL_OPERATIONS
+};
+
+#endif

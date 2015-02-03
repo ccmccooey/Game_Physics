@@ -1,0 +1,8 @@
+
+
+class ParticleForceGenerator
+{
+protected:
+	ParticleForceGenerator();
+
+};
