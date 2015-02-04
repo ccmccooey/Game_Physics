@@ -13,12 +13,13 @@ Planet::Planet(Model* model)
 Planet::~Planet()
 {
 	delete mRigidBody;
+	mRigidBody = nullptr;
 }
 
 
-void Planet::FixedUpdate()
+void Planet::FixedUpdate(double t)
 {
-	mRigidBody->FixedUpdate();
+	mRigidBody->FixedUpdate(t);
 }
 
 Rigidbody* Planet::GetRigidBody() const

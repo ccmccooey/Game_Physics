@@ -144,6 +144,12 @@
     <ClCompile Include="PlanetManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleForceGenerator.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityForceGenerator.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -231,9 +237,6 @@
     <ClInclude Include="ParticleDrag.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="Comments.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Planet.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -270,5 +273,10 @@
     <ClInclude Include="PlanetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Comments.txt">
+      <Filter>Header Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

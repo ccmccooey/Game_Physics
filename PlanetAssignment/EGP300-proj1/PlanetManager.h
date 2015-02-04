@@ -26,6 +26,7 @@ public:
 	PlanetManager();
 	~PlanetManager();
 
+	void FixedUpdate(double t);
 	void IntializeAssets();
 	void CleanUp();
 	bool AddPlanet(const std::string &dataFilePath);

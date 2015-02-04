@@ -27,7 +27,7 @@ GuiSystem*		guiSystem;
 //Sprite2D*		mySprite;
 Material*		myMaterial;
 Model*			cubeModel;
-Planet			myPlanet;
+Planet*			myPlanet;
 PointLight*		myLight;
 //GUIImage*		myGUIImage;
 M3DMatrix44f    guiViewMatrix;
@@ -111,7 +111,7 @@ void setupWorld()
 	myCube = new DisplayObject3D(cubeModel);
 
 	//create my planet
-	myPlanet = Planet(cubeModel);
+	myPlanet = new Planet(cubeModel);
 }
 
 void RenderScene(void)
@@ -126,7 +126,7 @@ void RenderScene(void)
 	current = myCube;
 	current->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
 
-	myPlanet.Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
+	myPlanet->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
 	
 
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
@@ -210,21 +210,21 @@ void SpecialKeys(int key, int x, int y)
 	}
 	if (key == GLUT_KEY_UP)
 	{
-		float angle = camera->getRotationAngle();
-		m3dDegToRad(angle);
-		float xMove = cos(angle) * VIEW_MOVE_SPEED;
-		float yMove = sin(angle) * VIEW_MOVE_SPEED;
-		camera->moveCamera(yMove, 0.0f, xMove);
-		//camera->moveCamera(0.0f, 0.0f, VIEW_MOVE_SPEED);
+		//float angle = camera->getRotationAngle();
+		//m3dDegToRad(angle);
+		//float xMove = cos(angle) * VIEW_MOVE_SPEED;
+		//float yMove = sin(angle) * VIEW_MOVE_SPEED;
+		//camera->moveCamera(yMove, 0.0f, xMove);
+		camera->moveCamera(0.0f, 0.0f, VIEW_MOVE_SPEED);
 	}
 	if (key == GLUT_KEY_DOWN)
 	{
 		float angle = camera->getRotationAngle();
 		m3dDegToRad(angle);
-		float xMove = cos(angle) * -VIEW_MOVE_SPEED;
-		float yMove = sin(angle) * -VIEW_MOVE_SPEED;
-		camera->moveCamera(yMove, 0.0f, xMove);
-		//camera->moveCamera(0.0f, 0.0f, -VIEW_MOVE_SPEED);
+		//float xMove = cos(angle) * -VIEW_MOVE_SPEED;
+		//float yMove = sin(angle) * -VIEW_MOVE_SPEED;
+		//camera->moveCamera(yMove, 0.0f, xMove);
+		camera->moveCamera(0.0f, 0.0f, -VIEW_MOVE_SPEED);
 	}
 	if (key == GLUT_KEY_PAGE_DOWN)
 	{
@@ -240,6 +240,7 @@ void Update(void)
 
 void Cleanup()
 {
+	delete myPlanet;
 	delete myCube;
 	delete camera;
 	delete arr;
@@ -327,7 +328,7 @@ int main(int argc, char* argv[])
 	height = 600;
 	glutInitWindowSize(800,600);
 
-	glutCreateWindow("IT FINALLY WORKS");
+	glutCreateWindow("Please make this work HELP");
 	glutReshapeFunc(ChangeSize);
 	glutDisplayFunc(RenderScene);
 	glutSpecialFunc(SpecialKeys);

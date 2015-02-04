@@ -6,7 +6,6 @@ mass
 radius
 distance from sun
 velocity
-gravitational force
 rotation speed
 
 */

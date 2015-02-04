@@ -22,7 +22,8 @@ public:
 	Rigidbody(const Rigidbody &rhs);
 	~Rigidbody();
 
-	void FixedUpdate();
+	void FixedUpdate(double t);
+	void FinishUpdate();
 
 
 	//accessors

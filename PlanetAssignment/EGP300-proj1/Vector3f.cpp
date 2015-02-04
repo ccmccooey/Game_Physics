@@ -22,6 +22,7 @@ const Vector3f Vector3f::one = Vector3f(1.0f, 1.0f, 1.0f);
 const Vector3f Vector3f::unitX = Vector3f(1.0f, 0.0f, 0.0f);
 const Vector3f Vector3f::unitY = Vector3f(0.0f, 1.0f, 0.0f);
 const Vector3f Vector3f::unitZ = Vector3f(0.0f, 0.0f, 1.0f);
+const float Vector3f::EPSILON = 0.00000001f;
 
 //constructors
 Vector3f::Vector3f()
@@ -199,13 +200,13 @@ std::ostream& operator<<(std::ostream& stream, const Vector3f& vector)
 }
 
 //to string
-std::string Vector3f::toString()
+std::string Vector3f::ToString()
 {
 	std::ostringstream ss;
 	ss << (*this);
 	return ss.str();
 }
-void Vector3f::toArray(float floatArray[3])
+void Vector3f::ToArray(float floatArray[3])
 {
 	floatArray[0] = x;
 	floatArray[1] = y;
@@ -256,6 +257,10 @@ Vector3f Vector3f::CrossProduct(const Vector3f &first, const Vector3f &second)
 {
 	return Vector3f( (first.y * second.z - first.z - second.y), (first.z * second.x - first.x - second.z), (first.x * second.y - first.y - second.x) );
 }
+bool Vector3f::AlmostEqual(const Vector3f &first, const Vector3f &second)
+{
+	return abs((first - second).LengthSquared()) <= (Vector3f::EPSILON * Vector3f::EPSILON);
+}
 float Vector3f::Distance(const Vector3f &first, const Vector3f &second)
 {
 	return sqrtf( (powf(second.x - first.x, 2.0f)) + (powf(second.y - first.y, 2.0f)) + (powf(second.z - first.z, 2.0f)));	
@@ -291,7 +296,7 @@ Vector3f Vector3f::Normalized(const Vector3f &vector)
 	return vec;
 }
 
-void Vector3f::vectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize)
+void Vector3f::VectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize)
 {
 	int n = 0;
 	for (int i = 0; i < vectorArraySize; i++)

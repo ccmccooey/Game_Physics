@@ -14,6 +14,8 @@
 #define _CAMERA_H
 
 #include "GLfiles.h"
+#include "Vector3f.h"
+#include "Quaternion.h"
 
 class Camera
 {
@@ -22,9 +24,8 @@ private:
 	
 	M3DMatrix44f mRotate;
 	M3DMatrix44f mTranslate;
-	float mX;
-	float mY;
-	float mZ;
+	Vector3f mPosition;
+	Quaternion mRotation;
 	float mRotationX;
 	float mRotationY;
 	float mRotationZ;
@@ -41,11 +42,17 @@ public:
 	void resetEveryPossibleThing();
 	void setPosition(float x, float y, float z);
 	void setRotationAxis(float xRotation, float yRotation, float zRotation); //these numbers should be either 1 or 0
+	void SetRotation(float yaw, float pitch, float roll); //uses degrees
+	void SetRotation(float axisX, float axisY, float axisZ, float angle);
+	void SetRotation(const Vector3f &axis, float angle);
 	void resetRotation();
 	
 	//movement and manipulation
 	void moveCamera(float x, float y, float z);
-	void rotateCamera(float amount); //uses degrees
+	void moveCamera(const Vector3f &translation);
+	void rotateCamera(float yawRotation); //uses degrees
+	void rotateCamera(float deltaYaw, float deltaPitch, float deltaRoll);
+	
 	void doNothing(); //this function does nothing, literally nothing
 
 private:

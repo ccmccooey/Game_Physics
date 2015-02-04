@@ -109,12 +109,13 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 
 		//velocity
 		getline(reader, line);
-		Rigidbody* rb = planet->GetRigidBody();
+		rb = planet->GetRigidBody();
 		float velocity = stof(line);
 		rb->SetVelocity(Vector3f(0.0f, 0.0f, velocity));
 
 		//gravitational force
 
+		mPlanetVector.push_back(planet);
 		
 	}
 	else

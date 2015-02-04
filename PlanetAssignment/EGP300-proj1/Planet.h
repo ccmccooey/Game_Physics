@@ -15,7 +15,7 @@ public:
 	Planet(Model* model);
 	~Planet();
 
-	void FixedUpdate();
+	void FixedUpdate(double t);
 	void SetName(const std::string &name);
 	Rigidbody* GetRigidBody() const;
 };

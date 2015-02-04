@@ -63,8 +63,8 @@ public:
 	bool Vector3f::operator!=(const Vector3f &other) const;
 
 	friend std::ostream& Vector3f::operator<<(std::ostream& stream, const Vector3f& vector);
-	std::string toString();
-	void toArray(float floatArray[3]);
+	std::string ToString();
+	void ToArray(float floatArray[3]);
 
 	//math functions
 	float Length() const;
@@ -77,6 +77,7 @@ public:
 	static float DotProduct(const Vector3f &first, const Vector3f &second);
 	static float CrossProductF(const Vector3f &first, const Vector3f &second);
 	static Vector3f CrossProduct(const Vector3f &first, const Vector3f &second);
+	static bool AlmostEqual(const Vector3f &first, const Vector3f &second);
 	static float Distance(const Vector3f &first, const Vector3f &second);
 	static float DistanceSquared(const Vector3f &first, const Vector3f &second);
 	static Vector3f Midpoint(const Vector3f &first, const Vector3f &second);
@@ -85,7 +86,7 @@ public:
 	static Vector3f Betweenpoint(const Vector3f &first, const Vector3f &second, float value); //value between 0 and 1
 	static Vector3f Reciprical(const Vector3f &vector);
 	static Vector3f EulerForward(float pitch, float yaw, float roll);
-	static void vectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize); //fill a float array from an array of vector3s
+	static void VectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize); //fill a float array from an array of vector3s
 	static Vector3f Normalized(const Vector3f &vector);
 
 public:
@@ -95,6 +96,7 @@ public:
 	const static Vector3f unitX;
 	const static Vector3f unitY;
 	const static Vector3f unitZ;
+	const static float EPSILON;
 };
 
 #endif
