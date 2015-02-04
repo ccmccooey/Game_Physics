@@ -77,11 +77,45 @@ void Quaternion::calculateEulerAngles()
 	//mEulerAngles.y = asinf(2*mX*mY + 2*mZ*mW); 
 	//mEulerAngles.x = atan2f(2*mX*mW - 2*mY*mZ, 1 - 2*mX - 2 * mZ);
 
-	float mult = (float)M3D_PI_DIV_180;
+	float mult = (float)M3D_PI_DIV_180; //to radians
 
-	mEulerAngles.x = atan2f((2*mY*mW - 2*mX*mZ) * mult, (1 - 2*mY*mY - 2 * mZ*mZ)* mult);
-	mEulerAngles.y = asinf((2*mX*mY + 2*mZ*mW)* mult); 
-	mEulerAngles.z = atan2f((2*mX*mW - 2*mY*mZ)* mult, (1 - 2*mX*mX - 2 * mZ*mZ)* mult);
+	//FAIL 1
+	//mEulerAngles.x = atan2f((2*mY*mW - 2*mX*mZ) * mult, (1 - 2*mY*mY - 2 * mZ*mZ)* mult);
+	//mEulerAngles.y = asinf((2*mX*mY + 2*mZ*mW)* mult); 
+	//mEulerAngles.z = atan2f((2*mX*mW - 2*mY*mZ)* mult, (1 - 2*mX*mX - 2 * mZ*mZ)* mult);
+
+	//FAIL 2
+	//mEulerAngles.x = atan2f(2 * (mY*mW + mX*mZ) * mult, (1 - 2 * (mY*mY + mZ*mZ))* mult);
+	//mEulerAngles.y = asinf(2 * (mX*mY - mZ*mW) * mult);
+	//mEulerAngles.z = atan2f(2 * (mX*mW + mY*mZ)* mult, (1 - 2 * (mX*mX + mZ*mZ))* mult);
+
+	//FAIL 3
+	mEulerAngles.x = atan2f(2.0f * (mY * mW + mX * mZ) * mult, (1 - 2 * (mY*mY + mZ*mZ)) * mult);  //yaw  
+	mEulerAngles.y = asinf(2.0f * (mZ*mW - mX*mY) * mult);									  //pitch
+	mEulerAngles.z = atan2f(2.0f * (mX*mW + mY*mZ)* mult, (1 - 2 * (mX*mX + mZ*mZ)) * mult);  //roll
+}
+
+//getting directional vectors
+Vector3f Quaternion::getVectorForward() const
+{
+	return Vector3f(2.0f * (mX * mZ + mW * mY),
+					2.0f * (mY * mX - mW * mX),
+					1.0f - 2.0f * (mX * mX + mY * mY)
+					);
+}
+Vector3f Quaternion::getVectorUp() const
+{
+	return Vector3f(2.0f * (mX * mY - mW * mZ),
+					1.0f - 2.0f * (mX * mX + mZ * mZ),
+					2.0f * (mY * mZ + mW * mX)
+					);
+}
+Vector3f Quaternion::getVectorRight() const
+{
+	return Vector3f(1.0f - 2.0f * (mY * mY + mZ * mZ),
+					2.0f * (mX * mY + mW * mZ),
+					2.0f * (mX * mZ - mW * mY)
+					);
 }
 
 //setters

@@ -28,6 +28,7 @@ GuiSystem*		guiSystem;
 Material*		myMaterial;
 Model*			cubeModel;
 Planet*			myPlanet;
+DisplayObject3D* plane;
 PointLight*		myLight;
 //GUIImage*		myGUIImage;
 M3DMatrix44f    guiViewMatrix;
@@ -110,6 +111,10 @@ void setupWorld()
 	//myCube = new DisplayObject3D(nullptr);
 	myCube = new DisplayObject3D(cubeModel);
 
+	plane = new DisplayObject3D(cubeModel);
+	plane->getTransform()->SetScale(20.0f, 0.2f, 20.0f);
+	plane->getTransform()->Translate(0.0f, -20.0f, 0.0f);
+
 	//create my planet
 	myPlanet = new Planet(cubeModel);
 }
@@ -127,7 +132,8 @@ void RenderScene(void)
 	current->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
 
 	myPlanet->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
-	
+
+	plane->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
 
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
@@ -215,7 +221,13 @@ void SpecialKeys(int key, int x, int y)
 		//float xMove = cos(angle) * VIEW_MOVE_SPEED;
 		//float yMove = sin(angle) * VIEW_MOVE_SPEED;
 		//camera->moveCamera(yMove, 0.0f, xMove);
-		camera->moveCamera(0.0f, 0.0f, VIEW_MOVE_SPEED);
+		//Vector3f euler = camera->getRotation().getEulerAngles();
+		//Vector3f forward = Vector3f(sinf(euler.x), -sinf(euler.y), cosf(euler.y));
+		//forward.Normalize();
+		//camera->moveCamera(forward * VIEW_MOVE_SPEED);
+		//camera->moveCamera(Vector3f::EulerForward(euler.x, euler.y, euler.z) * VIEW_MOVE_SPEED);
+		//camera->moveCamera(0.0f, 0.0f, VIEW_MOVE_SPEED);
+		camera->moveCamera(camera->getCameraForward() * VIEW_MOVE_SPEED);
 	}
 	if (key == GLUT_KEY_DOWN)
 	{
@@ -224,7 +236,13 @@ void SpecialKeys(int key, int x, int y)
 		//float xMove = cos(angle) * -VIEW_MOVE_SPEED;
 		//float yMove = sin(angle) * -VIEW_MOVE_SPEED;
 		//camera->moveCamera(yMove, 0.0f, xMove);
-		camera->moveCamera(0.0f, 0.0f, -VIEW_MOVE_SPEED);
+		//camera->moveCamera(0.0f, 0.0f, -VIEW_MOVE_SPEED);
+		//Vector3f euler = camera->getRotation().getEulerAngles();
+		//Vector3f forward = Vector3f(sinf(euler.x), -sinf(euler.y), cosf(euler.y));
+		//forward.Normalize();
+		//camera->moveCamera(forward * -VIEW_MOVE_SPEED);
+		//camera->moveCamera(Vector3f::EulerForward(euler.x, euler.y, euler.z) * -VIEW_MOVE_SPEED);
+		camera->moveCamera(camera->getCameraForward() * -VIEW_MOVE_SPEED);
 	}
 	if (key == GLUT_KEY_PAGE_DOWN)
 	{
@@ -240,6 +258,7 @@ void Update(void)
 
 void Cleanup()
 {
+	delete plane;
 	delete myPlanet;
 	delete myCube;
 	delete camera;

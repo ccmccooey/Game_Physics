@@ -25,11 +25,13 @@ private:
 	M3DMatrix44f mRotate;
 	M3DMatrix44f mTranslate;
 	Vector3f mPosition;
+	Vector3f mForward;
 	Quaternion mRotation;
 	float mRotationX;
 	float mRotationY;
 	float mRotationZ;
 	float mRotationAngle;
+
 public:
 	M3DMatrix44f mView;
 	Camera();
@@ -37,6 +39,8 @@ public:
 	//accessors
 	M3DMatrix44f &getView(){return mView;};
 	float getRotationAngle(){return mRotationAngle;};
+	Quaternion getRotation() const;
+	Vector3f getCameraForward() const;
 
 	//setters
 	void resetEveryPossibleThing();

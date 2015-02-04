@@ -63,7 +63,7 @@ public:
 	bool Vector3f::operator!=(const Vector3f &other) const;
 
 	friend std::ostream& Vector3f::operator<<(std::ostream& stream, const Vector3f& vector);
-	std::string ToString();
+	std::string ToString() const;
 	void ToArray(float floatArray[3]);
 
 	//math functions
@@ -86,6 +86,7 @@ public:
 	static Vector3f Betweenpoint(const Vector3f &first, const Vector3f &second, float value); //value between 0 and 1
 	static Vector3f Reciprical(const Vector3f &vector);
 	static Vector3f EulerForward(float pitch, float yaw, float roll);
+	static Vector3f EulerForward(const Vector3f &vector);
 	static void VectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize); //fill a float array from an array of vector3s
 	static Vector3f Normalized(const Vector3f &vector);
 

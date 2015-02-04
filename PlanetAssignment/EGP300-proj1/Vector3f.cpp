@@ -200,7 +200,7 @@ std::ostream& operator<<(std::ostream& stream, const Vector3f& vector)
 }
 
 //to string
-std::string Vector3f::ToString()
+std::string Vector3f::ToString() const
 {
 	std::ostringstream ss;
 	ss << (*this);
@@ -316,4 +316,8 @@ Vector3f Vector3f::EulerForward(float pitch, float yaw, float roll)
 	forward.x = sinf(yaw)*cosf(pitch);
 	forward.y = sinf(pitch);
 	return forward;
+}
+Vector3f Vector3f::EulerForward(const Vector3f &vector)
+{
+	return Vector3f::EulerForward(vector.x, vector.y, vector.z);
 }

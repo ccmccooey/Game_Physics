@@ -24,6 +24,7 @@ void Camera::resetEveryPossibleThing()
 	//mZ = -100.0f;
 	mPosition = Vector3f(0.0f, 0.0f, -10.0f);
 	mRotation = Quaternion();
+	mForward = Vector3f::unitZ;
 
 	//gl
 	m3dLoadIdentity44(mView);
@@ -42,6 +43,16 @@ Camera::~Camera()
 
 }
 
+//accessors
+Quaternion Camera::getRotation() const
+{
+	return mRotation;
+}
+Vector3f Camera::getCameraForward() const
+{
+	return mForward;
+}
+
 //The math is wrong HELP!
 void Camera::updateView()
 {
@@ -57,9 +68,10 @@ void Camera::updateView()
 }
 void Camera::reset()
 {
-	mPosition.Set(0.0f, -2.0f, -10.0f);
+	mPosition.Set(0.0f, 0.0f, -10.0f);
 	m3dLoadIdentity44(mView);
 	m3dLoadIdentity44(mRotate);
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 
@@ -69,21 +81,25 @@ void Camera::setPosition(float x, float y, float z)
 	mPosition.x = x;
 	mPosition.y = y;
 	mPosition.z = z;
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 void Camera::SetRotation(float yaw, float pitch, float roll) //uses degrees
 {
 	mRotation.setEulerDeg(pitch, yaw, roll);
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 void Camera::SetRotation(float axisX, float axisY, float axisZ, float angle)
 {
 	mRotation = mRotation.fromAxis(angle, axisX, axisY, axisZ);
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 void Camera::SetRotation(const Vector3f &axis, float angle)
 {
 	mRotation = mRotation.fromAxis(angle, axis.x, axis.y, axis.z);
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 void Camera::setRotationAxis(float xAxis, float yAxis, float zAxis)
@@ -91,6 +107,7 @@ void Camera::setRotationAxis(float xAxis, float yAxis, float zAxis)
 	mRotationX = xAxis;
 	mRotationY = yAxis;
 	mRotationZ = zAxis;
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 
@@ -102,12 +119,12 @@ void Camera::resetRotation()
 	mRotationX = 0.0f;
 	mRotationY = 0.0f;
 	mRotationZ = 0.0f;
+	mForward = mRotation.getVectorForward();
 	updateView();
-	
 }
 
 
-//movement and manipulation
+//movement functions
 void Camera::moveCamera(float x, float y, float z)
 {
 	mPosition.x += x;
@@ -120,16 +137,21 @@ void Camera::moveCamera(const Vector3f &translation)
 	mPosition += translation;
 	updateView();
 }
-void Camera::rotateCamera(float amount)
+
+//rotation functions
+void Camera::rotateCamera(float amount) //rotate on y axis
 {
 	mRotationAngle += amount;
 	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
+	//mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
-void Camera::rotateCamera(float deltaYaw, float deltaPitch, float deltaRoll)
+void Camera::rotateCamera(float deltaYaw, float deltaPitch, float deltaRoll) //rotate on all axis
 {
 	Vector3f euler = mRotation.getEulerAngles();
 	mRotation.setEulerDeg(euler.x + deltaPitch, euler.y + deltaYaw, euler.z + deltaRoll);
+	mForward = mRotation.getVectorForward();
 	updateView();
 }
 

@@ -40,6 +40,9 @@ public:
 	float getZ() const;
 	float getW() const;
 	Vector3f getEulerAngles();
+	Vector3f getVectorForward() const;
+	Vector3f getVectorUp() const;
+	Vector3f getVectorRight() const;
 
 	//setters
 	void setX(float x);
