@@ -23,7 +23,7 @@ void PlanetManager::IntializeAssets()
 {
 	//create the planet model
 	mPlanetModel = new Model(Geometry::CUBE);
-	//mPlanetModel = new Model(Geometry::SPHERE); //Doesnt work the math is too fucking complicated
+	//mPlanetModel = new Model(Geometry::SPHERE); //Doesnt work for sphere, the math for calculating all the geometry data is too complicated
 
 	mPlanetTextures = new TextureManager();
 }
