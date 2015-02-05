@@ -29,6 +29,7 @@
     <ClCompile Include="DisplayObject3D.cpp" />
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ParticleForceGenerator.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Planet.cpp" />
     <ClCompile Include="PlanetManager.cpp" />
     <ClCompile Include="PointLight.cpp" />
@@ -105,7 +106,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

@@ -7,6 +7,8 @@
 #include "Sprite2D.h"
 #include "GUIImage.h"
 #include "GUISystem.h"
+#include "PlanetManager.h"
+#include "ParticleSystem.h"
 #include "Planet.h"
 #include <ctime>
 #include <vector>
@@ -14,23 +16,20 @@
 
 GLShaderManager	shaderManager;
 M3DMatrix44f	mvpMatrix;
-M3DMatrix44f    identity;
 GLFrustum		viewFrustum3D;
 GLFrustum		viewFrustum2D;
 GLint			width, height;
 GLfloat			rotateAroundModelZaxis;
 GLfloat			rotateAroundViewZaxis;
 Camera*			camera;
-DisplayObject3D*		myCube;
 Texture*		myTexture;
 GuiSystem*		guiSystem;
-//Sprite2D*		mySprite;
 Material*		myMaterial;
 Model*			cubeModel;
-Planet*			myPlanet;
+ParticleSystem* particleSystem;
 DisplayObject3D* plane;
 PointLight*		myLight;
-//GUIImage*		myGUIImage;
+PlanetManager*	planetManager;
 M3DMatrix44f    guiViewMatrix;
 GLfloat* arr;
 
@@ -50,7 +49,6 @@ void myInit()
 	srand((unsigned int)time(NULL));
 
 	//objects
-	m3dLoadIdentity44(identity);
 	
 	arr = new GLfloat[4];
 	arr[0] = 0.25f;
@@ -79,7 +77,7 @@ void myInit()
 	viewFrustum2D.SetOrthographic((GLfloat)(0), (GLfloat)(width), (GLfloat)(0), (GLfloat)(height), -10.0f, 10.0f);
 
 	//m3dTranslationMatrix44(guiViewMatrix, (double)(-width / 2), (double)(height / 2), 0.0);
-	m3dTranslationMatrix44(guiViewMatrix, (double)(-width / 2.1), (double)(height / 2.2), 0.0);
+	m3dTranslationMatrix44(guiViewMatrix, (float)(-width / 2.1), (float)(height / 2.2), 0.0);
 
 	camera = new Camera();
 	camera->setRotationAxis(0.0f, 1.0f, 0.0f);
@@ -102,21 +100,37 @@ void setupWorld()
 	guiSystem = new GuiSystem(width, height);
 	//myGUIImage = new GUIImage(mySprite, 34, 34);
 
-	m3dLoadIdentity44(identity);
 
 
 	cubeModel = new Model(myMaterial, Geometry::CUBE);
 	
 	//create a cube
-	//myCube = new DisplayObject3D(nullptr);
-	myCube = new DisplayObject3D(cubeModel);
-
 	plane = new DisplayObject3D(cubeModel);
 	plane->getTransform()->SetScale(20.0f, 0.2f, 20.0f);
 	plane->getTransform()->Translate(0.0f, -20.0f, 0.0f);
 
-	//create my planet
-	myPlanet = new Planet(cubeModel);
+
+	//create the physics
+	particleSystem = new ParticleSystem();
+
+	//create the planet manager
+	planetManager = new PlanetManager();
+	planetManager->IntializeAssets();
+
+	
+
+	bool ok;
+	ok = planetManager->AddPlanet("../PlanetData/sun.txt");
+	ok = planetManager->AddPlanet("../PlanetData/earth.txt");
+
+	//add a force generator to the particle system
+	if (ok)
+	{
+		particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(0)->GetRigidBody());
+		particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(1)->GetRigidBody());
+	}
+
+	//particleSystem->AddGravityForceGenerator(
 }
 
 void RenderScene(void)
@@ -127,13 +141,12 @@ void RenderScene(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	DisplayObject3D *current;
-	current = myCube;
-	current->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
+	M3DMatrix44f &view = camera->getView();
+	const M3DMatrix44f &projection = viewFrustum3D.GetProjectionMatrix();
 
-	myPlanet->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
+	plane->Draw(shaderManager, projection, view);
 
-	plane->Draw(shaderManager, viewFrustum3D.GetProjectionMatrix(), camera->getView());
+	planetManager->Draw(shaderManager, projection, view);
 
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
@@ -141,6 +154,7 @@ void RenderScene(void)
 	//myGUIImage->Draw(&shaderManager, viewFrustum2D.GetProjectionMatrix());
 	//myGUIImage->Draw(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
 	guiSystem->DrawGUI(&shaderManager);
+	
 	//guiSystem->DrawGUI(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
 
 	/*
@@ -206,12 +220,14 @@ void SpecialKeys(int key, int x, int y)
 	{
 		//rotateAroundViewZaxis+=10.0f;
 		camera->rotateCamera(-VIEW_ROTATE_SPEED);
+		//camera->rotateCamera(0.0f, -VIEW_ROTATE_SPEED, 0.0f);
 		//camera->moveCamera(VIEW_MOVE_SPEED, 0.0f, 0.0f);
 	}
 	if (key == GLUT_KEY_RIGHT)
 	{
 		//rotateAroundViewZaxis-=10.f;
 		camera->rotateCamera(VIEW_ROTATE_SPEED);
+		//camera->rotateCamera(0.0f, VIEW_ROTATE_SPEED, 0.0f);
 		//camera->moveCamera(-VIEW_MOVE_SPEED, 0.0f, 0.0f);
 	}
 	if (key == GLUT_KEY_UP)
@@ -247,26 +263,26 @@ void SpecialKeys(int key, int x, int y)
 	if (key == GLUT_KEY_PAGE_DOWN)
 	{
 		//myCube->getTransform()->Scale(0.25f, 0.0f, 0.0f);
-		myCube->getTransform()->Translate(1, 0, 0);
 	}
 }
 
 void Update(void)
 {
+	//planetManager->FixedUpdate(1.0f);
 	glutPostRedisplay();
 }
 
 void Cleanup()
 {
 	delete plane;
-	delete myPlanet;
-	delete myCube;
 	delete camera;
 	delete arr;
 	delete myLight;
+	delete particleSystem;
 	delete myTexture;
 	delete myMaterial;
 	delete guiSystem;
+	delete planetManager;
 	//delete myGUIImage;
 	//delete mySprite;
 }

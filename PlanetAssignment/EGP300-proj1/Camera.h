@@ -55,7 +55,7 @@ public:
 	void moveCamera(float x, float y, float z);
 	void moveCamera(const Vector3f &translation);
 	void rotateCamera(float yawRotation); //uses degrees
-	void rotateCamera(float deltaYaw, float deltaPitch, float deltaRoll);
+	void rotateCamera(float deltaPitch, float deltaYaw, float deltaRoll);
 	
 	void doNothing(); //this function does nothing, literally nothing
 

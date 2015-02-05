@@ -22,13 +22,15 @@ Mesh::Mesh(Geometry geometryType)
 	mBatch = new GLBatch();
 	if (geometryType == Geometry::CUBE)
 	{
-		BasicGeometry::setDataToCube(mBatch);
-		
+		BasicGeometry::setDataToCube(mBatch);		
 	}
-	if (geometryType == Geometry::QUAD)
+	else if (geometryType == Geometry::QUAD)
 	{
-		BasicGeometry::setDataToQuad(mBatch);
-		
+		BasicGeometry::setDataToQuad(mBatch);		
+	}
+	else if (geometryType == Geometry::SPHERE)
+	{
+		BasicGeometry::setDataToSphere(mBatch);		
 	}
 }
 

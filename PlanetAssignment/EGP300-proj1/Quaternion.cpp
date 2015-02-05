@@ -78,6 +78,8 @@ void Quaternion::calculateEulerAngles()
 	//mEulerAngles.x = atan2f(2*mX*mW - 2*mY*mZ, 1 - 2*mX - 2 * mZ);
 
 	float mult = (float)M3D_PI_DIV_180; //to radians
+	//float mult = 1000.000f;
+	//float mult = 1.0f;
 
 	//FAIL 1
 	//mEulerAngles.x = atan2f((2*mY*mW - 2*mX*mZ) * mult, (1 - 2*mY*mY - 2 * mZ*mZ)* mult);
@@ -90,9 +92,13 @@ void Quaternion::calculateEulerAngles()
 	//mEulerAngles.z = atan2f(2 * (mX*mW + mY*mZ)* mult, (1 - 2 * (mX*mX + mZ*mZ))* mult);
 
 	//FAIL 3
-	mEulerAngles.x = atan2f(2.0f * (mY * mW + mX * mZ) * mult, (1 - 2 * (mY*mY + mZ*mZ)) * mult);  //yaw  
-	mEulerAngles.y = asinf(2.0f * (mZ*mW - mX*mY) * mult);									  //pitch
-	mEulerAngles.z = atan2f(2.0f * (mX*mW + mY*mZ)* mult, (1 - 2 * (mX*mX + mZ*mZ)) * mult);  //roll
+	//mEulerAngles.x = atan2f(2.0f * (mY * mW + mX * mZ) * mult, (1 - 2 * (mY*mY + mZ*mZ)) * mult);  //yaw  
+	//mEulerAngles.y = asinf(2.0f * (mZ*mW - mX*mY) * mult);									  //pitch
+	//mEulerAngles.z = atan2f(2.0f * (mX*mW + mY*mZ)* mult, (1 - 2 * (mX*mX + mZ*mZ)) * mult);  //roll
+
+	mEulerAngles.x = atan2f((2*mY*mW - 2*mX*mZ) * mult, (1 - 2*mY*mY - 2 * mZ*mZ)* mult);
+	mEulerAngles.y = asinf((2*mX*mY + 2*mZ*mW)* mult); 
+	mEulerAngles.z = atan2f((2*mX*mW - 2*mY*mZ)* mult, (1 - 2*mX*mX - 2 * mZ*mZ)* mult);
 }
 
 //getting directional vectors
@@ -176,10 +182,11 @@ void Quaternion::setEuler(float x, float y, float z)
 	float sin_x_2 = sinf(0.5f * x);
 
 	// and now compute quaternion
-	mW  = cos_z_2 * cos_y_2 * cos_x_2 + sin_z_2 * sin_y_2 * sin_x_2;
-	mX = cos_z_2*cos_y_2 * sin_x_2 - sin_z_2*sin_y_2 * cos_x_2;
-	mY = cos_z_2*sin_y_2 * cos_x_2 + sin_z_2*cos_y_2 * sin_x_2;
-	mZ = sin_z_2*cos_y_2 * cos_x_2 - cos_z_2*sin_y_2 * sin_x_2;
+	mW = cos_z_2 * cos_y_2 * cos_x_2 + sin_z_2 * sin_y_2 * sin_x_2;
+	mX = cos_z_2 * cos_y_2 * sin_x_2 - sin_z_2 * sin_y_2 * cos_x_2;
+	mY = cos_z_2 * sin_y_2 * cos_x_2 + sin_z_2 * cos_y_2 * sin_x_2;
+	mZ = sin_z_2 * cos_y_2 * cos_x_2 - cos_z_2 * sin_y_2 * sin_x_2;
+
 	//mEulerAngles.x = x;
 	//mEulerAngles.y = y;
 	//mEulerAngles.z = z;

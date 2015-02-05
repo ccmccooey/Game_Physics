@@ -1,8 +1,7 @@
 sun
 ../PlanetTextures/sun.png
 1.989e30
-695000
+695800
 0
 0
-
 0

@@ -7,11 +7,15 @@ class Planet;
 class TextureManager;
 
 #include "Vector3f.h"
+#include "GLfiles.h"
 #include <vector>
 #include <string>
 
-#define PLANET_SIZE_SCALE 0.000001
-#define PLANET_MASS_SCALE 0.0001
+//1 / earth size or 1 / sun size? IDK
+#define PLANET_SIZE_SCALE 1 / 695800//6371 
+#define PLANET_DISTANCE_SCALE 1 / 149500000 * 100
+#define PLANET_MASS_SCALE 1 / 5.97219e24 
+
 
 class PlanetManager
 {
@@ -30,6 +34,12 @@ public:
 	void IntializeAssets();
 	void CleanUp();
 	bool AddPlanet(const std::string &dataFilePath);
+
+	Planet* GetPlanetAt(int index) const;
+	Planet* GetPlanetByName(const std::string &name) const; //this is a search function and is slower then get planet at
+
+	//Draw the planets
+	void Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view);
 };
 
 #endif

@@ -75,16 +75,17 @@ void Rigidbody::CopyDataFrom(const Rigidbody &other)
 //fixed update
 void Rigidbody::FixedUpdate(double t)
 {
-	if (mTransform->GetPosition() != mPosition)
-	{
-		mTransform->SetPosition(mPosition);
-	}
-
+	
 	mPosition += mVelocity;
 
 	mVelocity = mVelocity + mAcceleration * t;
 
 	mTransform->Translate(mVelocity);
+
+	if (mTransform->GetPosition() != mPosition)
+	{
+		mTransform->SetPosition(mPosition);
+	}
 }
 void Rigidbody::FinishUpdate()
 {

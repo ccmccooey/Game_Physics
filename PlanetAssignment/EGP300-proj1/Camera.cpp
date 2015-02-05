@@ -142,15 +142,24 @@ void Camera::moveCamera(const Vector3f &translation)
 void Camera::rotateCamera(float amount) //rotate on y axis
 {
 	mRotationAngle += amount;
-	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
+	//mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
+	//mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
 	//mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
 	mForward = mRotation.getVectorForward();
 	updateView();
 }
-void Camera::rotateCamera(float deltaYaw, float deltaPitch, float deltaRoll) //rotate on all axis
+void Camera::rotateCamera(float deltaPitch, float deltaYaw, float deltaRoll) //rotate on all axis
 {
+	//Vector3f euler = mRotation.getEulerAngles();
+	//euler.x = m3dRadToDeg(euler.x);
+	//euler.y = m3dRadToDeg(euler.y);
+	//euler.z = m3dRadToDeg(euler.z);
+	//mRotation.setEulerDeg(euler.x + deltaPitch, euler.y + deltaYaw, euler.z + deltaRoll);
+	//euler = mRotation.getEulerAngles();
+
 	Vector3f euler = mRotation.getEulerAngles();
-	mRotation.setEulerDeg(euler.x + deltaPitch, euler.y + deltaYaw, euler.z + deltaRoll);
+	mRotation.setEuler(euler.x, euler.y + m3dDegToRad(deltaYaw), euler.z);
+
 	mForward = mRotation.getVectorForward();
 	updateView();
 }

@@ -146,6 +146,43 @@ void BasicGeometry::setDataToQuad(GLBatch* batch, float uvX, float uvY, float uv
 
 void BasicGeometry::setDataToSphere(GLBatch* batch)
 {
+	float radius = 1.0f;
 
+	// Iterate through phi, theta then convert r,theta,phi to  XYZ		
+	Vector3f vert;
+
+	float piDiv10 = M3D_PI / 10.0;
+
+	int vertsCount = powf((M3D_2PI / piDiv10), 2);
+
+	Vector3f* verts = new Vector3f[vertsCount];	
+	int counter = 0;
+	for (double phi = 0.0; phi < M3D_2PI; phi += piDiv10) // Azimuth [0, 2PI]
+    {
+        for (double theta = 0.0; theta < M3D_PI; theta += piDiv10) // Elevation [0, PI]
+        {
+            
+			vert = Vector3f();
+
+            vert.x = radius * cosf(phi) * sinf(theta);
+            vert.y = radius * sinf(phi) * sinf(theta);
+            vert.z = radius             * cosf(theta);
+            verts[counter] = vert;
+			counter++;
+        }
+    }
+
+	//convert the verticies and indicies information to a glfloat array
+	//GLfloat* theVertFloats = MeshCreator::convertIndexVertexToGLFloats(verts, vertsCount, indexArray, indexCount);
+
+
+	//copy the data
+	//batch->Begin(GL_QUADS, (GLint)indexCount, 1);
+	//batch->CopyVertexData3f(theVertFloats);
+	//batch->End();
+
+
+	//delete the data
+	delete [] verts;
 }
 

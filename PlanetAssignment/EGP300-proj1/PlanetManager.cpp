@@ -23,6 +23,7 @@ void PlanetManager::IntializeAssets()
 {
 	//create the planet model
 	mPlanetModel = new Model(Geometry::CUBE);
+	//mPlanetModel = new Model(Geometry::SPHERE); //Doesnt work the math is too fucking complicated
 
 	mPlanetTextures = new TextureManager();
 }
@@ -53,6 +54,7 @@ void PlanetManager::CleanUp()
 	mPlanetTextures = nullptr;
 }
 
+//adding new planets
 bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 {
 	bool ok = false;
@@ -93,18 +95,19 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 		getline(reader, line);
 		Rigidbody* rb = planet->GetRigidBody();
 		long double mass = stold(line);
-		mass = mass / PLANET_MASS_SCALE;
+		mass = mass * PLANET_MASS_SCALE;
 		rb->SetMass((float)mass);
 
 		//radius
 		getline(reader, line);
 		double radius = stod(line);
-		radius = radius / PLANET_SIZE_SCALE;
+		radius = radius * PLANET_SIZE_SCALE;
 		planet->getTransform()->SetScale((float)radius);
 
 		//distance from the sun
 		getline(reader, line);
 		float distance = stof(line);
+		distance = distance * PLANET_DISTANCE_SCALE;
 		planet->getTransform()->SetPosition(mOrigin.x + distance, mOrigin.y, mOrigin.z);
 
 		//velocity
@@ -113,7 +116,8 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 		float velocity = stof(line);
 		rb->SetVelocity(Vector3f(0.0f, 0.0f, velocity));
 
-		//gravitational force
+		//rotation speed (dont care right now)
+		getline(reader, line);
 
 		mPlanetVector.push_back(planet);
 		
@@ -126,4 +130,45 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 
 	reader.close();
 	return ok;
+}
+
+//search functions
+Planet* PlanetManager::GetPlanetAt(int index) const
+{
+	if (index > 0 && index < mPlanetVector.size())
+	{
+		return mPlanetVector[index];
+	}
+	return nullptr;
+}
+Planet* PlanetManager::GetPlanetByName(const std::string &name) const
+{
+	Planet* planet = nullptr;
+	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
+	{
+		if (mPlanetVector[i]->GetName() == name)
+		{
+			planet = mPlanetVector[i];
+			break;
+		}
+	}
+	return planet;
+}
+
+//update
+void PlanetManager::FixedUpdate(double t)
+{
+	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
+	{
+		mPlanetVector[i]->FixedUpdate(t);
+	}
+}
+
+//draw
+void PlanetManager::Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view)
+{
+	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
+	{
+		mPlanetVector[i]->Draw(shaderManager, frustum, view);
+	}
 }

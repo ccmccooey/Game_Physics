@@ -17,7 +17,10 @@ public:
 
 	void FixedUpdate(double t);
 	void SetName(const std::string &name);
+
+	//accessors
 	Rigidbody* GetRigidBody() const;
+	std::string GetName() const;
 };
 
 

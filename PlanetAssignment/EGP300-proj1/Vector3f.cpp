@@ -269,6 +269,12 @@ float Vector3f::DistanceSquared(const Vector3f &first, const Vector3f &second)
 {
 	return (powf(second.x - first.x, 2.0f)) + (powf(second.y - first.y, 2.0f)) + (powf(second.z - first.z, 2.0f));
 }
+Vector3f Vector3f::DirectionTo(const Vector3f &from, const Vector3f &to)
+{
+	Vector3f vec = from - to;
+	vec.Normalize();
+	return vec;
+}
 Vector3f Vector3f::Midpoint(const Vector3f &first, const Vector3f &second)
 {
 	return Vector3f((first.x + second.x) * 0.5f, (first.y + second.y) * 0.5f, (first.z + second.z) * 0.5f);

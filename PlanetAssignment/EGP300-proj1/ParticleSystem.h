@@ -3,7 +3,7 @@
 
 #include <vector>
 
-class Particle;
+class Rigidbody;
 class ParticleForceGenerator;
 
 using namespace std;
@@ -11,10 +11,17 @@ using namespace std;
 class ParticleSystem
 {
 private:
-	vector<Particle*> mParticles;
+	vector<Rigidbody*> mParticles;
 	vector<ParticleForceGenerator*> mRegistry;
 
+public:
+	ParticleSystem();
+	~ParticleSystem();
+
 	void FixedUpdate(double t);
+
+	void AddGravityForceGenerator(Rigidbody* source);
+	void AddRigidBody(Rigidbody* rb);
 };
 
 #endif

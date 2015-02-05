@@ -2,11 +2,11 @@
 
 name
 texture file path
-mass
-radius
-distance from sun
-velocity
-rotation speed
+mass (kg)
+radius (km)
+distance from sun (km)
+velocity (km/s)
+rotation speed (km/s)
 
 */
 

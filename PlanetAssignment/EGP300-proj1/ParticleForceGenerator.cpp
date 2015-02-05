@@ -11,7 +11,7 @@ ParticleForceGenerator::~ParticleForceGenerator()
 
 }
 
-void ParticleForceGenerator::ApplyForce(RigidBody* rb, double t)
+void ParticleForceGenerator::ApplyForce(Rigidbody* rb, double t)
 {
 
 

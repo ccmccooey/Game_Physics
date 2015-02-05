@@ -80,6 +80,7 @@ public:
 	static bool AlmostEqual(const Vector3f &first, const Vector3f &second);
 	static float Distance(const Vector3f &first, const Vector3f &second);
 	static float DistanceSquared(const Vector3f &first, const Vector3f &second);
+	static Vector3f DirectionTo(const Vector3f &from, const Vector3f &to);
 	static Vector3f Midpoint(const Vector3f &first, const Vector3f &second);
 	static Vector3f Quaterpoint(const Vector3f &first, const Vector3f &second);
 	static Vector3f ThreeQuaterpoint(const Vector3f &first, const Vector3f &second);
