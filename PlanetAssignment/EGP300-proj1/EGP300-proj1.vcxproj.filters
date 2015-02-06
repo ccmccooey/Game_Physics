@@ -276,6 +276,9 @@
     <ClInclude Include="PlanetManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PlanetScaleFactor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Comments.txt">

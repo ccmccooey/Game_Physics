@@ -37,10 +37,15 @@ public:
 	void CopyDataFrom(const Rigidbody &other);
 	void SetVelocity(const Vector3f &velocity);
 	void AddVelocity(const Vector3f &velocity);
+	void SetPosition(const Vector3f &position);
+	void SetPosition(float x, float y, float z);
 	void SetMass(float mass);
 
 	//adding force
 	void AddForce(const Vector3f &force);
+
+private:
+	void UpdateRenderPosition();
 
 };
 

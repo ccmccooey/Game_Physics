@@ -80,6 +80,7 @@
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Planet.h" />
     <ClInclude Include="PlanetManager.h" />
+    <ClInclude Include="PlanetScaleFactor.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Rectangle2D.h" />

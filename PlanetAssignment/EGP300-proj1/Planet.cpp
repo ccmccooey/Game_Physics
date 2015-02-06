@@ -17,9 +17,17 @@ Planet::~Planet()
 }
 
 
-void Planet::FixedUpdate(double t)
+void Planet::FixedUpdate(double t) const
 {
 	mRigidBody->FixedUpdate(t);
+}
+void Planet::FinishUpdate() const
+{
+	mRigidBody->FinishUpdate();
+}
+void Planet::SetGravity(float gravity)
+{
+	mGravity = gravity;
 }
 
 //accessors
@@ -30,6 +38,10 @@ Rigidbody* Planet::GetRigidBody() const
 std::string Planet::GetName() const
 {
 	return mName;
+}
+float Planet::GetGravity() const
+{
+	return mGravity;
 }
 
 //setters

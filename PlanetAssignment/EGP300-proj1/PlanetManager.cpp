@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "Planet.h"
 #include "Model.h"
+#include <queue>
 #include <fstream>
 #include <iostream>
 
@@ -55,6 +56,39 @@ void PlanetManager::CleanUp()
 }
 
 //adding new planets
+bool PlanetManager::AddPlanetList(const std::string &dataFilePath)
+{
+	bool ok = false;
+
+	ifstream reader = ifstream();
+
+	reader.open(dataFilePath);
+	string line;
+
+	if (!reader.fail())
+	{
+		queue<string> mPaths = queue<string>();
+
+		while (!reader.eof())
+		{
+			getline(reader, line);
+			if (line != "")
+			{
+				mPaths.push(line);
+			}
+		}
+
+		string path;
+		while (!mPaths.empty())
+		{
+			path = mPaths.front();
+			this->AddPlanet(path);
+			mPaths.pop();
+		}
+		ok = true;
+	}
+	return ok;
+}
 bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 {
 	bool ok = false;
@@ -95,31 +129,43 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 		getline(reader, line);
 		Rigidbody* rb = planet->GetRigidBody();
 		long double mass = stold(line);
-		mass = mass * PLANET_MASS_SCALE;
+		//mass = mass * PLANET_MASS_SCALE;
 		rb->SetMass((float)mass);
 
 		//radius
 		getline(reader, line);
 		double radius = stod(line);
 		radius = radius * PLANET_SIZE_SCALE;
+		radius = 1.0f; //Comment this out for scaling
 		planet->getTransform()->SetScale((float)radius);
 
 		//distance from the sun
 		getline(reader, line);
 		float distance = stof(line);
-		distance = distance * PLANET_DISTANCE_SCALE;
-		planet->getTransform()->SetPosition(mOrigin.x + distance, mOrigin.y, mOrigin.z);
+		//distance = distance * PLANET_DISTANCE_SCALE;
+		rb->SetPosition(mOrigin.x + distance, mOrigin.y, mOrigin.z);
 
 		//velocity
 		getline(reader, line);
 		rb = planet->GetRigidBody();
 		float velocity = stof(line);
+		velocity = velocity * PLANET_VELOCITY_CONVERT; //get it out of km/s
 		rb->SetVelocity(Vector3f(0.0f, 0.0f, velocity));
 
 		//rotation speed (dont care right now)
 		getline(reader, line);
+		
+		//gravity, this should be calculated but the numbers are too large to be calculated with long doubles
+		getline(reader, line);
+		double g = stod(line);
+		g = g * PLANET_GRAVITY_FACTOR;
+		planet->SetGravity((float)g);
 
+
+		//add the planet to the vector of planets
 		mPlanetVector.push_back(planet);
+
+		ok = true;
 		
 	}
 	else
@@ -135,7 +181,7 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 //search functions
 Planet* PlanetManager::GetPlanetAt(int index) const
 {
-	if (index > 0 && index < mPlanetVector.size())
+	if (index >= 0 && index < (int)mPlanetVector.size())
 	{
 		return mPlanetVector[index];
 	}
@@ -154,13 +200,22 @@ Planet* PlanetManager::GetPlanetByName(const std::string &name) const
 	}
 	return planet;
 }
+int PlanetManager::GetPlanetCount() const
+{
+	return (int)mPlanetVector.size();
+}
 
 //update
 void PlanetManager::FixedUpdate(double t)
 {
-	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
+	unsigned int i;
+	for (i = 0; i < mPlanetVector.size(); i++)
 	{
 		mPlanetVector[i]->FixedUpdate(t);
+	}
+	for (i = 0; i < mPlanetVector.size(); i++)
+	{
+		mPlanetVector[i]->FinishUpdate();
 	}
 }
 
@@ -171,4 +226,11 @@ void PlanetManager::Draw(GLShaderManager &shaderManager, const M3DMatrix44f &fru
 	{
 		mPlanetVector[i]->Draw(shaderManager, frustum, view);
 	}
+}
+
+//for debugging purposes only
+void PlanetManager::BreakPoint()
+{
+	mPlanetVector;
+	int putBreakPointHere = 0;
 }

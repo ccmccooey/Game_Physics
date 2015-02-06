@@ -1,15 +1,17 @@
 #include "RigidBody.h"
 #include "Transform.h"
+#include "PlanetScaleFactor.h"
 
 //constructors
 Rigidbody::Rigidbody(Transform* transform)
 {
 	mTransform = transform;
 
-	mPosition = mTransform->GetPosition();
+	mPosition = Vector3f();
 	mVelocity = Vector3f();
 	mForce = Vector3f();
 	mAcceleration = Vector3f();
+	UpdateRenderPosition();
 }
 Rigidbody::Rigidbody(Transform* transform, const Rigidbody &rhs)
 {
@@ -57,6 +59,16 @@ void Rigidbody::SetVelocity(const Vector3f &velocity)
 {
 	mVelocity = velocity;
 }
+void Rigidbody::SetPosition(const Vector3f &position)
+{
+	mPosition = position;
+	UpdateRenderPosition();
+}
+void Rigidbody::SetPosition(float x, float y, float z)
+{
+	mPosition.Set(x, y, z);
+	UpdateRenderPosition();
+}
 void Rigidbody::AddVelocity(const Vector3f &velocity)
 {
 	mVelocity += velocity;
@@ -68,23 +80,28 @@ void Rigidbody::CopyDataFrom(const Rigidbody &other)
 	mAcceleration = other.mAcceleration;
 	mMass = other.mMass;
 	mInverseMass = other.mInverseMass;
-
-	mTransform->SetPosition(mPosition);
+	UpdateRenderPosition();
+}
+void Rigidbody::UpdateRenderPosition()
+{
+	mTransform->SetPosition(mPosition * PLANET_DISTANCE_SCALE);
 }
 
 //fixed update
 void Rigidbody::FixedUpdate(double t)
 {
 	
-	mPosition += mVelocity;
+	mAcceleration = mForce * mInverseMass;
 
 	mVelocity = mVelocity + mAcceleration * t;
+	
+	mPosition += mVelocity;
 
-	mTransform->Translate(mVelocity);
-
-	if (mTransform->GetPosition() != mPosition)
+	//mTransform->Translate(mVelocity);
+	
+	if (mVelocity != Vector3f::zero)
 	{
-		mTransform->SetPosition(mPosition);
+		UpdateRenderPosition();
 	}
 }
 void Rigidbody::FinishUpdate()
@@ -98,6 +115,4 @@ void Rigidbody::FinishUpdate()
 void Rigidbody::AddForce(const Vector3f &force)
 {
 	mForce += force;
-
-	mAcceleration = force * mInverseMass;
 }

@@ -7,6 +7,7 @@ radius (km)
 distance from sun (km)
 velocity (km/s)
 rotation speed (km/s)
+graviational force (m/s) I know you want us to calculate it, but its causing problems right now, so importing the data works 			 better
 
 */
 

@@ -38,6 +38,8 @@ GLfloat pointLight[4] = {1.0f, 1.0f, 1.0f, 0.0f};
 const float VIEW_MOVE_SPEED = 0.75f;
 const float VIEW_ROTATE_SPEED = 1.0f;
 
+double t = 1.0;
+
 void setupWorld();
 
 void myInit()
@@ -120,14 +122,20 @@ void setupWorld()
 	
 
 	bool ok;
-	ok = planetManager->AddPlanet("../PlanetData/sun.txt");
-	ok = planetManager->AddPlanet("../PlanetData/earth.txt");
+	ok = planetManager->AddPlanetList("../PlanetData/solar_system.txt");
+	//ok = planetManager->AddPlanet("../PlanetData/sun.txt");
+	//ok = planetManager->AddPlanet("../PlanetData/earth.txt");
 
 	//add a force generator to the particle system
 	if (ok)
 	{
 		particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(0)->GetRigidBody());
-		particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(1)->GetRigidBody());
+		//particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(1)->GetRigidBody());
+		int size = planetManager->GetPlanetCount();
+		for (int i = 0; i < size; i++)
+		{
+			particleSystem->AddRigidBody(planetManager->GetPlanetAt(i)->GetRigidBody());
+		}
 	}
 
 	//particleSystem->AddGravityForceGenerator(
@@ -263,12 +271,15 @@ void SpecialKeys(int key, int x, int y)
 	if (key == GLUT_KEY_PAGE_DOWN)
 	{
 		//myCube->getTransform()->Scale(0.25f, 0.0f, 0.0f);
+		planetManager->BreakPoint();
 	}
 }
 
 void Update(void)
 {
-	//planetManager->FixedUpdate(1.0f);
+	particleSystem->FixedUpdate(t);
+	planetManager->FixedUpdate(t);
+	t++;
 	glutPostRedisplay();
 }
 

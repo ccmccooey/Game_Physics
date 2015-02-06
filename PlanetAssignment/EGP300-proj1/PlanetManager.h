@@ -10,11 +10,8 @@ class TextureManager;
 #include "GLfiles.h"
 #include <vector>
 #include <string>
+#include "PlanetScaleFactor.h"
 
-//1 / earth scale or 1 / sun scale? IDK
-#define PLANET_SIZE_SCALE 1 / 695800 //6371 
-#define PLANET_DISTANCE_SCALE 1 / 149500000 * 100 //100 puts the cubes outside each other
-#define PLANET_MASS_SCALE 1 / 5.97219e24 
 
 
 class PlanetManager
@@ -34,12 +31,18 @@ public:
 	void IntializeAssets();
 	void CleanUp();
 	bool AddPlanet(const std::string &dataFilePath);
+	bool AddPlanetList(const std::string &dataFilePath);
 
+	//accessors
 	Planet* GetPlanetAt(int index) const;
 	Planet* GetPlanetByName(const std::string &name) const; //this is a search function and is slower then get planet at
+	int GetPlanetCount() const;
 
 	//Draw the planets
 	void Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view);
+
+	//this function is just a place for me to insert a breakpoint to check properies, its called via keyboard input
+	void BreakPoint();
 };
 
 #endif

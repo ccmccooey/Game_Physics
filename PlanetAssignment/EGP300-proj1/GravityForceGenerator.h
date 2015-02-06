@@ -10,6 +10,7 @@ class GravityForceGenerator :public ParticleForceGenerator
 {
 private:
 	Rigidbody* mSource;
+	float mGravityAcceleration; //I know its suppose to be calculated, but the numbers are too massive to be computed, even with long double
 
 public:
 	GravityForceGenerator();
