@@ -218,22 +218,21 @@ void RenderScene(void)
 
 void Keys(unsigned char key, int x, int y)
 {
-	if ((key == 'Z')||(key == 'z'))
+	if (key == 'A' || key == 'a')
 	{
-		
+		camera->moveCamera(-1.0f, 0.0f, 0.0f);
 	}
-
-	if ((key == 'X')||(key=='x'))
+	if (key == 'S' || key == 's')
 	{
-		
+		camera->moveCamera(0.0f, 0.0f, -1.0f);
 	}
-	if (key == 'C' || key == 'c')
+	if (key == 'D' || key == 'd')
 	{
-		
+		camera->moveCamera(1.0f, 0.0f, 0.0f);
 	}
-	if (key == 'V' || key == 'v')
+	if (key == 'W' || key == 'w')
 	{
-		
+		camera->moveCamera(0.0f, 0.0f, 1.0f);
 	}
 	if (key == 'R' || key == 'r')
 	{

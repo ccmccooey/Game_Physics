@@ -1,0 +1,8 @@
+Pluto
+../PlanetTextures/pluto.png
+1.31e22
+1195
+4.43682e9
+6.10
+153.29
+0.58

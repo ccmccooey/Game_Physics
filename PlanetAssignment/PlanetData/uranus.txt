@@ -1,0 +1,8 @@
+Uranus
+../PlanetTextures/uranus.png
+8.6816e25
+25559
+2.741e9
+7.11
+0
+8.87

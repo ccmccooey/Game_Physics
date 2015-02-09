@@ -1,0 +1,8 @@
+Saturn
+../PlanetTextures/saturn.png
+5.68319e26
+60268
+1.349467e9
+9.09
+9.9
+0

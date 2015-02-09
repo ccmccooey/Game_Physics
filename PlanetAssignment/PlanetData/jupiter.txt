@@ -1,0 +1,8 @@
+Jupiter
+../PlanetTextures/jupiter.png
+1.89813e27
+71492
+7.407426e8
+13.72
+9.9
+0

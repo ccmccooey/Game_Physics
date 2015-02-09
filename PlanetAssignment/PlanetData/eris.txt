@@ -1,0 +1,8 @@
+Eris
+../PlanetTextures/pluto.png
+1.6e22
+1250
+5.723e9
+3.4338
+0
+0.58

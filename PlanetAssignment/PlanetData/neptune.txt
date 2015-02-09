@@ -1,0 +1,8 @@
+Neptune
+../PlanetTextures/neptune.png
+1.0242e26
+24764
+4.44445e9
+5.50
+16.11
+11.15
