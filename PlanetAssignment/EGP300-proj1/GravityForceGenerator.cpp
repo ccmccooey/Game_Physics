@@ -43,16 +43,17 @@ and we need a vector indicating the direction
 	{
 		
 		mGravityDirection = Vector3f::DirectionTo(mSource->GetPosition(), rb->GetPosition());
-		/*
-		float distance = Vector3f::Distance(rb->GetPosition(), mSource->GetPosition()) * 1000; //1000 km to m
+		
+		double distance = (double)Vector3f::Distance(rb->GetPosition(), mSource->GetPosition());// *1000; //1000 km to m
 
 		double val = (double)mSource->GetMass() * GRAVIATAIONAL_CONSTANT * (double)rb->GetMass();
-		double force =  (val / ((double)distance * (double)distance));
+		double force =  val / (distance * distance);
 	
 		//float force = GRAVIATAIONAL_CONSTANT * rb->GetMass();
-		mGravityAcceleration = (float)force;*/
+		mGravityAcceleration = (float)force;
 
-		rb->AddForce(mGravityDirection * (rb->GetMass() * mGravityAcceleration));
+		//rb->AddForce(mGravityDirection * (rb->GetMass() * mGravityAcceleration));
+		rb->AddForce(mGravityDirection * mGravityAcceleration);
 
 		//rb->AddForce(mGravityDirection * mGravityAcceleration
 	}

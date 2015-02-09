@@ -1,7 +1,7 @@
 #ifndef _GRAVITY_FORCE_GENERATOR_H
 #define _GRAVITY_FORCE_GENERATOR_H
 
-#define GRAVIATAIONAL_CONSTANT 6.673e-11
+#define GRAVIATAIONAL_CONSTANT 6.673e-20
 
 #include "Vector3f.h"
 #include "ParticleForceGenerator.h"

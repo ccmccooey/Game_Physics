@@ -27,7 +27,7 @@ void Planet::FixedUpdate(double t) const
 }
 void Planet::FinishUpdate() const
 {
-	mRigidBody->FinishUpdate();
+	//mRigidBody->FinishUpdate();
 	mLabel->SetPosition(mTransform->GetPosition() - (Vector3f::unitX * 0.75f) + (Vector3f::unitY * 2.0f));
 }
 void Planet::SetGravity(float gravity)

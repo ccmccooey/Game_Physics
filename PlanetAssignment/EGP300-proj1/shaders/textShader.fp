@@ -15,5 +15,8 @@ uniform sampler2D tex;
 
 void main(void)
 {
+
 	vFragColor = texture(tex, vUV);
+	if (vFragColor.a < 0.05)
+		discard;
 }

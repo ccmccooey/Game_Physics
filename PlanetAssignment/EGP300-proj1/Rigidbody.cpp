@@ -53,7 +53,7 @@ float Rigidbody::GetMass() const
 void Rigidbody::SetMass(float mass)
 {
 	mMass = mass;
-	mInverseMass = 1 / mMass;
+	mInverseMass = 1.0f / mMass;
 }
 void Rigidbody::SetVelocity(const Vector3f &velocity)
 {
@@ -90,12 +90,15 @@ void Rigidbody::UpdateRenderPosition()
 //fixed update
 void Rigidbody::FixedUpdate(double t)
 {
+	mPosition += mVelocity * t;
 	
+	mVelocity = mVelocity + mAcceleration * t;
+
 	mAcceleration = mForce * mInverseMass;
 
-	mVelocity = mVelocity + mAcceleration * t;
 	
-	mPosition += mVelocity;
+	
+	
 
 	//mTransform->Translate(mVelocity);
 	
@@ -103,6 +106,7 @@ void Rigidbody::FixedUpdate(double t)
 	{
 		UpdateRenderPosition();
 	}
+	FinishUpdate();
 }
 void Rigidbody::FinishUpdate()
 {

@@ -149,7 +149,7 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 		getline(reader, line);
 		rb = planet->GetRigidBody();
 		float velocity = stof(line);
-		velocity = velocity * PLANET_VELOCITY_CONVERT; //get it out of km/s
+		velocity = velocity;// *PLANET_VELOCITY_CONVERT; //get it out of km/s
 		rb->SetVelocity(Vector3f(0.0f, 0.0f, velocity));
 
 		//rotation speed (dont care right now)

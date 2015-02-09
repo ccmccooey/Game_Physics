@@ -41,8 +41,6 @@ GLfloat pointLight[4] = {1.0f, 1.0f, 1.0f, 0.0f};
 const float VIEW_MOVE_SPEED = 0.75f;
 const float VIEW_ROTATE_SPEED = 1.0f;
 
-double t = 1.0;
-
 void setupWorld();
 
 void myInit()
@@ -304,10 +302,24 @@ void SpecialKeys(int key, int x, int y)
 
 void Update(void)
 {
-	particleSystem->FixedUpdate(t);
-	planetManager->FixedUpdate(t);
-	t++;
 	glutPostRedisplay();
+}
+void FixedUpdate(int value)
+{
+	double t = (double)value / 1000.0;
+	/*
+	double val = 3.0e3;
+	for (int i = 0; i < 1000; i++)
+	{
+		particleSystem->FixedUpdate(t * val);
+		planetManager->FixedUpdate(t * val);
+	}*/
+	
+	double val = 3.0e5;
+	particleSystem->FixedUpdate(t * val);
+	planetManager->FixedUpdate(t * val);
+
+	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
 }
 
 void Cleanup()
@@ -407,6 +419,7 @@ int main(int argc, char* argv[])
 	glutReshapeFunc(ChangeSize);
 	glutDisplayFunc(RenderScene);
 	glutSpecialFunc(SpecialKeys);
+	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
 	glutMouseFunc(MouseClick);
 	glutMotionFunc(MouseMotionDown);
 	glutPassiveMotionFunc(MouseMotionUp);
