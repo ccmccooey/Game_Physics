@@ -3,12 +3,14 @@
 
 #include "RigidBody.h"
 #include "DisplayObject3D.h"
+#include "TextField.h"
 #include <string>
 
 class Planet :public DisplayObject3D
 {
 private:
 	Rigidbody* mRigidBody;
+	TextField* mLabel;
 	std::string mName;
 	float mGravity;
 
@@ -25,6 +27,9 @@ public:
 	Rigidbody* GetRigidBody() const;
 	std::string GetName() const;
 	float GetGravity() const;
+	TextField* GetTextField() const;
+
+	void DrawAll(DrawData* drawData);
 };
 
 

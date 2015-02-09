@@ -14,6 +14,7 @@
     <ClCompile Include="BasicGeometry.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GUIButton.cpp" />
     <ClCompile Include="GUIImage.cpp" />
@@ -60,6 +61,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
+    <ClInclude Include="DrawData.h" />
     <ClInclude Include="FixedArray.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GLfiles.h" />

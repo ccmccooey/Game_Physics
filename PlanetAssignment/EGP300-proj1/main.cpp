@@ -33,6 +33,7 @@ PointLight*		myLight;
 PlanetManager*	planetManager;
 M3DMatrix44f    guiViewMatrix;
 TextRenderer*	textRenderer;
+DrawData*		drawData;
 GLfloat* arr;
 
 GLfloat pointLight[4] = {1.0f, 1.0f, 1.0f, 0.0f};
@@ -131,6 +132,10 @@ void setupWorld()
 
 	textRenderer = new TextRenderer();
 
+	drawData = new DrawData();
+	drawData->textRenderer = textRenderer;
+	drawData->shaderManager = &shaderManager;
+
 	bool ok;
 	ok = planetManager->AddPlanetList("../PlanetData/solar_system.txt");
 	//ok = planetManager->AddPlanet("../PlanetData/sun.txt");
@@ -162,9 +167,14 @@ void RenderScene(void)
 	M3DMatrix44f &view = camera->getView();
 	const M3DMatrix44f &projection = viewFrustum3D.GetProjectionMatrix();
 
-	plane->Draw(shaderManager, projection, view);
+	drawData->frustum = &viewFrustum3D.GetProjectionMatrix();
+	drawData->view = &view;
 
-	planetManager->Draw(shaderManager, projection, view);
+	//plane->Draw(shaderManager, projection, view);
+	plane->Draw(drawData);
+
+	//planetManager->Draw(shaderManager, projection, view);
+	planetManager->Draw(drawData);
 
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
 	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
@@ -173,7 +183,7 @@ void RenderScene(void)
 	//myGUIImage->Draw(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
 	guiSystem->DrawGUI(&shaderManager);
 	
-	textRenderer->DrawTextField("Hello", Vector3f(0, 2, 0), projection, view);
+	//textRenderer->DrawTextField("Hello how are you?", Vector3f(0, 2, 0), projection, view);
 	//guiSystem->DrawGUI(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
 
 	/*
@@ -312,6 +322,7 @@ void Cleanup()
 	delete guiSystem;
 	delete planetManager;
 	delete textRenderer;
+	delete drawData;
 	//delete myGUIImage;
 	//delete mySprite;
 }

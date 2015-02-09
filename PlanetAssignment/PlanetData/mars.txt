@@ -1,4 +1,4 @@
-mars
+Mars
 ../PlanetTextures/mars.png
 639e21
 3397

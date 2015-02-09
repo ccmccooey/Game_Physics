@@ -38,10 +38,10 @@ void TextRenderer::Initialize()
 	int width = mFontSheet->getWidth();
 	int height = mFontSheet->getHeight();
 	int letterWidth = width / 16;
-	int letterHeight = height / 16;
+	int letterHeight = height / 14;
 
 	//gl batches
-	mMeshCount = 11;
+	mMeshCount = 96;
 
 	mMeshes = new GLBatch*[mMeshCount];
 	int x = 0;
@@ -65,16 +65,14 @@ void TextRenderer::Initialize()
 }
 void TextRenderer::InitialzeCharacterSourceInformation()
 {
-	int size = mFontSheet->getWidth() * mFontSheet->getHeight() / 16;
-	mIndexArray = vector<int>(size);
+	//int size = mFontSheet->getWidth() * mFontSheet->getHeight() / 16;
+	//mIndexArray = vector<int>(size);
 }
 
 
 GLBatch* TextRenderer::GetBatchForChar(char theChar) const
 {
-	if (theChar == 'l')
-		return mMeshes[4];
-	return mMeshes[3];
+	return mMeshes[(int)(theChar - 32)];
 }
 
 
@@ -92,11 +90,14 @@ void TextRenderer::CleanUp()
 	mFontSheet = nullptr;
 }
 
+//draw a textfield at run time, its slower
 void TextRenderer::DrawTextField(const std::string &text, const Vector3f &position, const M3DMatrix44f &projection, M3DMatrix44f &view)
 {
 	TextField tmp = TextField(position, text);
 	this->DrawTextField(&tmp, projection, view);
 }
+
+//draw an existing textfield
 void TextRenderer::DrawTextField(TextField* current, const M3DMatrix44f &projection, M3DMatrix44f &view)
 {
 	
@@ -138,7 +139,7 @@ void TextRenderer::DrawTextField(TextField* current, const M3DMatrix44f &project
 					batch->Draw();
 				}
 			}
-			current->GetTransform()->Translate(0.75f, 0.0f, 0.0f);
+			current->GetTransform()->Translate(0.35f, 0.0f, 0.001f);
 		}
 	}
 

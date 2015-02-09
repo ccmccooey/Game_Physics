@@ -15,6 +15,7 @@
 
 #include "GLfiles.h"
 #include "Transform.h"
+#include "DrawData.h"
 
 class Material;
 class Model;
@@ -43,7 +44,7 @@ public:
 	Transform* getTransform();
 	
 	//Draw the object
-	void Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view);
+	void Draw(DrawData* drawData);
 
 };
 

@@ -5,9 +5,10 @@ class Model;
 class Material;
 class Planet;
 class TextureManager;
+class TextRenderer;
 
 #include "Vector3f.h"
-#include "GLfiles.h"
+#include "DrawData.h"
 #include <vector>
 #include <string>
 #include "PlanetScaleFactor.h"
@@ -39,7 +40,7 @@ public:
 	int GetPlanetCount() const;
 
 	//Draw the planets
-	void Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view);
+	void Draw(DrawData* drawData);
 
 	//this function is just a place for me to insert a breakpoint to check properies, its called via keyboard input
 	void BreakPoint();

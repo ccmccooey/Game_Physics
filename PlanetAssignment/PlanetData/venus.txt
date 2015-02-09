@@ -1,4 +1,4 @@
-venus
+Venus
 ../PlanetTextures/venus.png
 4.867e24
 6052

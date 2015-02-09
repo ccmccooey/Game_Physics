@@ -1,4 +1,4 @@
-earth
+Earth
 ../PlanetTextures/earth.png
 5.972e24
 6371

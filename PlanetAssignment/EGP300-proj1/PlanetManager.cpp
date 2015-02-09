@@ -220,11 +220,11 @@ void PlanetManager::FixedUpdate(double t)
 }
 
 //draw
-void PlanetManager::Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view)
+void PlanetManager::Draw(DrawData* drawData)
 {
 	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
 	{
-		mPlanetVector[i]->Draw(shaderManager, frustum, view);
+		mPlanetVector[i]->DrawAll(drawData);
 	}
 }
 

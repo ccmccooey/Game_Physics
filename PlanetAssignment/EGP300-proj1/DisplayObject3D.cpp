@@ -49,7 +49,7 @@ void DisplayObject3D::RemoveMaterial()
 }
 
 //draw
-void DisplayObject3D::Draw(GLShaderManager &shaderManager, const M3DMatrix44f &frustum, M3DMatrix44f &view)
+void DisplayObject3D::Draw(DrawData* drawData)
 {
 	if (mModel == nullptr)
 	{
@@ -62,14 +62,14 @@ void DisplayObject3D::Draw(GLShaderManager &shaderManager, const M3DMatrix44f &f
 
 	
 
-	m3dMatrixMultiply44(modelView, view, mTransform->GetModelMatrix());
-	m3dMatrixMultiply44(mvpMatrix, frustum, modelView);
+	m3dMatrixMultiply44(modelView, *drawData->view, mTransform->GetModelMatrix());
+	m3dMatrixMultiply44(mvpMatrix, *drawData->frustum, modelView);
 	//shaderManager.UseStockShader(GLT_SHADER_SHADED, mvpMatrix);
 
 	
 	if (mMaterial == nullptr)
-		mModel->Draw(&shaderManager, frustum, modelView, mvpMatrix);
+		mModel->Draw(drawData->shaderManager, *drawData->frustum, modelView, mvpMatrix);
 	else
-		mModel->Draw(&shaderManager, frustum, modelView, mvpMatrix, mMaterial);
+		mModel->Draw(drawData->shaderManager, *drawData->frustum, modelView, mvpMatrix, mMaterial);
 	//mModel->Draw(&shaderManager, mvpMatrix);
 }
