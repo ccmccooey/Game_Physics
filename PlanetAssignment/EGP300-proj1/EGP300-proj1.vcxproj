@@ -38,6 +38,8 @@
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="Sprite2D.cpp" />
     <ClCompile Include="Sprite2DManager.cpp" />
+    <ClCompile Include="TextField.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="tinystr.cpp" />
@@ -84,9 +86,12 @@
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Rectangle2D.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="RigidBody.h" />
     <ClInclude Include="Sprite2D.h" />
     <ClInclude Include="Sprite2DManager.h" />
+    <ClInclude Include="TextField.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="tinystr.h" />
@@ -95,6 +100,8 @@
     <ClInclude Include="Transform2D.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="Vector3f.h" />
+    <None Include="shaders\textShader.fp" />
+    <None Include="shaders\textShader.vp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D4F2C127-EFC4-440C-85C8-E3279169551C}</ProjectGuid>
@@ -107,7 +114,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

@@ -9,6 +9,7 @@
 #include "GUISystem.h"
 #include "PlanetManager.h"
 #include "ParticleSystem.h"
+#include "TextRenderer.h"
 #include "Planet.h"
 #include <ctime>
 #include <vector>
@@ -31,6 +32,7 @@ DisplayObject3D* plane;
 PointLight*		myLight;
 PlanetManager*	planetManager;
 M3DMatrix44f    guiViewMatrix;
+TextRenderer*	textRenderer;
 GLfloat* arr;
 
 GLfloat pointLight[4] = {1.0f, 1.0f, 1.0f, 0.0f};
@@ -65,6 +67,9 @@ void myInit()
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_BLEND);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glLightfv(GL_LIGHT0, GL_AMBIENT, arr);
 	glLightfv(GL_LIGHT0, GL_POSITION, arr);
@@ -83,6 +88,11 @@ void myInit()
 
 	camera = new Camera();
 	camera->setRotationAxis(0.0f, 1.0f, 0.0f);
+	camera->moveCamera(0.0f, -5.0f, -20.0f);
+	//camera->SetRotation(Vector3f::unitX, -45.0f);
+	//camera->setPosition(0.0f, 20.0f, -20.0f);
+
+	
 
 	rotateAroundModelZaxis = 0;
 	rotateAroundViewZaxis = 0;
@@ -119,7 +129,7 @@ void setupWorld()
 	planetManager = new PlanetManager();
 	planetManager->IntializeAssets();
 
-	
+	textRenderer = new TextRenderer();
 
 	bool ok;
 	ok = planetManager->AddPlanetList("../PlanetData/solar_system.txt");
@@ -163,6 +173,7 @@ void RenderScene(void)
 	//myGUIImage->Draw(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
 	guiSystem->DrawGUI(&shaderManager);
 	
+	textRenderer->DrawTextField("Hello", Vector3f(0, 2, 0), projection, view);
 	//guiSystem->DrawGUI(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
 
 	/*
@@ -201,23 +212,29 @@ void Keys(unsigned char key, int x, int y)
 {
 	if ((key == 'Z')||(key == 'z'))
 	{
-		rotateAroundModelZaxis += 10.0f;
+		
 	}
 
 	if ((key == 'X')||(key=='x'))
 	{
-		rotateAroundModelZaxis -= 10.f;
+		
 	}
 	if (key == 'C' || key == 'c')
 	{
-		myLight->setColor((float)(rand() % 100) * 0.01f, (float)(rand() % 100) * 0.01f, (float)(rand() % 100) * 0.01f, 1.0f);	
+		
 	}
 	if (key == 'V' || key == 'v')
 	{
-		myLight->setPosition((float)(rand() % 100), (float)(rand() % 100), (float)(rand() % 100) * -1);
+		
 	}
-
-	
+	if (key == 'R' || key == 'r')
+	{
+		camera->moveCamera(0.0f, 1.0f, 0.0f);
+	}
+	if (key == 'F' || key == 'f')
+	{
+		camera->moveCamera(0.0f, -1.0f, 0.0f);
+	}
 }
 
 void SpecialKeys(int key, int x, int y)
@@ -294,6 +311,7 @@ void Cleanup()
 	delete myMaterial;
 	delete guiSystem;
 	delete planetManager;
+	delete textRenderer;
 	//delete myGUIImage;
 	//delete mySprite;
 }

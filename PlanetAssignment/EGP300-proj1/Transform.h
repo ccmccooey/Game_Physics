@@ -50,6 +50,9 @@ public:
 	//setters
 	void SetPosition(float x, float y, float z); //set the position to position xyz
 	void SetPosition(const Vector3f &position);
+	void SetX(float x);
+	void SetY(float y);
+	void SetZ(float z);
 	void SetRotation(float axisX, float axisY, float axisZ, float angle);
 	void SetRotation(const Vector3f &axis, float angle);
 	void SetRotationIdentity();

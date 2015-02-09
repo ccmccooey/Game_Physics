@@ -77,6 +77,21 @@ void Transform::SetPosition(float x, float y, float z)
 	mPosition.z = z;
 	UpdateModelMatrix();
 }
+void Transform::SetX(float x)
+{
+	mPosition.x = x;
+	UpdateModelMatrix();
+}
+void Transform::SetY(float y)
+{
+	mPosition.y = y;
+	UpdateModelMatrix();
+}
+void Transform::SetZ(float z)
+{
+	mPosition.z = z;
+	UpdateModelMatrix();
+}
 void Transform::SetPosition(const Vector3f &position)
 {
 	mPosition = position;

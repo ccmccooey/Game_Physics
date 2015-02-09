@@ -142,9 +142,9 @@ void Camera::moveCamera(const Vector3f &translation)
 void Camera::rotateCamera(float amount) //rotate on y axis
 {
 	mRotationAngle += amount;
-	//mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
-	//mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
-	//mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
+	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
+	mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
+	mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
 	mForward = mRotation.getVectorForward();
 	updateView();
 }
