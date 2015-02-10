@@ -15,6 +15,7 @@
 
 class Sprite2DManager;
 class GUIButton;
+class Texture;
 
 #include "GLfiles.h"
 #include "GuiOperationEnum.h"
@@ -24,16 +25,6 @@ class GUIButton;
 class GuiSystem
 {
 private:
-	//indicates how the buttons are defined
-	enum GuiButtonTypes
-	{
-		Play = 0,
-		Stop,
-		Pause,
-		Resume,
-		Create_Cube,
-		Create_Quad,
-	};
 
 private:
 	GuiOperationEnum mOperation; //the current operation that was received if a player clicks a button ect...
@@ -43,7 +34,9 @@ private:
 	Sprite2DManager* mGuiSpriteManager; //all the sprites for the gui are stored here
 	std::string mGuiImageDirectory; //the directory of all the sprites that are associated with the gui are stored here
 	std::vector<GUIButton*> mGuiButtons; //all the gui image buttons are stored here
-
+	Texture* mSpriteSheet; //this texture is the texture for all the gui buttons
+	int mRowX; //indicates the current row of the gui sprites
+	int mRowY; //indicates the current column of the gui sprites
 
 public:
 	GuiSystem(int windowWidth, int windowHeight);
@@ -59,9 +52,10 @@ public:
 
 private:
 	void Initialize(int windowWidth, int windowHeight);
-	void AddButton(GuiButtonTypes type, const std::string &spriteKey);
-	void AddButton(GuiButtonTypes type, const std::string &spriteNormalKey, const std::string &spriteHoverKey);
-	void AddButton(GuiButtonTypes type, const std::string &spriteNormalKey, const std::string &spriteHoverKey, const std::string &spriteSelectedKey);
+	void AddButtonAndSprite(GuiOperationEnum type, const std::string &spriteKey, int sX, int sY, int sW, int sH); //add the button sprite asset to the sprite manager AND create the button display object, the function automatically includes the hover version of the sprite by adding 32 to the source Y data
+	void AddButton(GuiOperationEnum type, const std::string &spriteKey);
+	void AddButton(GuiOperationEnum type, const std::string &spriteNormalKey, const std::string &spriteHoverKey);
+	void AddButton(GuiOperationEnum type, const std::string &spriteNormalKey, const std::string &spriteHoverKey, const std::string &spriteSelectedKey);
 	void Cleanup();
 };
 

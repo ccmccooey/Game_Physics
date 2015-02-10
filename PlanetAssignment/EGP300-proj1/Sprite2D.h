@@ -12,16 +12,20 @@ private:
 	Texture* mTexture;
 	int mWidth;
 	int mHeight;
+	bool mManagesTexture;
 
 public:
 	Sprite2D(const std::string &filepath);
 	Sprite2D(const std::string &filepath, int sourceX, int sourceY, int sourceWidth, int sourceHeight);
+	Sprite2D(Texture* texture, int sourceX, int sourceY, int sourceWidth, int sourceHeight);
+	Sprite2D(Texture* texture);
 	~Sprite2D();
 
 	//accessors
 	int getWidth() const;
 	int getHeight() const;
 	int getArea() const;
+	Texture* getTexture() const;
 
 	void Draw(GLShaderManager* shaderManager, M3DMatrix44f &mat);
 

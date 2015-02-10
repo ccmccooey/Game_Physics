@@ -231,6 +231,5 @@ void PlanetManager::Draw(DrawData* drawData)
 //for debugging purposes only
 void PlanetManager::BreakPoint()
 {
-	mPlanetVector;
 	int putBreakPointHere = 0;
 }

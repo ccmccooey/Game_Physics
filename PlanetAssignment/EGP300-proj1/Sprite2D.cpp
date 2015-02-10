@@ -8,16 +8,33 @@ Sprite2D::Sprite2D(const std::string &filepath)
 {
 	this->InitializeTexture(filepath);
 	this->InitializeBatch();
+	mManagesTexture = true;
 }
 Sprite2D::Sprite2D(const std::string &filepath, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
 {
 	this->InitializeTexture(filepath);
 	this->InitializeBatch(sourceX, sourceY, sourceWidth, sourceHeight);
+	mManagesTexture = true;
+}
+Sprite2D::Sprite2D(Texture* texture, int sourceX, int sourceY, int sourceWidth, int sourceHeight)
+{
+	mTexture = texture;
+	this->InitializeBatch(sourceX, sourceY, sourceWidth, sourceHeight);
+	mManagesTexture = false;
+}
+Sprite2D::Sprite2D(Texture* texture)
+{
+	mTexture = texture;
+	this->InitializeBatch();
+	mManagesTexture = false;
 }
 Sprite2D::~Sprite2D()
 {
 	delete mBatch;
-	delete mTexture;
+	if (mManagesTexture)
+	{
+		delete mTexture;
+	}
 }
 
 //accessors
@@ -32,6 +49,10 @@ int Sprite2D::getHeight() const
 int Sprite2D::getArea() const
 {
 	return mWidth * mHeight;
+}
+Texture* Sprite2D::getTexture() const
+{
+	return mTexture;
 }
 
 //creating the quad batch for openGL to draw on

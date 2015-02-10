@@ -31,50 +31,62 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	//create the frustum
 	mViewFrustum2D = GLFrustum();
 	mViewFrustum2D.SetOrthographic((GLfloat)(0), (GLfloat)(windowWidth), (GLfloat)(0), (GLfloat)(windowHeight), -10.0f, 10.0f);
-	//viewFrustum2D.SetOrthographic((GLfloat)(0), (GLfloat)(width), (GLfloat)(0), (GLfloat)(height), -10.0f, 10.0f);
-
-	//m3dTranslationMatrix44(guiViewMatrix, (double)(-width / 2), (double)(height / 2), 0.0);
-	
 
 	//create the gui view
-	m3dTranslationMatrix44(mGuiViewMatrix, (double)(-windowWidth / 2.1), (double)(windowHeight / 2.2), 0.0);
-	//m3dTranslationMatrix44(guiViewMatrix, (double)(-width / 2.1), (double)(height / 2.2), 0.0);
+	m3dTranslationMatrix44(mGuiViewMatrix, ((float)-windowWidth / 2.1f), ((float)windowHeight / 2.2f), 0.0f);
 
-	//create the sprite manager and add the images
+	//create the image directory
 	mGuiImageDirectory = "../GuiButtons/";
 
+	//create the texture
+	mSpriteSheet = new Texture(mGuiImageDirectory + "ButtonSpriteSheet.png");
+
+	//create the sprite manager
 	mGuiSpriteManager = new Sprite2DManager();
-	mGuiSpriteManager->AddSprite(mGuiImageDirectory + "PlayButton.png", "PlayButtonNormal");
-	mGuiSpriteManager->AddSprite(mGuiImageDirectory + "StopButton.png", "StopButtonNormal");
-	mGuiSpriteManager->AddSprite(mGuiImageDirectory + "PlayButtonHover.png", "PlayButtonHover");
-	mGuiSpriteManager->AddSprite(mGuiImageDirectory + "StopButtonHover.png", "StopButtonHover");
 
-	//create the buttons
-	int size = 2;
+	//allocate space for the buttons
+	int size = 9;
 	mGuiButtons = vector<GUIButton*>(size);
+
+	//declare the initial positon of the buttons
+	mRowX = 0;
+	mRowY = 0;
+
+	//create all the buttons and their assets
+
+	//main buttons
+	AddButtonAndSprite(GuiOperationEnum::Play, "PlayButton", 0, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::Stop, "StopButton", 32, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 64, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::SingleStep, "SingleStepButton", 96, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::IncreaseSpeed, "IncreaseSpeedButton", 128, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::DecreaseSpeed, "DecreaseSpeedButton", 160, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::AddCustomPlanet, "AddCustomButton", 192, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::RemoveCustomPlanet, "RemoveCustomPlanetButton", 224, 0, 32, 32);
+	AddButtonAndSprite(GuiOperationEnum::RemoveAllCustomPlanets, "RemoveAllCustomPlanetsButton", 256, 0, 32, 32);
+
+	//planet buttons
 	
-	
-
-	this->AddButton(GuiButtonTypes::Play, "PlayButtonNormal", "PlayButtonHover");
-	this->AddButton(GuiButtonTypes::Stop, "StopButtonNormal", "StopButtonHover");
-
-	//mySprite = new Sprite2D("../GuiButtons/StopButton.png");
-
-	//myMaterial = new Material(myTexture);
-
-	//myGUIImage = new GUIImage(mySprite, 0.0f, 0.0f);
-	//myGUIImage->getTransform()->SetScale(32.0f);
 }
 
-void GuiSystem::AddButton(GuiSystem::GuiButtonTypes type, const string &spriteKey)
+//Add a button and a sprite using the sprite button texture, create the hover version as well by adding 32 to the sourceY
+void GuiSystem::AddButtonAndSprite(GuiOperationEnum type, const std::string &spriteKey, int sX, int sY, int sW, int sH)
+{
+	mGuiSpriteManager->AddSprite(mSpriteSheet, sX, sY, sW, sH, spriteKey + "Normal");
+	mGuiSpriteManager->AddSprite(mSpriteSheet, sX, sY + sH, sW, sH, spriteKey + "Hover");
+	this->AddButton(type, spriteKey + "Normal", spriteKey + "Hover");
+}
+
+//Add button display objects
+void GuiSystem::AddButton(GuiOperationEnum type, const string &spriteKey)
 {
 	AddButton(type, spriteKey, spriteKey, spriteKey);
 }
-void GuiSystem::AddButton(GuiSystem::GuiButtonTypes type, const std::string &spriteNormalKey, const std::string &spriteHoverKey)
+void GuiSystem::AddButton(GuiOperationEnum type, const std::string &spriteNormalKey, const std::string &spriteHoverKey)
 {
 	AddButton(type, spriteNormalKey, spriteHoverKey, spriteNormalKey);
 }
-void GuiSystem::AddButton(GuiSystem::GuiButtonTypes type, const std::string &spriteNormalKey, const std::string &spriteHoverKey, const std::string &spriteSelectedKey)
+void GuiSystem::AddButton(GuiOperationEnum type, const std::string &spriteNormalKey, const std::string &spriteHoverKey, const std::string &spriteSelectedKey)
 {
 	float startX = 0;
 	float startY = 0;
@@ -99,6 +111,10 @@ void GuiSystem::Cleanup()
 	//remove the gui sprite manager
 	delete mGuiSpriteManager;
 	mGuiSpriteManager = nullptr;
+
+	//remove the texture spritesheet
+	delete mSpriteSheet;
+	mSpriteSheet = nullptr;
 }
 
 //called in main
@@ -114,7 +130,7 @@ void GuiSystem::UpdateWindowSize(int width, int height)
 	mViewFrustum2D.SetOrthographic((GLfloat)(-width / 2), (GLfloat)(width / 2), (GLfloat)(-height / 2), (GLfloat)(height / 2), -10.0f, 10.0f);
 
 	//create the gui view
-	m3dTranslationMatrix44(mGuiViewMatrix, (double)(-width / 2), (double)(height / 2), 0.0);
+	m3dTranslationMatrix44(mGuiViewMatrix, ((float)-width / 2.0f), ((float)height / 2.0f), 0.0f);
 }
 void GuiSystem::DrawGUI(GLShaderManager* shaderManager)
 {

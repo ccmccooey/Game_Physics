@@ -5,9 +5,32 @@ enum GuiOperationEnum
 {
 	INVALID_OPERATION = -1,
 
-	PLAY_GAME,
-	STOP_GAME,
-	PAUSE_BUTTON,
+	//main buttons
+	Play,
+	Stop,
+	Reset,
+	SingleStep,
+	IncreaseSpeed,
+	DecreaseSpeed,
+	AddCustomPlanet,
+	RemoveCustomPlanet,
+	RemoveAllCustomPlanets,
+
+	//planet buttons
+	ViewSolarSystem,
+	ViewMercury,
+	ViewVenus,
+	ViewEarth,
+	ViewMars,
+	ViewJupiter,
+	ViewSaturn,
+	ViewUranus,
+	ViewNeptune,
+	ViewPluto,
+	ViewEris,
+
+	//moon buttons
+	ViewMoon,
 
 	TOTAL_OPERATIONS
 };

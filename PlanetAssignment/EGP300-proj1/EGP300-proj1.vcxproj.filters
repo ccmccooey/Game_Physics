@@ -13,12 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\2D Rendering">
-      <UniqueIdentifier>{b1f026b5-d19b-4bb1-a148-686d630c4893}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\2D Rendering">
-      <UniqueIdentifier>{00ec8168-afdd-4b1c-80aa-f5b96ecaa907}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\TinyXML">
       <UniqueIdentifier>{ee7e5219-e738-42c8-b59c-1f128c22fad9}</UniqueIdentifier>
     </Filter>
@@ -34,31 +28,37 @@
     <Filter Include="Source Files\Physics">
       <UniqueIdentifier>{cad3746a-a757-49c6-bd38-4864b157942a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\3D Rendering">
+    <Filter Include="Header Files\Graphics">
+      <UniqueIdentifier>{44fd52e9-7e2e-4c51-9ce9-d21f02254fd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics">
+      <UniqueIdentifier>{1e0cead2-7f12-4d92-ab3b-003febbb6223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\3D Rendering">
       <UniqueIdentifier>{12e9b50a-f09f-41c8-be00-91be4f546c33}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\3D Rendering">
+    <Filter Include="Header Files\Graphics\2D Rendering">
+      <UniqueIdentifier>{b1f026b5-d19b-4bb1-a148-686d630c4893}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\3D Rendering">
       <UniqueIdentifier>{45a6c98d-d8bd-40a7-ada0-e17e3f56230d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\2D Rendering">
+      <UniqueIdentifier>{00ec8168-afdd-4b1c-80aa-f5b96ecaa907}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Graphics\TextRendering">
+      <UniqueIdentifier>{16f2491a-1b47-46c5-945b-09d8f760d7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics\TextRendering">
+      <UniqueIdentifier>{ee4dec64-969d-4d4f-a6b7-f5750bd7f351}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Color.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BasicGeometry.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3f.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Sprite2D.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="tinystr.cpp">
       <Filter>Source Files\TinyXML</Filter>
@@ -76,25 +76,19 @@
       <Filter>LodePNG</Filter>
     </ClCompile>
     <ClCompile Include="Transform2D.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GUIImage.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="TextureManager.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GUISystem.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Sprite2DManager.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2f.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GUIButton.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rigidbody.cpp">
       <Filter>Source Files\Physics</Filter>
@@ -106,40 +100,40 @@
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="Material.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="MeshCreator.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="ModelData.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="ModelOld.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="PointLight.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Quaternion.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rectangle2D.cpp">
-      <Filter>Source Files\2D Rendering</Filter>
+      <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Transform.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="DisplayObject3D.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="PlanetManager.cpp">
       <Filter>Source Files</Filter>
@@ -153,14 +147,35 @@
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="TextRenderer.cpp">
+    <ClCompile Include="DrawData.cpp">
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Color.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2f.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextField.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics\TextRendering</Filter>
     </ClCompile>
-    <ClCompile Include="DrawData.cpp">
-      <Filter>Source Files\3D Rendering</Filter>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Source Files\Graphics\TextRendering</Filter>
+    </ClCompile>
+    <ClCompile Include="BasicGeometry.cpp">
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="MainApp.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -168,16 +183,7 @@
     <Library Include="libs\freeglut_static.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GLfiles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Color.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BasicGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector3f.h">
@@ -186,14 +192,8 @@
     <ClInclude Include="FixedArray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Sprite2D.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="tinystr.h">
       <Filter>Header Files\Tiny XML</Filter>
@@ -205,31 +205,28 @@
       <Filter>LodePNG</Filter>
     </ClInclude>
     <ClInclude Include="GUIImage.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Transform2D.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Vector2f.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextureManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GUISystem.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GuiOperationEnum.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Sprite2DManager.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GUIButton.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rectangle2D.h">
-      <Filter>Header Files\2D Rendering</Filter>
+      <Filter>Header Files\Graphics\2D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="RigidBody.h">
       <Filter>Header Files\Physics</Filter>
@@ -253,34 +250,34 @@
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="MeshCreator.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="MeshData.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="ModelData.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Quaternion.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="DisplayObject3D.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Geometry.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Material.h">
-      <Filter>Header Files\3D Rendering</Filter>
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="PlanetManager.h">
       <Filter>Header Files</Filter>
@@ -291,13 +288,34 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="TextRenderer.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="TextField.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Color.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="DrawData.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TextField.h">
+      <Filter>Header Files\Graphics\TextRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Header Files\Graphics\TextRendering</Filter>
+    </ClInclude>
+    <ClInclude Include="BasicGeometry.h">
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="MainApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

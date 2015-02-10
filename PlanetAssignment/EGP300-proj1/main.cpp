@@ -319,6 +319,9 @@ void FixedUpdate(int value)
 	planetManager->FixedUpdate(t * val);
 
 	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
+
+	//operations
+	GuiOperationEnum operation = guiSystem->ReceiveOperation();
 }
 
 void Cleanup()

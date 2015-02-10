@@ -13,6 +13,7 @@
 #ifndef _SPRITE2D_MANAGER_H
 #define _SPRITE2D_MANAGER_H
 
+class Texture;
 class Sprite2D;
 
 #include <map>
@@ -34,7 +35,9 @@ public:
 	//adding and removing textures
 	bool AddSprite(const string &filepath); //add a single texture and use the filepath as the key, returns if it is successful
 	bool AddSprite(const string &filepath, const string &customKey); //add a single texture and use a custom key, returns if it is successful
-
+	bool AddSprite(Texture* texture, const string &customKey); //add a single sprite and use a custom key, returns if it is successful
+	bool AddSprite(const string &filepath, int sourceX, int sourceY, int sourceW, int sourceH, const string &customKey); //add a single sprite using source info and use a custom key, returns if it is successful
+	bool AddSprite(Texture* texture, int sourceX, int sourceY, int sourceW, int sourceH, const string &customKey); //add a single sprite using source info loaded from a texture and use a custom key , returns if it is successful
 
 	//search functions
 	Sprite2D* FindSprite(const string &key) const;

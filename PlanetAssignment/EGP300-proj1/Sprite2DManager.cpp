@@ -58,6 +58,30 @@ bool Sprite2DManager::AddSprite(const string &filepath, const string &customKey)
 	
 	return ok;
 }
+bool Sprite2DManager::AddSprite(Texture* texture, const string &customKey) //add a single sprite and use a custom key, returns if it is successful
+{
+	return this->AddSprite(texture, 0, 0, texture->getWidth(), texture->getHeight(), customKey);
+}
+bool Sprite2DManager::AddSprite(const string &filepath, int sourceX, int sourceY, int sourceW, int sourceH, const string &customKey)
+{
+	bool ok = false;
+	Sprite2D* newSprite = new Sprite2D(filepath, sourceX, sourceY, sourceW, sourceH);	
+	std::pair<string, Sprite2D*> thePair= pair<string, Sprite2D*>(customKey, newSprite);
+	mSpriteMap.insert(thePair);
+	ok = true;
+	
+	return ok;
+}
+bool Sprite2DManager::AddSprite(Texture* texture, int sourceX, int sourceY, int sourceW, int sourceH, const string &customKey)
+{
+	bool ok = false;
+	Sprite2D* newSprite = new Sprite2D(texture, sourceX, sourceY, sourceW, sourceH);	
+	std::pair<string, Sprite2D*> thePair= pair<string, Sprite2D*>(customKey, newSprite);
+	mSpriteMap.insert(thePair);
+	ok = true;
+	
+	return ok;
+}
 
 //search functions
 Sprite2D* Sprite2DManager::FindSprite(const string &key) const
