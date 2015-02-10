@@ -10,31 +10,17 @@
 #include "PlanetManager.h"
 #include "ParticleSystem.h"
 #include "TextRenderer.h"
+#include "MainApp.h"
 #include "Planet.h"
 #include <ctime>
 #include <vector>
 #include <iostream>
 
-GLShaderManager	shaderManager;
-M3DMatrix44f	mvpMatrix;
-GLFrustum		viewFrustum3D;
-GLFrustum		viewFrustum2D;
-GLint			width, height;
-GLfloat			rotateAroundModelZaxis;
-GLfloat			rotateAroundViewZaxis;
-Camera*			camera;
-Texture*		myTexture;
-GuiSystem*		guiSystem;
-Material*		myMaterial;
-Model*			cubeModel;
-ParticleSystem* particleSystem;
-DisplayObject3D* plane;
+MainApp*		app;
 PointLight*		myLight;
-PlanetManager*	planetManager;
-M3DMatrix44f    guiViewMatrix;
-TextRenderer*	textRenderer;
-DrawData*		drawData;
 GLfloat* arr;
+int mouseStateCurrent = GLUT_UP;
+int mouseStatePrevious = GLUT_UP;
 
 GLfloat pointLight[4] = {1.0f, 1.0f, 1.0f, 0.0f};
 //GLuint myTexture;
@@ -46,7 +32,6 @@ void setupWorld();
 void myInit()
 {
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-	shaderManager.InitializeStockShaders();
 
 	//seed the random
 	srand((unsigned int)time(NULL));
@@ -79,79 +64,13 @@ void myInit()
 	//myLight->setColor(0.0f, 0.25f, 0.0f, 1.0f);
 	myLight->setColor(1.0f, 1.0f, 1.0f, 1.0f);
 	//Projection
-	viewFrustum3D.SetPerspective(35.0f, (float)(width/height), 1.0f, 1000.0f);
-	viewFrustum2D.SetOrthographic((GLfloat)(0), (GLfloat)(width), (GLfloat)(0), (GLfloat)(height), -10.0f, 10.0f);
-
-	//m3dTranslationMatrix44(guiViewMatrix, (double)(-width / 2), (double)(height / 2), 0.0);
-	m3dTranslationMatrix44(guiViewMatrix, (float)(-width / 2.1), (float)(height / 2.2), 0.0);
-
-	camera = new Camera();
-	camera->setRotationAxis(0.0f, 1.0f, 0.0f);
-	camera->moveCamera(0.0f, -5.0f, -20.0f);
-	//camera->SetRotation(Vector3f::unitX, -45.0f);
-	//camera->setPosition(0.0f, 20.0f, -20.0f);
-
-	
-
-	rotateAroundModelZaxis = 0;
-	rotateAroundViewZaxis = 0;
 	setupWorld();
 }
 void setupWorld()
 {
 	//myTexture = new Texture("../MyTexture.tga");
-
-	myTexture = new Texture("../GuiButtons/PlayButton.png");
-
-	//mySprite = new Sprite2D("../GuiButtons/PlayButton.png");
-
-	myMaterial = new Material(myTexture);
-
-	
-	guiSystem = new GuiSystem(width, height);
-	//myGUIImage = new GUIImage(mySprite, 34, 34);
-
-
-
-	cubeModel = new Model(myMaterial, Geometry::CUBE);
-	
-	//create a cube
-	plane = new DisplayObject3D(cubeModel);
-	plane->getTransform()->SetScale(20.0f, 0.2f, 20.0f);
-	plane->getTransform()->Translate(0.0f, -20.0f, 0.0f);
-
-
-	//create the physics
-	particleSystem = new ParticleSystem();
-
-	//create the planet manager
-	planetManager = new PlanetManager();
-	planetManager->IntializeAssets();
-
-	textRenderer = new TextRenderer();
-
-	drawData = new DrawData();
-	drawData->textRenderer = textRenderer;
-	drawData->shaderManager = &shaderManager;
-
-	bool ok;
-	ok = planetManager->AddPlanetList("../PlanetData/solar_system.txt");
-	//ok = planetManager->AddPlanet("../PlanetData/sun.txt");
-	//ok = planetManager->AddPlanet("../PlanetData/earth.txt");
-
-	//add a force generator to the particle system
-	if (ok)
-	{
-		particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(0)->GetRigidBody());
-		//particleSystem->AddGravityForceGenerator(planetManager->GetPlanetAt(1)->GetRigidBody());
-		int size = planetManager->GetPlanetCount();
-		for (int i = 0; i < size; i++)
-		{
-			particleSystem->AddRigidBody(planetManager->GetPlanetAt(i)->GetRigidBody());
-		}
-	}
-
-	//particleSystem->AddGravityForceGenerator(
+	app = new MainApp();
+	app->UpdateWindowSize(800, 600);
 }
 
 void RenderScene(void)
@@ -162,147 +81,27 @@ void RenderScene(void)
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-	M3DMatrix44f &view = camera->getView();
-	const M3DMatrix44f &projection = viewFrustum3D.GetProjectionMatrix();
-
-	drawData->frustum = &viewFrustum3D.GetProjectionMatrix();
-	drawData->view = &view;
-
-	//plane->Draw(shaderManager, projection, view);
-	plane->Draw(drawData);
-
-	//planetManager->Draw(shaderManager, projection, view);
-	planetManager->Draw(drawData);
-
-	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
-	//myGUIImage->Draw(&shaderManager, camera->getView(), viewFrustum3D.GetProjectionMatrix());
-	//myGUIImage->Draw(&shaderManager, viewFrustum3D.GetProjectionMatrix());
-	//myGUIImage->Draw(&shaderManager, viewFrustum2D.GetProjectionMatrix());
-	//myGUIImage->Draw(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
-	guiSystem->DrawGUI(&shaderManager);
-	
-	//textRenderer->DrawTextField("Hello how are you?", Vector3f(0, 2, 0), projection, view);
-	//guiSystem->DrawGUI(&shaderManager, guiViewMatrix, viewFrustum2D.GetProjectionMatrix());
-
-	/*
-	M3DMatrix44f &model = current->getTransform()->GetModelMatrix();
-	m3dMatrixMultiply44(mModelView, camera->getView(), model);
-	m3dMatrixMultiply44(mvpMatrix, viewFrustum.GetProjectionMatrix(), mModelView);
-	shaderManager.UseStockShader(GLT_SHADER_SHADED, mvpMatrix);
-	current->Draw(mvpMatrix);*/
-
-	/*
-	for (unsigned int i = 0; i < objectList.size(); i++)
-	{
-		current = objectList[i];
-		current->getModelMatrix();
-		m3dMatrixMultiply44(mModelView, camera->getView(), current->getModelMatrix());
-		m3dMatrixMultiply44(mvpMatrix, viewFrustum.GetProjectionMatrix(), mModelView);
-		//shaderManager.UseStockShader(GLT_SHADER_SHADED, mvpMatrix);
-		//shaderManager.UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF, mModelView, viewFrustum.GetProjectionMatrix(), pointLight, vColor);
-		//shaderManager.UseStockShader(GLT_SHADER_TEXTURE_REPLACE, mModelView, viewFrustum.GetProjectionMatrix(), pointLight, vColor, myTexture);
-		//shaderManager.UseStockShader(GLT_SHADER_TEXTURE_POINT_LIGHT_DIFF, mModelView, viewFrustum.GetProjectionMatrix(), pointLight, vColor);	
-		//shaderManager.UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF, mModelView, viewFrustum.GetProjectionMatrix(), myLight->getPositionData(), myLight->getColorData());
-
-		//NO TEXTURE WHEN THIS NOTHING APPEARS ON THE SCREEN HELP!!
-		glBindTexture(GL_TEXTURE_2D, myTexture);
-		//shaderManager.UseStockShader(GLT_SHADER_TEXTURE_MODULATE, mvpMatrix, myLight->getColorData(), 0);
-		shaderManager.UseStockShader(GLT_SHADER_TEXTURE_POINT_LIGHT_DIFF, mModelView, viewFrustum.GetProjectionMatrix(), myLight->getPositionData(), myLight->getColorData(), 0);
-
-		//shaderManager.UseStockShader(GLT_SHADER_POINT_LIGHT_DIFF, mModelView, viewFrustum.GetProjectionMatrix(), myLight->getPositionData(), myLight->getColorData());
-		current->draw(mvpMatrix);
-	}*/
+	app->RenderScene();
 
 	glutSwapBuffers();
 }
 
 void Keys(unsigned char key, int x, int y)
 {
-	if (key == 'A' || key == 'a')
-	{
-		camera->moveCamera(-1.0f, 0.0f, 0.0f);
-	}
-	if (key == 'S' || key == 's')
-	{
-		camera->moveCamera(0.0f, 0.0f, -1.0f);
-	}
-	if (key == 'D' || key == 'd')
-	{
-		camera->moveCamera(1.0f, 0.0f, 0.0f);
-	}
-	if (key == 'W' || key == 'w')
-	{
-		camera->moveCamera(0.0f, 0.0f, 1.0f);
-	}
-	if (key == 'R' || key == 'r')
-	{
-		camera->moveCamera(0.0f, 1.0f, 0.0f);
-	}
-	if (key == 'F' || key == 'f')
-	{
-		camera->moveCamera(0.0f, -1.0f, 0.0f);
-	}
+	app->CheckKeyboardInput(key);
 }
 
 void SpecialKeys(int key, int x, int y)
 {
-	
-
-	if (key == GLUT_KEY_LEFT)
-	{
-		//rotateAroundViewZaxis+=10.0f;
-		camera->rotateCamera(-VIEW_ROTATE_SPEED);
-		//camera->rotateCamera(0.0f, -VIEW_ROTATE_SPEED, 0.0f);
-		//camera->moveCamera(VIEW_MOVE_SPEED, 0.0f, 0.0f);
-	}
-	if (key == GLUT_KEY_RIGHT)
-	{
-		//rotateAroundViewZaxis-=10.f;
-		camera->rotateCamera(VIEW_ROTATE_SPEED);
-		//camera->rotateCamera(0.0f, VIEW_ROTATE_SPEED, 0.0f);
-		//camera->moveCamera(-VIEW_MOVE_SPEED, 0.0f, 0.0f);
-	}
-	if (key == GLUT_KEY_UP)
-	{
-		//float angle = camera->getRotationAngle();
-		//m3dDegToRad(angle);
-		//float xMove = cos(angle) * VIEW_MOVE_SPEED;
-		//float yMove = sin(angle) * VIEW_MOVE_SPEED;
-		//camera->moveCamera(yMove, 0.0f, xMove);
-		//Vector3f euler = camera->getRotation().getEulerAngles();
-		//Vector3f forward = Vector3f(sinf(euler.x), -sinf(euler.y), cosf(euler.y));
-		//forward.Normalize();
-		//camera->moveCamera(forward * VIEW_MOVE_SPEED);
-		//camera->moveCamera(Vector3f::EulerForward(euler.x, euler.y, euler.z) * VIEW_MOVE_SPEED);
-		//camera->moveCamera(0.0f, 0.0f, VIEW_MOVE_SPEED);
-		camera->moveCamera(camera->getCameraForward() * VIEW_MOVE_SPEED);
-	}
-	if (key == GLUT_KEY_DOWN)
-	{
-		float angle = camera->getRotationAngle();
-		m3dDegToRad(angle);
-		//float xMove = cos(angle) * -VIEW_MOVE_SPEED;
-		//float yMove = sin(angle) * -VIEW_MOVE_SPEED;
-		//camera->moveCamera(yMove, 0.0f, xMove);
-		//camera->moveCamera(0.0f, 0.0f, -VIEW_MOVE_SPEED);
-		//Vector3f euler = camera->getRotation().getEulerAngles();
-		//Vector3f forward = Vector3f(sinf(euler.x), -sinf(euler.y), cosf(euler.y));
-		//forward.Normalize();
-		//camera->moveCamera(forward * -VIEW_MOVE_SPEED);
-		//camera->moveCamera(Vector3f::EulerForward(euler.x, euler.y, euler.z) * -VIEW_MOVE_SPEED);
-		camera->moveCamera(camera->getCameraForward() * -VIEW_MOVE_SPEED);
-	}
-	if (key == GLUT_KEY_PAGE_DOWN)
-	{
-		//myCube->getTransform()->Scale(0.25f, 0.0f, 0.0f);
-		planetManager->BreakPoint();
-	}
+	app->CheckSpecialKeyboardInput(key, x, y);
 }
 
 void Update(void)
 {
 	glutPostRedisplay();
 }
+
+//it woulda been nice to put this is MainApp.cpp but callbacks do not seem to work on member type functions
 void FixedUpdate(int value)
 {
 	double t = (double)value / 1000.0;
@@ -315,89 +114,42 @@ void FixedUpdate(int value)
 	}*/
 	
 	double val = 3.0e5;
-	particleSystem->FixedUpdate(t * val);
-	planetManager->FixedUpdate(t * val);
+	app->FixedUpdate(t);
 
 	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
-
-	//operations
-	GuiOperationEnum operation = guiSystem->ReceiveOperation();
 }
 
 void Cleanup()
 {
-	delete plane;
-	delete camera;
+	delete app;
 	delete arr;
 	delete myLight;
-	delete particleSystem;
-	delete myTexture;
-	delete myMaterial;
-	delete guiSystem;
-	delete planetManager;
-	delete textRenderer;
-	delete drawData;
-	//delete myGUIImage;
-	//delete mySprite;
 }
 
 //This happens when the openGL window size changes
 void ChangeSize(int w, int h)
 {
-	width = w;
-	height = h;
-
-	glViewport(0,0,width, height);
-
-
-	viewFrustum3D.SetPerspective(35.0f, (float)(width/height), 1.0f, 1000.0f);
-
-	guiSystem->UpdateWindowSize(width, height);
-
-	//viewFrustum2D.SetOrthographic((GLfloat)(-width / 2), (GLfloat)(width / 2), (GLfloat)(-height / 2), (GLfloat)(height / 2), -10.0f, 10.0f);
-
+	app->UpdateWindowSize(w, h);
 }
 
 //clicking
-void MouseClick(int x1, int y1, int x, int y)
+void MouseClick(int button, int state, int x, int y)
 {
+	if (state == GLUT_DOWN)
 	std::cout << "clickXY (" << x << ", " << y << ")" << std::endl;
-
-
-	M3DMatrix44f projectionInverse;
-	m3dInvertMatrix44(projectionInverse, viewFrustum3D.GetProjectionMatrix());
-	float screenSpaceX = (float)x;
-	float screenSpaceY = -(float)y; //this should be negative
-	screenSpaceX = screenSpaceX / width;
-	screenSpaceY = screenSpaceY / height;
-
-	//pull into screen coordinates
-	screenSpaceX = (screenSpaceX * 2) - 1;
-	screenSpaceY = (screenSpaceY * 2) - 1;
-	Vector3f vec3n = Vector3f(screenSpaceX, screenSpaceY, -1);
-	Vector3f vec3p = Vector3f(screenSpaceX, screenSpaceY, 1);
-
-
-	Vector3f viewSpaceVec1 = vec3n * projectionInverse;
-	Vector3f viewSpaceVec2 = vec3p * projectionInverse;
-
-	M3DMatrix44f viewInverse;
-	m3dInvertMatrix44(viewInverse, camera->getView());
-
-	Vector3f worldSpaceVec1 = viewSpaceVec1 * viewInverse;
-	Vector3f worldSpaceVec2 = viewSpaceVec2 * viewInverse;
+	mouseStatePrevious = mouseStateCurrent;
+	mouseStateCurrent = state;
+	app->CheckMouseInput(x, y, state == GLUT_DOWN, state == GLUT_DOWN);
 }
 void MouseMotionDown(int x, int y)
 {
-	std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
-	if (guiSystem != nullptr)
-		guiSystem->CheckMouse(x, y, true);
+	//std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
+	app->CheckMouseInput(x, y, true, false);
 }
 void MouseMotionUp(int x, int y)
 {
-	std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
-	if (guiSystem != nullptr)
-		guiSystem->CheckMouse(x, y, false);
+	//std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
+	app->CheckMouseInput(x, y, false, false);
 }
 
 int main(int argc, char* argv[])
@@ -413,8 +165,6 @@ int main(int argc, char* argv[])
 	glutInitDisplayMode(GLUT_DOUBLE |GLUT_RGBA| GLUT_DEPTH | GLUT_STENCIL | GLUT_ALPHA);
 	glEnable(GL_DEPTH);
 	//glEnable(GL_TEXTURE);
-	width = 800;
-	height = 600;
 	glutInitWindowSize(800,600);
 
 	glutCreateWindow("Please make this work HELP");

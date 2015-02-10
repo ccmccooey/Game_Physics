@@ -11,6 +11,7 @@ Rigidbody::Rigidbody(Transform* transform)
 	mVelocity = Vector3f();
 	mForce = Vector3f();
 	mAcceleration = Vector3f();
+	SetMass(1.0f);
 	UpdateRenderPosition();
 }
 Rigidbody::Rigidbody(Transform* transform, const Rigidbody &rhs)

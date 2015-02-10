@@ -1,4 +1,5 @@
 ../PlanetData/sun.txt
+../PlanetData/mercury.txt
 ../PlanetData/venus.txt
 ../PlanetData/earth.txt
 ../PlanetData/mars.txt
@@ -7,6 +8,7 @@
 ../PlanetData/uranus.txt
 ../PlanetData/neptune.txt
 ../PlanetData/pluto.txt
+../PlanetData/eris.txt
 
 
 

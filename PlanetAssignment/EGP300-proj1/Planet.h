@@ -13,6 +13,7 @@ private:
 	TextField* mLabel;
 	std::string mName;
 	float mGravity;
+	Rigidbody* mOriginalData;
 
 public:
 	Planet(Model* model);
@@ -22,6 +23,8 @@ public:
 	void FinishUpdate() const;
 	void SetName(const std::string &name);
 	void SetGravity(float gravity);
+	void Reset();
+	void SetOriginalDataToCurrent();
 
 	//accessors
 	Rigidbody* GetRigidBody() const;

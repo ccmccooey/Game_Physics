@@ -39,6 +39,8 @@ public:
 	Planet* GetPlanetByName(const std::string &name) const; //this is a search function and is slower then get planet at
 	int GetPlanetCount() const;
 
+	void ResetAllPlanets();
+
 	//Draw the planets
 	void Draw(DrawData* drawData);
 

@@ -43,7 +43,7 @@ public:
 	~GuiSystem();
 
 	//called in main
-	void CheckMouse(int x, int y, bool mouseDown);
+	void CheckMouse(int x, int y, bool mouseDown, bool clicked);
 	void UpdateWindowSize(int windowWidth, int windowHeight);
 	void DrawGUI(GLShaderManager* shaderManager);
 	void DrawGUI(GLShaderManager* shaderManager, M3DMatrix44f &view, const M3DMatrix44f &projecion);

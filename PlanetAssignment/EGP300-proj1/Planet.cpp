@@ -7,6 +7,7 @@ Planet::Planet(Model* model)
 	:DisplayObject3D(model)
 {
 	mRigidBody = new Rigidbody(mTransform);
+	mOriginalData = new Rigidbody(mTransform, *mRigidBody);
 	mName = "no name";
 	mLabel = new TextField(mTransform->GetPosition(), mName);
 
@@ -15,6 +16,9 @@ Planet::~Planet()
 {
 	delete mRigidBody;
 	mRigidBody = nullptr;
+
+	delete mOriginalData;
+	mOriginalData = nullptr;
 
 	delete mLabel;
 	mLabel = nullptr;
@@ -58,6 +62,14 @@ void Planet::SetName(const std::string &name)
 {
 	mName = name;
 	mLabel->SetText(name);
+}
+void Planet::Reset()
+{
+	mRigidBody->CopyDataFrom(*mOriginalData);
+}
+void Planet::SetOriginalDataToCurrent()
+{
+	mOriginalData->CopyDataFrom(*mRigidBody);
 }
 
 //drawing text and planet

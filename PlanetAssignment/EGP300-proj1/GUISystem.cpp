@@ -28,6 +28,9 @@ GuiSystem::~GuiSystem()
 
 void GuiSystem::Initialize(int windowWidth, int windowHeight)
 {
+	//set the operation to invalid
+	mOperation = GuiOperationEnum::INVALID_OPERATION;
+
 	//create the frustum
 	mViewFrustum2D = GLFrustum();
 	mViewFrustum2D.SetOrthographic((GLfloat)(0), (GLfloat)(windowWidth), (GLfloat)(0), (GLfloat)(windowHeight), -10.0f, 10.0f);
@@ -96,7 +99,7 @@ void GuiSystem::AddButton(GuiOperationEnum type, const std::string &spriteNormal
 
 	int index = (int)type;
 	mGuiButtons[index] = new GUIButton(spriteNormal, spriteHover, spriteSelected, startX + index * 32, startY);
-	//mGuiButtons[index] = new GUIImage(sprite, 2, 34);
+	mGuiButtons[index]->setType(type);
 }
 void GuiSystem::Cleanup()
 {
@@ -118,11 +121,16 @@ void GuiSystem::Cleanup()
 }
 
 //called in main
-void GuiSystem::CheckMouse(int x, int y, bool mouseDown)
+void GuiSystem::CheckMouse(int x, int y, bool mouseDown, bool clicked)
 {
+	bool hover;
 	for (unsigned int i = 0; i < mGuiButtons.size(); i++)
 	{
-		mGuiButtons[i]->checkForMouseHover((float)x, (float)y);
+		hover = mGuiButtons[i]->checkForMouseHover((float)x, (float)y);
+		if (clicked && hover)
+		{
+			mOperation = mGuiButtons[i]->getType();
+		}
 	}
 }
 void GuiSystem::UpdateWindowSize(int width, int height)

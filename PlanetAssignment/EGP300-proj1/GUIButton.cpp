@@ -52,6 +52,7 @@ void GUIButton::InitializeButton(Sprite2D* imageNormal, Sprite2D* imageHover, Sp
 
 	mSelected = false;
 	mSelectable = false;
+	mType = GuiOperationEnum::INVALID_OPERATION;
 }
 
 //accessors
@@ -83,6 +84,10 @@ bool GUIButton::containsPoint(float x, float y) const
 		y > mTransform->GetY() && y < mTransform->GetWidth() + mTransform->GetY()
 		);
 }
+GuiOperationEnum GUIButton::getType() const
+{
+	return mType;
+}
 	
 //setters
 void GUIButton::setSelectable(bool selectable)
@@ -101,13 +106,20 @@ void GUIButton::setSpriteSelected(Sprite2D* sprite)
 {
 	mSpriteSelected = sprite;
 }
-void GUIButton::checkForMouseHover(float mouseX, float mouseY)
+bool GUIButton::checkForMouseHover(float mouseX, float mouseY)
 {
+	bool hover = false;
 	if (!mSelected)
 	{
-		if (containsPoint(mouseX, mouseY))
-			mSprite = mSpriteHover;
+		hover = containsPoint(mouseX, mouseY);
+		if (hover)
+			mSprite = mSpriteHover;					
 		else
 			mSprite = mSpriteNormal;
 	}
+	return hover;
+}
+void GUIButton::setType(GuiOperationEnum type)
+{
+	mType = type;
 }

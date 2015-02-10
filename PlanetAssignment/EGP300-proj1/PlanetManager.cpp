@@ -162,6 +162,8 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 		planet->SetGravity((float)g);
 
 
+		planet->SetOriginalDataToCurrent();
+
 		//add the planet to the vector of planets
 		mPlanetVector.push_back(planet);
 
@@ -216,6 +218,14 @@ void PlanetManager::FixedUpdate(double t)
 	for (i = 0; i < mPlanetVector.size(); i++)
 	{
 		mPlanetVector[i]->FinishUpdate();
+	}
+}
+
+void PlanetManager::ResetAllPlanets()
+{
+	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
+	{
+		mPlanetVector[i]->Reset();
 	}
 }
 

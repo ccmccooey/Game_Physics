@@ -1,0 +1,8 @@
+Mercury
+../PlanetTextures/mercury.png
+3.30104e23
+2439.7
+4.6001272e7
+58.98
+87.96926
+3.711

@@ -16,6 +16,7 @@
 class Rectangle2D;
 
 #include "GUIImage.h"
+#include "GuiOperationEnum.h"
 
 class GUIButton :public GUIImage
 {
@@ -23,6 +24,7 @@ private:
 	Sprite2D* mSpriteNormal;
 	Sprite2D* mSpriteHover;
 	Sprite2D* mSpriteSelected;
+	GuiOperationEnum mType;
 	bool mSelectable;
 	bool mSelected;
 
@@ -41,13 +43,15 @@ public:
 	bool isSelected() const;
 	bool isSelectable() const;
 	bool containsPoint(float x, float y) const;
+	GuiOperationEnum getType() const;
 	
 	//setters
 	void setSelectable(bool selectable);
 	void setSpriteNormal(Sprite2D* sprite);
 	void setSpriteHover(Sprite2D* sprite);
 	void setSpriteSelected(Sprite2D* sprite);
-	void checkForMouseHover(float mouseX, float mouseY);
+	void setType(GuiOperationEnum type);
+	bool checkForMouseHover(float mouseX, float mouseY); //returns true if the mouse is over the button
 
 private:
 	void InitializeButton(Sprite2D* imageNormal, Sprite2D* imageHover, Sprite2D* imageSelected);
