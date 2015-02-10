@@ -6,6 +6,7 @@ class GuiSystem;
 class PlanetManager;
 class ParticleSystem;
 class TextRenderer;
+class Skybox;
 struct DrawData;
 
 #include "GLfiles.h"
@@ -21,6 +22,7 @@ private:
 	GLShaderManager mShaderManager;
 	TextRenderer*	mTextRenderer;
 	PlanetManager* mPlanetManager;
+	Skybox* mSkybox;
 	int mWindowWidth;
 	int mWindowHeight;
 	bool mPaused;
@@ -41,6 +43,7 @@ public:
 	void IncreaseRunSpeed(double amount);
 	void DecreaseRunSpeed(double amount);
 	void CheckGui();
+	void UpdateSkyboxPosition();
 
 	void RenderScene();
 

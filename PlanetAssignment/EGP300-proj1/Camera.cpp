@@ -52,6 +52,10 @@ Vector3f Camera::getCameraForward() const
 {
 	return mForward;
 }
+Vector3f Camera::getPosition() const
+{
+	return mPosition;
+}
 
 //The math is wrong HELP!
 void Camera::updateView()

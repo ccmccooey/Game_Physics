@@ -41,6 +41,7 @@
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Rectangle2D.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="Sprite2D.cpp" />
     <ClCompile Include="Sprite2DManager.cpp" />
     <ClCompile Include="TextField.cpp" />
@@ -95,6 +96,7 @@
     <ClInclude Include="Rectangle2D.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="Skybox.h" />
     <ClInclude Include="Sprite2D.h" />
     <ClInclude Include="Sprite2DManager.h" />
     <ClInclude Include="TextField.h" />

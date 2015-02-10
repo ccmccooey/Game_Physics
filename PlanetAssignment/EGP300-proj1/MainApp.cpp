@@ -6,6 +6,7 @@
 #include "Planet.h"
 #include "GravityForceGenerator.h"
 #include "RigidBody.h"
+#include "Skybox.h"
 
 //constructor
 MainApp::MainApp()
@@ -76,9 +77,14 @@ void MainApp::Initialize()
 			mParticleSystem->AddRigidBody(mPlanetManager->GetPlanetAt(i)->GetRigidBody());
 		}
 	}
+
+	//create the skybox
+	mSkybox = new Skybox("../OtherTextures/skybox.png");
+	UpdateSkyboxPosition();
 }
 void MainApp::CleanUp()
 {
+	delete mSkybox;
 	delete mCamera;
 	delete mParticleSystem;
 	delete mGuiSystem;
@@ -109,26 +115,32 @@ void MainApp::CheckKeyboardInput(unsigned char key)
 	if (key == 'A' || key == 'a')
 	{
 		mCamera->moveCamera(-1.0f, 0.0f, 0.0f);
+		UpdateSkyboxPosition();
 	}
 	if (key == 'S' || key == 's')
 	{
 		mCamera->moveCamera(0.0f, 0.0f, -1.0f);
+		UpdateSkyboxPosition();
 	}
 	if (key == 'D' || key == 'd')
 	{
 		mCamera->moveCamera(1.0f, 0.0f, 0.0f);
+		UpdateSkyboxPosition();
 	}
 	if (key == 'W' || key == 'w')
 	{
 		mCamera->moveCamera(0.0f, 0.0f, 1.0f);
+		UpdateSkyboxPosition();
 	}
 	if (key == 'R' || key == 'r')
 	{
 		mCamera->moveCamera(0.0f, 1.0f, 0.0f);
+		UpdateSkyboxPosition();
 	}
 	if (key == 'F' || key == 'f')
 	{
 		mCamera->moveCamera(0.0f, -1.0f, 0.0f);
+		UpdateSkyboxPosition();
 	}
 }
 void MainApp::CheckSpecialKeyboardInput(int key, int x, int y)
@@ -144,12 +156,14 @@ void MainApp::CheckSpecialKeyboardInput(int key, int x, int y)
 	if (key == GLUT_KEY_UP)
 	{
 		mCamera->moveCamera(mCamera->getCameraForward() * mCameraMoveSpeed);
+		UpdateSkyboxPosition();
 	}
 	if (key == GLUT_KEY_DOWN)
 	{
 		float angle = mCamera->getRotationAngle();
 		m3dDegToRad(angle);
 		mCamera->moveCamera(mCamera->getCameraForward() * -mCameraMoveSpeed);
+		UpdateSkyboxPosition();
 	}
 	if (key == GLUT_KEY_PAGE_DOWN)
 	{
@@ -184,6 +198,7 @@ void MainApp::RenderScene()
 	mDrawData->view = &view;
 
 	mPlanetManager->Draw(mDrawData);
+	mSkybox->Draw(mDrawData);
 
 	mGuiSystem->DrawGUI(&mShaderManager);
 }
@@ -240,4 +255,12 @@ void MainApp::DecreaseRunSpeed(double amount)
 	{
 		mRunSpeed = 1000.0;
 	}
+}
+
+void MainApp::UpdateSkyboxPosition()
+{
+	//Vector3f cameraPosition = mCamera->getPosition();
+	//Vector3f position = cameraPosition + Vector3f(0.0f, 5.0f, 30.0f);
+	mSkybox->SetPostion(Vector3f::zero);
+	//mSkybox->SetPostion(position);
 }

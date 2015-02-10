@@ -180,6 +180,9 @@
     <ClCompile Include="MainOld.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -320,6 +323,9 @@
     </ClInclude>
     <ClInclude Include="MainApp.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skybox.h">
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

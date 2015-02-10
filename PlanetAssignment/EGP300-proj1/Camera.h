@@ -36,11 +36,13 @@ public:
 	M3DMatrix44f mView;
 	Camera();
 	~Camera();
+
 	//accessors
 	M3DMatrix44f &getView(){return mView;};
 	float getRotationAngle(){return mRotationAngle;};
 	Quaternion getRotation() const;
 	Vector3f getCameraForward() const;
+	Vector3f getPosition() const;
 
 	//setters
 	void resetEveryPossibleThing();
