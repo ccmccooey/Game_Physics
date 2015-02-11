@@ -1,7 +1,7 @@
 #ifndef _SKY_BOX_H
 #define _SKY_BOX_H
 
-class DisplayObject3D;
+class Transform;
 class Material;
 class Texture;
 class Model;
@@ -16,7 +16,7 @@ private:
 	Texture* mTexture;
 	Material* mMaterial;
 	Model* mModel;
-	DisplayObject3D* mObject;
+	Transform* mTransform;
 
 public:
 	Skybox(const std::string &texturePath);

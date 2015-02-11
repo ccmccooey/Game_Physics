@@ -9,13 +9,13 @@ Skybox::Skybox(const std::string &texturePath)
 	mTexture = new Texture(texturePath);
 	mMaterial = new Material(mTexture);
 	mModel = new Model(mMaterial, Geometry::CUBE);
-	mObject = new DisplayObject3D(mModel);
-	mObject->getTransform()->SetPosition(Vector3f::zero);
-	mObject->getTransform()->Scale(1000.0f);
+	mTransform = new Transform();
+	mTransform->SetPosition(Vector3f::zero);
+	mTransform->Scale(1000.0f);
 }
 Skybox::~Skybox()
 {
-	delete mObject;
+	delete mTransform;
 	delete mModel;
 	delete mMaterial;
 	delete mTexture;
@@ -23,10 +23,18 @@ Skybox::~Skybox()
 
 void Skybox::Draw(DrawData* data)
 {
-	mObject->Draw(data);
+	M3DMatrix44f modelView;
+	M3DMatrix44f mvpMatrix;
+
+	//m3dMatrixMultiply44(modelView, *data->view, mTransform->GetModelMatrix());
+	//m3dMatrixMultiply44(mvpMatrix, *data->frustum, modelView);
+	//shaderManager.UseStockShader(GLT_SHADER_SHADED, mvpMatrix);
+	m3dMatrixMultiply44(mvpMatrix, *data->frustum, mTransform->GetModelMatrix());
+
+	mModel->Draw(data->shaderManager, *data->frustum, modelView, mvpMatrix);
 }
 
 void Skybox::SetPostion(const Vector3f &position)
 {
-	mObject->getTransform()->SetPosition(position);
+	mTransform->SetPosition(position);
 }
