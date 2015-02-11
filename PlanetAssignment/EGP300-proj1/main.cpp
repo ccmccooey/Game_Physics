@@ -37,7 +37,6 @@ void myInit()
 	srand((unsigned int)time(NULL));
 
 	//objects
-	
 	arr = new GLfloat[4];
 	arr[0] = 0.25f;
 	arr[1] = 0.25f;
@@ -58,7 +57,6 @@ void myInit()
 	glLightfv(GL_LIGHT0, GL_AMBIENT, arr);
 	glLightfv(GL_LIGHT0, GL_POSITION, arr);
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, arr);
-
 
 	myLight = new PointLight(1, 2, -10);
 	//myLight->setColor(0.0f, 0.25f, 0.0f, 1.0f);
@@ -101,10 +99,11 @@ void Update(void)
 	glutPostRedisplay();
 }
 
-//it woulda been nice to put this is MainApp.cpp but callbacks do not seem to work on member type functions
+//it woulda been nice to put this is MainApp.cpp but callbacks do not work on member type functions
 void FixedUpdate(int value)
 {
 	double t = (double)value / 1000.0;
+
 	/*
 	double val = 3.0e3;
 	for (int i = 0; i < 1000; i++)
@@ -129,10 +128,12 @@ void Cleanup()
 //This happens when the openGL window size changes
 void ChangeSize(int w, int h)
 {
+	glViewport(0, 0, w, h);
+
 	app->UpdateWindowSize(w, h);
 }
 
-//clicking
+//mouse is clicked
 void MouseClick(int button, int state, int x, int y)
 {
 	if (state == GLUT_DOWN)
@@ -141,11 +142,14 @@ void MouseClick(int button, int state, int x, int y)
 	mouseStateCurrent = state;
 	app->CheckMouseInput(x, y, state == GLUT_DOWN, state == GLUT_DOWN);
 }
+
+//mouse is down and it moves
 void MouseMotionDown(int x, int y)
 {
 	//std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
 	app->CheckMouseInput(x, y, true, false);
 }
+//mouse is up and it moves
 void MouseMotionUp(int x, int y)
 {
 	//std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;

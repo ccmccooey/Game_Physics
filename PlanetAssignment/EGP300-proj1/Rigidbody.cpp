@@ -91,11 +91,11 @@ void Rigidbody::UpdateRenderPosition()
 //fixed update
 void Rigidbody::FixedUpdate(double t)
 {
-	mPosition += mVelocity * t;
+	mAcceleration = mForce * mInverseMass;
 	
 	mVelocity = mVelocity + mAcceleration * t;
 
-	mAcceleration = mForce * mInverseMass;
+	mPosition += mVelocity * t;
 
 	
 	
