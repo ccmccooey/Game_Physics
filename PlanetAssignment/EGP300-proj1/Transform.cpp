@@ -47,8 +47,10 @@ void Transform::UpdateModelMatrix()
 	m3dTranslationMatrix44(mTranslationMatrix, mPosition.x, mPosition.y, mPosition.z);	
 
 	//matrix multiplication
-	m3dMatrixMultiply44(mModelMatrix, mTranslationMatrix, mRotationMatrix);
-	m3dMatrixMultiply44(mModelMatrix, mScalingMatrix, mModelMatrix);
+	//m3dMatrixMultiply44(mModelMatrix, mTranslationMatrix, mRotationMatrix);
+	//m3dMatrixMultiply44(mModelMatrix, mScalingMatrix, mModelMatrix);
+	m3dMatrixMultiply44(mModelMatrix, mRotationMatrix, mScalingMatrix);
+	m3dMatrixMultiply44(mModelMatrix, mTranslationMatrix, mModelMatrix);
 }
 
 //accessors

@@ -158,8 +158,8 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 	//http://stackoverflow.com/questions/7946770/calculating-a-sphere-in-opengl
 
 	float radius = 1.0f;
-	unsigned int rings = 8;
-	unsigned int sectors = 8;
+	unsigned int rings = 9;
+	unsigned int sectors = 9;
 
 
 	float const R = 1.0 / (float)(rings - 1);
@@ -177,6 +177,7 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 	
 	
 	int t = 0;
+	//t = uvFloatCount - 1;
 	//int v = 0;
 	
 	int vCounter = 0; //verts
@@ -192,6 +193,9 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 
 			uvs[t] = (float)s * S; t++;
 			uvs[t] = (float)r * R; t++;
+			
+			//uvs[t] = (float)r * R; t--;
+			//uvs[t] = (float)s * S; t--;
 
 			verts[vCounter] = Vector3f(x * radius, y * radius, z * radius);
 			//= x * radius;
@@ -206,28 +210,56 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 		}
 	}
 
-	int indexCount = rings * sectors * 4;
+	int indexCount = (rings - 1) * (sectors - 1) * 4;
 	int* indicies = new int[indexCount]; //4 for quads
 	int i = 0;
 
-	for (r = 0; r < rings; r++) for (s = 0; s < sectors; s++) 
+	for (r = 0; r < rings - 1; r++)
 	{
-		indicies[i] = r * sectors + s;
-		indicies[i] += 1;
-		i++; 
+		for (s = 0; s < sectors -1 ; s++) 
+		{
 
-		indicies[i] = r * sectors + (s + 1);
-		indicies[i] += 1;
-		i++;
+			indicies[i] = r * sectors + s;
+			indicies[i] += 1;
+			i++; 
 
-		indicies[i] = (r + 1) * sectors + (s + 1);
-		indicies[i] += 1;
-		i++;
+			indicies[i] = r * sectors + (s + 1);
+			indicies[i] += 1;
+			i++;					
 
-		indicies[i] = (r + 1) * sectors + s;
-		indicies[i] += 1;
-		i++;
+			indicies[i] = (r + 1) * sectors + (s + 1);
+			indicies[i] += 1;
+			i++;
+
+			indicies[i] = (r + 1) * sectors + s;
+			indicies[i] += 1;
+			i++;
+
+			
+		
+
+			
+
+			/*
+			indicies[i] = r * sectors + s;
+			indicies[i] += 1;
+			i++; 
+
+			indicies[i] = r * sectors + (s + 1);
+			indicies[i] += 1;
+			i++;
+
+			indicies[i] = (r + 1) * sectors + (s + 1);
+			indicies[i] += 1;
+			i++;
+
+			indicies[i] = (r + 1) * sectors + s;
+			indicies[i] += 1;
+			i++;*/
+		}
 	}
+	//GLfloat* vertsF = MeshCreator::convertVertsToFloats(verts, vertsCount);
+	//GLfloat* theVertFloats = MeshCreator::convertIndexVertexFloatToGLFloats(vertsF, vertsCount, indicies, indexCount);
 
 	GLfloat* theVertFloats = MeshCreator::convertIndexVertexToGLFloats(verts, vertsCount, indicies, indexCount);
 
@@ -244,6 +276,8 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 	delete[] normals;
 	delete[] theVertFloats;
 	delete[] uvs;
+
+	//delete [] vertsF;
 }
 
 /*

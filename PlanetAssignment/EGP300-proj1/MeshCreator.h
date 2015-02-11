@@ -10,8 +10,10 @@ class MeshCreator
 {
 public:
 	static GLfloat* convertIndexVertexToGLFloats(Vector3f* vertexArray, int vertArraySize, int *indexArray, int indexArraySize);
+	static GLfloat* convertIndexVertexFloatToGLFloats(GLfloat* vertexArray, int vertArraySize, int *indexArray, int indexArraySize);
 	static GLfloat* convertIndexArrayToColorData(int indexArraySize);
 	static GLfloat* convertIndexArrayToColorData(Color* colorArray, int vertArraySize, int *colorIndexArray, int colorIndexArraySize);
+	static GLfloat* convertVertsToFloats(Vector3f* vertexArray, int vertArraySize);
 };
 
 #endif

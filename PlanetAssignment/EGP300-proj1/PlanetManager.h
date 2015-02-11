@@ -17,7 +17,7 @@ class TextRenderer;
 
 class PlanetManager
 {
-private:
+public:
 	std::vector<Planet*> mPlanetVector; //the vector of all the planets
 	TextureManager* mPlanetTextures; //the textures that are loaded for each planet are stored here
 	std::vector<Material*> mMaterialVector; // the materials for each planet are stored here
@@ -38,6 +38,7 @@ public:
 	Planet* GetPlanetAt(int index) const;
 	Planet* GetPlanetByName(const std::string &name) const; //this is a search function and is slower then get planet at
 	int GetPlanetCount() const;
+	Model* GetPlanetModel() const;
 
 	void ResetAllPlanets();
 

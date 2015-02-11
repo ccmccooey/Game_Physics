@@ -38,8 +38,12 @@ void MainApp::Initialize()
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
 	mCamera->moveCamera(0.0f, -5.0f, -20.0f);
+	//mCamera->moveCamera(0.0f, 0, 0);
+	//mCamera->setPosition(0.0f, 0.0f, 0.0f);
 	mCameraRotationSpeed = 1.0f;
 	mCameraMoveSpeed = 0.75f;
+
+	
 
 	//gui system
 	mWindowWidth = 800;

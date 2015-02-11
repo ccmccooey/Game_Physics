@@ -202,6 +202,10 @@ Planet* PlanetManager::GetPlanetByName(const std::string &name) const
 	}
 	return planet;
 }
+Model* PlanetManager::GetPlanetModel() const
+{
+	return mPlanetModel;
+}
 int PlanetManager::GetPlanetCount() const
 {
 	return (int)mPlanetVector.size();

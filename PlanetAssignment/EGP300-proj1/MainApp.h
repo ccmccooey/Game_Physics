@@ -23,6 +23,7 @@ private:
 	TextRenderer*	mTextRenderer;
 	PlanetManager* mPlanetManager;
 	Skybox* mSkybox;
+
 	int mWindowWidth;
 	int mWindowHeight;
 	bool mPaused;

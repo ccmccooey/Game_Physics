@@ -67,6 +67,11 @@ void Camera::updateView()
 	m3dTranslationMatrix44(mTranslate, mPosition.x, mPosition.y, mPosition.z);
 	m3dMatrixMultiply44(mView, mRotate, mTranslate);
 	//m3dMatrixMultiply44(mView, mTranslate, mRotate);
+	
+	M3DMatrix44f temp;
+	m3dInvertMatrix44(temp, mView);
+	//m3dCopyMatrix44(mView, temp);
+
 	//m3dInvertMatrix44(mView, mView);
 	//gluLookAt()
 }
@@ -148,7 +153,7 @@ void Camera::rotateCamera(float amount) //rotate on y axis
 	mRotationAngle += amount;
 	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
 	mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
-	mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
+	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
 	mForward = mRotation.getVectorForward();
 	updateView();
 }
