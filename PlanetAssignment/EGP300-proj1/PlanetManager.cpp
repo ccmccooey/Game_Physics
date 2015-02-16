@@ -23,8 +23,8 @@ PlanetManager::~PlanetManager()
 void PlanetManager::IntializeAssets()
 {
 	//create the planet model
-	mPlanetModel = new Model(Geometry::CUBE);
-	//mPlanetModel = new Model(Geometry::SPHERE); //Doesnt work for sphere, the math for calculating all the geometry has problems
+	//mPlanetModel = new Model(Geometry::CUBE);
+	mPlanetModel = new Model(Geometry::SPHERE); //Doesnt work for sphere, the math for calculating all the geometry has problems
 
 	mPlanetTextures = new TextureManager();
 }
@@ -162,6 +162,11 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 		planet->SetGravity((float)g);
 
 
+		if (planet->GetName() == "Moon")
+		{
+			planet->getTransform()->SetScale(0.125f);
+		}
+
 		planet->SetOriginalDataToCurrent();
 
 		//add the planet to the vector of planets
@@ -222,7 +227,7 @@ void PlanetManager::FixedUpdate(double t)
 	for (i = 0; i < mPlanetVector.size(); i++)
 	{
 		mPlanetVector[i]->FinishUpdate();
-	}
+	}	
 }
 
 void PlanetManager::ResetAllPlanets()

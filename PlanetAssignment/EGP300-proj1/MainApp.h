@@ -6,6 +6,7 @@ class GuiSystem;
 class PlanetManager;
 class ParticleSystem;
 class TextRenderer;
+class CameraContainer;
 class Skybox;
 struct DrawData;
 
@@ -15,6 +16,7 @@ class MainApp
 {
 private:
 	Camera* mCamera;
+	CameraContainer* mCameraContainer;
 	GuiSystem*	mGuiSystem;
 	ParticleSystem* mParticleSystem;
 	GLFrustum mViewFrustum3D;

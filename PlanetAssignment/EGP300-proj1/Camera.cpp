@@ -22,7 +22,7 @@ void Camera::resetEveryPossibleThing()
 	//mX = 0.0f;
 	//mY = -2.0f;
 	//mZ = -100.0f;
-	mPosition = Vector3f(0.0f, 0.0f, -10.0f);
+	mPosition = Vector3f(0.0f, 0.0f, 0.0f);
 	mRotation = Quaternion();
 	mForward = Vector3f::unitZ;
 
@@ -64,7 +64,7 @@ void Camera::updateView()
 	mRotation.toRotationMatrix(mRotate);
 	
 	//m3dLoadIdentity44(mRotate);
-	m3dTranslationMatrix44(mTranslate, mPosition.x, mPosition.y, mPosition.z);
+	m3dTranslationMatrix44(mTranslate, -mPosition.x, -mPosition.y, -mPosition.z);
 	m3dMatrixMultiply44(mView, mRotate, mTranslate);
 	//m3dMatrixMultiply44(mView, mTranslate, mRotate);
 	
@@ -77,7 +77,7 @@ void Camera::updateView()
 }
 void Camera::reset()
 {
-	mPosition.Set(0.0f, 0.0f, -10.0f);
+	mPosition.Set(0.0f, 0.0f, 0.0f);
 	m3dLoadIdentity44(mView);
 	m3dLoadIdentity44(mRotate);
 	mForward = mRotation.getVectorForward();
@@ -90,6 +90,12 @@ void Camera::setPosition(float x, float y, float z)
 	mPosition.x = x;
 	mPosition.y = y;
 	mPosition.z = z;
+	mForward = mRotation.getVectorForward();
+	updateView();
+}
+void Camera::setPosition(const Vector3f &position)
+{
+	mPosition = position;
 	mForward = mRotation.getVectorForward();
 	updateView();
 }
@@ -148,12 +154,21 @@ void Camera::moveCamera(const Vector3f &translation)
 }
 
 //rotation functions
-void Camera::rotateCamera(float amount) //rotate on y axis
+void Camera::rotateCameraYaw(float amount) //rotate on y axis
 {
 	mRotationAngle += amount;
 	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
 	mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
 	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
+	mForward = mRotation.getVectorForward();
+	updateView();
+}
+void Camera::rotateCameraPitch(float amount) //rotate on y axis
+{
+	mRotationAngle += amount;
+	mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
+	mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 1.0f, 0.0f, 0.0f);
+	mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
 	mForward = mRotation.getVectorForward();
 	updateView();
 }

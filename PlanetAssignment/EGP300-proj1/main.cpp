@@ -140,7 +140,7 @@ void MouseClick(int button, int state, int x, int y)
 	std::cout << "clickXY (" << x << ", " << y << ")" << std::endl;
 	mouseStatePrevious = mouseStateCurrent;
 	mouseStateCurrent = state;
-	app->CheckMouseInput(x, y, state == GLUT_DOWN, state == GLUT_DOWN);
+	app->CheckMouseInput(x, y, button == GLUT_LEFT, state == GLUT_DOWN);
 }
 
 //mouse is down and it moves
@@ -172,15 +172,15 @@ int main(int argc, char* argv[])
 	glutInitWindowSize(800,600);
 
 	glutCreateWindow("Please make this work HELP");
-	glutReshapeFunc(ChangeSize);
-	glutDisplayFunc(RenderScene);
-	glutSpecialFunc(SpecialKeys);
+	glutReshapeFunc(ChangeSize); //changing the size of the window
+	glutDisplayFunc(RenderScene); //rendering is all here
+	glutSpecialFunc(SpecialKeys); //special glut keyboard input
 	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
-	glutMouseFunc(MouseClick);
-	glutMotionFunc(MouseMotionDown);
-	glutPassiveMotionFunc(MouseMotionUp);
-	glutKeyboardFunc(Keys);
-	glutIdleFunc(Update);
+	glutMouseFunc(MouseClick); //mouse click
+	glutMotionFunc(MouseMotionDown); //mouse drag
+	glutPassiveMotionFunc(MouseMotionUp); //mouse move, no click
+	glutKeyboardFunc(Keys); //keyboard input
+	glutIdleFunc(Update); //uncontrolled update, unfixed framerate
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)

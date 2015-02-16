@@ -1,6 +1,7 @@
 #include "MainApp.h"
 #include "GuiSystem.h"
 #include "PlanetManager.h"
+#include "CameraContainer.h"
 #include "Camera.h"
 #include "ParticleSystem.h"
 #include "Planet.h"
@@ -37,9 +38,12 @@ void MainApp::Initialize()
 	//create the camera
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
-	mCamera->moveCamera(0.0f, -5.0f, -20.0f);
+	mCamera->moveCamera(0.0f, 5.0f, 30.0f);
 	//mCamera->moveCamera(0.0f, 0, 0);
 	//mCamera->setPosition(0.0f, 0.0f, 0.0f);
+
+	mCameraContainer = new CameraContainer(mCamera);
+
 	mCameraRotationSpeed = 1.0f;
 	mCameraMoveSpeed = 0.75f;
 
@@ -72,12 +76,13 @@ void MainApp::Initialize()
 		int i;
 
 		//add force generators for each planet
-		mParticleSystem->AddGravityForceGenerator(mPlanetManager->GetPlanetAt(0)->GetRigidBody());
+		//mParticleSystem->AddGravityForceGenerator(mPlanetManager->GetPlanetAt(0)->GetRigidBody());
 
 		//add all the rigid bodies that will be affected by physics
 		int size = mPlanetManager->GetPlanetCount();
 		for (i = 0; i < size; i++)
 		{
+			mParticleSystem->AddGravityForceGenerator(mPlanetManager->GetPlanetAt(i)->GetRigidBody());
 			mParticleSystem->AddRigidBody(mPlanetManager->GetPlanetAt(i)->GetRigidBody());
 		}
 	}
@@ -88,7 +93,8 @@ void MainApp::Initialize()
 }
 void MainApp::CleanUp()
 {
-	delete mSkybox;
+	delete mSkybox;	
+	delete mCameraContainer;
 	delete mCamera;
 	delete mParticleSystem;
 	delete mGuiSystem;
@@ -109,8 +115,10 @@ void MainApp::FixedUpdate(double t)
 			mUpdateOnlyOnce = false;
 			mPaused = true;
 		}
+		mCameraContainer->Update();
 	}
 	CheckGui();
+
 }
 
 //keyboard input
@@ -118,32 +126,38 @@ void MainApp::CheckKeyboardInput(unsigned char key)
 {
 	if (key == 'A' || key == 'a')
 	{
-		mCamera->moveCamera(-1.0f, 0.0f, 0.0f);
+		mCameraContainer->Translate(-1.0f, 0.0f, 0.0f);
+		//mCamera->moveCamera(-1.0f, 0.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
 	if (key == 'S' || key == 's')
 	{
-		mCamera->moveCamera(0.0f, 0.0f, -1.0f);
+		mCameraContainer->Translate(0.0f, 0.0f, 1.0f);
+		//mCamera->moveCamera(0.0f, 0.0f, -1.0f);
 		UpdateSkyboxPosition();
 	}
 	if (key == 'D' || key == 'd')
 	{
-		mCamera->moveCamera(1.0f, 0.0f, 0.0f);
+		mCameraContainer->Translate(1.0f, 0.0f, 0.0f);
+		//mCamera->moveCamera(1.0f, 0.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
 	if (key == 'W' || key == 'w')
 	{
-		mCamera->moveCamera(0.0f, 0.0f, 1.0f);
+		mCameraContainer->Translate(0.0f, 0.0f, -1.0f);
+		//mCamera->moveCamera(0.0f, 0.0f, 1.0f);
 		UpdateSkyboxPosition();
 	}
 	if (key == 'R' || key == 'r')
 	{
-		mCamera->moveCamera(0.0f, 1.0f, 0.0f);
+		mCameraContainer->Translate(0.0f, 1.0f, 0.0f);
+		//mCamera->moveCamera(0.0f, 1.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
 	if (key == 'F' || key == 'f')
 	{
-		mCamera->moveCamera(0.0f, -1.0f, 0.0f);
+		mCameraContainer->Translate(0.0f, -1.0f, 0.0f);
+		//mCamera->moveCamera(0.0f, -1.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
 }
@@ -151,11 +165,19 @@ void MainApp::CheckSpecialKeyboardInput(int key, int x, int y)
 {
 	if (key == GLUT_KEY_LEFT)
 	{
-		mCamera->rotateCamera(-mCameraRotationSpeed);
+		mCamera->rotateCameraYaw(-mCameraRotationSpeed);
 	}
 	if (key == GLUT_KEY_RIGHT)
 	{
-		mCamera->rotateCamera(mCameraRotationSpeed);
+		mCamera->rotateCameraYaw(mCameraRotationSpeed);
+	}
+	if (key == GLUT_KEY_HOME)
+	{
+		mCamera->rotateCameraPitch(mCameraRotationSpeed);
+	}
+	if (key == GLUT_KEY_END)
+	{
+		mCamera->rotateCameraPitch(-mCameraRotationSpeed);
 	}
 	if (key == GLUT_KEY_UP)
 	{
@@ -234,6 +256,42 @@ void MainApp::CheckGui()
 			break;
 		case GuiOperationEnum::DecreaseSpeed:
 			DecreaseRunSpeed(100000.0);
+			break;
+		case GuiOperationEnum::ViewSolarSystem:
+			mCameraContainer->UnLatch();
+			break;
+		case GuiOperationEnum::ViewMercury:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(1));
+			break;
+		case GuiOperationEnum::ViewVenus:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(2));
+			break;
+		case GuiOperationEnum::ViewEarth:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(3));
+			break;
+		case GuiOperationEnum::ViewMars:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(4));
+			break;
+		case GuiOperationEnum::ViewJupiter:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(5));
+			break;
+		case GuiOperationEnum::ViewSaturn:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(6));
+			break;
+		case GuiOperationEnum::ViewUranus:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(7));
+			break;
+		case GuiOperationEnum::ViewNeptune:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(8));
+			break;
+		case GuiOperationEnum::ViewPluto:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(9));
+			break;
+		case GuiOperationEnum::ViewEris:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(10));
+			break;
+		case GuiOperationEnum::ViewMoon:
+			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(11));
 			break;
 		}
 	}

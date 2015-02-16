@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="BasicGeometry.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
@@ -64,6 +65,7 @@
   <ItemGroup>
     <ClInclude Include="BasicGeometry.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraContainer.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
     <ClInclude Include="DrawData.h" />
@@ -123,7 +125,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

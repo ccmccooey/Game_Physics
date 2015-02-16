@@ -48,7 +48,7 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	mGuiSpriteManager = new Sprite2DManager();
 
 	//allocate space for the buttons
-	int size = 9;
+	int size = 20;
 	mGuiButtons = vector<GUIButton*>(size);
 
 	//declare the initial positon of the buttons
@@ -69,7 +69,23 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	AddButtonAndSprite(GuiOperationEnum::RemoveAllCustomPlanets, "RemoveAllCustomPlanetsButton", 256, 0, 32, 32);
 
 	//planet buttons
-	
+	int y = 64;
+	int s = 32;
+
+	mRowX = 0;
+	mRowY = 32;
+
+	AddButtonAndSprite(GuiOperationEnum::ViewSolarSystem, "ViewSolarSystem", 32, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewMercury, "ViewMercury", 64, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewVenus, "ViewVenus", 96, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewEarth, "ViewEarth", 128, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewMars, "ViewMars", 160, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewJupiter, "ViewJupiter", 192, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewSaturn, "ViewSaturn", 224, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewUranus, "ViewUranus", 256, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewNeptune, "ViewNeptune", 288, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewPluto, "ViewPluto", 320, y, s, s);
+	AddButtonAndSprite(GuiOperationEnum::ViewEris, "ViewEris", 352, y, s, s);
 }
 
 //Add a button and a sprite using the sprite button texture, create the hover version as well by adding 32 to the sourceY
@@ -98,8 +114,9 @@ void GuiSystem::AddButton(GuiOperationEnum type, const std::string &spriteNormal
 	Sprite2D* spriteSelected = mGuiSpriteManager->FindSprite(spriteSelectedKey);
 
 	int index = (int)type;
-	mGuiButtons[index] = new GUIButton(spriteNormal, spriteHover, spriteSelected, startX + index * 32, startY);
+	mGuiButtons[index] = new GUIButton(spriteNormal, spriteHover, spriteSelected, mRowX, mRowY);
 	mGuiButtons[index]->setType(type);
+	mRowX += 32;
 }
 void GuiSystem::Cleanup()
 {

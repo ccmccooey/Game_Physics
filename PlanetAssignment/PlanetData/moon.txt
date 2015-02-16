@@ -1,0 +1,8 @@
+Moon
+../PlanetTextures/moon.png
+7.3459e22
+1737.5
+147452431
+31.366
+0
+1.62

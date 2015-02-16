@@ -191,8 +191,11 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 			float const x = cos(2 * PI * s * S) * sin(PI * r * R);
 			float const z = sin(2 * PI * s * S) * sin(PI * r * R);
 
-			uvs[t] = (float)s * S; t++;
-			uvs[t] = (float)r * R; t++;
+			uvs[t] = (float)s * S; 
+			t++;
+			
+			uvs[t] = (float)r * R;
+			t++;
 			
 			//uvs[t] = (float)r * R; t--;
 			//uvs[t] = (float)s * S; t--;
@@ -235,11 +238,6 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 			indicies[i] += 1;
 			i++;
 
-			
-		
-
-			
-
 			/*
 			indicies[i] = r * sectors + s;
 			indicies[i] += 1;
@@ -258,6 +256,26 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 			i++;*/
 		}
 	}
+
+	//reverse it
+	/*
+	int ub = indexCount - 1;
+	int lb = 0;
+	int dif = ub - lb;
+	int tmp;
+
+	while (dif > 0)
+	{
+		tmp = indicies[lb];
+		indicies[lb] = indicies[ub];
+		indicies[ub] = tmp;
+		ub--;
+		lb++;
+
+		dif = ub - lb;
+	}*/
+
+
 	//GLfloat* vertsF = MeshCreator::convertVertsToFloats(verts, vertsCount);
 	//GLfloat* theVertFloats = MeshCreator::convertIndexVertexFloatToGLFloats(vertsF, vertsCount, indicies, indexCount);
 
