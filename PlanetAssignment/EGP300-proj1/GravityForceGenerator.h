@@ -16,6 +16,7 @@ public:
 	GravityForceGenerator();
 	~GravityForceGenerator();
 
+	Rigidbody* GetSource() const;
 
 	void ApplyForce(Rigidbody* rb, double t);
 	void SetRigidBody(Rigidbody* sourceOfForce);

@@ -69,7 +69,7 @@ float Transform2D::GetWidth() const
 {
 	return mScale.x;
 }
-float Transform2D::GetHeiht() const
+float Transform2D::GetHeight() const
 {
 	return mScale.y;
 }

@@ -31,7 +31,7 @@ void Planet::FixedUpdate(double t) const
 void Planet::FinishUpdate() const
 {
 	//mRigidBody->FinishUpdate();
-	mLabel->SetPosition(mTransform->GetPosition() - (Vector3f::unitX * 0.75f) + (Vector3f::unitY * 2.0f));
+	mLabel->SetPosition(mTransform->GetPosition() - (Vector3f::unitX * 0.75f) + (Vector3f::unitY * mTransform->GetScale().Average() + Vector3f::unitY));
 }
 
 //accessors
@@ -50,6 +50,14 @@ float Planet::GetGravity() const
 TextField* Planet::GetTextField() const
 {
 	return mLabel;
+}
+void Planet::GetDebugInfo(std::string &out) const
+{
+	out = mName + " Debug Information\n"
+		+ "Position: " + mRigidBody->GetPosition().ToString() + "km\n"
+		+ "Velocity: " + mRigidBody->GetVelocity().ToString() + "km/s\n"
+		+ "Acceleration: " +mRigidBody->GetVelocity().ToString() + "km/s^2\n"
+		+ "Mass: " +std::to_string(mRigidBody->GetMass()) +"kg";
 }
 
 //setters

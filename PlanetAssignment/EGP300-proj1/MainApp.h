@@ -33,6 +33,7 @@ private:
 	float mCameraRotationSpeed;
 	float mCameraMoveSpeed;
 	bool mUpdateOnlyOnce;
+	int mPlanetIndex;
 
 public:
 	MainApp();
@@ -46,6 +47,7 @@ public:
 	void IncreaseRunSpeed(double amount);
 	void DecreaseRunSpeed(double amount);
 	void CheckGui();
+	void UpdateDebugInformation();
 	void UpdateSkyboxPosition();
 
 	void RenderScene();

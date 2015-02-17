@@ -43,3 +43,26 @@ void ParticleSystem::AddRigidBody(Rigidbody* rb)
 {
 	mParticles.push_back(rb);
 }
+
+
+void ParticleSystem::RemoveFromSystem(Rigidbody* rb)
+{
+	unsigned int i;
+	for (i = 0; i < mParticles.size(); i++)
+	{
+		if (rb == mParticles[i])
+		{
+			mParticles.begin() + i;
+			break;
+		}
+	}
+
+}
+
+void ParticleSystem::RemoveLast()
+{
+	mParticles.pop_back();
+	ParticleForceGenerator* fg = mRegistry.back();
+	delete fg;
+	mRegistry.pop_back();
+}

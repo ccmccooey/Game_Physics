@@ -1,6 +1,8 @@
 #include "TextField.h"
 #include "Transform.h"
 
+#define TEXT_UNIT 0.35f
+
 //constructors
 TextField::TextField()
 {
@@ -36,6 +38,8 @@ void TextField::Initialize(float x, float y, float z, const std::string &text)
 	mTransform = new Transform(Vector3f(x, y, z));
 	mText = text;
 	mFontSize = 16;
+	mSize = TEXT_UNIT;
+	mEolSpacing = TEXT_UNIT * 2.0f;
 }
 
 //accessors
@@ -70,6 +74,18 @@ float TextField::GetTextLength() const
 float TextField::GetFontSize() const
 {
 	return mFontSize;
+}
+float TextField::GetSize() const
+{
+	return mSize;
+}
+float TextField::GetEolSpacing() const
+{
+	return mEolSpacing;
+}
+bool TextField::IsEmptyText() const
+{
+	return mText.length() <= 0;
 }
 
 //setters
@@ -108,6 +124,15 @@ void TextField::ClearText()
 void TextField::SetFontSize(float size)
 {
 	mFontSize = size;
+}
+void TextField::SetSize(float size)
+{
+	mSize = size;
+	mTransform->SetScale(size / TEXT_UNIT);
+}
+void TextField::SetEolSpacing(float eolSpacing)
+{
+	mEolSpacing = eolSpacing;
 }
 void TextField::CopyDataFrom(const TextField& other)
 {

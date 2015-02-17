@@ -12,6 +12,8 @@ private:
 	Transform* mTransform;
 	std::string mText;
 	float mFontSize;
+	float mSize;
+	float mEolSpacing;
 
 public:
 	TextField();
@@ -31,6 +33,9 @@ public:
 	Transform* GetTransform() const;
 	float GetTextLength() const;
 	float GetFontSize() const;
+	float GetSize() const;
+	float GetEolSpacing() const;
+	bool IsEmptyText() const;
 
 	//setters
 	void SetX(float x);
@@ -39,6 +44,8 @@ public:
 	void SetPosition(float x, float y, float z);
 	void SetPosition(const Vector3f &position);
 	void SetFontSize(float size);
+	void SetSize(float size);
+	void SetEolSpacing(float eolSpacing);
 
 	void SetText(const std::string &text);
 	void AppendText(const std::string &text);

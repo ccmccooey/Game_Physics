@@ -22,6 +22,8 @@ public:
 
 	void AddGravityForceGenerator(Rigidbody* source);
 	void AddRigidBody(Rigidbody* rb);
+	void RemoveFromSystem(Rigidbody* rb);
+	void RemoveLast();
 };
 
 #endif

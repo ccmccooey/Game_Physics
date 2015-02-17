@@ -14,11 +14,11 @@ class TextRenderer;
 #include "PlanetScaleFactor.h"
 
 
-
 class PlanetManager
 {
 public:
 	std::vector<Planet*> mPlanetVector; //the vector of all the planets
+	std::vector<Planet*> mCustomPlanetVector; //the vector of all the planets
 	TextureManager* mPlanetTextures; //the textures that are loaded for each planet are stored here
 	std::vector<Material*> mMaterialVector; // the materials for each planet are stored here
 	Model* mPlanetModel; //the model geometry that all the planets will use
@@ -33,6 +33,9 @@ public:
 	void CleanUp();
 	bool AddPlanet(const std::string &dataFilePath);
 	bool AddPlanetList(const std::string &dataFilePath);
+	Planet* AddPlanetRandom(const Vector3f &graphicsPosition);
+	void RemoveLastRandomPlanet();
+	int RemoveAllRandomPlanets();
 
 	//accessors
 	Planet* GetPlanetAt(int index) const;

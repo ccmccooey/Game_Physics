@@ -44,7 +44,7 @@ public:
 	float GetX() const;
 	float GetY() const;
 	float GetWidth() const;
-	float GetHeiht() const;
+	float GetHeight() const;
 	Vector2f GetPosition() const;
 	float GetRotation() const;
 	Vector2f GetScale() const;

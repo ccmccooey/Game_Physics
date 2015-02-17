@@ -90,6 +90,9 @@ void MainApp::Initialize()
 	//create the skybox
 	mSkybox = new Skybox("../OtherTextures/skybox.png");
 	UpdateSkyboxPosition();
+
+	//debug text
+	mPlanetIndex = 0;
 }
 void MainApp::CleanUp()
 {
@@ -116,9 +119,18 @@ void MainApp::FixedUpdate(double t)
 			mPaused = true;
 		}
 		mCameraContainer->Update();
+		
+		
+		UpdateDebugInformation();
 	}
 	CheckGui();
 
+}
+void MainApp::UpdateDebugInformation()
+{
+	std::string textOut = "";
+	mPlanetManager->GetPlanetAt(mPlanetIndex)->GetDebugInfo(textOut);
+	mGuiSystem->SetDebugText(textOut);
 }
 
 //keyboard input
@@ -226,7 +238,7 @@ void MainApp::RenderScene()
 	mPlanetManager->Draw(mDrawData);
 	mSkybox->Draw(mDrawData);
 
-	mGuiSystem->DrawGUI(&mShaderManager);
+	mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
 }
 
 //perform operations for the gui
@@ -257,41 +269,88 @@ void MainApp::CheckGui()
 		case GuiOperationEnum::DecreaseSpeed:
 			DecreaseRunSpeed(100000.0);
 			break;
+		case GuiOperationEnum::ToggleDebugInformation:
+			mGuiSystem->ToggleDebugText();
+			break;
+		case GuiOperationEnum::AddCustomPlanet:
+			{
+				Planet* planet = mPlanetManager->AddPlanetRandom(mCameraContainer->GetCamera()->getPosition() - (Vector3f::unitZ * 10.0f));
+				mParticleSystem->AddGravityForceGenerator(planet->GetRigidBody());
+				mParticleSystem->AddRigidBody(planet->GetRigidBody());
+				break;
+			}
+		case GuiOperationEnum::RemoveCustomPlanet:
+			mParticleSystem->RemoveLast();
+			mPlanetManager->RemoveLastRandomPlanet();
+			break;
+		case GuiOperationEnum::RemoveAllCustomPlanets:
+			{
+				int total = mPlanetManager->RemoveAllRandomPlanets();
+				for (int i = 0; i < total; i++)
+				{
+					mParticleSystem->RemoveLast();
+				}
+				break;
+			}
 		case GuiOperationEnum::ViewSolarSystem:
 			mCameraContainer->UnLatch();
+			mPlanetIndex = 0;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewMercury:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(1));
+			mPlanetIndex = 1;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewVenus:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(2));
+			mPlanetIndex = 2;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewEarth:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(3));
+			mPlanetIndex = 3;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewMars:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(4));
+			mPlanetIndex = 4;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewJupiter:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(5));
+			mPlanetIndex = 5;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewSaturn:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(6));
+			mPlanetIndex = 6;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewUranus:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(7));
+			mPlanetIndex = 7;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewNeptune:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(8));
+			mPlanetIndex = 8;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewPluto:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(9));
+			mPlanetIndex = 9;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewEris:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(10));
+			mPlanetIndex = 10;
+			UpdateDebugInformation();
 			break;
 		case GuiOperationEnum::ViewMoon:
 			mCameraContainer->Latch(mPlanetManager->GetPlanetAt(11));
+			mPlanetIndex = 11;
+			UpdateDebugInformation();
 			break;
 		}
 	}

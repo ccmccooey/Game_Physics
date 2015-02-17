@@ -4,6 +4,7 @@
 #include "Material.h"
 #include "Planet.h"
 #include "Model.h"
+#include "Random.h"
 #include <queue>
 #include <fstream>
 #include <iostream>
@@ -27,6 +28,8 @@ void PlanetManager::IntializeAssets()
 	mPlanetModel = new Model(Geometry::SPHERE); //Doesnt work for sphere, the math for calculating all the geometry has problems
 
 	mPlanetTextures = new TextureManager();
+
+	mCustomPlanetVector = vector<Planet*>();
 }
 void PlanetManager::CleanUp()
 {
@@ -38,6 +41,12 @@ void PlanetManager::CleanUp()
 		delete mPlanetVector[i];
 	}
 	mPlanetVector.clear();
+
+	for (i = 0; i < mCustomPlanetVector.size(); i++)
+	{
+		delete mCustomPlanetVector[i];
+	}
+	mCustomPlanetVector.clear();
 
 	//delete the planet model
 	delete mPlanetModel;
@@ -184,6 +193,65 @@ bool PlanetManager::AddPlanet(const std::string &dataFilePath)
 	reader.close();
 	return ok;
 }
+Planet* PlanetManager::AddPlanetRandom(const Vector3f &graphicsPosition)
+{
+	Planet* planet = new Planet(mPlanetModel);
+
+	bool huge = Random::Bool(1, 5);
+
+	//material
+	int index = Random::Range((int)mMaterialVector.size() - 1);
+	planet->SetMaterial(mMaterialVector[index]);
+
+	//mass
+	Rigidbody* rb = planet->GetRigidBody();
+	double d = Random::ArithmeticDouble();
+	double mass = 1e10 + d * 1e14;
+	if (huge)
+		mass += 1.5e30;
+	rb->SetMass((float)mass);
+
+	//velocity
+	float velocity = 20.0f + Random::ArithmeticFloat() * 75.0f;
+	rb->SetVelocity(velocity);
+
+	//position
+	Vector3f physicsPosition = mOrigin + (graphicsPosition / PLANET_DISTANCE_SCALE);
+	physicsPosition.y = mOrigin.y;
+	rb->SetPosition(physicsPosition);
+
+	//scale
+	float radius = 1.0f + Random::ArithmeticFloat() * 2.0f;
+	if (huge)
+		radius += 5.0f;
+	planet->getTransform()->SetScale((float)radius);
+
+	//name
+	string name = "";
+	name += Random::RandomLetter();
+	for (int i = 0; i < 9; i++)
+		name += Random::RandomLetterOrDigit();
+	planet->SetName(name);
+
+	mCustomPlanetVector.push_back(planet);
+	return planet;
+}
+void PlanetManager::RemoveLastRandomPlanet()
+{
+	Planet* last = mCustomPlanetVector.back();
+	mCustomPlanetVector.pop_back();
+	delete last;
+}
+int PlanetManager::RemoveAllRandomPlanets()
+{
+	unsigned int size = (int)mCustomPlanetVector.size();
+	for (unsigned int i = 0; i < size; i++)
+	{
+		delete mCustomPlanetVector[i];
+	}
+	mCustomPlanetVector.clear();
+	return (int)size;
+}
 
 //search functions
 Planet* PlanetManager::GetPlanetAt(int index) const
@@ -228,6 +296,15 @@ void PlanetManager::FixedUpdate(double t)
 	{
 		mPlanetVector[i]->FinishUpdate();
 	}	
+
+	for (i = 0; i < mCustomPlanetVector.size(); i++)
+	{
+		mCustomPlanetVector[i]->FixedUpdate(t);
+	}
+	for (i = 0; i < mCustomPlanetVector.size(); i++)
+	{
+		mCustomPlanetVector[i]->FinishUpdate();
+	}	
 }
 
 void PlanetManager::ResetAllPlanets()
@@ -244,6 +321,10 @@ void PlanetManager::Draw(DrawData* drawData)
 	for (unsigned int i = 0; i < mPlanetVector.size(); i++)
 	{
 		mPlanetVector[i]->DrawAll(drawData);
+	}
+	for (unsigned int i = 0; i < mCustomPlanetVector.size(); i++)
+	{
+		mCustomPlanetVector[i]->DrawAll(drawData);
 	}
 }
 

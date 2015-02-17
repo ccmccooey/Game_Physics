@@ -113,7 +113,8 @@ void TextRenderer::DrawTextField(TextField* current, const M3DMatrix44f &project
 	GLBatch* batch;
 	unsigned int j;
 	unsigned int eolCount = 0; //end of line marker count
-	
+	float drawSize = current->GetSize();
+	float eolSpacing = current->GetEolSpacing();
 
 	//draw each character of the textfield
 	for (j = 0; j < text.length(); j++)
@@ -121,8 +122,8 @@ void TextRenderer::DrawTextField(TextField* current, const M3DMatrix44f &project
 		//only need to draw the batch if its not a space
 		if (text[j] == '\n')
 		{
-			current->GetTransform()->SetPosition(originalPosition.x, originalPosition.y + (eolCount * fontSize), originalPosition.z);
 			eolCount++;
+			current->GetTransform()->SetPosition(originalPosition.x, originalPosition.y + (eolCount * eolSpacing), originalPosition.z);		
 		}
 		else
 		{
@@ -139,7 +140,7 @@ void TextRenderer::DrawTextField(TextField* current, const M3DMatrix44f &project
 					batch->Draw();
 				}
 			}
-			current->GetTransform()->Translate(0.35f, 0.0f, 0.001f);
+			current->GetTransform()->Translate(drawSize, 0.0f, 0.001f);
 		}
 	}
 

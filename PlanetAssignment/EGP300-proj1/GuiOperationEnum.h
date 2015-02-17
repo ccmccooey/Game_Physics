@@ -15,6 +15,7 @@ enum GuiOperationEnum
 	AddCustomPlanet,
 	RemoveCustomPlanet,
 	RemoveAllCustomPlanets,
+	ToggleDebugInformation,
 
 	//planet buttons
 	ViewSolarSystem,

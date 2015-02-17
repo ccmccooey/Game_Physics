@@ -243,6 +243,10 @@ void Vector3f::Power(float power)
 	y = powf(y, power);
 	z = powf(z, power);
 }
+float Vector3f::Average() const
+{
+	return (x + y + z) / 3.0f;
+}
 
 //static math functions
 float Vector3f::DotProduct(const Vector3f &first, const Vector3f &second)

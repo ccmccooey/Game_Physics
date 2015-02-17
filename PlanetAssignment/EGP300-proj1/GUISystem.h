@@ -16,6 +16,8 @@
 class Sprite2DManager;
 class GUIButton;
 class Texture;
+class TextRenderer;
+class TextField;
 
 #include "GLfiles.h"
 #include "GuiOperationEnum.h"
@@ -37,22 +39,37 @@ private:
 	Texture* mSpriteSheet; //this texture is the texture for all the gui buttons
 	int mRowX; //indicates the current row of the gui sprites
 	int mRowY; //indicates the current column of the gui sprites
+	TextField* mDebugText;
+	bool mDrawDebugText;
+	TextField* mTooltip;
 
 public:
 	GuiSystem(int windowWidth, int windowHeight);
 	~GuiSystem();
 
+	//accesors
+	std::string GetDebugText() const;
+	bool IsDebugTextEnabled() const;
+
+	//setters
+	void SetDebugText(const std::string &text);
+	void EnableDebugText();
+	void DisableDebugText();
+	void ToggleDebugText();
+
 	//called in main
 	void CheckMouse(int x, int y, bool mouseDown, bool clicked);
 	void UpdateWindowSize(int windowWidth, int windowHeight);
-	void DrawGUI(GLShaderManager* shaderManager);
+	void DrawGUI(GLShaderManager* shaderManager, TextRenderer* textRenderer);
 	void DrawGUI(GLShaderManager* shaderManager, M3DMatrix44f &view, const M3DMatrix44f &projecion);
+
 
 	GuiOperationEnum ReceiveOperation();
 
 private:
 	void Initialize(int windowWidth, int windowHeight);
-	void AddButtonAndSprite(GuiOperationEnum type, const std::string &spriteKey, int sX, int sY, int sW, int sH); //add the button sprite asset to the sprite manager AND create the button display object, the function automatically includes the hover version of the sprite by adding 32 to the source Y data
+	void AddButtonAndSprite(GuiOperationEnum type, const std::string &spriteKey, int sX, int sY, int sW, int sH);
+	void AddButtonAndSprite(GuiOperationEnum type, const std::string &spriteKey, int sX, int sY, int sW, int sH, const std::string &tooltip); //add the button sprite asset to the sprite manager AND create the button display object, the function automatically includes the hover version of the sprite by adding 32 to the source Y data
 	void AddButton(GuiOperationEnum type, const std::string &spriteKey);
 	void AddButton(GuiOperationEnum type, const std::string &spriteNormalKey, const std::string &spriteHoverKey);
 	void AddButton(GuiOperationEnum type, const std::string &spriteNormalKey, const std::string &spriteHoverKey, const std::string &spriteSelectedKey);

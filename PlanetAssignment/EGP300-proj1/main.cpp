@@ -171,7 +171,7 @@ int main(int argc, char* argv[])
 	//glEnable(GL_TEXTURE);
 	glutInitWindowSize(800,600);
 
-	glutCreateWindow("Please make this work HELP");
+	glutCreateWindow("Solar System Simulator");
 	glutReshapeFunc(ChangeSize); //changing the size of the window
 	glutDisplayFunc(RenderScene); //rendering is all here
 	glutSpecialFunc(SpecialKeys); //special glut keyboard input

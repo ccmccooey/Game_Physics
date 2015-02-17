@@ -53,6 +53,7 @@ void GUIButton::InitializeButton(Sprite2D* imageNormal, Sprite2D* imageHover, Sp
 	mSelected = false;
 	mSelectable = false;
 	mType = GuiOperationEnum::INVALID_OPERATION;
+	mTooltip = "";
 }
 
 //accessors
@@ -81,12 +82,16 @@ bool GUIButton::containsPoint(float x, float y) const
 	return 
 		(
 		x > mTransform->GetX() && x < mTransform->GetWidth() + mTransform->GetX() &&
-		y > mTransform->GetY() && y < mTransform->GetWidth() + mTransform->GetY()
+		y > mTransform->GetY() && y < mTransform->GetHeight() + mTransform->GetY()
 		);
 }
 GuiOperationEnum GUIButton::getType() const
 {
 	return mType;
+}
+std::string GUIButton::getTooltip() const
+{
+	return mTooltip;
 }
 	
 //setters
@@ -122,4 +127,8 @@ bool GUIButton::checkForMouseHover(float mouseX, float mouseY)
 void GUIButton::setType(GuiOperationEnum type)
 {
 	mType = type;
+}
+void GUIButton::setTooltip(const std::string &tooltip)
+{
+	mTooltip = tooltip;
 }

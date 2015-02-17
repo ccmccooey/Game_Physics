@@ -85,6 +85,7 @@ void CameraContainer::UpdatePosition()
 	if (mLatchedObject != nullptr)
 	{
 		mCamera->setPosition(mLatchedObject->getTransform()->GetPosition() + mPosition);
+		
 	}
 	else
 	{

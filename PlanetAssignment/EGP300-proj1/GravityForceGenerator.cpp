@@ -17,6 +17,11 @@ GravityForceGenerator::~GravityForceGenerator()
 }
 
 
+Rigidbody* GravityForceGenerator::GetSource() const
+{
+	return mSource;
+}
+
 void GravityForceGenerator::ApplyForce(Rigidbody* rb, double t)
 {
 	//rb->getForce() += 9.8 * mGravityDirection * rb->mass();

@@ -31,6 +31,7 @@ public:
 	std::string GetName() const;
 	float GetGravity() const;
 	TextField* GetTextField() const;
+	void GetDebugInfo(std::string &out) const;
 
 	void DrawAll(DrawData* drawData);
 };
