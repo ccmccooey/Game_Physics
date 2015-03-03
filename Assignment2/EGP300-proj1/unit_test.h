@@ -1,0 +1,1 @@
+//175 linker errors. It did not work at all. Wasted time figuring it out. Does not support C++ 11. Cannot compile with visual studio 2012.

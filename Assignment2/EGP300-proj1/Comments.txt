@@ -1,0 +1,294 @@
+/*
+
+Bare minimum
+
+8 planets + moon + sun
+
+
+
+*/
+
+/* Notes 2/3/15
+
+Christopher McCooey: I am having a really hard time with this. I worked on it and got quickly stuck. Are we adding force every frame? or just on the initialization? It seems to make the most sense for it to be on the initialization, since objects in motion stay in motion.
+
+class one 2: Hi Chris. Glad you're working hard.
+
+Christopher McCooey: My rigidbody class which is really the particle class has an addforce function
+
+class one 2: Every frame we compute the forces applied to a particle.
+
+class one 2: We then compute the acceleration resulting from those forces.
+
+class one 2: We then update the velocity based on that acceleration.
+
+class one 2: We then zero the accumulated force.
+
+class one 2: Force only accumulates within a single time-step.
+
+Christopher McCooey: oh
+
+Christopher McCooey: that explains a lot
+
+class one 2: Force (and acceleration) are computed directly within the time-step.
+
+Christopher McCooey: I did not know we needed to zero it out
+
+class one 2: They do not accumulate between timesteps.
+
+class one 2: Only velocity and position accumulate.
+
+class one 2: Hope that makes it clearer.
+
+class one 2: If you make those adjustments, then things should start to work.
+
+Christopher McCooey: so I have an update function on my particle
+
+Christopher McCooey: Should I add an endUpdate() function?
+
+class one 2: Good suggestion.
+
+class one 2: Or simply have update clear the accumulators after assigning the position and velocity.
+
+class one 2: I'd suggest making a private helper routine onEndUpdate(), and call that from the public routine update(...)
+
+Christopher McCooey: ok
+
+Christopher McCooey: there was another thing that confused me
+
+Christopher McCooey: when I went online to get information, I quickly became overwhelmed by all the different units of measurement and large numbers that obviously would not fit in a floating point value. I have my stuff reading it as (long double) and then it divides the units by a really really small constant float value that I have with #define
+
+class one 2: You mean for the planet mass?
+
+Christopher McCooey: planet mass is one of them
+
+Christopher McCooey: but scale was another
+
+class one 2: You could divide all of the numbers by 1000 (store kilometers instead of m).
+
+class one 2: Or use doubles.
+
+class one 2: How is scale an issue? For sizing the graphics entries?
+
+Christopher McCooey: exactly
+
+Christopher McCooey: so I have planet radius
+
+Christopher McCooey: those numbers are insanly large
+
+class one 2: Hmmm. You should be able to factor scale into your camera matrix.
+
+Christopher McCooey: I am dividing those numbers by a very small number
+
+Christopher McCooey: I starting making things data driven
+
+Christopher McCooey: is it ok to use textfiles? One text file for each planet, one master textfile with all the planets
+
+Christopher McCooey: and a readme text file
+
+Christopher McCooey: indicating the format of each planet text file
+
+class one 2: It's up to you.
+
+class one 2: One file may be simpler, but it's your call.
+
+Christopher McCooey: ok
+
+Christopher McCooey: this is what each planet has:
+
+Christopher McCooey: /* format goes as followsnametexture file pathmassradiusdistance from sunvelocitygravitational forcerotation speed*/
+
+Christopher McCooey : it went all on one line
+
+Christopher McCooey : its not like that on the file
+
+Christopher McCooey : each line is a propert
+
+Christopher McCooey : what about gravitational force ?
+
+Christopher McCooey : is that computed from mass radius ect... ?
+
+Christopher McCooey : or is that data we need to find
+
+class one 2 : Gravity should be computed from the masses, and the distances between the planets.
+
+class one 2 : You'll also need the universal gravitational constant. (G)
+
+	Christopher McCooey : I was also unsure of how to set it up
+
+	Christopher McCooey : I have an update function that passes a time variable
+
+class one 2 : Yes, you need the time variable.
+
+class one 2 : v = v + a*t
+
+	Christopher McCooey : I have a planetManager class that stores all the planets
+
+class one 2 : That sounds good - just make sure your simulation code doesn't include the planet manager.
+
+	Christopher McCooey : you mean the math ?
+
+class one 2 : Well, you should have the engine classes I mentioned - ParticleSimulation, ParticleSet, PFGRegistery, etc.
+
+class one 2 : Your PlanetManager should be a higher level class that references the internals of the particle simulation.
+
+class one 2 : But the particle simulation should not be aware of the planet manager.
+
+	Christopher McCooey : its not
+
+	Christopher McCooey : the planet manager is the highest level right now
+
+class one 2 : That's good.
+
+	Christopher McCooey : it also stores some stuff unrelated to the physics such as textureManagers planetMeshObject ect...
+
+class one 2 : Yeah.You could even split that stuff.
+
+class one 2 : Have a graphics manager that does all of the planet display.
+
+class one 2 : And a higher level class that orchestrates the graphics management and the physics simulation separately.
+
+	Christopher McCooey : I have a particle system class that has all the particles and force generators
+
+	Christopher McCooey : only problem is when a planet is created is contains a rigid body, should the constructor of the rigid body be added to the partcle system ? seems bad
+
+class one 2 : There are a few ways to do this.
+
+class one 2 : Make the planet aware of the particle system.
+
+class one 2 : In the planet constructor, add a particle to the particle system.
+
+class one 2 : Have the planet keep a pointer to the particle so that it can look up position, etc.
+
+class one 2 : Or, have the planet manager add a particle, and pass that to the planet constructor.
+
+class one 2 : That is even nicer, because the particle simulation logic is external to the planet.
+
+	Christopher McCooey : the gravity force generator needs a position and direction ?
+
+	Christopher McCooey : its not like gravity is always down
+
+class one 2 : Can you hear me ?
+
+	Christopher McCooey : yes
+
+class one 2 : Phew!= )
+
+	Christopher McCooey : so the update function in the force generator
+
+	Christopher McCooey : should I pass in the particle ?
+
+	Christopher McCooey : should I pass in the particle ? ]\
+
+class one 2: PFG only has apply force.
+
+class one 2 : Yes, that routine takes a particle.
+
+class one 2 : Or a set of particles.
+
+	Christopher McCooey : and u dont pass in time
+
+	Christopher McCooey : that function tells the particle to add force
+
+	Christopher McCooey : yea
+
+	Christopher McCooey : im still confused about it
+
+	Christopher McCooey : chris is fune
+
+	Christopher McCooey : fine
+
+	Christopher McCooey : its blury
+
+	Christopher McCooey : I do have a mic
+
+	Christopher McCooey : it might work if I plug it in
+
+	Christopher McCooey : very clear
+
+	Christopher McCooey : yes
+
+	Christopher McCooey : yea
+
+	Christopher McCooey : that function calls update ?
+
+	Christopher McCooey : I dont get why time is passed in
+
+	Christopher McCooey : oh
+
+	Christopher McCooey : ok
+
+	Christopher McCooey : yea that was confusing m
+
+	Christopher McCooey : yea I didnt get why duration was passed in that is why I was confused
+
+	Christopher McCooey : yea
+
+	Christopher McCooey : so
+
+	Christopher McCooey : the force generator
+
+	Christopher McCooey : stores a vector 3
+
+	Christopher McCooey : which is the force
+
+	Christopher McCooey : yes
+
+	Christopher McCooey : thats just the direction
+
+	Christopher McCooey : so a normalized vector
+
+	Christopher McCooey : can I see line 12 again ?
+
+	Christopher McCooey : ok
+
+	Christopher McCooey : but in our cases
+
+	Christopher McCooey : that constant will be differerng
+
+	Christopher McCooey : for each planet
+
+	Christopher McCooey : we are getting the angle between two vectors
+
+	Christopher McCooey : two points
+
+	Christopher McCooey : i meant
+
+	Christopher McCooey : I know I need the distance between the positions of the two planets
+
+	Christopher McCooey : then get their mass
+
+	Christopher McCooey : and we need a vector indicating the direction
+
+	Christopher McCooey : the direction is just subtracting the positions and normalizing it ?
+
+	Christopher McCooey : my camera is also a bit of an issue right now
+
+	Christopher McCooey : the inverse
+
+	Christopher McCooey : if I take the inverse
+
+	Christopher McCooey : nothing appears on the screen
+
+	Christopher McCooey : openGL
+
+class one 2 : https ://www.opengl.org/sdk/docs/man2/xhtml/gluLookAt.xml
+
+	Christopher McCooey : we have utility functions for matrix stuff
+
+	Christopher McCooey : there is a gluLookAt()
+
+	Christopher McCooey : gltools has a basic shader
+
+	Christopher McCooey : it has matrix stuff
+
+	Christopher McCooey : and does a lot of the setup and window stuff
+
+class one 2 : https ://github.com/HazimGazov/GLTools
+
+class one 2 : ?
+
+	Christopher McCooey : k
+
+
+*/
