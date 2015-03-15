@@ -7,11 +7,9 @@
 #include "Sprite2D.h"
 #include "GUIImage.h"
 #include "GUISystem.h"
-#include "PlanetManager.h"
 #include "ParticleSystem.h"
 #include "TextRenderer.h"
 #include "MainApp.h"
-#include "Planet.h"
 #include <ctime>
 #include <vector>
 #include <iostream>

@@ -4,7 +4,7 @@
 #include "Camera.h"
 #include "ParticleSystem.h"
 #include "GravityForceGenerator.h"
-#include "RigidBody.h"
+#include "Particle.h"
 #include "Skybox.h"
 
 //constructor

@@ -52,6 +52,12 @@
     <Filter Include="Source Files\Graphics\TextRendering">
       <UniqueIdentifier>{ee4dec64-969d-4d4f-a6b7-f5750bd7f351}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics\ForceGenerators">
+      <UniqueIdentifier>{21b43381-bf08-4271-bb28-9ca53ebbc28e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics\ForceGenerators">
+      <UniqueIdentifier>{da953c2b-fd9f-4b0c-80a1-334cdfa74a73}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -90,12 +96,6 @@
     <ClCompile Include="GUIButton.cpp">
       <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Rigidbody.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="Material.cpp">
       <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
@@ -131,12 +131,6 @@
     </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Source Files\Graphics\3D Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleForceGenerator.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="GravityForceGenerator.cpp">
-      <Filter>Source Files\Physics</Filter>
     </ClCompile>
     <ClCompile Include="ParticleSystem.cpp">
       <Filter>Source Files\Physics</Filter>
@@ -179,6 +173,30 @@
     </ClCompile>
     <ClCompile Include="Random.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleOld.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleContactGenerator.cpp">
+      <Filter>Source Files\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="AnchoredSpringForceGenerator.cpp">
+      <Filter>Source Files\Physics\ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="BungeeForceGenerator.cpp">
+      <Filter>Source Files\Physics\ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="GravityForceGenerator.cpp">
+      <Filter>Source Files\Physics\ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleForceGenerator.cpp">
+      <Filter>Source Files\Physics\ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="SpringForceGenerator.cpp">
+      <Filter>Source Files\Physics\ForceGenerators</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -230,18 +248,6 @@
     </ClInclude>
     <ClInclude Include="Rectangle2D.h">
       <Filter>Header Files\Graphics\2D Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="RigidBody.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleForceGenerator.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="GravityForceGenerator.h">
-      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="ParticleSystem.h">
       <Filter>Header Files\Physics</Filter>
@@ -324,13 +330,34 @@
     <ClInclude Include="Random.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SpringForceGenerator.h">
+    <ClInclude Include="ParticleContact.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleOld.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="ScaleFactor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="GravityForceGenerator.h">
+      <Filter>Header Files\Physics\ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="AnchoredSpringForceGenerator.h">
+      <Filter>Header Files\Physics\ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="BungeeForceGenerator.h">
+      <Filter>Header Files\Physics\ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleForceGenerator.h">
+      <Filter>Header Files\Physics\ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="SpringForceGenerator.h">
+      <Filter>Header Files\Physics\ForceGenerators</Filter>
     </ClInclude>
     <ClInclude Include="ParticleContactGenerator.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleContact.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
   </ItemGroup>

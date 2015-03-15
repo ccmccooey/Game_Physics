@@ -9,17 +9,17 @@
 class GravityForceGenerator :public ParticleForceGenerator
 {
 private:
-	Rigidbody* mSource;
+	Particle* mSource;
 	float mGravityAcceleration; //I know its suppose to be calculated, but the numbers are too massive to be computed, even with long double
 
 public:
 	GravityForceGenerator();
 	~GravityForceGenerator();
 
-	Rigidbody* GetSource() const;
+	Particle* GetSource() const;
 
-	void ApplyForce(Rigidbody* rb, double t);
-	void SetRigidBody(Rigidbody* sourceOfForce);
+	void ApplyForce(Particle* particle, double t);
+	void SetRigidBody(Particle* sourceOfForce);
 };
 
 

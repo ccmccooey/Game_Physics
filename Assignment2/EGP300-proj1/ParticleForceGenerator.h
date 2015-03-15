@@ -1,10 +1,9 @@
 #ifndef _PARTICLE_FORCE_GENERATOR_H
 #define _PARTICLE_FORCE_GENERATOR_H
 
-
 #include "Vector3f.h"
 
-class Rigidbody;
+class Particle;
 
 class ParticleForceGenerator
 {
@@ -15,7 +14,7 @@ public:
 	ParticleForceGenerator();
 	virtual ~ParticleForceGenerator();
 
-	virtual void ApplyForce(Rigidbody* rb, double duration)=0;
+	virtual void ApplyForce(Particle* particle, double duration)=0;
 };
 
 #endif

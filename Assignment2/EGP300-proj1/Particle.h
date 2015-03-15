@@ -1,23 +1,54 @@
 #ifndef _PARTICLE_H
 #define _PARTICLE_H
 
-#include "DisplayObject3D.h"
 #include "Vector3f.h"
 
+class Transform;
 
-class Particle :public DisplayObject3D
+class Particle
 {
+private:
+	Vector3f mPosition;
 	Vector3f mVelocity;
 	Vector3f mAcceleration;
-	Vector3f mForce;
+	Vector3f mAccumulatedForce;
 	float mMass;
+	float mInverseMass;
+	Transform* mTransform;
 
 public:
-	Particle(Model* model);
+	Particle(Transform* transform);
+	Particle(Transform* transform, const Particle &rhs);
+	Particle(const Particle &rhs);
 	~Particle();
 
+	void FixedUpdate(double t);
+	void FinishUpdate();
+
+
+	//accessors
+	Vector3f GetPosition() const;
+	Vector3f GetVelocity() const;
+	Vector3f GetAcceleration() const;
+	Vector3f GetForce() const;
+	float GetMass() const;
+
+	//setters
+	void CopyDataFrom(const Particle &other);
+	void SetVelocity(const Vector3f &velocity);
+	void AddVelocity(const Vector3f &velocity);
+	void SetPosition(const Vector3f &position);
+	void SetPosition(float x, float y, float z);
+	void SetMass(float mass);
+
+	//movement
 	void AddForce(const Vector3f &force);
-	void FixedUpdate();
+	void Translate(const Vector3f &translation);
+	void Translate(float x, float y, float z);
+
+private:
+	void UpdateRenderPosition();
+
 };
 
 #endif

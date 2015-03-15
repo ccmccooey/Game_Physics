@@ -118,6 +118,7 @@ bool Texture::LoadBMPTexture(const char *szFileName, GLenum minFilter, GLenum ma
 {
 	GLbyte *pBits;
 	int nWidth, nHeight, nComponents;
+	nComponents = 0;
 
 	pBits = gltReadBMPBits(szFileName, &nWidth, &nHeight);
 	if (pBits == NULL)

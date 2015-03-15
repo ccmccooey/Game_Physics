@@ -1,10 +1,10 @@
 #include "ParticleSystem.h"
-#include "RigidBody.h"
+#include "Particle.h"
 #include "GravityForceGenerator.h"
 
 ParticleSystem::ParticleSystem()
 {
-	mParticles = vector<Rigidbody*>();
+	mParticles = vector<Particle*>();
 	mRegistry = vector<ParticleForceGenerator*>();
 }
 ParticleSystem::~ParticleSystem()
@@ -33,24 +33,24 @@ void ParticleSystem::FixedUpdate(double t)
 }
 
 
-void ParticleSystem::AddGravityForceGenerator(Rigidbody* source)
+void ParticleSystem::AddGravityForceGenerator(Particle* source)
 {
 	GravityForceGenerator* gfg = new GravityForceGenerator();
 	gfg->SetRigidBody(source);
 	mRegistry.push_back(gfg);
 }
-void ParticleSystem::AddRigidBody(Rigidbody* rb)
+void ParticleSystem::AddRigidBody(Particle* particle)
 {
-	mParticles.push_back(rb);
+	mParticles.push_back(particle);
 }
 
 
-void ParticleSystem::RemoveFromSystem(Rigidbody* rb)
+void ParticleSystem::RemoveFromSystem(Particle* particle)
 {
 	unsigned int i;
 	for (i = 0; i < mParticles.size(); i++)
 	{
-		if (rb == mParticles[i])
+		if (particle == mParticles[i])
 		{
 			mParticles.begin() + i;
 			break;

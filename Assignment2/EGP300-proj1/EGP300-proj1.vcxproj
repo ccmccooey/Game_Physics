@@ -11,7 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="BasicGeometry.cpp" />
+    <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="Color.cpp" />
@@ -30,15 +32,17 @@
     <ClCompile Include="ModelOld.cpp" />
     <ClCompile Include="ModelData.cpp" />
     <ClCompile Include="DisplayObject3D.cpp" />
-    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleContactGenerator.cpp" />
+    <ClCompile Include="ParticleOld.cpp" />
     <ClCompile Include="ParticleForceGenerator.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Rectangle2D.cpp" />
-    <ClCompile Include="Rigidbody.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Skybox.cpp" />
+    <ClCompile Include="SpringForceGenerator.cpp" />
     <ClCompile Include="Sprite2D.cpp" />
     <ClCompile Include="Sprite2DManager.cpp" />
     <ClCompile Include="TextField.cpp" />
@@ -59,7 +63,9 @@
     <Library Include="libs\gltools.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnchoredSpringForceGenerator.h" />
     <ClInclude Include="BasicGeometry.h" />
+    <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
     <ClInclude Include="Color.h" />
@@ -82,7 +88,7 @@
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="DisplayObject3D.h" />
-    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleOld.h" />
     <ClInclude Include="ParticleContact.h" />
     <ClInclude Include="ParticleContactGenerator.h" />
     <ClInclude Include="ParticleDrag.h" />
@@ -93,7 +99,8 @@
     <ClInclude Include="Random.h" />
     <ClInclude Include="Rectangle2D.h" />
     <ClInclude Include="resource.h" />
-    <ClInclude Include="RigidBody.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ScaleFactor.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="Sprite2D.h" />

@@ -265,6 +265,11 @@ bool Vector3f::AlmostEqual(const Vector3f &first, const Vector3f &second)
 {
 	return abs((first - second).LengthSquared()) <= (Vector3f::EPSILON * Vector3f::EPSILON);
 }
+float Vector3f::AngleBetween(const Vector3f &first, const Vector3f &second)
+{
+	//dot(X, Y)=|X||Y|cos(theta)
+	return acosf(DotProduct(first, second) / (first.Length() * second.Length()));
+}
 float Vector3f::Distance(const Vector3f &first, const Vector3f &second)
 {
 	return sqrtf( (powf(second.x - first.x, 2.0f)) + (powf(second.y - first.y, 2.0f)) + (powf(second.z - first.z, 2.0f)));	

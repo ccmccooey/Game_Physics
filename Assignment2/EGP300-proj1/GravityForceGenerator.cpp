@@ -1,6 +1,6 @@
 #include "GravityForceGenerator.h"
-#include "PlanetScaleFactor.h"
-#include "RigidBody.h"
+#include "ScaleFactor.h"
+#include "Particle.h"
 #include <limits>
 
 
@@ -17,14 +17,14 @@ GravityForceGenerator::~GravityForceGenerator()
 }
 
 
-Rigidbody* GravityForceGenerator::GetSource() const
+Particle* GravityForceGenerator::GetSource() const
 {
 	return mSource;
 }
 
-void GravityForceGenerator::ApplyForce(Rigidbody* rb, double t)
+void GravityForceGenerator::ApplyForce(Particle* particle, double t)
 {
-	//rb->getForce() += 9.8 * mGravityDirection * rb->mass();
+	//particle->getForce() += 9.8 * mGravityDirection * particle->mass();
 
 	/*
 	: I know I need the distance between the positions of the two planets
@@ -37,7 +37,7 @@ and we need a vector indicating the direction
 	the direction is just subtracting the positions and normalizing it
 		*/
 
-	if (rb == mSource)
+	if (particle == mSource)
 	{ 
 		//this prevents stuff from having force on itself
 		return;
@@ -47,24 +47,24 @@ and we need a vector indicating the direction
 	if (mSource != nullptr)
 	{
 		
-		mGravityDirection = Vector3f::DirectionTo(mSource->GetPosition(), rb->GetPosition());
+		mGravityDirection = Vector3f::DirectionTo(mSource->GetPosition(), particle->GetPosition());
 		
-		double distance = (double)Vector3f::Distance(rb->GetPosition(), mSource->GetPosition());// *1000; //1000 km to m
+		double distance = (double)Vector3f::Distance(particle->GetPosition(), mSource->GetPosition());// *1000; //1000 km to m
 
-		double val = (double)mSource->GetMass() * GRAVIATAIONAL_CONSTANT * (double)rb->GetMass();
+		double val = (double)mSource->GetMass() * GRAVIATAIONAL_CONSTANT * (double)particle->GetMass();
 		double force =  val / (distance * distance);
 	
-		//float force = GRAVIATAIONAL_CONSTANT * rb->GetMass();
+		//float force = GRAVIATAIONAL_CONSTANT * particle->GetMass();
 		mGravityAcceleration = (float)force;
 
-		//rb->AddForce(mGravityDirection * (rb->GetMass() * mGravityAcceleration));
-		rb->AddForce(mGravityDirection * mGravityAcceleration);
+		//particle->AddForce(mGravityDirection * (particle->GetMass() * mGravityAcceleration));
+		particle->AddForce(mGravityDirection * mGravityAcceleration);
 
-		//rb->AddForce(mGravityDirection * mGravityAcceleration
+		//particle->AddForce(mGravityDirection * mGravityAcceleration
 	}
 }
 
-void  GravityForceGenerator::SetRigidBody(Rigidbody* sourceOfForce)
+void  GravityForceGenerator::SetRigidBody(Particle* sourceOfForce)
 {
 	mSource = sourceOfForce;
 }

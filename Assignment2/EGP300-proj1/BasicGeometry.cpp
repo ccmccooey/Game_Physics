@@ -66,7 +66,7 @@ void BasicGeometry::setDataToCube(GLBatch* batch, Vector3f relativeSpace)
 	GLfloat* theColorFloats = MeshCreator::convertIndexArrayToColorData(indexCount);
 
 	//create the normals
-	GLfloat theNormalFloats[] = {0, 0, -1, 0, 0, 1, 1, -2.98023e-7, 0, -2.68221e-7, -1, -1.19209e-7, -1, 2.23517e-7, -1.3411e-7, 2.38419e-7, 1, 2.08616e-7};
+	GLfloat theNormalFloats[] = {0, 0, -1, 0, 0, 1, 1, (GLfloat)-2.98023e-7, 0, (GLfloat)-2.68221e-7, -1, (GLfloat)-1.19209e-7, -1, (GLfloat)2.23517e-7, (GLfloat)-1.3411e-7, (GLfloat)2.38419e-7, 1, (GLfloat)2.08616e-7};
 
 	//create the uvs
 	GLfloat theUVFloats[] = {0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1,
@@ -162,9 +162,9 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 	unsigned int sectors = 9;
 
 
-	float const R = 1.0 / (float)(rings - 1);
-	float const S = 1.0 / (float)(sectors - 1);
-	int r, s;
+	const float R = 1.0f / (float)(rings - 1);
+	const float S = 1.0f / (float)(sectors - 1);
+	unsigned int r, s;
 
 	int vertsCount = rings * sectors;
 	Vector3f* verts = new Vector3f[vertsCount];
@@ -187,9 +187,9 @@ void BasicGeometry::setDataToSphere(GLBatch* batch)
 	{
 		for (s = 0; s < sectors; s++)
 		{
-			float const y = sin(-PI_DIV2 + PI * r * R);
-			float const x = cos(2 * PI * s * S) * sin(PI * r * R);
-			float const z = sin(2 * PI * s * S) * sin(PI * r * R);
+			float const y = sinf((float)-PI_DIV2 + (float)PI * r * R);
+			float const x = cosf(2 * (float)PI * s * S) * sin((float)PI * r * R);
+			float const z = sinf(2 * (float)PI * s * S) * sin((float)PI * r * R);
 
 			uvs[t] = (float)s * S; 
 			t++;

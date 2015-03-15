@@ -1,5 +1,5 @@
 #include "ParticleForceGenerator.h"
-#include "RigidBody.h"
+#include "Particle.h"
 
 ParticleForceGenerator::ParticleForceGenerator()
 {
@@ -11,7 +11,7 @@ ParticleForceGenerator::~ParticleForceGenerator()
 
 }
 
-void ParticleForceGenerator::ApplyForce(Rigidbody* rb, double t)
+void ParticleForceGenerator::ApplyForce(Particle* particle, double t)
 {
 
 

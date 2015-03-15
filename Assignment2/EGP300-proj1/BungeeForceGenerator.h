@@ -1,10 +1,10 @@
-#ifndef _SPRING_FORCE_GENERATOR_H
-#define _SPRING_FORCE_GENERATOR_H
+#ifndef _BUNGEE_FORCE_GENERATOR_H
+#define _BUNGEE_FORCE_GENERATOR_H
 
 #include "Vector3f.h"
 #include "ParticleForceGenerator.h"
 
-class SpringForceGenerator :public ParticleForceGenerator
+class BungeeForceGenerator :public ParticleForceGenerator
 {
 private:
 	const float mK;
@@ -12,12 +12,12 @@ private:
 	Particle* mEndBody;
 
 public:
-	SpringForceGenerator();
-	SpringForceGenerator(Particle* endBody);
-	SpringForceGenerator(float k, float restLength);
-	SpringForceGenerator(float k, float restLength, Particle* endBody);
-	SpringForceGenerator(const SpringForceGenerator& rhs);
-	~SpringForceGenerator();
+	BungeeForceGenerator();
+	BungeeForceGenerator(Particle* endBody);
+	BungeeForceGenerator(float k, float restLength);
+	BungeeForceGenerator(float k, float restLength, Particle* endBody);
+	BungeeForceGenerator(const BungeeForceGenerator& rhs);
+	~BungeeForceGenerator();
 
 	//accessors
 	float GetK() const;

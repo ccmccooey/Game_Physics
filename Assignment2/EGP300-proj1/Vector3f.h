@@ -79,6 +79,7 @@ public:
 	static float CrossProductF(const Vector3f &first, const Vector3f &second);
 	static Vector3f CrossProduct(const Vector3f &first, const Vector3f &second);
 	static bool AlmostEqual(const Vector3f &first, const Vector3f &second);
+	static float AngleBetween(const Vector3f &firstNormal, const Vector3f &secondNormal);
 	static float Distance(const Vector3f &first, const Vector3f &second);
 	static float DistanceSquared(const Vector3f &first, const Vector3f &second);
 	static Vector3f DirectionTo(const Vector3f &from, const Vector3f &to);
