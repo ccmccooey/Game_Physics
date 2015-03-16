@@ -1,6 +1,6 @@
 #include "ParticleContactResolver.h"
 #include "ParticleContact.h"
-
+#include <limits>
 
 ParticleContactResolver::ParticleContactResolver()
 {
@@ -16,7 +16,8 @@ void ParticleContactResolver::MultiPassResolveContacts(ParticleContact **contact
 	int processed = 0;
 	while (processed < mPasses) 
 	{
-		float min_separating_velocity = std::numeric_limits<float>::max();
+		//float min_separating_velocity = std::numeric_limits<float>::max();
+		float min_separating_velocity = std::fmax(FLT_MIN, FLT_MAX);
 		int candidate = 0;
 		for (int x = 0; x < num_contacts; ++x) 
 		{
@@ -43,8 +44,8 @@ void ParticleContactResolver::MultiPassResolveContacts(ParticleContact **contact
 		//Vector3f const & move_a = contacts[candidate]->actor_A_displacement();
 		//Vector3f const & move_b = contacts[candidate]->actor_B_displacement();
 
-		Vector3f const & move_a = contacts[candidate]->GetActorADisplacement();
-		Vector3f const & move_b = contacts[candidate]->GetActorBDisplacement();
+		const Vector3f &move_a = contacts[candidate]->GetActorADisplacement();
+		const Vector3f &move_b = contacts[candidate]->GetActorBDisplacement();
 
 		// Process the best candidate
 		contacts[candidate]->Resolve(duration);
