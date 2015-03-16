@@ -1,11 +1,14 @@
 #include "ParticleSystem.h"
 #include "Particle.h"
 #include "GravityForceGenerator.h"
+#include "ParticleContact.h"
 
 ParticleSystem::ParticleSystem()
 {
 	mParticles = vector<Particle*>();
 	mRegistry = vector<ParticleForceGenerator*>();
+	mContactGenerators = vector<ParticleContactGenerator*>();
+	mActiveContacts = vector<ParticleContact*>();
 }
 ParticleSystem::~ParticleSystem()
 {
@@ -32,14 +35,34 @@ void ParticleSystem::FixedUpdate(double t)
 	}
 }
 
+//getting particles
+Particle* ParticleSystem::GetParticleAt(int index) const
+{
+	if (index >= 0 && index < (int)mParticles.size())
+	{
+		return mParticles[index];
+	}
+	return nullptr;
+}
+int ParticleSystem::GetTotalParticles() const
+{
+	return (int)mParticles.size();
+}
 
+//adding contacts
+void ParticleSystem::AddContact(const ParticleContact *contact)
+{
+	mActiveContacts.push_back(new ParticleContact(*contact));
+}
+
+//adding generators
 void ParticleSystem::AddGravityForceGenerator(Particle* source)
 {
 	GravityForceGenerator* gfg = new GravityForceGenerator();
 	gfg->SetRigidBody(source);
 	mRegistry.push_back(gfg);
 }
-void ParticleSystem::AddRigidBody(Particle* particle)
+void ParticleSystem::AddParticle(Particle* particle)
 {
 	mParticles.push_back(particle);
 }

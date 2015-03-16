@@ -72,7 +72,7 @@ void SpringForceGenerator::ApplyForce(Particle* particle, double t)
 		force -= endPosition;
 
 		float magnitude = force.Length();
-		magnitude = fabs(magnitude - mRestLength);
+		magnitude = abs(magnitude - mRestLength);
 		magnitude *= mK;
 
 		force.Normalize();

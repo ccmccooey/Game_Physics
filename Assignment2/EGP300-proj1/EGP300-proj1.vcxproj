@@ -19,6 +19,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
+    <ClCompile Include="GroundContactGenerator.cpp" />
     <ClCompile Include="GUIButton.cpp" />
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUISystem.cpp" />
@@ -32,9 +33,14 @@
     <ClCompile Include="ModelOld.cpp" />
     <ClCompile Include="ModelData.cpp" />
     <ClCompile Include="DisplayObject3D.cpp" />
+    <ClCompile Include="ParticleCable.cpp" />
+    <ClCompile Include="ParticleContact.cpp" />
     <ClCompile Include="ParticleContactGenerator.cpp" />
+    <ClCompile Include="ParticleContactResolver.cpp" />
+    <ClCompile Include="ParticleLink.cpp" />
     <ClCompile Include="ParticleOld.cpp" />
     <ClCompile Include="ParticleForceGenerator.cpp" />
+    <ClCompile Include="ParticleRod.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
@@ -75,6 +81,7 @@
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GLfiles.h" />
     <ClInclude Include="GravityForceGenerator.h" />
+    <ClInclude Include="GroundContactGenerator.h" />
     <ClInclude Include="GUIButton.h" />
     <ClInclude Include="GUIImage.h" />
     <ClInclude Include="GuiOperationEnum.h" />
@@ -88,11 +95,15 @@
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="DisplayObject3D.h" />
+    <ClInclude Include="ParticleCable.h" />
+    <ClInclude Include="ParticleContactResolver.h" />
+    <ClInclude Include="ParticleLink.h" />
     <ClInclude Include="ParticleOld.h" />
     <ClInclude Include="ParticleContact.h" />
     <ClInclude Include="ParticleContactGenerator.h" />
     <ClInclude Include="ParticleDrag.h" />
     <ClInclude Include="ParticleForceGenerator.h" />
+    <ClInclude Include="ParticleRod.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quaternion.h" />

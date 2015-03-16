@@ -3,23 +3,44 @@
 
 #include "Vector3f.h"
 
-class RigidBody;
+class Particle;
 
 class ParticleContact 
 {
 private:
-	RigidBody *mParticleA, *mParticleB;
+	Particle *mParticleA;
+	Particle *mParticleB;
 	float mRestitution;
 	Vector3f mContactNormal;
 	float mPenetrationDepth;  // +’ve if in collision
 
 public:
-	ParticleContact(RigidBody *a, RigidBody *b);
+	ParticleContact(Particle *a, Particle *b);
+	ParticleContact(Particle *a, Particle *b, float restitution, const Vector3f &contactNormal, float penetrationDepth);
 	ParticleContact(const ParticleContact &rhs);
 	~ParticleContact();
 
-	void Resolve(float duration);
+	//accessors
+	Particle* GetActorA() const;
+	Particle* GetActorB() const;
+	Vector3f GetActorADisplacement() const;
+	Vector3f GetActorBDisplacement() const;
+	float GetRestitution() const;
+	Vector3f GetContactNormal() const;
+	float GetPenetrationDepth() const;
+
+	//setters
+	void SetParticleA(Particle *a);
+	void SetParticleB(Particle *b);
+	void SetRestitution(float restitution);
+	void SetContactNormal(const Vector3f &normal);
+	void SetContactNormal(float normalX, float normalY, float normalZ);
+	void SetPenetrationDepth(float depth);
+
+	//resolution
 	float SeparatingVelocity() const;
+	void Resolve(float duration);
+	
 };
 
 #endif
