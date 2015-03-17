@@ -169,7 +169,7 @@ int main(int argc, char* argv[])
 	//glEnable(GL_TEXTURE);
 	glutInitWindowSize(800,600);
 
-	glutCreateWindow("Solar System Simulator");
+	glutCreateWindow("Mass Aggregate System");
 	glutReshapeFunc(ChangeSize); //changing the size of the window
 	glutDisplayFunc(RenderScene); //rendering is all here
 	glutSpecialFunc(SpecialKeys); //special glut keyboard input

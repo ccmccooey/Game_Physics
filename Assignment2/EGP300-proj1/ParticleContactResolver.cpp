@@ -17,7 +17,7 @@ void ParticleContactResolver::MultiPassResolveContacts(ParticleContact **contact
 	while (processed < mPasses) 
 	{
 		//float min_separating_velocity = std::numeric_limits<float>::max();
-		float min_separating_velocity = std::fmax(FLT_MIN, FLT_MAX);
+		float min_separating_velocity = 0;//std::max(FLT_MIN, FLT_MAX);
 		int candidate = 0;
 		for (int x = 0; x < num_contacts; ++x) 
 		{

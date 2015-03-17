@@ -25,7 +25,7 @@ void MainApp::Initialize()
 	mUpdateOnlyOnce = false; //this is true if the update happens only once
 
 	//initial run speed of the simulation
-	mRunSpeed = 3.0e5;
+	mRunSpeed = 1.0f;
 
 	//stock shaders for basic 3D rendering
 	mShaderManager.InitializeStockShaders();
@@ -37,15 +37,16 @@ void MainApp::Initialize()
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
 	mCamera->moveCamera(0.0f, 5.0f, 30.0f);
-	//mCamera->moveCamera(0.0f, 0, 0);
-	//mCamera->setPosition(0.0f, 0.0f, 0.0f);
 
 	mCameraContainer = new CameraContainer(mCamera);
 
 	mCameraRotationSpeed = 1.0f;
 	mCameraMoveSpeed = 0.75f;
 
-	
+	//draw data
+	mDrawData = new DrawData();
+	mDrawData->textRenderer = mTextRenderer;
+	mDrawData->shaderManager = &mShaderManager;
 
 	//gui system
 	mWindowWidth = 800;
@@ -56,11 +57,8 @@ void MainApp::Initialize()
 	mParticleSystem = new ParticleSystem();
 
 	//create the skybox
-	mSkybox = new Skybox("../OtherTextures/skybox.png");
+	mSkybox = new Skybox("Content/OtherTextures/skybox.png");
 	UpdateSkyboxPosition();
-
-	//debug text
-	mPlanetIndex = 0;
 }
 void MainApp::CleanUp()
 {
@@ -69,7 +67,6 @@ void MainApp::CleanUp()
 	delete mCamera;
 	delete mParticleSystem;
 	delete mGuiSystem;
-	delete mPlanetManager;
 	delete mTextRenderer;
 	delete mDrawData;
 }
@@ -200,6 +197,7 @@ void MainApp::RenderScene()
 	mSkybox->Draw(mDrawData);
 
 	mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
+	//mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
 }
 
 //perform operations for the gui

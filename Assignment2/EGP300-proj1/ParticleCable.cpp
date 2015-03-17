@@ -22,7 +22,7 @@ ParticleCable::~ParticleCable()
 int ParticleCable::AddContact(ParticleSystem* system) 
 {
 	float length = CurrentLength();
-	if (length < mMaxLength) return;
+	if (length < mMaxLength) return 1;
 
 	ParticleContact contact = ParticleContact(mParticleA, mParticleB);
   

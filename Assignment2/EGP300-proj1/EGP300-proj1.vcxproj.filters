@@ -225,6 +225,15 @@
     <ClCompile Include="MassAggregate.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="MassAggregateModels.cpp">
+      <Filter>Source Files\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DisplayObject3DManager.cpp">
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -407,6 +416,15 @@
     </ClInclude>
     <ClInclude Include="MassAggregateGeometry.h">
       <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="MassAggregateModels.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayObject3DManager.h">
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

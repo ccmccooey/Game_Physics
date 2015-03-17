@@ -6,6 +6,11 @@ enum GuiOperationEnum
 	INVALID_OPERATION = -1,
 
 	//main buttons
+	Play,
+	Stop,
+	Reset,
+	DebugInfo,
+	Help,
 
 	TOTAL_OPERATIONS
 };

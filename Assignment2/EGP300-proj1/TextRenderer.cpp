@@ -31,7 +31,7 @@ void TextRenderer::Initialize()
 	glUniform1i(mLocTexture, 0);
 
 	//load the texture
-	mFontSheet = new Texture("../Text/TextSheet.png");
+	mFontSheet = new Texture("Content/Text/TextSheet.png");
 	//mFontSheet = new Texture("../Text/test.png");
 
 	//spritesheet data

@@ -41,16 +41,16 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	m3dTranslationMatrix44(mGuiViewMatrix, ((float)-windowWidth / 2.1f), ((float)windowHeight / 2.2f), 0.0f);
 
 	//create the image directory
-	mGuiImageDirectory = "../GuiButtons/";
+	mGuiImageDirectory = "Content/GuiButtons/";
 
 	//create the texture
-	mSpriteSheet = new Texture(mGuiImageDirectory + "ButtonSpriteSheet.png");
+	mSpriteSheet = new Texture(mGuiImageDirectory + "GuiButtonSheet.png");
 
 	//create the sprite manager
 	mGuiSpriteManager = new Sprite2DManager();
 
 	//allocate space for the buttons
-	int size = 22;
+	int size = 5;
 	mGuiButtons = vector<GUIButton*>(size);
 
 	//declare the initial positon of the buttons
@@ -58,10 +58,11 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	mRowY = 0;
 
 	//create all the buttons and their assets
-
-	//main buttons
-	//AddButtonAndSprite(GuiOperationEnum::Play, "PlayButton", 0, 0, 32, 32, "Play simulation");
-	//AddButtonAndSprite(GuiOperationEnum::Stop, "StopButton", 32, 0, 32, 32, "Pause simulation");
+	AddButtonAndSprite(GuiOperationEnum::Play, "PlayButton", 0, 0, 32, 32, "Play simulation");
+	AddButtonAndSprite(GuiOperationEnum::Stop, "StopButton", 32, 0, 32, 32, "Pause simulation");
+	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 64, 0, 32, 32, "Reset simulation");
+	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 96, 0, 32, 32, "Show debug information");
+	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 128, 0, 32, 32, "Show information about the controls and how to play");
 
 	//debug text
 	mDebugText = new TextField();

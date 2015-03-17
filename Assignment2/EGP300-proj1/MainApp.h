@@ -3,7 +3,6 @@
 
 class Camera;
 class GuiSystem;
-class PlanetManager;
 class ParticleSystem;
 class TextRenderer;
 class CameraContainer;
@@ -23,7 +22,6 @@ private:
 	DrawData* mDrawData;
 	GLShaderManager mShaderManager;
 	TextRenderer*	mTextRenderer;
-	PlanetManager* mPlanetManager;
 	Skybox* mSkybox;
 
 	int mWindowWidth;
@@ -33,7 +31,6 @@ private:
 	float mCameraRotationSpeed;
 	float mCameraMoveSpeed;
 	bool mUpdateOnlyOnce;
-	int mPlanetIndex;
 
 public:
 	MainApp();

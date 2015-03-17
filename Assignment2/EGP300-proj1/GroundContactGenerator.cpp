@@ -60,5 +60,5 @@ int GroundContactGenerator::AddContact(ParticleSystem *system)
 			system->AddContact(&contact);
 		}
 	}
-
+	return count;
 }

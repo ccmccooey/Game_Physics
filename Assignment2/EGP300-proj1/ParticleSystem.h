@@ -32,6 +32,8 @@ public:
 	void AddGravityForceGenerator(Particle* source);
 	void AddParticle(Particle* particle);
 	void AddContact(const ParticleContact *contact);
+	void AddContactGenerator(ParticleContactGenerator* contactGenerator);
+	void RemoveContactGenerator(ParticleContactGenerator* contactGenerator);
 	void RemoveFromSystem(Particle* particle);
 	void RemoveLast();
 };

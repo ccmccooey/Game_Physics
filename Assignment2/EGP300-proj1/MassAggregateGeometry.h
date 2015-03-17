@@ -9,6 +9,5 @@ enum MassAggregateGeometry
 	MA_Solid_Tetrahedron
 };
 
-#define MA_DEFAULT_GEOMETRY MassAggregateGeometry::MA_Solid_Line
 
 #endif

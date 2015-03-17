@@ -17,7 +17,9 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DisplayObject3DManager.cpp" />
     <ClCompile Include="DrawData.cpp" />
+    <ClCompile Include="Game.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundContactGenerator.cpp" />
     <ClCompile Include="GUIButton.cpp" />
@@ -27,6 +29,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainApp.cpp" />
     <ClCompile Include="MassAggregate.cpp" />
+    <ClCompile Include="MassAggregateModels.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCreator.cpp" />
@@ -77,8 +80,10 @@
     <ClInclude Include="CameraContainer.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
+    <ClInclude Include="DisplayObject3DManager.h" />
     <ClInclude Include="DrawData.h" />
     <ClInclude Include="FixedArray.h" />
+    <ClInclude Include="Game.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GLfiles.h" />
     <ClInclude Include="GravityForceGenerator.h" />
@@ -91,6 +96,7 @@
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="MassAggregate.h" />
     <ClInclude Include="MassAggregateGeometry.h" />
+    <ClInclude Include="MassAggregateModels.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshCreator.h" />

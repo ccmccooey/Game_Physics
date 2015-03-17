@@ -66,7 +66,10 @@ void ParticleSystem::AddParticle(Particle* particle)
 {
 	mParticles.push_back(particle);
 }
-
+void ParticleSystem::AddContactGenerator(ParticleContactGenerator* contactGenerator)
+{
+	mContactGenerators.push_back(contactGenerator);
+}
 
 void ParticleSystem::RemoveFromSystem(Particle* particle)
 {
@@ -75,11 +78,22 @@ void ParticleSystem::RemoveFromSystem(Particle* particle)
 	{
 		if (particle == mParticles[i])
 		{
-			mParticles.begin() + i;
+			mParticles.erase(mParticles.begin() + i);
 			break;
 		}
 	}
-
+}
+void ParticleSystem::RemoveContactGenerator(ParticleContactGenerator* contactGenerator)
+{
+	unsigned int i;
+	for (i = 0; i < mContactGenerators.size(); i++)
+	{
+		if (contactGenerator == mContactGenerators[i])
+		{
+			mContactGenerators.erase(mContactGenerators.begin() + i);
+			break;
+		}
+	}
 }
 
 void ParticleSystem::RemoveLast()
