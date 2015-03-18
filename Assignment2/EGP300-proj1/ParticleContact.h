@@ -13,6 +13,8 @@ private:
 	float mRestitution;
 	Vector3f mContactNormal;
 	float mPenetrationDepth;  // +’ve if in collision
+	Vector3f mDisplacementA;
+	Vector3f mDisplacementB;
 
 public:
 	ParticleContact(Particle *a, Particle *b);

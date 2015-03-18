@@ -14,6 +14,8 @@ ParticleContact::ParticleContact(Particle *a, Particle *b, float restitution, co
 	mRestitution = restitution;
 	mContactNormal = contactNormal;
 	mPenetrationDepth = penetrationDepth;
+	mDisplacementA = Vector3f::zero;
+	mDisplacementB = Vector3f::zero;
 }
 ParticleContact::ParticleContact(const ParticleContact &rhs)
 {

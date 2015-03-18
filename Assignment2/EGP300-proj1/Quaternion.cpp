@@ -333,7 +333,8 @@ Quaternion Quaternion::fromAxis(float Angle, float x, float y, float z)
 		y *= c;
 		z *= c;
 
-		omega = -0.5f * Angle;
+		// Note: Previously was negative angle, which was incorrect.
+		omega = 0.5f * Angle;
 		s = (float)sin(omega);
 	  
 		quat.mX = s*x;
