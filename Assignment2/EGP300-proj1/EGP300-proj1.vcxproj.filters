@@ -234,6 +234,18 @@
     <ClCompile Include="DisplayObject3DManager.cpp">
       <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="GroundForceGenerator.cpp">
+      <Filter>Source Files\Physics\ForceGenerators</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MaterialManager.cpp">
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugLogger.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -425,6 +437,18 @@
     </ClInclude>
     <ClInclude Include="DisplayObject3DManager.h">
       <Filter>Header Files\Graphics\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundForceGenerator.h">
+      <Filter>Header Files\Physics\ForceGenerators</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialManager.h">
+      <Filter>Header Files\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugLogger.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

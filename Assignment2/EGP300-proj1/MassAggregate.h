@@ -10,10 +10,11 @@
 #define MA_DEFAULT_POSITION Vector3f::zero
 
 class DisplayObject3D;
+class DisplayObject3DManager;
 class ParticleLink;
+class GameObject;
 class Particle;
 class ParticleSystem;
-struct MassAggregateModels;
 struct DrawData;
 /*
 class AggregateFactory {
@@ -50,14 +51,14 @@ MassAggregate* myAggregate = kAggregates[BUILD_CUBE]->BuildAggregate();*/
 class MassAggregate
 {
 private:
-	std::vector<DisplayObject3D*> mDisplayPoints;
 	std::vector<DisplayObject3D*> mDisplayLines;
 
-	std::vector<Particle*> mParticles;
+	std::vector<GameObject*> mParticles;
 	std::vector<ParticleLink*> mLinks;
 
 	MassAggregateGeometry mGeometryType;
 	Vector3f mInitialPosition;
+	bool mAddedToSystems;
 
 public:
 	MassAggregate(MassAggregateModels* models);
@@ -68,16 +69,19 @@ public:
 	~MassAggregate();
 
 	//accessors
-	void AddToParticleSystem(ParticleSystem* system);
-	void RemoveFromParticleSystem(ParticleSystem* system);
+	void AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
+	void DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
 
 	//setters
 
+	void InsertParticle(Model* model, const Vector3f &position);
+
 	//draw function
-	void Draw(DrawData* drawData);
+	//void Draw(DrawData* drawData);
 
 private:
 	void CreateBody(MassAggregateModels* models);
+	void CreateBodyPoint(MassAggregateModels* models);
 	void CreateBodyLine(MassAggregateModels* models);
 	void CreateBodyCube(MassAggregateModels* models);
 	void CreateBodyTetrahedron(MassAggregateModels* models);

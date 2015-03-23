@@ -9,7 +9,7 @@ GravityForceGenerator::GravityForceGenerator()
 {
 	mSource = nullptr;
 
-	mGravityAcceleration = 27.94;// * PLANET_GRAVITY_FACTOR;
+	mGravityAcceleration = 27.94f;// * PLANET_GRAVITY_FACTOR;
 }
 GravityForceGenerator::~GravityForceGenerator()
 {

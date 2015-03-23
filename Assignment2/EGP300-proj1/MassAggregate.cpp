@@ -3,6 +3,8 @@
 #include "Particle.h"
 #include "DisplayObject3D.h"
 #include "ParticleSystem.h"
+#include "GameObject.h"
+#include "DebugLogger.h"
 
 using namespace std;
 
@@ -42,12 +44,12 @@ MassAggregate::~MassAggregate()
 	unsigned int i;
 	unsigned int size;
 
-	//remove the display
-	size = mDisplayPoints.size();
-	for (i = 0; i < size; i++)
+	if (mAddedToSystems)
 	{
-		delete mDisplayPoints[i];
+		DebugLogger::WriteError("A mass aggregate did not get removed from the systems before getting deleted from memory");
 	}
+
+	//remove the display
 	size = mDisplayLines.size();
 	for (i = 0; i < size; i++)
 	{
@@ -74,14 +76,17 @@ MassAggregate::~MassAggregate()
 //creating the geometry
 void MassAggregate::CreateBody(MassAggregateModels* models)
 {
-	mDisplayPoints = vector<DisplayObject3D*>();
+	mAddedToSystems = false;
 	mDisplayLines = vector<DisplayObject3D*>();
 
-	mParticles = vector<Particle*>();
+	mParticles = vector<GameObject*>();
 	mLinks = vector<ParticleLink*>();
 
 	switch(mGeometryType)
 	{
+	case MassAggregateGeometry::MA_Point:
+		CreateBodyPoint(models);
+		break;
 	case MassAggregateGeometry::MA_Solid_Line:
 		CreateBodyLine(models);
 		break;
@@ -94,23 +99,25 @@ void MassAggregate::CreateBody(MassAggregateModels* models)
 	}
 }
 
+void MassAggregate::InsertParticle(Model* model, const Vector3f &position)
+{
+	GameObject* obj = new GameObject(model, mInitialPosition);
+	mParticles.push_back(obj);
+}
+
+#pragma region Create Point
+void MassAggregate::CreateBodyPoint(MassAggregateModels* models)
+{
+	InsertParticle(models->modelParticle, mInitialPosition);
+}
+#pragma endregion
 #pragma region Create Line
 void MassAggregate::CreateBodyLine(MassAggregateModels* models)
 {
-	Particle* particle;
-	ParticleRod* rod;
-	DisplayObject3D* objParticle;
-	DisplayObject3D* objLink;
-
 	//create the graphics particles
-	objParticle = new DisplayObject3D(models->modelParticle);
-	objParticle->getTransform()->SetPosition(mInitialPosition);
-	mDisplayPoints.push_back(objParticle);
+	
 
-	objParticle = new DisplayObject3D(models->modelParticle);
-	objParticle->getTransform()->SetPosition(mInitialPosition + Vector3f::unitX);
-	mDisplayPoints.push_back(objParticle);
-
+	/*
 	//create the graphics rod
 	objLink = new DisplayObject3D(models->modelRod);
 	mDisplayLines.push_back(objLink);
@@ -126,7 +133,7 @@ void MassAggregate::CreateBodyLine(MassAggregateModels* models)
 	rod = new ParticleRod();
 	rod->mParticleA = mParticles[0];
 	rod->mParticleB = mParticles[1];
-	mLinks.push_back((ParticleLink*)rod);
+	mLinks.push_back((ParticleLink*)rod);*/
 
 }
 #pragma endregion
@@ -144,40 +151,48 @@ void MassAggregate::CreateBodyTetrahedron(MassAggregateModels* models)
 #pragma endregion
 
 //adding to physics system
-void MassAggregate::AddToParticleSystem(ParticleSystem* system)
+void MassAggregate::AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
 {
-	unsigned int i;
-	unsigned int size;
+	if (!mAddedToSystems)
+	{
+		unsigned int i;
+		unsigned int size;
 
-	size = mParticles.size();
-	for (i = 0; i < size; i++)
-	{
-		system->AddParticle(mParticles[i]);
-	}
-	size = mLinks.size();
-	for (i = 0; i < size; i++)
-	{
-		system->AddContactGenerator(mLinks[i]);
+		size = mParticles.size();
+		for (i = 0; i < size; i++)
+		{
+			mParticles[i]->AddToSystems(physicsSystem, graphicsSystem);
+		}
+		size = mLinks.size();
+		for (i = 0; i < size; i++)
+		{
+			physicsSystem->AddContactGenerator(mLinks[i]);
+		}
+		mAddedToSystems = true;
 	}
 }
-void MassAggregate::RemoveFromParticleSystem(ParticleSystem* system)
+void MassAggregate::DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
 {
-	unsigned int i;
-	unsigned int size;
+	if (mAddedToSystems)
+	{
+		unsigned int i;
+		unsigned int size;
 
-	size = mParticles.size();
-	for (i = 0; i < size; i++)
-	{
-		system->RemoveFromSystem(mParticles[i]);
-	}
-	size = mLinks.size();
-	for (i = 0; i < size; i++)
-	{
-		system->RemoveContactGenerator(mLinks[i]);		
+		size = mParticles.size();
+		for (i = 0; i < size; i++)
+		{
+			mParticles[i]->DeleteFromSystems(physicsSystem, graphicsSystem);
+		}
+		size = mLinks.size();
+		for (i = 0; i < size; i++)
+		{
+			physicsSystem->RemoveContactGenerator(mLinks[i]);		
+		}
+		mAddedToSystems = false;
 	}
 }
 
-
+/*
 //draw function
 void MassAggregate::Draw(DrawData* drawData)
 {
@@ -194,4 +209,4 @@ void MassAggregate::Draw(DrawData* drawData)
 	{
 		mDisplayLines[i]->Draw(drawData);
 	}
-}
+}*/

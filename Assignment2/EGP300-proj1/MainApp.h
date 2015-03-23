@@ -4,7 +4,9 @@
 class Camera;
 class GuiSystem;
 class ParticleSystem;
+class DisplayObject3DManager;
 class TextRenderer;
+class Game;
 class CameraContainer;
 class Skybox;
 struct DrawData;
@@ -20,8 +22,10 @@ private:
 	ParticleSystem* mParticleSystem;
 	GLFrustum mViewFrustum3D;
 	DrawData* mDrawData;
+	DisplayObject3DManager* mDisplayList;
 	GLShaderManager mShaderManager;
 	TextRenderer*	mTextRenderer;
+	Game* mGame;
 	Skybox* mSkybox;
 
 	int mWindowWidth;

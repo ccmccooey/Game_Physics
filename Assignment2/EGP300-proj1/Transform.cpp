@@ -109,6 +109,16 @@ void Transform::SetRotation(const Vector3f &axis, float angle)
 	mRotation.fromAxis(angle, axis.x, axis.y, axis.z);
 	UpdateModelMatrix();
 }
+void Transform::SetRotation(float eulerX, float eulerY, float eulerZ)
+{
+	mRotation.setEulerDeg(eulerX, eulerY, eulerZ);
+	UpdateModelMatrix();
+}
+void Transform::SetRotation(const Vector3f &eulerAngles)
+{
+	mRotation.setEulerDeg(eulerAngles.x, eulerAngles.y, eulerAngles.z);
+	UpdateModelMatrix();
+}
 void Transform::SetRotationIdentity()
 {
 	mRotation.setEulerDeg(0, 0, 0);

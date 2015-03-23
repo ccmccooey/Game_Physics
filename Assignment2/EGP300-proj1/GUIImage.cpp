@@ -38,7 +38,7 @@ void GUIImage::Initialize(Sprite2D* image, float x, float y)
 {
 	Vector2f position = Vector2f(x,y);
 	mTransform = new Transform2D(position);
-	mTransform->SetScale(image->getWidth(), image->getHeight());
+	mTransform->SetScale((float)image->getWidth(), (float)image->getHeight());
 	mVisible = true;
 	mSprite = image;
 }

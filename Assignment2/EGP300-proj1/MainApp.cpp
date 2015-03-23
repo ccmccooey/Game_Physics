@@ -3,8 +3,13 @@
 #include "CameraContainer.h"
 #include "Camera.h"
 #include "ParticleSystem.h"
+#include "Model.h"
+#include "GameObject.h"
+#include "DisplayObject3DManager.h"
 #include "GravityForceGenerator.h"
 #include "Particle.h"
+#include "Game.h"
+
 #include "Skybox.h"
 
 //constructor
@@ -53,18 +58,25 @@ void MainApp::Initialize()
 	mWindowHeight = 600;
 	mGuiSystem = new GuiSystem(mWindowWidth, mWindowHeight);
 
+	//create the graphics
+	mDisplayList = new DisplayObject3DManager();
+
 	//create the physics
 	mParticleSystem = new ParticleSystem();
 
 	//create the skybox
 	mSkybox = new Skybox("Content/OtherTextures/skybox.png");
 	UpdateSkyboxPosition();
+
+	//game
+	mGame = new Game(mParticleSystem, mDisplayList);
 }
 void MainApp::CleanUp()
 {
 	delete mSkybox;	
 	delete mCameraContainer;
 	delete mCamera;
+	delete mDisplayList;
 	delete mParticleSystem;
 	delete mGuiSystem;
 	delete mTextRenderer;
@@ -196,6 +208,8 @@ void MainApp::RenderScene()
 
 	mSkybox->Draw(mDrawData);
 
+	mDisplayList->Draw(mDrawData);
+
 	mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
 	//mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
 }
@@ -209,6 +223,16 @@ void MainApp::CheckGui()
 	{
 		switch(operation)
 		{
+		case GuiOperationEnum::Play:
+			break;
+		case GuiOperationEnum::Stop:
+			break;
+		case GuiOperationEnum::Reset:
+			break;
+		case GuiOperationEnum::Help:
+			break;
+		case GuiOperationEnum::DebugInfo:
+			break;
 		default:
 			break;
 		}

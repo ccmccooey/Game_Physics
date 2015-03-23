@@ -55,6 +55,8 @@ public:
 	void SetZ(float z);
 	void SetRotation(float axisX, float axisY, float axisZ, float angle);
 	void SetRotation(const Vector3f &axis, float angle);
+	void SetRotation(float eulerX, float eulerY, float eulerZ);
+	void SetRotation(const Vector3f &eulerAngles);
 	void SetRotationIdentity();
 	void SetScale(float scaleX, float scaleY, float scaleZ);
 	void SetScale(const Vector3f &scale);

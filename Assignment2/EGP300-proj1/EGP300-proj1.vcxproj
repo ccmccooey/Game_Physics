@@ -17,11 +17,14 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="DebugLogger.cpp" />
     <ClCompile Include="DisplayObject3DManager.cpp" />
     <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundContactGenerator.cpp" />
+    <ClCompile Include="GroundForceGenerator.cpp" />
     <ClCompile Include="GUIButton.cpp" />
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUISystem.cpp" />
@@ -31,6 +34,7 @@
     <ClCompile Include="MassAggregate.cpp" />
     <ClCompile Include="MassAggregateModels.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="MaterialManager.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCreator.cpp" />
     <ClCompile Include="Model.cpp" />
@@ -80,14 +84,17 @@
     <ClInclude Include="CameraContainer.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
+    <ClInclude Include="DebugLogger.h" />
     <ClInclude Include="DisplayObject3DManager.h" />
     <ClInclude Include="DrawData.h" />
     <ClInclude Include="FixedArray.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Geometry.h" />
     <ClInclude Include="GLfiles.h" />
     <ClInclude Include="GravityForceGenerator.h" />
     <ClInclude Include="GroundContactGenerator.h" />
+    <ClInclude Include="GroundForceGenerator.h" />
     <ClInclude Include="GUIButton.h" />
     <ClInclude Include="GUIImage.h" />
     <ClInclude Include="GuiOperationEnum.h" />
@@ -98,6 +105,7 @@
     <ClInclude Include="MassAggregateGeometry.h" />
     <ClInclude Include="MassAggregateModels.h" />
     <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialManager.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshCreator.h" />
     <ClInclude Include="Model.h" />
@@ -150,7 +158,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -188,6 +196,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>
       </PrecompiledHeaderFile>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

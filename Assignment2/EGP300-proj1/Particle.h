@@ -27,10 +27,10 @@ public:
 
 
 	//accessors
-	Vector3f GetPosition() const;
-	Vector3f GetVelocity() const;
-	Vector3f GetAcceleration() const;
-	Vector3f GetForce() const;
+	Vector3f const &GetPosition() const;
+	Vector3f const &GetVelocity() const;
+	Vector3f const &GetAcceleration() const;
+	Vector3f const &GetForce() const;
 	float GetMass() const;
 
 	//setters

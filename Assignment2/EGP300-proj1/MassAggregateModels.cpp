@@ -27,7 +27,11 @@ MassAggregateModels::MassAggregateModels(const MassAggregateModels &rhs)
 }
 MassAggregateModels::~MassAggregateModels()
 {
-
+	delete modelParticle;
+	delete modelRod;
+	delete modelCable;
+	delete modelSpring;
+	delete modelBungee;
 }
 
 //accessors

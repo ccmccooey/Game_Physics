@@ -29,19 +29,19 @@ Particle::~Particle()
 }
 
 //accessros
-Vector3f Particle::GetPosition() const
+Vector3f const& Particle::GetPosition() const
 {
 	return mPosition;
 }
-Vector3f Particle::GetVelocity() const
+Vector3f const &Particle::GetVelocity() const
 {
 	return mVelocity;
 }
-Vector3f Particle::GetAcceleration() const
+Vector3f const &Particle::GetAcceleration() const
 {
 	return mAcceleration;
 }
-Vector3f Particle::GetForce() const
+Vector3f const &Particle::GetForce() const
 {
 	return mAccumulatedForce;
 }

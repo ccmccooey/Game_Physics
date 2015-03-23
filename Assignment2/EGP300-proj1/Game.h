@@ -4,42 +4,42 @@
 #include <vector>
 
 class TextureManager;
-class Material;
-class ParticleSystem;
 class MassAggregate;
+class MaterialManager;
+class ParticleSystem;
+class DisplayObject3DManager;
+struct MassAggregateModels;
+class Model;
 struct DrawData;
 
 class Game
 {
 private:
-	enum MaterialEnum
-	{
-		Particle_Metal = 0,
-		Steel_Rod,
-
-		Total_Materials
-	};
+	
 private:
 	TextureManager* mTextureManager;
-	std::vector<MassAggregate*> mMaterials;
+	MaterialManager* mMaterialManager;
 	std::vector<MassAggregate*> mMassAggregates;
 	ParticleSystem* mpParticleSystemReference;
+	DisplayObject3DManager* mpGraphicsSystemReference;
+	MassAggregateModels* mModels;
+	Model* mGrassModel;
 
 public:
-	Game(ParticleSystem* particleSystem);
+	Game(ParticleSystem* particleSystem, DisplayObject3DManager* graphicsSystem);
 	~Game();
 
 	void Reset();
-
-	void Draw(DrawData* data);
 
 private:
 	void Initialize();
 	void CleanUp();
 
 	void InitializeAssets();
+	void InitializeGround();
 	void InitializeMassAggregates();
 	void RemoveMassAggregates();
+	void RemoveGround();
 };
 
 #endif
