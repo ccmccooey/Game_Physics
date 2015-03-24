@@ -3,7 +3,7 @@
 
 #include "ParticleContactGenerator.h"
 
-class GroundContactGenerator :ParticleContactGenerator
+class GroundContactGenerator :public ParticleContactGenerator
 {
 private:
 	float mGroundHeight;

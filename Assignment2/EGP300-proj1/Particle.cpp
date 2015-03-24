@@ -12,7 +12,6 @@ Particle::Particle(Transform* transform)
 	mAccumulatedForce = Vector3f();
 	mAcceleration = Vector3f();
 	SetMass(1.0f);
-	UpdateRenderPosition();
 }
 Particle::Particle(Transform* transform, const Particle &rhs)
 {
@@ -63,12 +62,10 @@ void Particle::SetVelocity(const Vector3f &velocity)
 void Particle::SetPosition(const Vector3f &position)
 {
 	mPosition = position;
-	UpdateRenderPosition();
 }
 void Particle::SetPosition(float x, float y, float z)
 {
 	mPosition.Set(x, y, z);
-	UpdateRenderPosition();
 }
 void Particle::AddVelocity(const Vector3f &velocity)
 {
@@ -81,11 +78,6 @@ void Particle::CopyDataFrom(const Particle &other)
 	mAcceleration = other.mAcceleration;
 	mMass = other.mMass;
 	mInverseMass = other.mInverseMass;
-	UpdateRenderPosition();
-}
-void Particle::UpdateRenderPosition()
-{
-	mTransform->SetPosition(mPosition * DISTANCE_SCALE);
 }
 
 //fixed update occuring at a fixed framerate
@@ -97,16 +89,6 @@ void Particle::FixedUpdate(double t)
 
 	mPosition += mVelocity * (float)t;
 
-	
-	
-	
-
-	//mTransform->Translate(mVelocity);
-	
-	if (mVelocity != Vector3f::zero)
-	{
-		UpdateRenderPosition();
-	}
 	FinishUpdate();
 }
 void Particle::FinishUpdate()

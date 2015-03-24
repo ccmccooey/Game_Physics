@@ -73,7 +73,7 @@ public:
 	void DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
 
 	//setters
-
+	void LinkPositions(); //link the position of the graphics object from the physics object
 	void InsertParticle(Model* model, const Vector3f &position);
 
 	//draw function

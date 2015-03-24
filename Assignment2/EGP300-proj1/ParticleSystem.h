@@ -29,11 +29,12 @@ public:
 	int GetTotalParticles() const;
 
 	//adding and removing particles
-	void AddGravityForceGenerator(Particle* source);
 	void AddParticle(Particle* particle);
+	void AddForceGenerator(ParticleForceGenerator *forceGenerator);
 	void AddContact(const ParticleContact *contact);
 	void AddContactGenerator(ParticleContactGenerator* contactGenerator);
 	void RemoveContactGenerator(ParticleContactGenerator* contactGenerator);
+	void RemoveForceGenerator(ParticleForceGenerator *forceGenerator);
 	void RemoveFromSystem(Particle* particle);
 	void RemoveLast();
 };

@@ -29,6 +29,8 @@ public:
 	Game(ParticleSystem* particleSystem, DisplayObject3DManager* graphicsSystem);
 	~Game();
 
+
+	void UpdateGraphicsObjects();
 	void Reset();
 
 private:

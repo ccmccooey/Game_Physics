@@ -45,10 +45,6 @@ public:
 	void AddForce(const Vector3f &force);
 	void Translate(const Vector3f &translation);
 	void Translate(float x, float y, float z);
-
-private:
-	void UpdateRenderPosition();
-
 };
 
 #endif

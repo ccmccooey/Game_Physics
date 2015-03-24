@@ -5,6 +5,8 @@
 #include "DisplayObject3DManager.h"
 #include "DisplayObject3D.h"
 #include "ParticleSystem.h"
+#include "GroundForceGenerator.h"
+#include "GroundContactGenerator.h"
 #include "Material.h"
 #include "DrawData.h"
 #include "MassAggregate.h"
@@ -66,17 +68,34 @@ void Game::InitializeGround()
 	//create the ground
 	DisplayObject3D *grass = new DisplayObject3D(mGrassModel);
 	Transform *pGrassTransform = grass->getTransform();
+	float groundHeight = -10.0f;
 
 	pGrassTransform->SetPosition(-50.0f, -10.0f, 50.0f);
 	pGrassTransform->SetScale(100.0f, 100.0f, 1.0f);
 	pGrassTransform->SetRotation(90.0f, 0.0f, 0.0f);
 	mpGraphicsSystemReference->AddObject(grass);
+
+	GroundContactGenerator* groundContact = new GroundContactGenerator(groundHeight);
+	mpParticleSystemReference->AddContactGenerator(groundContact);
+
+	GroundForceGenerator* groundForce = new GroundForceGenerator(1.0f);
+	mpParticleSystemReference->AddForceGenerator(groundForce);
 }
 void Game::InitializeMassAggregates()
 {
 	MassAggregate* point = new MassAggregate(mModels, MassAggregateGeometry::MA_Point, 0.0f, 0.0f, 0.0f);
 	point->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
 	mMassAggregates.push_back(point);
+}
+
+//update all the mass aggregate graphics
+void Game::UpdateGraphicsObjects()
+{
+	unsigned int size = mMassAggregates.size();
+	for (unsigned int i = 0; i < size; i++)
+	{
+		mMassAggregates[i]->LinkPositions();
+	}
 }
 
 //cleanup

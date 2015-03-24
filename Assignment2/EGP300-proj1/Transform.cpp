@@ -101,12 +101,12 @@ void Transform::SetPosition(const Vector3f &position)
 }
 void Transform::SetRotation(float axisX, float axisY, float axisZ, float angle)
 {
-	mRotation.fromAxis(angle, axisX, axisY, axisZ);
+	mRotation = mRotation.fromAxis(angle, axisX, axisY, axisZ);
 	UpdateModelMatrix();
 }
 void Transform::SetRotation(const Vector3f &axis, float angle)
 {
-	mRotation.fromAxis(angle, axis.x, axis.y, axis.z);
+	mRotation = mRotation.fromAxis(angle, axis.x, axis.y, axis.z);
 	UpdateModelMatrix();
 }
 void Transform::SetRotation(float eulerX, float eulerY, float eulerZ)

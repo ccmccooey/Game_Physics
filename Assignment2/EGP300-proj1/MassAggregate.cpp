@@ -192,6 +192,19 @@ void MassAggregate::DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObje
 	}
 }
 
+
+void MassAggregate::LinkPositions() //link the position of the graphics object from the physics object
+{
+	unsigned int i;
+	unsigned int size;
+
+	size = mParticles.size();
+	for (i = 0; i < size; i++)
+	{
+		mParticles[i]->LinkPositions();
+	}
+}
+
 /*
 //draw function
 void MassAggregate::Draw(DrawData* drawData)

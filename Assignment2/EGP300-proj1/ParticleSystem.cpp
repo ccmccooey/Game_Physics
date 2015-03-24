@@ -33,6 +33,11 @@ void ParticleSystem::FixedUpdate(double t)
 			mRegistry[i]->ApplyForce(mParticles[j], t);
 		}
 	}
+
+	for (j = 0; j < mParticles.size(); j++)
+	{
+		mParticles[j]->FixedUpdate(t);
+	}
 }
 
 //getting particles
@@ -54,14 +59,6 @@ void ParticleSystem::AddContact(const ParticleContact *contact)
 {
 	mActiveContacts.push_back(new ParticleContact(*contact));
 }
-
-//adding generators
-void ParticleSystem::AddGravityForceGenerator(Particle* source)
-{
-	GravityForceGenerator* gfg = new GravityForceGenerator();
-	gfg->SetRigidBody(source);
-	mRegistry.push_back(gfg);
-}
 void ParticleSystem::AddParticle(Particle* particle)
 {
 	mParticles.push_back(particle);
@@ -69,6 +66,10 @@ void ParticleSystem::AddParticle(Particle* particle)
 void ParticleSystem::AddContactGenerator(ParticleContactGenerator* contactGenerator)
 {
 	mContactGenerators.push_back(contactGenerator);
+}
+void ParticleSystem::AddForceGenerator(ParticleForceGenerator *forceGenerator)
+{
+	mRegistry.push_back(forceGenerator);
 }
 
 void ParticleSystem::RemoveFromSystem(Particle* particle)
@@ -91,6 +92,18 @@ void ParticleSystem::RemoveContactGenerator(ParticleContactGenerator* contactGen
 		if (contactGenerator == mContactGenerators[i])
 		{
 			mContactGenerators.erase(mContactGenerators.begin() + i);
+			break;
+		}
+	}
+}
+void ParticleSystem::RemoveForceGenerator(ParticleForceGenerator *forceGenerator)
+{
+	unsigned int i;
+	for (i = 0; i < mRegistry.size(); i++)
+	{
+		if (forceGenerator == mRegistry[i])
+		{
+			mRegistry.erase(mRegistry.begin() + i);
 			break;
 		}
 	}

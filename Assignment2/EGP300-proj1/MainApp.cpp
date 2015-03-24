@@ -93,12 +93,14 @@ void MainApp::FixedUpdate(double t)
 		{
 			mUpdateOnlyOnce = false;
 			mPaused = true;
-		}
-		mCameraContainer->Update();
-		
-		
+		}		
+		mGame->UpdateGraphicsObjects();
+
+		mCameraContainer->Update();		
 		UpdateDebugInformation();
+
 	}
+	
 	CheckGui();
 
 }
