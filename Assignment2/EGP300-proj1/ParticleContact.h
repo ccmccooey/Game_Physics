@@ -41,7 +41,8 @@ public:
 
 	//resolution
 	float SeparatingVelocity() const;
-	void Resolve(float duration);
+	void ResolveVelocity(float duration);
+	//void ResolveVelocity(float duration);
 	
 };
 

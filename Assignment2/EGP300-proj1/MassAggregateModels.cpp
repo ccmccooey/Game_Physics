@@ -29,9 +29,9 @@ MassAggregateModels::~MassAggregateModels()
 {
 	delete modelParticle;
 	delete modelRod;
-	delete modelCable;
-	delete modelSpring;
-	delete modelBungee;
+	//delete modelCable;
+	//delete modelSpring;
+	//delete modelBungee;
 }
 
 //accessors

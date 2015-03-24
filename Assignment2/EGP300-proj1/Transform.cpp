@@ -99,31 +99,59 @@ void Transform::SetPosition(const Vector3f &position)
 	mPosition = position;
 	UpdateModelMatrix();
 }
-void Transform::SetRotation(float axisX, float axisY, float axisZ, float angle)
+
+//rotation euler angles
+void Transform::SetRotationRadians(float eulerX, float eulerY, float eulerZ)
 {
-	mRotation = mRotation.fromAxis(angle, axisX, axisY, axisZ);
+	mRotation.setEuler(eulerX, eulerY, eulerZ);
 	UpdateModelMatrix();
 }
-void Transform::SetRotation(const Vector3f &axis, float angle)
+void Transform::SetRotationRadians(const Vector3f &eulerAngles)
 {
-	mRotation = mRotation.fromAxis(angle, axis.x, axis.y, axis.z);
+	mRotation.setEuler(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 	UpdateModelMatrix();
 }
-void Transform::SetRotation(float eulerX, float eulerY, float eulerZ)
+void Transform::SetRotationDegrees(float eulerX, float eulerY, float eulerZ)
 {
 	mRotation.setEulerDeg(eulerX, eulerY, eulerZ);
 	UpdateModelMatrix();
 }
-void Transform::SetRotation(const Vector3f &eulerAngles)
+void Transform::SetRotationDegrees(const Vector3f &eulerAngles)
 {
 	mRotation.setEulerDeg(eulerAngles.x, eulerAngles.y, eulerAngles.z);
 	UpdateModelMatrix();
 }
-void Transform::SetRotationIdentity()
+
+//rotation axis angle
+void Transform::SetRotationRadians(float axisX, float axisY, float axisZ, float angle)
 {
-	mRotation.setEulerDeg(0, 0, 0);
+	mRotation = mRotation.fromAxis(angle, axisX, axisY, axisZ);
 	UpdateModelMatrix();
 }
+void Transform::SetRotationRadians(const Vector3f &axis, float angle)
+{
+	mRotation = mRotation.fromAxis(angle, axis.x, axis.y, axis.z);
+	UpdateModelMatrix();
+}
+void Transform::SetRotationDegrees(float axisX, float axisY, float axisZ, float angle)
+{
+	mRotation = mRotation.fromAxis(angle * 0.0174532925199432957f, axisX, axisY, axisZ);
+	UpdateModelMatrix();
+}
+void Transform::SetRotationDegrees(const Vector3f &axis, float angle)
+{
+	mRotation = mRotation.fromAxis(angle * 0.0174532925199432957f, axis.x, axis.y, axis.z);
+	UpdateModelMatrix();
+}
+
+//reset rotation
+void Transform::SetRotationIdentity()
+{
+	mRotation.setEuler(0, 0, 0);
+	UpdateModelMatrix();
+}
+
+//scaling
 void Transform::SetScale(float scaleX, float scaleY, float scaleZ)
 {
 	mScale.x = scaleX;

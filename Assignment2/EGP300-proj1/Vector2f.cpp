@@ -204,7 +204,7 @@ float Vector2f::AngleBetweenDegrees(const Vector2f &first, const Vector2f &secon
 {
 	float angle = atan2f(second.y - first.y, second.x - first.x);
 	//Convert from radians to degrees
-	angle*=(180.0f / 3.1415926f);
+	angle*=((float)57.295779513082320876798154814105);
 	return angle;
 }
 float Vector2f::AngleBetweenRadians(const Vector2f &first, const Vector2f &second)

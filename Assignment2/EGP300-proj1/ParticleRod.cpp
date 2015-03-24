@@ -3,10 +3,17 @@
 #include "ParticleSystem.h"
 #include "Particle.h"
 
+#define PARTICLE_ROD_DEFAULT_LENGTH 1
+
 ParticleRod::ParticleRod()
 	:ParticleLink()
 {
-
+	mLength = PARTICLE_ROD_DEFAULT_LENGTH;
+}
+ParticleRod::ParticleRod(float length)
+	:ParticleLink()
+{
+	mLength = length;
 }
 ParticleRod::ParticleRod(const ParticleRod &rhs)
 	:ParticleLink(rhs)

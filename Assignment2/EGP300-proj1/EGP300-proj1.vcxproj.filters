@@ -246,6 +246,9 @@
     <ClCompile Include="DebugLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameObjectLink.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -448,6 +451,12 @@
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="DebugLogger.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectLink.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimpleMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

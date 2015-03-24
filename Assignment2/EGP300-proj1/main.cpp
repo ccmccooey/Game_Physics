@@ -179,6 +179,7 @@ int main(int argc, char* argv[])
 	glutPassiveMotionFunc(MouseMotionUp); //mouse move, no click
 	glutKeyboardFunc(Keys); //keyboard input
 	glutIdleFunc(Update); //uncontrolled update, unfixed framerate
+	atexit(Cleanup);
 
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
@@ -191,7 +192,7 @@ int main(int argc, char* argv[])
 
 	glutMainLoop();
 
-	Cleanup();
+	//Cleanup();
 	
 	return 0;
 }

@@ -48,7 +48,7 @@ void ParticleContactResolver::MultiPassResolveContacts(ParticleContact **contact
 		const Vector3f &move_b = contacts[candidate]->GetActorBDisplacement();
 
 		// Process the best candidate
-		contacts[candidate]->Resolve(duration);
+		contacts[candidate]->ResolveVelocity(duration);
 
 		// Update all of the other collisions
 		for (int x = 0; x < num_contacts; ++x) 

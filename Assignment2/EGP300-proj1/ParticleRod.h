@@ -10,6 +10,7 @@ public:
 
 public:
 	ParticleRod();
+	ParticleRod(float length);
 	ParticleRod(const ParticleRod &rhs);
 	~ParticleRod();
 

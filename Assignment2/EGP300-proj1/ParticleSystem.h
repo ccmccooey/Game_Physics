@@ -2,6 +2,7 @@
 #define _PARTICLE_SYSTEM_H
 
 #include <vector>
+#include <queue>
 
 class Particle;
 class ParticleForceGenerator;
@@ -17,6 +18,8 @@ private:
 	vector<ParticleForceGenerator*> mRegistry;
 	vector<ParticleContactGenerator*> mContactGenerators;
 	vector<ParticleContact*> mActiveContacts;
+
+	queue<ParticleContact*> mDeleteQueue;
 
 public:
 	ParticleSystem();
@@ -37,6 +40,9 @@ public:
 	void RemoveForceGenerator(ParticleForceGenerator *forceGenerator);
 	void RemoveFromSystem(Particle* particle);
 	void RemoveLast();
+
+private:
+	void FlushDeleteQueue();
 };
 
 #endif

@@ -1,6 +1,8 @@
 #ifndef _PARTICLE_LINK_H
 #define _PARTICLE_LINK_H
 
+#include "Vector3f.h"
+
 class Transform;
 class Particle;
 
@@ -11,7 +13,6 @@ class ParticleLink : public ParticleContactGenerator
 public:
 	Particle *mParticleA;
 	Particle *mParticleB;
-	Transform* mTransform;
 
 public:
 	ParticleLink();
@@ -20,7 +21,8 @@ public:
 
 	float CurrentLength() const;
 
-	void UpdateGraphicsPosition();
+	const Vector3f& GetPositionA() const;
+	const Vector3f& GetPositionB() const;
 };
 
 #endif

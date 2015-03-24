@@ -5,6 +5,7 @@
 #include "DisplayObject3DManager.h"
 #include "DisplayObject3D.h"
 #include "ParticleSystem.h"
+#include "Particle.h"
 #include "GroundForceGenerator.h"
 #include "GroundContactGenerator.h"
 #include "Material.h"
@@ -58,8 +59,10 @@ void Game::InitializeAssets()
 	mMaterialManager->AddMaterial(mTextureManager->FindTexture("GreenBlob"), "GreenBlob");
 
 	//create the models
-	Model* pModel = new Model(mMaterialManager->FindMaterial("ParticleMetal"), Geometry::CUBE);
-	mModels = new MassAggregateModels(pModel, pModel, pModel, pModel, pModel);
+	Model* pModelPoint = new Model(mMaterialManager->FindMaterial("ParticleMetal"), Geometry::CUBE);
+	Model* pModelLine = new Model(mMaterialManager->FindMaterial("SteelRod"), Geometry::CUBE);
+	mModels = new MassAggregateModels(pModelPoint, pModelLine, pModelLine, pModelPoint, pModelPoint);
+
 
 	mGrassModel = new Model(mMaterialManager->FindMaterial("Grass"), Geometry::QUAD);
 }
@@ -70,9 +73,9 @@ void Game::InitializeGround()
 	Transform *pGrassTransform = grass->getTransform();
 	float groundHeight = -10.0f;
 
-	pGrassTransform->SetPosition(-50.0f, -10.0f, 50.0f);
+	pGrassTransform->SetPosition(-50.0f, groundHeight - 0.5f, 50.0f);
 	pGrassTransform->SetScale(100.0f, 100.0f, 1.0f);
-	pGrassTransform->SetRotation(90.0f, 0.0f, 0.0f);
+	pGrassTransform->SetRotationDegrees(90.0f, 0.0f, 0.0f);
 	mpGraphicsSystemReference->AddObject(grass);
 
 	GroundContactGenerator* groundContact = new GroundContactGenerator(groundHeight);
@@ -83,9 +86,30 @@ void Game::InitializeGround()
 }
 void Game::InitializeMassAggregates()
 {
-	MassAggregate* point = new MassAggregate(mModels, MassAggregateGeometry::MA_Point, 0.0f, 0.0f, 0.0f);
-	point->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
-	mMassAggregates.push_back(point);
+	MassAggregate* ma;
+	Particle* p;
+
+	//test 1
+	/*
+	MassAggregate* ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Point, 0.0f, 0.0f, 0.0f);
+	ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
+	mMassAggregates.push_back(ma);
+
+	Particle* p = ma->GetParticleAt(0);
+	if (p != nullptr)
+		p->AddVelocity(Vector3f::unitX * 2.0f);*/
+
+	//test 2
+	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Line, 0.0f, 0.0f, 0.0f);
+	ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
+	mMassAggregates.push_back(ma);
+
+	p = ma->GetParticleAt(0);
+	if (p != nullptr)
+		p->AddVelocity(Vector3f::unitX * 1.5f + Vector3f::unitZ * 1.0f);
+	p = ma->GetParticleAt(1);
+	if (p != nullptr)
+		p->AddVelocity(Vector3f::unitX * -1.5f + Vector3f::unitZ * 1.0f);
 }
 
 //update all the mass aggregate graphics

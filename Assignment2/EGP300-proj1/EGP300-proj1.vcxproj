@@ -22,6 +22,7 @@
     <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
+    <ClCompile Include="GameObjectLink.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundContactGenerator.cpp" />
     <ClCompile Include="GroundForceGenerator.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="GUIImage.h" />
     <ClInclude Include="GuiOperationEnum.h" />
     <ClInclude Include="GUISystem.h" />
+    <ClInclude Include="GameObjectLink.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="MassAggregate.h" />
@@ -129,6 +131,7 @@
     <ClInclude Include="resource.h" />
     <ClInclude Include="Particle.h" />
     <ClInclude Include="ScaleFactor.h" />
+    <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Skybox.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="Sprite2D.h" />

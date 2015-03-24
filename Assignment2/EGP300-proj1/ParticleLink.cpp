@@ -8,14 +8,12 @@ ParticleLink::ParticleLink()
 {
 	mParticleA = nullptr;
 	mParticleB = nullptr;
-	mTransform = nullptr;
 }
 ParticleLink::ParticleLink(const ParticleLink &rhs)
 	:ParticleContactGenerator(rhs)
 {
 	mParticleA = rhs.mParticleA;
 	mParticleB = rhs.mParticleB;
-	mTransform = nullptr;
 }
 ParticleLink::~ParticleLink()
 {
@@ -28,17 +26,12 @@ float ParticleLink::CurrentLength() const
 	return Vector3f::Distance(mParticleA->GetPosition(), mParticleB->GetPosition());
 }
 
-void ParticleLink::UpdateGraphicsPosition()
+
+const Vector3f& ParticleLink::GetPositionA() const
 {
-	if (mTransform != nullptr && mParticleA != nullptr && mParticleB != nullptr)
-	{
-		Vector3f position = Vector3f::Midpoint(mParticleA->GetPosition(), mParticleB->GetPosition());
-
-		mTransform->SetPosition(position * DISTANCE_SCALE);
-
-		float distance = Vector3f::Distance(mParticleA->GetPosition(), mParticleB->GetPosition());
-		mTransform->SetScale(distance * DISTANCE_SCALE, 1.0f, 1.0f);
-
-		
-	}
+	return mParticleA->GetPosition();
+}
+const Vector3f& ParticleLink::GetPositionB() const
+{
+	return mParticleB->GetPosition();
 }

@@ -32,6 +32,7 @@ public:
 	Vector3f const &GetAcceleration() const;
 	Vector3f const &GetForce() const;
 	float GetMass() const;
+	float GetInverseMass() const;
 
 	//setters
 	void CopyDataFrom(const Particle &other);

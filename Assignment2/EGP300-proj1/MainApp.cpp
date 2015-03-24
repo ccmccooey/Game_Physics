@@ -73,6 +73,7 @@ void MainApp::Initialize()
 }
 void MainApp::CleanUp()
 {
+	delete mGame;
 	delete mSkybox;	
 	delete mCameraContainer;
 	delete mCamera;

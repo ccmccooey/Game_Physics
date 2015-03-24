@@ -61,6 +61,7 @@ public:
 	static float DistanceSquared(const Vector2f &first, const Vector2f &second);
 	static float AngleBetweenDegrees(const Vector2f &first, const Vector2f &second);
 	static float AngleBetweenRadians(const Vector2f &first, const Vector2f &second);
+	static float AngleBetweenPointsDegrees(const Vector2f &a, const Vector2f &b);
 	static Vector2f Midpoint(const Vector2f &first, const Vector2f &second);
 	static Vector2f Quaterpoint(const Vector2f &first, const Vector2f &second);
 	static Vector2f ThreeQuaterpoint(const Vector2f &first, const Vector2f &second);

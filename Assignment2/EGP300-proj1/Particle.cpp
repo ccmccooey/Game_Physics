@@ -48,6 +48,10 @@ float Particle::GetMass() const
 {
 	return mMass;
 }
+float Particle::GetInverseMass() const
+{
+	return mInverseMass;
+}
 
 //setters
 void Particle::SetMass(float mass)

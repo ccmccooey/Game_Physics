@@ -2,6 +2,7 @@
 #include "Particle.h"
 #include "GravityForceGenerator.h"
 #include "ParticleContact.h"
+#include "ParticleContactGenerator.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -9,6 +10,7 @@ ParticleSystem::ParticleSystem()
 	mRegistry = vector<ParticleForceGenerator*>();
 	mContactGenerators = vector<ParticleContactGenerator*>();
 	mActiveContacts = vector<ParticleContact*>();
+	mDeleteQueue = queue<ParticleContact*>();
 }
 ParticleSystem::~ParticleSystem()
 {
@@ -25,18 +27,45 @@ ParticleSystem::~ParticleSystem()
 void ParticleSystem::FixedUpdate(double t)
 {
 	unsigned int i, j;
+	unsigned int size, size2;
 
-	for (j = 0; j < mParticles.size(); j++)
+
+	size = mParticles.size();
+	size2 = mRegistry.size();
+	for (j = 0; j < size; j++)
 	{
-		for (i = 0; i < mRegistry.size(); i++)
+		for (i = 0; i < size2; i++)
 		{
 			mRegistry[i]->ApplyForce(mParticles[j], t);
 		}
 	}
 
-	for (j = 0; j < mParticles.size(); j++)
+	for (j = 0; j < size; j++)
 	{
 		mParticles[j]->FixedUpdate(t);
+	}
+
+	size = mContactGenerators.size();
+	for (i = 0; i < size; i++)
+	{
+		mContactGenerators[i]->AddContact(this);
+	}
+
+	size = mActiveContacts.size();
+	for (i = 0; i < size; i++)
+	{
+		mActiveContacts[i]->ResolveVelocity((float)t);
+		mDeleteQueue.push(mActiveContacts[i]);
+	}
+	mActiveContacts.clear();
+	FlushDeleteQueue();
+}
+void ParticleSystem::FlushDeleteQueue()
+{
+	while (mDeleteQueue.size() > 0)
+	{
+		delete mDeleteQueue.front();
+		mDeleteQueue.pop();
 	}
 }
 

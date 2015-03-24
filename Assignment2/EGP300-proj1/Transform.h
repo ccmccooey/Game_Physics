@@ -53,10 +53,14 @@ public:
 	void SetX(float x);
 	void SetY(float y);
 	void SetZ(float z);
-	void SetRotation(float axisX, float axisY, float axisZ, float angle);
-	void SetRotation(const Vector3f &axis, float angle);
-	void SetRotation(float eulerX, float eulerY, float eulerZ);
-	void SetRotation(const Vector3f &eulerAngles);
+	void SetRotationRadians(float axisX, float axisY, float axisZ, float angle);
+	void SetRotationRadians(const Vector3f &axis, float angle);
+	void SetRotationDegrees(float axisX, float axisY, float axisZ, float angle);
+	void SetRotationDegrees(const Vector3f &axis, float angle);
+	void SetRotationRadians(float eulerX, float eulerY, float eulerZ);
+	void SetRotationRadians(const Vector3f &eulerAngles);
+	void SetRotationDegrees(float eulerX, float eulerY, float eulerZ);
+	void SetRotationDegrees(const Vector3f &eulerAngles);
 	void SetRotationIdentity();
 	void SetScale(float scaleX, float scaleY, float scaleZ);
 	void SetScale(const Vector3f &scale);

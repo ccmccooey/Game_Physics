@@ -11,21 +11,23 @@
 
 class DisplayObject3D;
 class DisplayObject3DManager;
-class ParticleLink;
+class GameObjectLink;
 class GameObject;
 class Particle;
 class ParticleSystem;
-struct DrawData;
 /*
-class AggregateFactory {
+class AggregateFactory 
+{
 public:
 	virtual ~AggregateFactory() {}
 	virtual MassAggregate* BuildAggregate() = 0;
 };
 
-class CubeBuilder : public AggregateFactory {
+class CubeBuilder : public AggregateFactory 
+{
 public:
-	virtual MassAggregate* BuildAggregate() {
+	virtual MassAggregate* BuildAggregate() 
+	{
 		MassAggregate* aggregate = new MassAggregate(...);
 		aggregate.addLink(...);
 		aggregate.addParticle(...);
@@ -33,14 +35,16 @@ public:
 	};
 };
 
-enum {
+enum 
+{
 	BUILD_CUBE = 0,
 	BUILD_TETRA,
 	BUILD_RING,
 	BUILD_CLOTH,
 	NUM_BUILDERS
 };
-AggregateFactory *kAggregates[NUM_BUILDERS] = {
+AggregateFactory *kAggregates[NUM_BUILDERS] = 
+{
 	new CubeBuilder(...),
 	new TetraBuilder(...),
 	new ClothBuilder(...)
@@ -51,10 +55,14 @@ MassAggregate* myAggregate = kAggregates[BUILD_CUBE]->BuildAggregate();*/
 class MassAggregate
 {
 private:
-	std::vector<DisplayObject3D*> mDisplayLines;
-
+	enum LinkTypes
+	{
+		Rod = 0,
+		Cable,
+	};
+private:
 	std::vector<GameObject*> mParticles;
-	std::vector<ParticleLink*> mLinks;
+	std::vector<GameObjectLink*> mLinks;
 
 	MassAggregateGeometry mGeometryType;
 	Vector3f mInitialPosition;
@@ -69,12 +77,16 @@ public:
 	~MassAggregate();
 
 	//accessors
+	Particle* GetParticleAt(unsigned int index) const;
+
+	//adding and removing to systems
 	void AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
 	void DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
 
 	//setters
 	void LinkPositions(); //link the position of the graphics object from the physics object
-	void InsertParticle(Model* model, const Vector3f &position);
+	void InsertParticle(Model* model, const Vector3f &relativePosition);
+	void InsertLink(Model* model, int particleIndexA, int particleIndexB, LinkTypes type);
 
 	//draw function
 	//void Draw(DrawData* drawData);
