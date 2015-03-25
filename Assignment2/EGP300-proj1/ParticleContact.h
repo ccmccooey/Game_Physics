@@ -42,8 +42,7 @@ public:
 	//resolution
 	float SeparatingVelocity() const;
 	void ResolveVelocity(float duration);
-	//void ResolveVelocity(float duration);
-	
+	void ResolvePenetrationDepth(float duration);	
 };
 
 #endif

@@ -193,6 +193,10 @@ void ParticleContact::ResolveVelocity(float duration)
 		}
 	}
 }
+void ParticleContact::ResolvePenetrationDepth(float duration)
+{
+
+}
 /*
 //The code for this function came from the book
 void ParticleContact::ResolveVelocity(float duration)

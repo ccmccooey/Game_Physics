@@ -100,7 +100,7 @@ void Game::InitializeMassAggregates()
 		p->AddVelocity(Vector3f::unitX * 2.0f);*/
 
 	//test 2
-	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Line, 0.0f, 0.0f, 0.0f);
+	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Tetrahedron, 0.0f, 0.0f, 0.0f);
 	ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
 	mMassAggregates.push_back(ma);
 
@@ -153,5 +153,5 @@ void Game::RemoveGround()
 void Game::Reset()
 {
 	RemoveMassAggregates();
-	InitializeMassAggregates();
+	//InitializeMassAggregates();
 }

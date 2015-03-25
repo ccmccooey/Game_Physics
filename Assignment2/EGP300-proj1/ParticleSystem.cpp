@@ -3,6 +3,7 @@
 #include "GravityForceGenerator.h"
 #include "ParticleContact.h"
 #include "ParticleContactGenerator.h"
+#include "ParticleContactResolver.h"
 
 ParticleSystem::ParticleSystem()
 {
@@ -11,6 +12,8 @@ ParticleSystem::ParticleSystem()
 	mContactGenerators = vector<ParticleContactGenerator*>();
 	mActiveContacts = vector<ParticleContact*>();
 	mDeleteQueue = queue<ParticleContact*>();
+
+	mResolver = new ParticleContactResolver();
 }
 ParticleSystem::~ParticleSystem()
 {
@@ -23,12 +26,13 @@ ParticleSystem::~ParticleSystem()
 		mRegistry[i] = nullptr;
 	}
 	mRegistry.clear();
+
+	delete mResolver;
 }
 void ParticleSystem::FixedUpdate(double t)
 {
 	unsigned int i, j;
 	unsigned int size, size2;
-
 
 	size = mParticles.size();
 	size2 = mRegistry.size();
@@ -55,6 +59,8 @@ void ParticleSystem::FixedUpdate(double t)
 	for (i = 0; i < size; i++)
 	{
 		mActiveContacts[i]->ResolveVelocity((float)t);
+		mActiveContacts[i]->ResolvePenetrationDepth((float)t);
+		//mResolver->MultiPassResolveContacts(&mActiveContacts[0], (int)mActiveContacts.size(), t);
 		mDeleteQueue.push(mActiveContacts[i]);
 	}
 	mActiveContacts.clear();

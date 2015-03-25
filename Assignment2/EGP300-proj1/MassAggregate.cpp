@@ -109,7 +109,7 @@ void MassAggregate::InsertLink(Model* model, int particleIndexA, int particleInd
 {
 	if (type == LinkTypes::Rod)
 	{
-		ParticleRod* rod = new ParticleRod(10.0f);
+		ParticleRod* rod = new ParticleRod(8.0f);
 		rod->mParticleA = mParticles[particleIndexA]->GetPhysicsObject();
 		rod->mParticleB = mParticles[particleIndexB]->GetPhysicsObject();
 		GameObjectLink* link = new GameObjectLink(model, rod);		
@@ -127,7 +127,7 @@ void MassAggregate::CreateBodyPoint(MassAggregateModels* models)
 void MassAggregate::CreateBodyLine(MassAggregateModels* models)
 {
 	InsertParticle(models->modelParticle, Vector3f::zero);
-	InsertParticle(models->modelParticle, Vector3f::unitX * 10.0f + Vector3f::unitY * 5.0f);
+	InsertParticle(models->modelParticle, Vector3f::unitX * 10.0f +Vector3f::unitY * 5.0f);
 	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
 }
 #pragma endregion
@@ -153,7 +153,17 @@ void MassAggregate::CreateBodyCube(MassAggregateModels* models)
 #pragma region Create Tetrahedron
 void MassAggregate::CreateBodyTetrahedron(MassAggregateModels* models)
 {
+	InsertParticle(models->modelParticle, Vector3f::zero);
+	InsertParticle(models->modelParticle, Vector3f::zero + Vector3f::unitX * 5.0f);
+	InsertParticle(models->modelParticle, Vector3f::zero + Vector3f::unitZ * 5.0f);
+	//InsertParticle(models->modelParticle, Vector3f::zero + Vector3f::unitZ);
 
+	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
+	InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
+	InsertLink(models->modelRod, 2, 0, LinkTypes::Rod);
+	//InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
+	//InsertLink(models->modelRod, 1, 3, LinkTypes::Rod);
+	//InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
 }
 #pragma endregion
 

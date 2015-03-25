@@ -35,7 +35,7 @@ int ParticleRod::AddContact(ParticleSystem* system)
 	}
 	ParticleContact contact = ParticleContact(mParticleA, mParticleB);
   
-	Vector3f normal = Vector3f::DirectionTo(mParticleA->GetPosition(), mParticleB->GetPosition());
+	Vector3f normal = Vector3f::DirectionTo(mParticleB->GetPosition(), mParticleA->GetPosition());
 	//Vector3f normal = particle_b->position() - particle_a->position();
 	//normal.normalize();
 

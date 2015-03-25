@@ -43,13 +43,25 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 
 		pTransform->SetPosition(position * DISTANCE_SCALE);
 
-		float distance = Vector3f::Distance(a, b);
-		pTransform->SetScale(distance * DISTANCE_SCALE, 0.25f, 0.25f);
-
+		
+		
 		float rotX = Vector2f::AngleBetweenRadians(Vector2f(a.z, a.y), Vector2f(b.z, b.y));
 		float rotY = Vector2f::AngleBetweenRadians(Vector2f(a.x, a.z), Vector2f(b.x, b.z));
 		float rotZ = Vector2f::AngleBetweenRadians(Vector2f(a.x, a.y), Vector2f(b.x, b.y));
+		pTransform->SetRotationRadians(rotX, -rotY, rotZ);
 		
-		pTransform->SetRotationRadians(rotX, rotY, rotZ);
+
+		/*
+		Vector3f lookAt = Vector3f::DirectionTo(b, a);
+		
+
+		float r = lookAt.Length();
+		float theta = acosf(lookAt.z / r);
+		float phi = atan2f(lookAt.y, lookAt.x);
+
+		pTransform->SetRotationRadians(theta, phi, 0.0f);*/
+
+		float distance = Vector3f::Distance(a, b);
+		pTransform->SetScale(distance * DISTANCE_SCALE, 0.25f, 0.25f);
 	}
 }

@@ -231,6 +231,7 @@ void MainApp::CheckGui()
 		case GuiOperationEnum::Stop:
 			break;
 		case GuiOperationEnum::Reset:
+			mGame->Reset();
 			break;
 		case GuiOperationEnum::Help:
 			break;
