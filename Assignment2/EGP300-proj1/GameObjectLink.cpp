@@ -48,7 +48,13 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 		float rotX = Vector2f::AngleBetweenRadians(Vector2f(a.z, a.y), Vector2f(b.z, b.y));
 		float rotY = Vector2f::AngleBetweenRadians(Vector2f(a.x, a.z), Vector2f(b.x, b.z));
 		float rotZ = Vector2f::AngleBetweenRadians(Vector2f(a.x, a.y), Vector2f(b.x, b.y));
-		pTransform->SetRotationRadians(rotX, -rotY, rotZ);
+
+		//if (a.x - b.x < 0.0)
+			//rotY *= -1.0f;
+		//rotZ *= -1;
+		rotX *= -1;
+
+		pTransform->SetRotationRadians(rotX, rotY, rotZ);
 		
 
 		/*

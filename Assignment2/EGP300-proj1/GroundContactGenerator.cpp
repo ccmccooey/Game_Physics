@@ -48,7 +48,7 @@ int GroundContactGenerator::AddContact(ParticleSystem *system)
 		currentPosition = current->GetPosition();
 		if (currentPosition.y < mGroundHeight) 
 		{
-			ParticleContact contact = ParticleContact(current, nullptr, 0.5f, Vector3f::unitY, currentPosition.y - mGroundHeight);
+			ParticleContact contact = ParticleContact(current, nullptr, 0.5f, Vector3f::unitY, fabsf(currentPosition.y - mGroundHeight));
 
 			/*
 			contact.penetration_depth =

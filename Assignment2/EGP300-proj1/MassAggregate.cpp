@@ -136,34 +136,52 @@ void MassAggregate::CreateBodyCube(MassAggregateModels* models)
 {
 	float d = 5.0f;
 
-	//bottom square
-	InsertParticle(models->modelParticle, Vector3f::zero);
+	//bottom square particles
+	InsertParticle(models->modelParticle, Vector3f(0.0f, 0.0f, 0.0f));
 	InsertParticle(models->modelParticle, Vector3f(d, 0.0f, 0.0f));
 	InsertParticle(models->modelParticle, Vector3f(d, 0.0f, d));
 	InsertParticle(models->modelParticle, Vector3f(0.0f, 0.0f, d));
-	//top square
-	InsertParticle(models->modelParticle, Vector3f::zero);
+	//top square particles
+	InsertParticle(models->modelParticle, Vector3f(0.0f, d, 0.0f));
 	InsertParticle(models->modelParticle, Vector3f(d, d, 0.0f));
 	InsertParticle(models->modelParticle, Vector3f(d, d, d));
 	InsertParticle(models->modelParticle, Vector3f(0.0f, d, d));
 
+	//bottom square links
 	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
+	InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
+	InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
+	InsertLink(models->modelRod, 3, 0, LinkTypes::Rod);
+
+	//top square links
+	InsertLink(models->modelRod, 4, 5, LinkTypes::Rod);
+	InsertLink(models->modelRod, 5, 6, LinkTypes::Rod);
+	InsertLink(models->modelRod, 6, 7, LinkTypes::Rod);
+	InsertLink(models->modelRod, 7, 4, LinkTypes::Rod);
+
+	//connecting the bottom and top squares
+	InsertLink(models->modelRod, 0, 4, LinkTypes::Rod);
+	InsertLink(models->modelRod, 1, 5, LinkTypes::Rod);
+	InsertLink(models->modelRod, 2, 6, LinkTypes::Rod);
+	InsertLink(models->modelRod, 3, 7, LinkTypes::Rod);
 }
 #pragma endregion
 #pragma region Create Tetrahedron
 void MassAggregate::CreateBodyTetrahedron(MassAggregateModels* models)
 {
-	InsertParticle(models->modelParticle, Vector3f::zero);
-	InsertParticle(models->modelParticle, Vector3f::zero + Vector3f::unitX * 5.0f);
-	InsertParticle(models->modelParticle, Vector3f::zero + Vector3f::unitZ * 5.0f);
-	//InsertParticle(models->modelParticle, Vector3f::zero + Vector3f::unitZ);
+	float v = 5.0f;
+	float h = v * 0.5f;
+	InsertParticle(models->modelParticle, Vector3f(-h, 0.0f, 0.0f));
+	InsertParticle(models->modelParticle, Vector3f(h, 0.0f, 0.0f));
+	InsertParticle(models->modelParticle, Vector3f(0.0f, 0.0f, -v));
+	InsertParticle(models->modelParticle, Vector3f(0.0f, v, -h));
 
 	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
 	InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
 	InsertLink(models->modelRod, 2, 0, LinkTypes::Rod);
-	//InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
-	//InsertLink(models->modelRod, 1, 3, LinkTypes::Rod);
-	//InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
+	InsertLink(models->modelRod, 0, 3, LinkTypes::Rod);
+	InsertLink(models->modelRod, 1, 3, LinkTypes::Rod);
+	InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
 }
 #pragma endregion
 

@@ -87,7 +87,7 @@ void Game::InitializeGround()
 void Game::InitializeMassAggregates()
 {
 	MassAggregate* ma;
-	Particle* p;
+	
 
 	//test 1
 	/*
@@ -100,16 +100,19 @@ void Game::InitializeMassAggregates()
 		p->AddVelocity(Vector3f::unitX * 2.0f);*/
 
 	//test 2
-	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Tetrahedron, 0.0f, 0.0f, 0.0f);
+	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Cube, 0.0f, 0.0f, 0.0f);
 	ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
 	mMassAggregates.push_back(ma);
 
+	//initial velocities
+	/*
+	Particle* p;
 	p = ma->GetParticleAt(0);
 	if (p != nullptr)
 		p->AddVelocity(Vector3f::unitX * 1.5f + Vector3f::unitZ * 1.0f);
 	p = ma->GetParticleAt(1);
 	if (p != nullptr)
-		p->AddVelocity(Vector3f::unitX * -1.5f + Vector3f::unitZ * 1.0f);
+		p->AddVelocity(Vector3f::unitX * -1.5f + Vector3f::unitZ * 1.0f);*/
 }
 
 //update all the mass aggregate graphics

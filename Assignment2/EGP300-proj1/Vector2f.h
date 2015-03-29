@@ -54,6 +54,7 @@ public:
 	void normalize(); //make the vector length 1
 	void lengthinize(float length); //make the vector length a specific value
 	void power(float power);
+	void abs();
 
 	//static math functions
 	static float DotProduct(const Vector2f &first, const Vector2f &second);

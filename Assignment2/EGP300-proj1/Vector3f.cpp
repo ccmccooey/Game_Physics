@@ -247,6 +247,15 @@ float Vector3f::Average() const
 {
 	return (x + y + z) / 3.0f;
 }
+void Vector3f::Abs()
+{
+	if (x < 0)
+		x *= -1.0f;
+	if (y < 0)
+		y *= -1.0f;
+	if (z < 0)
+		z *= -1.0f;
+}
 
 //static math functions
 float Vector3f::DotProduct(const Vector3f &first, const Vector3f &second)

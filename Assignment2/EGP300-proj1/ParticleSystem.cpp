@@ -5,6 +5,9 @@
 #include "ParticleContactGenerator.h"
 #include "ParticleContactResolver.h"
 
+#define USE_MULTI_PASS 1 //0 false, 1 true
+#define MULTI_PASS_COUNT 5
+
 ParticleSystem::ParticleSystem()
 {
 	mParticles = vector<Particle*>();
@@ -13,7 +16,7 @@ ParticleSystem::ParticleSystem()
 	mActiveContacts = vector<ParticleContact*>();
 	mDeleteQueue = queue<ParticleContact*>();
 
-	mResolver = new ParticleContactResolver();
+	mResolver = new ParticleContactResolver(MULTI_PASS_COUNT);
 }
 ParticleSystem::~ParticleSystem()
 {
@@ -58,9 +61,13 @@ void ParticleSystem::FixedUpdate(double t)
 	size = mActiveContacts.size();
 	for (i = 0; i < size; i++)
 	{
+		#if USE_MULTI_PASS == 1
+		mResolver->MultiPassResolveContacts(&mActiveContacts[0], (int)mActiveContacts.size(), (float)t);
+		#else
 		mActiveContacts[i]->ResolveVelocity((float)t);
 		mActiveContacts[i]->ResolvePenetrationDepth((float)t);
-		//mResolver->MultiPassResolveContacts(&mActiveContacts[0], (int)mActiveContacts.size(), t);
+		#endif
+		
 		mDeleteQueue.push(mActiveContacts[i]);
 	}
 	mActiveContacts.clear();

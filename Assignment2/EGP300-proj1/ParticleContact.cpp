@@ -35,6 +35,8 @@ ParticleContact::ParticleContact(const ParticleContact &rhs)
 	mRestitution = rhs.mRestitution;
 	mContactNormal = rhs.mContactNormal;
 	mPenetrationDepth = rhs.mPenetrationDepth;
+	mDisplacementA = rhs.mDisplacementA;
+	mDisplacementB = rhs.mDisplacementB;
 }
 ParticleContact::~ParticleContact()
 {
@@ -50,19 +52,19 @@ Particle* ParticleContact::GetActorB() const
 {
 	return mParticleB;
 }
-Vector3f ParticleContact::GetActorADisplacement() const
+const Vector3f& ParticleContact::GetActorADisplacement() const
 {
-	return mParticleA->GetPosition();
+	return mDisplacementA;
 }
-Vector3f ParticleContact::GetActorBDisplacement() const
+const Vector3f& ParticleContact::GetActorBDisplacement() const
 {
-	return mParticleB->GetPosition();
+	return mDisplacementB;
 }
 float ParticleContact::GetRestitution() const
 {
 	return mRestitution;
 }
-Vector3f ParticleContact::GetContactNormal() const
+Vector3f const& ParticleContact::GetContactNormal() const
 {
 	return mContactNormal;
 }
@@ -193,9 +195,47 @@ void ParticleContact::ResolveVelocity(float duration)
 		}
 	}
 }
+
 void ParticleContact::ResolvePenetrationDepth(float duration)
 {
+	// If we don’t have any penetration, skip this step.
+	if (mPenetrationDepth > 0)
+	{
+		// The movement of each object is based on their inverse mass,
+		// so total that.
 
+		float totalInverseMass = mParticleA->GetInverseMass();
+		if (mParticleB != nullptr)
+		{
+			totalInverseMass += mParticleB->GetInverseMass();
+		}
+
+		// If all particles have infinite mass, then we do nothing.
+		if (totalInverseMass > 0)
+		{
+			// Find the amount of penetration resolution per unit
+			// of inverse mass.
+			Vector3f movePerIMass = mContactNormal * (mPenetrationDepth / totalInverseMass);
+			// Calculate the movement amounts.
+			mDisplacementA = movePerIMass * mParticleA->GetInverseMass();
+			if (mParticleB != nullptr) 
+			{
+				mDisplacementB = movePerIMass * -mParticleB->GetInverseMass();
+			}
+			else 
+			{
+				//mDisplacementB.clear();
+				//mDisplacementB = Vector3f::zero;
+			}
+			// Apply the penetration resolution.
+			mParticleA->SetPosition(mParticleA->GetPosition() + mDisplacementA);
+			if (mParticleB != nullptr) 
+			{
+				mParticleB->SetPosition(mParticleB->GetPosition() + mDisplacementB);
+			}
+		}
+
+	}
 }
 /*
 //The code for this function came from the book
@@ -213,8 +253,8 @@ void ParticleContact::ResolveVelocity(float duration)
 	// Calculate the new separating velocity.
 	real newSepVelocity = -separatingVelocity * restitution;
 	// Check the velocity buildup due to acceleration only.
-	Vector3 accCausedVelocity = particle[0]->getAcceleration();
-	if (particle[1]) accCausedVelocity -= particle[1]->getAcceleration();
+	Vector3 accCausedVelocity = mParticleA->getAcceleration();
+	if (mParticleB) accCausedVelocity -= mParticleB->getAcceleration();
 	real accCausedSepVelocity = accCausedVelocity * contactNormal
 	* duration;
 	// If we’ve got a closing velocity due to aceleration buildup,
@@ -231,8 +271,8 @@ void ParticleContact::ResolveVelocity(float duration)
 	// We apply the change in velocity to each object in proportion to
 	// their inverse mass (i.e., those with lower inverse mass [higher
 	// actual mass] get less change in velocity).
-	real totalInverseMass = particle[0]->getInverseMass();
-	if (particle[1]) totalInverseMass += particle[1]->getInverseMass();
+	real totalInverseMass = mParticleA->getInverseMass();
+	if (mParticleB) totalInverseMass += mParticleB->getInverseMass();
 	// If all particles have infinite mass, then impulses have no effect.
 	if (totalInverseMass <= 0) return;
 	// Calculate the impulse to apply.
@@ -241,14 +281,14 @@ void ParticleContact::ResolveVelocity(float duration)
 	Vector3 impulsePerIMass = contactNormal * impulse;
 	// Apply impulses: they are applied in the direction of the contact,
 	// and are proportional to the inverse mass.
-	particle[0]->setVelocity(particle[0]->getVelocity() +
-	impulsePerIMass * particle[0]->getInverseMass()
+	mParticleA->setVelocity(mParticleA->getVelocity() +
+	impulsePerIMass * mParticleA->getInverseMass()
 	);
-	if (particle[1])
+	if (mParticleB)
 	{
 	// Particle 1 goes in the opposite direction.
-	particle[1]->setVelocity(particle[1]->getVelocity() +
-	impulsePerIMass * -particle[1]->getInverseMass()
+	mParticleB->setVelocity(mParticleB->getVelocity() +
+	impulsePerIMass * -mParticleB->getInverseMass()
 	);
 	}
 }*/

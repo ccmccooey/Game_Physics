@@ -25,10 +25,10 @@ public:
 	//accessors
 	Particle* GetActorA() const;
 	Particle* GetActorB() const;
-	Vector3f GetActorADisplacement() const;
-	Vector3f GetActorBDisplacement() const;
+	const Vector3f& GetActorADisplacement() const;
+	const Vector3f& GetActorBDisplacement() const;
 	float GetRestitution() const;
-	Vector3f GetContactNormal() const;
+	const Vector3f& GetContactNormal() const;
 	float GetPenetrationDepth() const;
 
 	//setters

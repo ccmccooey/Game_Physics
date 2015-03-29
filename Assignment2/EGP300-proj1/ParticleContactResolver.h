@@ -10,6 +10,7 @@ private:
 
 public:
 	ParticleContactResolver();
+	ParticleContactResolver(int passes);
 	~ParticleContactResolver();
 
 	void MultiPassResolveContacts(ParticleContact **contacts, int num_contacts, float duration);

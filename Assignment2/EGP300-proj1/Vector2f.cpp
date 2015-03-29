@@ -186,6 +186,13 @@ void Vector2f::power(float power)
 	x = powf(x, power);
 	y = powf(y, power);
 }
+void Vector2f::abs()
+{
+	if (x < 0)
+		x *= -1.0f;
+	if (y < 0)
+		y *= -1.0f;
+}
 
 //static math functions
 float Vector2f::DotProduct(const Vector2f &first, const Vector2f &second)

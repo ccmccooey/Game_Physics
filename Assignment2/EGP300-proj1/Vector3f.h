@@ -73,6 +73,7 @@ public:
 	void Lengthinize(float length); //make the vector length a specific value
 	void Power(float power);
 	float Average() const;
+	void Abs();
 
 	//static math functions
 	static float DotProduct(const Vector3f &first, const Vector3f &second);
