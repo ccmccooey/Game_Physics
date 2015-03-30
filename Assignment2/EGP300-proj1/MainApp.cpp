@@ -8,13 +8,21 @@
 #include "DisplayObject3DManager.h"
 #include "GravityForceGenerator.h"
 #include "Particle.h"
+#include "InputSystem.h"
 #include "Game.h"
-
 #include "Skybox.h"
+
+MainApp* MainApp::msApplication = nullptr;
 
 //constructor
 MainApp::MainApp()
 {
+	if (msApplication != nullptr)
+	{
+		throw;
+	}
+	msApplication = this;
+
 	Initialize();
 }
 MainApp::~MainApp()
@@ -69,7 +77,10 @@ void MainApp::Initialize()
 	UpdateSkyboxPosition();
 
 	//game
-	mGame = new Game(mParticleSystem, mDisplayList);
+	//mGame = new Game(mParticleSystem, mDisplayList);
+	mGame = new Game();
+	mGame->LatchCameraToPlayer(mCameraContainer);
+
 }
 void MainApp::CleanUp()
 {
@@ -89,12 +100,14 @@ void MainApp::FixedUpdate(double t)
 {
 	if (!mPaused)
 	{
+		mGame->Update(t);
 		mParticleSystem->FixedUpdate(mRunSpeed * t);
+
 		if (mUpdateOnlyOnce)
 		{
 			mUpdateOnlyOnce = false;
 			mPaused = true;
-		}		
+		}
 		mGame->UpdateGraphicsObjects();
 
 		mCameraContainer->Update();		
@@ -102,85 +115,106 @@ void MainApp::FixedUpdate(double t)
 
 	}
 	
+	CheckCameraMovement();
 	CheckGui();
 
 }
-void MainApp::UpdateDebugInformation()
+void MainApp::CheckCameraMovement()
 {
-	std::string textOut = "";
-	mGuiSystem->SetDebugText(textOut);
-}
-
-//keyboard input
-void MainApp::CheckKeyboardInput(unsigned char key)
-{
-	if (key == 'A' || key == 'a')
+	
+	/*
+	if (InputSystem::KeyDown('A') || InputSystem::KeyDown('a'))
 	{
 		mCameraContainer->Translate(-1.0f, 0.0f, 0.0f);
 		//mCamera->moveCamera(-1.0f, 0.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-	if (key == 'S' || key == 's')
+	if (InputSystem::KeyDown('S') || InputSystem::KeyDown('s'))
 	{
 		mCameraContainer->Translate(0.0f, 0.0f, 1.0f);
 		//mCamera->moveCamera(0.0f, 0.0f, -1.0f);
 		UpdateSkyboxPosition();
 	}
-	if (key == 'D' || key == 'd')
+	if (InputSystem::KeyDown('D') || InputSystem::KeyDown('d'))
 	{
 		mCameraContainer->Translate(1.0f, 0.0f, 0.0f);
 		//mCamera->moveCamera(1.0f, 0.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-	if (key == 'W' || key == 'w')
+	if (InputSystem::KeyDown('W') || InputSystem::KeyDown('w'))
 	{
 		mCameraContainer->Translate(0.0f, 0.0f, -1.0f);
 		//mCamera->moveCamera(0.0f, 0.0f, 1.0f);
 		UpdateSkyboxPosition();
 	}
-	if (key == 'R' || key == 'r')
+	if (InputSystem::KeyDown('R') || InputSystem::KeyDown('r'))
 	{
 		mCameraContainer->Translate(0.0f, 1.0f, 0.0f);
 		//mCamera->moveCamera(0.0f, 1.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-	if (key == 'F' || key == 'f')
+	if (InputSystem::KeyDown('F') || InputSystem::KeyDown('f'))
 	{
 		mCameraContainer->Translate(0.0f, -1.0f, 0.0f);
 		//mCamera->moveCamera(0.0f, -1.0f, 0.0f);
 		UpdateSkyboxPosition();
+	}*/
+
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Left))
+	{
+		mCameraContainer->Translate(-1.0f, 0.0f, 0.0f);
+		UpdateSkyboxPosition();
 	}
-}
-void MainApp::CheckSpecialKeyboardInput(int key, int x, int y)
-{
-	if (key == GLUT_KEY_LEFT)
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Right))
+	{
+		mCameraContainer->Translate(1.0f, 0.0f, 0.0f);
+		UpdateSkyboxPosition();
+	}
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Up))
+	{
+		mCameraContainer->Translate(0.0f, 1.0f, 0.0f);
+		UpdateSkyboxPosition();
+	}
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Down))
+	{
+		mCameraContainer->Translate(0.0f, -1.0f, 0.0f);
+		UpdateSkyboxPosition();
+	}
+
+	/*
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Left))
 	{
 		mCamera->rotateCameraYaw(-mCameraRotationSpeed);
 	}
-	if (key == GLUT_KEY_RIGHT)
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Right))
 	{
 		mCamera->rotateCameraYaw(mCameraRotationSpeed);
 	}
-	if (key == GLUT_KEY_HOME)
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Home))
 	{
 		mCamera->rotateCameraPitch(mCameraRotationSpeed);
 	}
-	if (key == GLUT_KEY_END)
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_End))
 	{
 		mCamera->rotateCameraPitch(-mCameraRotationSpeed);
 	}
-	if (key == GLUT_KEY_UP)
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Up))
 	{
 		mCamera->moveCamera(mCamera->getCameraForward() * mCameraMoveSpeed);
 		UpdateSkyboxPosition();
 	}
-	if (key == GLUT_KEY_DOWN)
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Down))
 	{
 		float angle = mCamera->getRotationAngle();
 		m3dDegToRad(angle);
 		mCamera->moveCamera(mCamera->getCameraForward() * -mCameraMoveSpeed);
 		UpdateSkyboxPosition();
-	}
+	}*/
+}
+void MainApp::UpdateDebugInformation()
+{
+	std::string textOut = "";
+	mGuiSystem->SetDebugText(textOut);
 }
 
 //mouse input
@@ -268,4 +302,18 @@ void MainApp::DecreaseRunSpeed(double amount)
 void MainApp::UpdateSkyboxPosition()
 {
 	mSkybox->SetPostion(Vector3f::zero);
+}
+
+//singleton accessors
+MainApp* MainApp::GetApp()
+{
+	return msApplication;
+}
+ParticleSystem* MainApp::GetPhysicsSystem()
+{
+	return msApplication->mParticleSystem;
+}
+DisplayObject3DManager* MainApp::GetGraphicsSystem()
+{
+	return msApplication->mDisplayList;
 }

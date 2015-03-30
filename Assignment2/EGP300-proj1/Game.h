@@ -1,15 +1,16 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+#include "Vector3f.h"
 #include <vector>
 
+class CameraContainer;
 class TextureManager;
 class MassAggregate;
 class MaterialManager;
-class ParticleSystem;
-class DisplayObject3DManager;
 struct MassAggregateModels;
 class Model;
+class Player;
 struct DrawData;
 
 class Game
@@ -20,18 +21,21 @@ private:
 	TextureManager* mTextureManager;
 	MaterialManager* mMaterialManager;
 	std::vector<MassAggregate*> mMassAggregates;
-	ParticleSystem* mpParticleSystemReference;
-	DisplayObject3DManager* mpGraphicsSystemReference;
 	MassAggregateModels* mModels;
 	Model* mGrassModel;
+	Player* mPlayer;
 
 public:
-	Game(ParticleSystem* particleSystem, DisplayObject3DManager* graphicsSystem);
+	Game();
+	//Game(ParticleSystem* particleSystem, DisplayObject3DManager* graphicsSystem);
 	~Game();
 
 
 	void UpdateGraphicsObjects();
+	void Update(double t);
 	void Reset();
+
+	void LatchCameraToPlayer(CameraContainer* camera);
 
 private:
 	void Initialize();

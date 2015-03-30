@@ -216,7 +216,13 @@ float Vector2f::AngleBetweenDegrees(const Vector2f &first, const Vector2f &secon
 }
 float Vector2f::AngleBetweenRadians(const Vector2f &first, const Vector2f &second)
 {
+	
 	return atan2f(second.y - first.y, second.x - first.x);
+	//if (first.y < second.y && first.x > second.x)
+	//{
+		//angle += 3.1415926f;
+	//}
+	//return angle;
 }
 Vector2f Vector2f::Midpoint(const Vector2f &first, const Vector2f &second)
 {

@@ -6,27 +6,41 @@
 #include "DisplayObject3D.h"
 #include "ParticleSystem.h"
 #include "Particle.h"
+#include "CameraContainer.h"
 #include "GroundForceGenerator.h"
 #include "GroundContactGenerator.h"
 #include "Material.h"
 #include "DrawData.h"
 #include "MassAggregate.h"
+#include "MainApp.h"
 #include "Model.h"
+#include "Player.h"
 
 #include <string>
 
 using namespace std;
 
 //constructors
+Game::Game()
+{
+	Initialize();
+}
+/*
 Game::Game(ParticleSystem* particleSystem, DisplayObject3DManager* graphicsSystem)
 {
 	mpParticleSystemReference = particleSystem;
 	mpGraphicsSystemReference = graphicsSystem;
 	Initialize();
-}
+}*/
 Game::~Game()
 {
 	CleanUp();
+}
+
+
+void Game::LatchCameraToPlayer(CameraContainer* camera)
+{
+	camera->Latch(mPlayer->GetMassAggregate()->GetGraphicsObjectAt(0));
 }
 
 //initialization
@@ -63,7 +77,6 @@ void Game::InitializeAssets()
 	Model* pModelLine = new Model(mMaterialManager->FindMaterial("SteelRod"), Geometry::CUBE);
 	mModels = new MassAggregateModels(pModelPoint, pModelLine, pModelLine, pModelPoint, pModelPoint);
 
-
 	mGrassModel = new Model(mMaterialManager->FindMaterial("Grass"), Geometry::QUAD);
 }
 void Game::InitializeGround()
@@ -76,13 +89,13 @@ void Game::InitializeGround()
 	pGrassTransform->SetPosition(-50.0f, groundHeight - 0.5f, 50.0f);
 	pGrassTransform->SetScale(100.0f, 100.0f, 1.0f);
 	pGrassTransform->SetRotationDegrees(90.0f, 0.0f, 0.0f);
-	mpGraphicsSystemReference->AddObject(grass);
+	MainApp::GetGraphicsSystem()->AddObject(grass);
 
 	GroundContactGenerator* groundContact = new GroundContactGenerator(groundHeight);
-	mpParticleSystemReference->AddContactGenerator(groundContact);
+	MainApp::GetPhysicsSystem()->AddContactGenerator(groundContact);
 
 	GroundForceGenerator* groundForce = new GroundForceGenerator(1.0f);
-	mpParticleSystemReference->AddForceGenerator(groundForce);
+	MainApp::GetPhysicsSystem()->AddForceGenerator(groundForce);
 }
 void Game::InitializeMassAggregates()
 {
@@ -99,9 +112,13 @@ void Game::InitializeMassAggregates()
 	if (p != nullptr)
 		p->AddVelocity(Vector3f::unitX * 2.0f);*/
 
+	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Line, 0.0f, 0.0f, 0.0f);
+	mPlayer = new Player(ma);
+	mMassAggregates.push_back(ma);
+
 	//test 2
-	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Cube, 0.0f, 0.0f, 0.0f);
-	ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
+	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_PyramidWithTop, 0.0f, 0.0f, 0.0f);
+	//ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
 	mMassAggregates.push_back(ma);
 
 	//initial velocities
@@ -116,6 +133,10 @@ void Game::InitializeMassAggregates()
 }
 
 //update all the mass aggregate graphics
+void Game::Update(double t)
+{
+	mPlayer->FixedUpdate(t);
+}
 void Game::UpdateGraphicsObjects()
 {
 	unsigned int size = mMassAggregates.size();
@@ -131,7 +152,8 @@ void Game::CleanUp()
 	this->RemoveMassAggregates();
 	this->RemoveGround();
 
-	delete mModels;
+	delete mPlayer;
+	delete mModels;	
 
 	delete mMaterialManager;
 	delete mTextureManager;
@@ -142,7 +164,7 @@ void Game::RemoveMassAggregates()
 	unsigned int size = mMassAggregates.size();
 	for (unsigned int i = 0; i < size; i++)
 	{
-		mMassAggregates[i]->DeleteFromSystems(mpParticleSystemReference, mpGraphicsSystemReference);
+		//mMassAggregates[i]->DeleteFromSystems(mpParticleSystemReference, mpGraphicsSystemReference);
 		delete mMassAggregates[i];
 	}
 	mMassAggregates.clear();

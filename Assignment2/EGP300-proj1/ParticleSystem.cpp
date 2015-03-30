@@ -6,7 +6,7 @@
 #include "ParticleContactResolver.h"
 
 #define USE_MULTI_PASS 1 //0 false, 1 true
-#define MULTI_PASS_COUNT 5
+#define MULTI_PASS_COUNT 15
 
 ParticleSystem::ParticleSystem()
 {

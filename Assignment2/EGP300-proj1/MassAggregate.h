@@ -78,18 +78,18 @@ public:
 
 	//accessors
 	Particle* GetParticleAt(unsigned int index) const;
-
-	//adding and removing to systems
-	void AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
-	void DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
+	DisplayObject3D* GetGraphicsObjectAt(unsigned int index) const;
 
 	//setters
 	void LinkPositions(); //link the position of the graphics object from the physics object
 	void InsertParticle(Model* model, const Vector3f &relativePosition);
 	void InsertLink(Model* model, int particleIndexA, int particleIndexB, LinkTypes type);
 
-	//draw function
-	//void Draw(DrawData* drawData);
+	//add objects and remove objects
+	void CreateAndConnectParticle(GameObject* existingParticle, int connectToIndex, LinkTypes linkType, Model* linkModel, ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
+
+	//adds force to the objects
+	void AddForce(const Vector3f &force);
 
 private:
 	void CreateBody(MassAggregateModels* models);
@@ -97,6 +97,11 @@ private:
 	void CreateBodyLine(MassAggregateModels* models);
 	void CreateBodyCube(MassAggregateModels* models);
 	void CreateBodyTetrahedron(MassAggregateModels* models);
+	void CreateBodyPyramidWithTop(MassAggregateModels* models);
+
+	//adding and removing to systems
+	//void AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
+	//void DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
 };
 
 

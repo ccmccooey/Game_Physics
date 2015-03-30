@@ -10,12 +10,14 @@
 #include "ParticleSystem.h"
 #include "TextRenderer.h"
 #include "MainApp.h"
+#include "InputSystem.h"
 #include <ctime>
 #include <vector>
 #include <iostream>
 
 MainApp*		app;
 PointLight*		myLight;
+InputSystem*	inputSystem;
 GLfloat* arr;
 int mouseStateCurrent = GLUT_UP;
 int mouseStatePrevious = GLUT_UP;
@@ -64,6 +66,8 @@ void myInit()
 }
 void setupWorld()
 {
+	inputSystem = new InputSystem();
+
 	//myTexture = new Texture("../MyTexture.tga");
 	app = new MainApp();
 	app->UpdateWindowSize(800, 600);
@@ -76,20 +80,26 @@ void RenderScene(void)
 	GLfloat vColor2[]=  { 0.0f, 1.0f, 0.25f, 1.0f };
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
 	app->RenderScene();
 
 	glutSwapBuffers();
 }
 
-void Keys(unsigned char key, int x, int y)
+void KeysDown(unsigned char key, int x, int y)
 {
-	app->CheckKeyboardInput(key);
+	inputSystem->ChangeKeyState(key, true);
 }
-
-void SpecialKeys(int key, int x, int y)
+void KeysUp(unsigned char key, int x, int y)
 {
-	app->CheckSpecialKeyboardInput(key, x, y);
+	inputSystem->ChangeKeyState(key, false);
+}
+void SpecialKeysDown(int key, int x, int y)
+{
+	inputSystem->ChangeSpecialKeyState(key, true);
+}
+void SpecialKeysUp(int key, int x, int y)
+{
+	inputSystem->ChangeSpecialKeyState(key, false);
 }
 
 void Update(void)
@@ -118,6 +128,7 @@ void FixedUpdate(int value)
 
 void Cleanup()
 {
+	delete inputSystem;
 	delete app;
 	delete arr;
 	delete myLight;
@@ -172,12 +183,14 @@ int main(int argc, char* argv[])
 	glutCreateWindow("Mass Aggregate System");
 	glutReshapeFunc(ChangeSize); //changing the size of the window
 	glutDisplayFunc(RenderScene); //rendering is all here
-	glutSpecialFunc(SpecialKeys); //special glut keyboard input
+	glutSpecialFunc(SpecialKeysDown); //special glut keyboard input
+	glutSpecialUpFunc(SpecialKeysUp);
 	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
 	glutMouseFunc(MouseClick); //mouse click
 	glutMotionFunc(MouseMotionDown); //mouse drag
 	glutPassiveMotionFunc(MouseMotionUp); //mouse move, no click
-	glutKeyboardFunc(Keys); //keyboard input
+	glutKeyboardFunc(KeysDown); //keyboard input
+	glutKeyboardUpFunc(KeysUp);
 	glutIdleFunc(Update); //uncontrolled update, unfixed framerate
 	atexit(Cleanup);
 

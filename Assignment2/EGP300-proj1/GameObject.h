@@ -8,8 +8,6 @@ class Model;
 class Material;
 class DisplayObject3D;
 class Particle;
-class ParticleSystem;
-class DisplayObject3DManager;
 
 class GameObject
 {
@@ -42,8 +40,8 @@ public:
 	unsigned int GetID() const;
 
 	//setters
-	void AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
-	void DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
+	void AddToSystems();
+	void DeleteFromSystems();
 
 	void LinkPositions(); //link the position of the graphics object from the physics object
 	void SetTag(const std::string &tag);
@@ -53,7 +51,6 @@ private:
 
 public:
 	static GameObject* Clone(const GameObject* other);
-	static GameObject* CloneAndAdd(const GameObject* other, ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem);
 };
 
 #endif

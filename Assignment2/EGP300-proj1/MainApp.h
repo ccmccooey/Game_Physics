@@ -16,6 +16,9 @@ struct DrawData;
 class MainApp
 {
 private:
+	static MainApp* msApplication;
+
+private:
 	Camera* mCamera;
 	CameraContainer* mCameraContainer;
 	GuiSystem*	mGuiSystem;
@@ -40,9 +43,8 @@ public:
 	MainApp();
 	~MainApp();
 
-	void CheckKeyboardInput(unsigned char key);
-	void CheckSpecialKeyboardInput(int key, int x, int y);
 	void CheckMouseInput(int x, int y, bool mouseDown, bool mouseClicked);
+	void CheckCameraMovement();
 	void UpdateWindowSize(int w, int h);
 	void FixedUpdate(double value);
 	void IncreaseRunSpeed(double amount);
@@ -56,6 +58,11 @@ public:
 private:
 	void Initialize();
 	void CleanUp();
+
+public:
+	static MainApp* GetApp();
+	static ParticleSystem* GetPhysicsSystem();
+	static DisplayObject3DManager* GetGraphicsSystem();
 };
 
 #endif

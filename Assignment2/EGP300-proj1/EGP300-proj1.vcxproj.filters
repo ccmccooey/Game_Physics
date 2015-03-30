@@ -64,6 +64,12 @@
     <Filter Include="Source Files\Physics\Collision">
       <UniqueIdentifier>{0b436f96-e1fe-4532-9664-006a643d5386}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{8df82940-25c2-4342-829b-d332030fae7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{ea42a0b8-d699-4b44-a357-95f6d48a1fe5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -228,17 +234,11 @@
     <ClCompile Include="MassAggregateModels.cpp">
       <Filter>Source Files\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="Game.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="DisplayObject3DManager.cpp">
       <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
     <ClCompile Include="GroundForceGenerator.cpp">
       <Filter>Source Files\Physics\ForceGenerators</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MaterialManager.cpp">
       <Filter>Source Files\Graphics\3D Rendering</Filter>
@@ -246,7 +246,19 @@
     <ClCompile Include="DebugLogger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
     <ClCompile Include="GameObjectLink.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -384,9 +396,6 @@
     <ClInclude Include="ParticleOld.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
-    <ClInclude Include="ScaleFactor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>Header Files\Physics</Filter>
     </ClInclude>
@@ -435,17 +444,11 @@
     <ClInclude Include="MassAggregateModels.h">
       <Filter>Header Files\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="DisplayObject3DManager.h">
       <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="GroundForceGenerator.h">
       <Filter>Header Files\Physics\ForceGenerators</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MaterialManager.h">
       <Filter>Header Files\Graphics</Filter>
@@ -453,10 +456,28 @@
     <ClInclude Include="DebugLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameObjectLink.h">
+    <ClInclude Include="SimpleMath.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SimpleMath.h">
+    <ClInclude Include="ScaleFactor.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObjectLink.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="InputSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SpecialKeyCode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

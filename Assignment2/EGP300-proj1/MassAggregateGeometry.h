@@ -7,7 +7,8 @@ enum MassAggregateGeometry
 	MA_Point,
 	MA_Solid_Line,
 	MA_Solid_Cube,
-	MA_Solid_Tetrahedron
+	MA_Solid_Tetrahedron,
+	MA_Solid_PyramidWithTop,
 };
 
 

@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "Particle.h"
+#include "MainApp.h"
 #include "DisplayObject3D.h"
 #include "Material.h"
 #include "ParticleSystem.h"
@@ -20,7 +21,8 @@ GameObject::GameObject(Model* model)
 {
 	CommonInit();
 	mGraphicsObject = new DisplayObject3D(model);
-	mPhysicsObject = new Particle(mGraphicsObject->getTransform());	
+	mPhysicsObject = new Particle(mGraphicsObject->getTransform());
+	AddToSystems();
 }
 GameObject::GameObject(Model* model, const Vector3f &positionPhysics)
 	:mID(GameObject::msIDS)
@@ -29,6 +31,7 @@ GameObject::GameObject(Model* model, const Vector3f &positionPhysics)
 	mGraphicsObject = new DisplayObject3D(model);
 	mPhysicsObject = new Particle(mGraphicsObject->getTransform());
 	mPhysicsObject->SetPosition(positionPhysics);
+	AddToSystems();
 }
 GameObject::GameObject(Model* model, float x, float y, float z)
 	:mID(GameObject::msIDS)
@@ -37,6 +40,7 @@ GameObject::GameObject(Model* model, float x, float y, float z)
 	mGraphicsObject = new DisplayObject3D(model);
 	mPhysicsObject = new Particle(mGraphicsObject->getTransform());
 	mPhysicsObject->SetPosition(x, y, z);
+	AddToSystems();
 }
 GameObject::GameObject(Model* model, Material* material, const Vector3f &positionPhysics)
 	:mID(GameObject::msIDS)
@@ -46,6 +50,7 @@ GameObject::GameObject(Model* model, Material* material, const Vector3f &positio
 	mGraphicsObject->SetMaterial(material);
 	mPhysicsObject = new Particle(mGraphicsObject->getTransform());
 	mPhysicsObject->SetPosition(positionPhysics);
+	AddToSystems();
 }
 GameObject::GameObject(const GameObject &rhs)
 	:mID(GameObject::msIDS)
@@ -53,11 +58,11 @@ GameObject::GameObject(const GameObject &rhs)
 	CommonInit();
 	mGraphicsObject = new DisplayObject3D(*rhs.mGraphicsObject);
 	mPhysicsObject = new Particle(*rhs.mPhysicsObject);
+	AddToSystems();
 }
 GameObject::~GameObject()
 {
-	//delete mGraphicsObject;
-	//delete mPhysicsObject;
+	DeleteFromSystems();
 
 	if (mAdded)
 	{
@@ -93,21 +98,21 @@ unsigned int GameObject::GetID() const
 }
 
 //setters
-void GameObject::AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
+void GameObject::AddToSystems()
 {
 	if (!mAdded)
 	{
-		graphicsSystem->AddObject(mGraphicsObject);
-		physicsSystem->AddParticle(mPhysicsObject);
+		MainApp::GetGraphicsSystem()->AddObject(mGraphicsObject);
+		MainApp::GetPhysicsSystem()->AddParticle(mPhysicsObject);
 		mAdded = true;
 	}
 }
-void GameObject::DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
+void GameObject::DeleteFromSystems()
 {
 	if (mAdded)
 	{
-		graphicsSystem->RemoveObject(mGraphicsObject);
-		physicsSystem->RemoveFromSystem(mPhysicsObject);
+		MainApp::GetGraphicsSystem()->RemoveObject(mGraphicsObject);
+		MainApp::GetPhysicsSystem()->RemoveFromSystem(mPhysicsObject);
 		mAdded = false;
 	}
 }
@@ -125,11 +130,5 @@ void GameObject::SetTag(const std::string &tag)
 GameObject* GameObject::Clone(const GameObject* other)
 {
 	GameObject *obj = new GameObject(*other);
-	return obj;
-}
-GameObject* GameObject::CloneAndAdd(const GameObject* other, ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
-{
-	GameObject *obj = new GameObject(*other);
-	obj->AddToSystems(physicsSystem, graphicsSystem);
 	return obj;
 }

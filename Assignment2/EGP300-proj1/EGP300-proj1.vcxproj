@@ -29,6 +29,7 @@
     <ClCompile Include="GUIButton.cpp" />
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUISystem.cpp" />
+    <ClCompile Include="InputSystem.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainApp.cpp" />
@@ -51,6 +52,7 @@
     <ClCompile Include="ParticleForceGenerator.cpp" />
     <ClCompile Include="ParticleRod.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PointLight.cpp" />
     <ClCompile Include="Quaternion.cpp" />
     <ClCompile Include="Random.cpp" />
@@ -101,6 +103,7 @@
     <ClInclude Include="GuiOperationEnum.h" />
     <ClInclude Include="GUISystem.h" />
     <ClInclude Include="GameObjectLink.h" />
+    <ClInclude Include="InputSystem.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="MassAggregate.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="ParticleForceGenerator.h" />
     <ClInclude Include="ParticleRod.h" />
     <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PointLight.h" />
     <ClInclude Include="Quaternion.h" />
     <ClInclude Include="Random.h" />
@@ -133,6 +137,7 @@
     <ClInclude Include="ScaleFactor.h" />
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Skybox.h" />
+    <ClInclude Include="SpecialKeyCode.h" />
     <ClInclude Include="SpringForceGenerator.h" />
     <ClInclude Include="Sprite2D.h" />
     <ClInclude Include="Sprite2DManager.h" />
