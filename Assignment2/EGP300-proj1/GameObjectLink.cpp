@@ -8,18 +8,28 @@
 #include "SimpleMath.h"
 #include "Vector2f.h"
 
+#include "InputSystem.h"
+#include <iostream>
+
+unsigned int GameObjectLink::msIDs = 0;
+
+#define PI_OVER_2 1.5707963267948966192313216916398f
+
 //constructors
 GameObjectLink::GameObjectLink(Model* model, ParticleLink *link)
+	:mID(msIDs)
 {
 	mGraphicsObject = new DisplayObject3D(model);
 	mPhysicsLink = link;
 
 	MainApp::GetGraphicsSystem()->AddObject(mGraphicsObject);
 	MainApp::GetPhysicsSystem()->AddContactGenerator(mPhysicsLink);
+	msIDs++;
 }
 GameObjectLink::GameObjectLink(const GameObjectLink &rhs)
+	:mID(msIDs)
 {
-
+	msIDs++;
 }
 GameObjectLink::~GameObjectLink()
 {
@@ -49,16 +59,50 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 
 		pTransform->SetPosition(position * DISTANCE_SCALE);	
 		
+		
+
+		
+		Vector3f v = b - a;
+
+		//Attempt 1
+		float rotX = 0.0f;
+		float rotY = atan2f(v.z, v.x); //between 90 and -90 its screwed up
+		float rotZ = atan2f(v.y, v.x);
+		
+		
+
+
+		if (mID == 0)
+		{
+			if (InputSystem::KeyDown(' '))
+			{
+				std::cerr << "RotY (" << rotY * (180.0f / 3.1415926f) << ") degrees" << std::endl;
+			}
+		}
+		
+		
+		
+		
+		if (rotY > -PI_OVER_2 && rotY < PI_OVER_2)
+		{
+			rotY += PI_OVER_2 * PI_OVER_2;
+			//std::cerr << "RotY (" << rotY * (180.0f / 3.1415926f) << ") degrees" << std::endl;
+		}
+		
+
 		/*
-		//Attempt 1 FUCK FAIL
-		float rotX = Vector2f::AngleBetweenRadians(Vector2f(a.y, -a.z), Vector2f(b.y, -b.z));
-		float rotY = Vector2f::AngleBetweenRadians(Vector2f(a.x, a.z), Vector2f(b.x, b.z));
-		float rotZ = Vector2f::AngleBetweenRadians(Vector2f(b.x, b.y), Vector2f(a.x, a.y));
+		if (a.x < b.x)
+		{
+			rotY *= 1.0f;
+		}*/
+		
+		rotY = 0.0f;
 		pTransform->SetRotationRadians(rotX, rotY, rotZ);
-		*/	
+		//pTransform->SetRotationRadians()
+		
 
 		/* 
-		//Attemt 2 FUCK FAIL
+		//Attemt 2
 		Vector3f lookAt = Vector3f::DirectionTo(b, a);		
 		float r = lookAt.Length();
 		float theta = acosf(lookAt.z / r);
@@ -67,7 +111,7 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 		*/
 		
 		/*
-		//Attempt 3 FUCK FAIL		
+		//Attempt 3		
 		Vector3f lookAt = Vector3f::DirectionTo(b, a);	
 		float rotX = atan2f( lookAt.y, lookAt.z );
 		float rotY = atan2f( lookAt.x * cosf(rotX), lookAt.z );
@@ -76,7 +120,7 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 		*/
 
 		/*
-		//Attempt 4 FUCK FAIL
+		//Attempt 4
 		Vector3f lookAt = Vector3f::DirectionTo(b, a);	
 		float rotX = 0.0f;
 		float rotY = atan2f(lookAt.z, lookAt.x);
@@ -85,12 +129,13 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 		*/
 
 
-		//Attempt 5 FUCK FAIL
+		//Attempt 5
+		/*
 		Vector3f lookAt = Vector3f::DirectionTo(b, a);
 		float rotX = atan2f(sqrtf(pow(lookAt.x, 2) + pow(lookAt.z, 2)), lookAt.y);
 		float rotY = atan2f(lookAt.x, lookAt.z);	
 		float rotZ = 0.0f;
-		pTransform->SetRotationRadians(rotX, rotY - 1.5707963267948966192313f, rotZ);
+		pTransform->SetRotationRadians(rotX, rotY - 1.5707963267948966192313f, rotZ);*/
 
 		//Set the scale
 		float distance = Vector3f::Distance(a, b);

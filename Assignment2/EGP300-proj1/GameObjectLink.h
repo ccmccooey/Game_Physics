@@ -13,6 +13,8 @@ private:
 	DisplayObject3D* mGraphicsObject;
 	ParticleLink* mPhysicsLink;
 	bool mAdded;
+	const unsigned int mID;
+	static unsigned int msIDs;
 
 public:
 	GameObjectLink(Model* model, ParticleLink *link);
