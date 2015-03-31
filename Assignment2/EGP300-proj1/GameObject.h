@@ -44,6 +44,7 @@ public:
 
 	void LinkPositions(); //link the position of the graphics object from the physics object
 	void SetTag(const std::string &tag);
+	void SetMaterial(const std::string &material);
 
 private:
 	void CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics);

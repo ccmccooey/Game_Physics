@@ -54,7 +54,7 @@ void MainApp::Initialize()
 	//create the camera
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
-	mCamera->moveCamera(0.0f, 5.0f, 30.0f);
+	mCamera->moveCamera(0.0f, 15.0f, 30.0f);
 
 	mCameraContainer = new CameraContainer(mCamera);
 
@@ -89,6 +89,8 @@ void MainApp::Initialize()
 	mGame = new Game();
 	mGame->LatchCameraToPlayer(mCameraContainer);
 
+	mDebugInfo = false;
+
 }
 void MainApp::CleanUp()
 {
@@ -121,8 +123,10 @@ void MainApp::FixedUpdate(double t)
 		}
 		mGame->UpdateGraphicsObjects();
 
-		mCameraContainer->Update();		
-		UpdateDebugInformation();
+		mCameraContainer->Update();
+
+		if (mDebugInfo)
+			UpdateDebugInformation();
 
 	}
 	
@@ -132,99 +136,59 @@ void MainApp::FixedUpdate(double t)
 }
 void MainApp::CheckCameraMovement()
 {
-	
-	/*
-	if (InputSystem::KeyDown('A') || InputSystem::KeyDown('a'))
+	//move camera left and right
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Left))
 	{
 		mCameraContainer->Translate(-1.0f, 0.0f, 0.0f);
-		//mCamera->moveCamera(-1.0f, 0.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-	if (InputSystem::KeyDown('S') || InputSystem::KeyDown('s'))
-	{
-		mCameraContainer->Translate(0.0f, 0.0f, 1.0f);
-		//mCamera->moveCamera(0.0f, 0.0f, -1.0f);
-		UpdateSkyboxPosition();
-	}
-	if (InputSystem::KeyDown('D') || InputSystem::KeyDown('d'))
+	else if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Right))
 	{
 		mCameraContainer->Translate(1.0f, 0.0f, 0.0f);
-		//mCamera->moveCamera(1.0f, 0.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-	if (InputSystem::KeyDown('W') || InputSystem::KeyDown('w'))
+
+	//move camera forward and back
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Up))
 	{
 		mCameraContainer->Translate(0.0f, 0.0f, -1.0f);
-		//mCamera->moveCamera(0.0f, 0.0f, 1.0f);
 		UpdateSkyboxPosition();
 	}
-	if (InputSystem::KeyDown('R') || InputSystem::KeyDown('r'))
+	else if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Down))
 	{
-		mCameraContainer->Translate(0.0f, 1.0f, 0.0f);
-		//mCamera->moveCamera(0.0f, 1.0f, 0.0f);
+		mCameraContainer->Translate(0.0f, 0.0f, 1.0f);
 		UpdateSkyboxPosition();
 	}
-	if (InputSystem::KeyDown('F') || InputSystem::KeyDown('f'))
-	{
-		mCameraContainer->Translate(0.0f, -1.0f, 0.0f);
-		//mCamera->moveCamera(0.0f, -1.0f, 0.0f);
-		UpdateSkyboxPosition();
-	}*/
 
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Left))
-	{
-		mCameraContainer->Translate(-1.0f, 0.0f, 0.0f);
-		UpdateSkyboxPosition();
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Right))
-	{
-		mCameraContainer->Translate(1.0f, 0.0f, 0.0f);
-		UpdateSkyboxPosition();
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Up))
-	{
-		mCameraContainer->Translate(0.0f, 1.0f, 0.0f);
-		UpdateSkyboxPosition();
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Down))
+	//move camera down and up
+	if (InputSystem::KeyDown(SpecialKeyCode::Key_Page_Down))
 	{
 		mCameraContainer->Translate(0.0f, -1.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-
-	/*
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Left))
+	else if (InputSystem::KeyDown(SpecialKeyCode::Key_Page_Up))
 	{
-		mCamera->rotateCameraYaw(-mCameraRotationSpeed);
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Right))
-	{
-		mCamera->rotateCameraYaw(mCameraRotationSpeed);
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Home))
-	{
-		mCamera->rotateCameraPitch(mCameraRotationSpeed);
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_End))
-	{
-		mCamera->rotateCameraPitch(-mCameraRotationSpeed);
-	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Up))
-	{
-		mCamera->moveCamera(mCamera->getCameraForward() * mCameraMoveSpeed);
+		mCameraContainer->Translate(0.0f, 1.0f, 0.0f);
 		UpdateSkyboxPosition();
 	}
-	if (InputSystem::KeyDown(SpecialKeyCode::Key_Arrow_Down))
+	
+	//rotate the camera if desired
+	if (InputSystem::MouseButtonDown(MouseButtons::Mouse_Left))
 	{
-		float angle = mCamera->getRotationAngle();
-		m3dDegToRad(angle);
-		mCamera->moveCamera(mCamera->getCameraForward() * -mCameraMoveSpeed);
-		UpdateSkyboxPosition();
-	}*/
+		if (InputSystem::MouseY() >= 48)
+		{
+			int mouseX = InputSystem::MouseX();
+			if (mouseX <= (int)((float)mWindowWidth * 0.25f))
+				mCamera->rotateCameraYaw(-mCameraRotationSpeed);
+			else if (mouseX >= (int)((float)mWindowWidth * 0.75f))
+				mCamera->rotateCameraYaw(mCameraRotationSpeed);
+		}
+	}
 }
 void MainApp::UpdateDebugInformation()
 {
-	std::string textOut = "";
+	std::string textOut;
+	mGame->GetDebugInfo(textOut);
 	mGuiSystem->SetDebugText(textOut);
 }
 
@@ -259,7 +223,7 @@ void MainApp::RenderScene()
 	mDisplayList->Draw(mDrawData);
 
 	mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
-	//mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
+	
 }
 
 //perform operations for the gui
@@ -272,15 +236,20 @@ void MainApp::CheckGui()
 		switch(operation)
 		{
 		case GuiOperationEnum::Play:
+			mPaused = false;
 			break;
 		case GuiOperationEnum::Stop:
+			mPaused = true;
 			break;
 		case GuiOperationEnum::Reset:
 			mGame->Reset();
 			break;
 		case GuiOperationEnum::Help:
+			//button does nothing, its displayed from the tooltip instead
 			break;
 		case GuiOperationEnum::DebugInfo:
+			mGuiSystem->ToggleDebugText();
+			mDebugInfo = !mDebugInfo;
 			break;
 		default:
 			break;

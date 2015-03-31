@@ -59,10 +59,10 @@ void GameObject::CommonInit(const std::string &modelKey, const std::string &mate
 		mGraphicsObject->SetMaterial(MainApp::GetMaterialManager()->FindMaterial(materialKey));
 	mPhysicsObject = new Particle(mGraphicsObject->getTransform());
 	mPhysicsObject->SetPosition(positionPhysics);
-	AddToSystems();
-
-	msIDS++;
 	mAdded = false;
+
+	AddToSystems();
+	msIDS++;
 }
 
 //accessors
@@ -118,6 +118,11 @@ void GameObject::LinkPositions() //link the position of the graphics object from
 void GameObject::SetTag(const std::string &tag)
 {
 	mTag = tag;
+}
+void GameObject::SetMaterial(const std::string &material)
+{
+	Material* mat = MainApp::GetMaterialManager()->FindMaterial(material);
+	mGraphicsObject->SetMaterial(mat);
 }
 
 //cloning objects

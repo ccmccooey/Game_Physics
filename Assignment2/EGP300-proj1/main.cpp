@@ -1,14 +1,4 @@
-#include "Camera.h"
-#include "Model.h"
-#include "Color.h"
-#include "DisplayObject3D.h"
 #include "PointLight.h"
-#include "Material.h"
-#include "Sprite2D.h"
-#include "GUIImage.h"
-#include "GUISystem.h"
-#include "ParticleSystem.h"
-#include "TextRenderer.h"
 #include "MainApp.h"
 #include "InputSystem.h"
 #include <ctime>
@@ -59,8 +49,8 @@ void myInit()
 	glLightfv(GL_LIGHT0, GL_DIFFUSE, arr);
 
 	myLight = new PointLight(1, 2, -10);
-	//myLight->setColor(0.0f, 0.25f, 0.0f, 1.0f);
 	myLight->setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
 	//Projection
 	setupWorld();
 }
@@ -111,18 +101,7 @@ void Update(void)
 void FixedUpdate(int value)
 {
 	double t = (double)value / 1000.0;
-
-	/*
-	double val = 3.0e3;
-	for (int i = 0; i < 1000; i++)
-	{
-		particleSystem->FixedUpdate(t * val);
-		planetManager->FixedUpdate(t * val);
-	}*/
-	
-	double val = 3.0e5;
 	app->FixedUpdate(t);
-
 	glutTimerFunc(16, FixedUpdate, 16); //16 is for 60 frames per second
 }
 
@@ -145,23 +124,24 @@ void ChangeSize(int w, int h)
 //mouse is clicked
 void MouseClick(int button, int state, int x, int y)
 {
-	if (state == GLUT_DOWN)
-	std::cout << "clickXY (" << x << ", " << y << ")" << std::endl;
+	//if (state == GLUT_DOWN)
+	//std::cout << "clickXY (" << x << ", " << y << ")" << std::endl;
 	mouseStatePrevious = mouseStateCurrent;
 	mouseStateCurrent = state;
+	inputSystem->UpdateMouseClick(button, state == GLUT_DOWN, x, y);
 	app->CheckMouseInput(x, y, button == GLUT_LEFT, state == GLUT_DOWN);
 }
 
 //mouse is down and it moves
 void MouseMotionDown(int x, int y)
 {
-	//std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
+	inputSystem->UpdateMousePosition(x, y);
 	app->CheckMouseInput(x, y, true, false);
 }
 //mouse is up and it moves
 void MouseMotionUp(int x, int y)
 {
-	//std::cout << "mouseXY (" << x << ", " << y << ")" << std::endl;
+	inputSystem->UpdateMousePosition(x, y);
 	app->CheckMouseInput(x, y, false, false);
 }
 

@@ -43,7 +43,9 @@ public:
 	//accessors
 	Particle* GetParticleAt(unsigned int index) const;
 	Particle* GetParticleLast() const;
+	int GetParticleCount() const;
 	DisplayObject3D* GetGraphicsObjectAt(unsigned int index) const;
+	GameObject* GetGameObjectAt(unsigned int index) const;
 
 	//setters
 	void LinkPositions(); //link the position of the graphics object from the physics object

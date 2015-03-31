@@ -71,11 +71,23 @@ Particle* MassAggregate::GetParticleAt(unsigned int index) const
 	}
 	return nullptr;
 }
+GameObject* MassAggregate::GetGameObjectAt(unsigned int index) const
+{
+	if (index >= 0 && index < mParticles.size())
+	{
+		return mParticles[index];
+	}
+	return nullptr;
+}
 Particle* MassAggregate::GetParticleLast() const
 {
 	if (mParticles.size() > 0)
 		return mParticles[mParticles.size() - 1]->GetPhysicsObject();
 	return nullptr;
+}
+int MassAggregate::GetParticleCount() const
+{
+	return (int)mParticles.size();
 }
 DisplayObject3D* MassAggregate::GetGraphicsObjectAt(unsigned int index) const
 {

@@ -3,21 +3,25 @@
 
 #include "Vector3f.h"
 #include <vector>
+#include <string>
 
 class CameraContainer;
 class MassAggregate;
 class ObjectSpawner;
 class Player;
+class Enemy;
 
 class Game
 {
 private:
 	
 private:
-	
+	bool mMACreated;
 	std::vector<MassAggregate*> mMassAggregates;
 	ObjectSpawner* mSpawner;
 	Player* mPlayer;
+	Enemy* mEnemy;
+	CameraContainer* mpCamera;
 
 public:
 	Game();
@@ -30,6 +34,7 @@ public:
 	void Reset();
 
 	void LatchCameraToPlayer(CameraContainer* camera);
+	void GetDebugInfo(std::string &info) const;
 
 private:
 	void Initialize();

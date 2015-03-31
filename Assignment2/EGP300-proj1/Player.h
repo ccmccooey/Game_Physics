@@ -1,30 +1,17 @@
 #ifndef _PLAYER_H
 #define _PLAYER_H
 
-#include <vector>
-#include "Vector3f.h"
+#include "Collector.h"
 
-class GameObjectLink;
-class ObjectSpawner;
-class MassAggregate;
-
-class Player
+class Player :public Collector
 {
 private:
-	MassAggregate *mMA;
-	ObjectSpawner* mpSpawner;
-	std::vector<GameObjectLink*> mExtraLinks;
-	float mForceAmount;
-	float mMaxSpeed;
 
 public:
 	Player(MassAggregate* massAggregate, ObjectSpawner* spawner);
 	~Player();
 
-	MassAggregate* GetMassAggregate() const;
-
 	void FixedUpdate(double t, std::vector<MassAggregate*> &addTo);
-	void Push(const Vector3f &force);	
 };
 
 #endif

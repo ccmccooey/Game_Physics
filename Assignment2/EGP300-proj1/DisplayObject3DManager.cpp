@@ -76,7 +76,7 @@ void DisplayObject3DManager::RemoveObject(DisplayObject3D* object)
 	{
 		if (*iter == object)
 		{
-			mObjects.push_front(object);
+			mDeleteQueue.push(object);
 			mObjects.erase_after(iterPrevious);
 			break;
 		}

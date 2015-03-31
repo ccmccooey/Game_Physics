@@ -50,6 +50,10 @@ int ObjectSpawner::GetMaxObjects() const
 {
 	return mMaxObjects;
 }
+int ObjectSpawner::GetObjectsCount() const
+{
+	return (int)mObjects.size();
+}
 int ObjectSpawner::GetSpawnRate() const
 {
 	return mSpawnRate;

@@ -26,6 +26,7 @@ public:
 
 	//accessors
 	int GetMaxObjects() const;
+	int GetObjectsCount() const;
 	int GetSpawnRate() const;
 
 	//spawning objects called each frame

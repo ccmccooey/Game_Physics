@@ -62,7 +62,7 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	AddButtonAndSprite(GuiOperationEnum::Stop, "StopButton", 32, 0, 32, 32, "Pause simulation");
 	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 64, 0, 32, 32, "Reset simulation");
 	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 96, 0, 32, 32, "Show debug information");
-	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 128, 0, 32, 32, "Show information about the controls and how to play");
+	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 128, 0, 32, 32, "Movement: <asdw keys>\nCamera Movement: <arrow keys>\nJump <space key>");
 
 	//debug text
 	mDebugText = new TextField();

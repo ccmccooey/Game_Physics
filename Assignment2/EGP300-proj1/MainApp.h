@@ -43,6 +43,7 @@ private:
 	double mRunSpeed;
 	float mCameraRotationSpeed;
 	float mCameraMoveSpeed;
+	bool mDebugInfo;
 	bool mUpdateOnlyOnce;
 
 public:

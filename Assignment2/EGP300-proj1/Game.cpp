@@ -1,13 +1,11 @@
 #include "Game.h"
 #include "MainApp.h"
 #include "TextureManager.h"
-#include "Texture.h"
 #include "MaterialManager.h"
 #include "ModelManager.h"
 #include "DisplayObject3DManager.h"
 #include "DisplayObject3D.h"
 #include "ParticleSystem.h"
-#include "Particle.h"
 #include "CameraContainer.h"
 #include "GroundForceGenerator.h"
 #include "GroundContactGenerator.h"
@@ -18,6 +16,7 @@
 #include "Model.h"
 #include "Level.h"
 #include "Player.h"
+#include "Enemy.h"
 
 #include <string>
 
@@ -33,15 +32,10 @@ Game::~Game()
 	CleanUp();
 }
 
-
-void Game::LatchCameraToPlayer(CameraContainer* camera)
-{
-	camera->Latch(mPlayer->GetMassAggregate()->GetGraphicsObjectAt(0));
-}
-
 //initialization
 void Game::Initialize()
 {
+	mMACreated = false;
 	mMassAggregates = std::vector<MassAggregate*>();
 
 	InitializeAssets();
@@ -89,7 +83,7 @@ void Game::InitializeGround()
 	GroundContactGenerator* groundContact = new GroundContactGenerator(groundHeight);
 	MainApp::GetPhysicsSystem()->AddContactGenerator(groundContact);
 
-	GroundForceGenerator* groundForce = new GroundForceGenerator(1.0f);
+	GroundForceGenerator* groundForce = new GroundForceGenerator(5.0f);
 	MainApp::GetPhysicsSystem()->AddForceGenerator(groundForce);
 }
 void Game::InitializeMassAggregates()
@@ -103,31 +97,43 @@ void Game::InitializeMassAggregates()
 	mPlayer = new Player(ma, mSpawner);
 	mMassAggregates.push_back(ma);
 
+	//create the AI that travels around the level randomly
+	ma = new MassAggregate(MassAggregateGeometry::MA_Solid_Line, 0.0f, 0.0f, 0.0f);
+	mEnemy = new Enemy(ma, mSpawner);
+	mMassAggregates.push_back(ma);
+
 	//create the mass aggregates
 	std::string path = "Content/levelData.txt";
 	bool loadOk = Level::LoadLevel(path, mSpawner);
-
-	//test 2
-	/*
-	ma = new MassAggregate(MassAggregateGeometry::MA_Solid_PyramidWithTop, 0.0f, 0.0f, 0.0f);
-	//ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
-	mMassAggregates.push_back(ma);
-	*/
+	mMACreated = true;
+}
+void Game::LatchCameraToPlayer(CameraContainer* camera)
+{
+	mpCamera = camera;
+	camera->Latch(mPlayer->GetMassAggregate()->GetGraphicsObjectAt(0));
+	camera->Translate(0.0f, 5.0f, 0.0f);
 }
 
 //update all the mass aggregate graphics
 void Game::Update(double t)
 {
-	mPlayer->FixedUpdate(t, mMassAggregates);
+	if (mMACreated)
+	{
+		mPlayer->FixedUpdate(t, mMassAggregates);
+		mEnemy->FixedUpdate(t, mMassAggregates);
+	}
 }
 void Game::UpdateGraphicsObjects()
 {
-	unsigned int size = mMassAggregates.size();
-	for (unsigned int i = 0; i < size; i++)
+	if (mMACreated)
 	{
-		mMassAggregates[i]->LinkPositions();
+		unsigned int size = mMassAggregates.size();
+		for (unsigned int i = 0; i < size; i++)
+		{
+			mMassAggregates[i]->LinkPositions();
+		}
+		mSpawner->LinkPosition();
 	}
-	mSpawner->LinkPosition();
 }
 
 //cleanup
@@ -139,7 +145,13 @@ void Game::CleanUp()
 void Game::RemoveMassAggregates()
 {
 	delete mSpawner;
+	mSpawner = nullptr;
+
 	delete mPlayer;
+	mPlayer = nullptr;
+
+	delete mEnemy;
+	mEnemy = nullptr;
 
 	//removes all mass aggregates from memory
 	unsigned int size = mMassAggregates.size();
@@ -149,11 +161,30 @@ void Game::RemoveMassAggregates()
 		delete mMassAggregates[i];
 	}
 	mMassAggregates.clear();
+	mMACreated = false;
 }
 
 //reset the mass aggregates
 void Game::Reset()
 {
 	RemoveMassAggregates();
-	//InitializeMassAggregates();
+	if (mpCamera != nullptr)
+	{
+		mpCamera->UnLatch();
+	}
+	InitializeMassAggregates();
+	mpCamera->Latch(mPlayer->GetMassAggregate()->GetGraphicsObjectAt(0));
+}
+
+void Game::GetDebugInfo(std::string &info) const
+{
+	if (mMACreated)
+	{
+		int count = mSpawner->GetObjectsCount();
+		info = "Total Uncollected Mass aggregates: " +to_string(count);
+		info += "\nPlayer Position: " +mPlayer->GetPosition().ToString();
+		info += "\nPlayer Velocity: " +mPlayer->GetVelocity().ToString();
+		info += "\nAI NPC Position: " +mEnemy->GetPosition().ToString();
+		info += "\nAI NPC Velocity: " +mEnemy->GetVelocity().ToString();
+	}
 }

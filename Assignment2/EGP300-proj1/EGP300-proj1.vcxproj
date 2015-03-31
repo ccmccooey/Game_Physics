@@ -16,10 +16,12 @@
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
+    <ClCompile Include="Collector.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DebugLogger.cpp" />
     <ClCompile Include="DisplayObject3DManager.cpp" />
     <ClCompile Include="DrawData.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GameObjectLink.cpp" />
@@ -88,6 +90,7 @@
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
+    <ClInclude Include="Collector.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
     <ClInclude Include="DebugLogger.h" />
@@ -122,9 +125,11 @@
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="DisplayObject3D.h" />
     <ClInclude Include="ModelManager.h" />
+    <ClInclude Include="MouseButtons.h" />
     <ClInclude Include="Notes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="ObjectSpawner.h" />
     <ClInclude Include="ParticleCable.h" />
     <ClInclude Include="ParticleContactResolver.h" />

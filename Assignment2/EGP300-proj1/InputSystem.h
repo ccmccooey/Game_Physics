@@ -11,6 +11,7 @@
 #define _INPUT_SYSTEM_H
 
 #include "SpecialKeyCode.h"
+#include "MouseButtons.h"
 #include <queue>
 
 class InputSystem
@@ -26,8 +27,12 @@ private:
 	bool* mSpecialCurrent;
 	bool* mSpecialPrevious;
 
+	bool* mMouseStateCurrent;
+	bool* mMouseStatePrevious;
+
 	std::queue<unsigned char> mCharQueue;
 	std::queue<int> mSpecialQueue;
+	std::queue<int> mMouseQueue;
 
 	static InputSystem* msInstance;
 
@@ -37,7 +42,7 @@ public:
 
 	//these should be called in glut callback functions
 	void UpdateMousePosition(int x, int y);
-	void UpdateMouseClick(int button, int state, int x, int y);
+	void UpdateMouseClick(int button, bool mouseDown, int x, int y);
 	void ChangeKeyState(unsigned char key, bool state);
 	void ChangeSpecialKeyState(int specialKey, bool state);
 
@@ -55,6 +60,16 @@ public:
 	static bool KeyUp(SpecialKeyCode key);
 	static bool KeyPressed(SpecialKeyCode key);
 	static bool KeyReleased(SpecialKeyCode key);
+
+	//use these for mouse input
+	static bool MouseButtonDown(MouseButtons button);
+	static bool MouseButtonUp(MouseButtons button);
+	static bool MouseButtonClicked(MouseButtons button);
+	static bool MouseButtonReleased(MouseButtons button);
+
+	//use this to get the mouse position
+	static int MouseX();
+	static int MouseY();
 };
 
 #endif
