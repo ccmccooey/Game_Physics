@@ -1,7 +1,9 @@
 #include "Game.h"
+#include "MainApp.h"
 #include "TextureManager.h"
 #include "Texture.h"
 #include "MaterialManager.h"
+#include "ModelManager.h"
 #include "DisplayObject3DManager.h"
 #include "DisplayObject3D.h"
 #include "ParticleSystem.h"
@@ -12,8 +14,9 @@
 #include "Material.h"
 #include "DrawData.h"
 #include "MassAggregate.h"
-#include "MainApp.h"
+#include "ObjectSpawner.h"
 #include "Model.h"
+#include "Level.h"
 #include "Player.h"
 
 #include <string>
@@ -25,13 +28,6 @@ Game::Game()
 {
 	Initialize();
 }
-/*
-Game::Game(ParticleSystem* particleSystem, DisplayObject3DManager* graphicsSystem)
-{
-	mpParticleSystemReference = particleSystem;
-	mpGraphicsSystemReference = graphicsSystem;
-	Initialize();
-}*/
 Game::~Game()
 {
 	CleanUp();
@@ -57,7 +53,7 @@ void Game::InitializeAssets()
 	string texPath = "Content/MassAggregateTextures/";
 
 	//create the textures
-	mTextureManager = new TextureManager();
+	TextureManager* mTextureManager = MainApp::GetTextureManager();
 	mTextureManager->AddTexture("Content/OtherTextures/Grass.png", "Grass");
 	mTextureManager->AddTexture(texPath + "ParticleMetal.png", "ParticleMetal");
 	mTextureManager->AddTexture(texPath + "SteelRod.png", "SteelRod");
@@ -65,7 +61,7 @@ void Game::InitializeAssets()
 	mTextureManager->AddTexture(texPath + "GreenBlob.png", "GreenBlob");
 
 	//create the materials
-	mMaterialManager = new MaterialManager();
+	MaterialManager* mMaterialManager = MainApp::GetMaterialManager();
 	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Grass"), "Grass");
 	mMaterialManager->AddMaterial(mTextureManager->FindTexture("ParticleMetal"), "ParticleMetal");
 	mMaterialManager->AddMaterial(mTextureManager->FindTexture("SteelRod"), "SteelRod");
@@ -73,16 +69,15 @@ void Game::InitializeAssets()
 	mMaterialManager->AddMaterial(mTextureManager->FindTexture("GreenBlob"), "GreenBlob");
 
 	//create the models
-	Model* pModelPoint = new Model(mMaterialManager->FindMaterial("ParticleMetal"), Geometry::CUBE);
-	Model* pModelLine = new Model(mMaterialManager->FindMaterial("SteelRod"), Geometry::CUBE);
-	mModels = new MassAggregateModels(pModelPoint, pModelLine, pModelLine, pModelPoint, pModelPoint);
+	ModelManager* pModelManager = MainApp::GetModelManager();
+	Model* pGrass = new Model(mMaterialManager->FindMaterial("Grass"), Geometry::QUAD);
+	pModelManager->AddModel(pGrass, "Grass");
 
-	mGrassModel = new Model(mMaterialManager->FindMaterial("Grass"), Geometry::QUAD);
 }
 void Game::InitializeGround()
 {
 	//create the ground
-	DisplayObject3D *grass = new DisplayObject3D(mGrassModel);
+	DisplayObject3D *grass = new DisplayObject3D(MainApp::GetModelManager()->FindModel("Grass"));
 	Transform *pGrassTransform = grass->getTransform();
 	float groundHeight = -10.0f;
 
@@ -101,41 +96,29 @@ void Game::InitializeMassAggregates()
 {
 	MassAggregate* ma;
 	
+	mSpawner = new ObjectSpawner();
 
-	//test 1
-	/*
-	MassAggregate* ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Point, 0.0f, 0.0f, 0.0f);
-	ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
+	//create the player
+	ma = new MassAggregate(MassAggregateGeometry::MA_Solid_Line, 0.0f, 0.0f, 0.0f);
+	mPlayer = new Player(ma, mSpawner);
 	mMassAggregates.push_back(ma);
 
-	Particle* p = ma->GetParticleAt(0);
-	if (p != nullptr)
-		p->AddVelocity(Vector3f::unitX * 2.0f);*/
-
-	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_Line, 0.0f, 0.0f, 0.0f);
-	mPlayer = new Player(ma);
-	mMassAggregates.push_back(ma);
+	//create the mass aggregates
+	std::string path = "Content/levelData.txt";
+	bool loadOk = Level::LoadLevel(path, mSpawner);
 
 	//test 2
-	ma = new MassAggregate(mModels, MassAggregateGeometry::MA_Solid_PyramidWithTop, 0.0f, 0.0f, 0.0f);
+	/*
+	ma = new MassAggregate(MassAggregateGeometry::MA_Solid_PyramidWithTop, 0.0f, 0.0f, 0.0f);
 	//ma->AddToSystems(mpParticleSystemReference, mpGraphicsSystemReference);
 	mMassAggregates.push_back(ma);
-
-	//initial velocities
-	/*
-	Particle* p;
-	p = ma->GetParticleAt(0);
-	if (p != nullptr)
-		p->AddVelocity(Vector3f::unitX * 1.5f + Vector3f::unitZ * 1.0f);
-	p = ma->GetParticleAt(1);
-	if (p != nullptr)
-		p->AddVelocity(Vector3f::unitX * -1.5f + Vector3f::unitZ * 1.0f);*/
+	*/
 }
 
 //update all the mass aggregate graphics
 void Game::Update(double t)
 {
-	mPlayer->FixedUpdate(t);
+	mPlayer->FixedUpdate(t, mMassAggregates);
 }
 void Game::UpdateGraphicsObjects()
 {
@@ -144,22 +127,20 @@ void Game::UpdateGraphicsObjects()
 	{
 		mMassAggregates[i]->LinkPositions();
 	}
+	mSpawner->LinkPosition();
 }
 
 //cleanup
 void Game::CleanUp()
 {
 	this->RemoveMassAggregates();
-	this->RemoveGround();
 
-	delete mPlayer;
-	delete mModels;	
-
-	delete mMaterialManager;
-	delete mTextureManager;
 }
 void Game::RemoveMassAggregates()
 {
+	delete mSpawner;
+	delete mPlayer;
+
 	//removes all mass aggregates from memory
 	unsigned int size = mMassAggregates.size();
 	for (unsigned int i = 0; i < size; i++)
@@ -168,10 +149,6 @@ void Game::RemoveMassAggregates()
 		delete mMassAggregates[i];
 	}
 	mMassAggregates.clear();
-}
-void Game::RemoveGround()
-{
-	delete mGrassModel;
 }
 
 //reset the mass aggregates

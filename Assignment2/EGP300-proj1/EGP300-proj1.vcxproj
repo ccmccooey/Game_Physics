@@ -30,6 +30,7 @@
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUISystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainApp.cpp" />
@@ -40,9 +41,11 @@
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="MeshCreator.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="ModelOld.cpp" />
     <ClCompile Include="ModelData.cpp" />
     <ClCompile Include="DisplayObject3D.cpp" />
+    <ClCompile Include="ObjectSpawner.cpp" />
     <ClCompile Include="ParticleCable.cpp" />
     <ClCompile Include="ParticleContact.cpp" />
     <ClCompile Include="ParticleContactGenerator.cpp" />
@@ -104,6 +107,7 @@
     <ClInclude Include="GUISystem.h" />
     <ClInclude Include="GameObjectLink.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="MassAggregate.h" />
@@ -117,6 +121,11 @@
     <ClInclude Include="MeshData.h" />
     <ClInclude Include="ModelData.h" />
     <ClInclude Include="DisplayObject3D.h" />
+    <ClInclude Include="ModelManager.h" />
+    <ClInclude Include="Notes.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="ObjectSpawner.h" />
     <ClInclude Include="ParticleCable.h" />
     <ClInclude Include="ParticleContactResolver.h" />
     <ClInclude Include="ParticleLink.h" />
@@ -166,7 +175,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

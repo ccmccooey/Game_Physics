@@ -1,15 +1,17 @@
 #include "MainApp.h"
+#include "Game.h"
 #include "GuiSystem.h"
 #include "CameraContainer.h"
 #include "Camera.h"
 #include "ParticleSystem.h"
+#include "ModelManager.h"
+#include "MaterialManager.h"
+#include "TextureManager.h"
 #include "Model.h"
 #include "GameObject.h"
 #include "DisplayObject3DManager.h"
-#include "GravityForceGenerator.h"
 #include "Particle.h"
 #include "InputSystem.h"
-#include "Game.h"
 #include "Skybox.h"
 
 MainApp* MainApp::msApplication = nullptr;
@@ -26,8 +28,11 @@ MainApp::MainApp()
 	Initialize();
 }
 MainApp::~MainApp()
-{
+{	
 	CleanUp();
+
+	if (msApplication == this)
+		msApplication = nullptr;
 }
 
 //initialization and clean up
@@ -67,6 +72,9 @@ void MainApp::Initialize()
 	mGuiSystem = new GuiSystem(mWindowWidth, mWindowHeight);
 
 	//create the graphics
+	mTextureManager = new TextureManager();
+	mMaterialManager = new MaterialManager();
+	mModelManager = new ModelManager();
 	mDisplayList = new DisplayObject3DManager();
 
 	//create the physics
@@ -89,6 +97,9 @@ void MainApp::CleanUp()
 	delete mCameraContainer;
 	delete mCamera;
 	delete mDisplayList;
+	delete mModelManager;
+	delete mMaterialManager;
+	delete mTextureManager;
 	delete mParticleSystem;
 	delete mGuiSystem;
 	delete mTextRenderer;
@@ -316,4 +327,16 @@ ParticleSystem* MainApp::GetPhysicsSystem()
 DisplayObject3DManager* MainApp::GetGraphicsSystem()
 {
 	return msApplication->mDisplayList;
+}
+TextureManager* MainApp::GetTextureManager()
+{
+	return msApplication->mTextureManager;
+}
+MaterialManager* MainApp::GetMaterialManager()
+{
+	return msApplication->mMaterialManager;
+}
+ModelManager* MainApp::GetModelManager()
+{
+	return msApplication->mModelManager;
 }

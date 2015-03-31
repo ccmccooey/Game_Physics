@@ -5,24 +5,18 @@
 #include <vector>
 
 class CameraContainer;
-class TextureManager;
 class MassAggregate;
-class MaterialManager;
-struct MassAggregateModels;
-class Model;
+class ObjectSpawner;
 class Player;
-struct DrawData;
 
 class Game
 {
 private:
 	
 private:
-	TextureManager* mTextureManager;
-	MaterialManager* mMaterialManager;
+	
 	std::vector<MassAggregate*> mMassAggregates;
-	MassAggregateModels* mModels;
-	Model* mGrassModel;
+	ObjectSpawner* mSpawner;
 	Player* mPlayer;
 
 public:
@@ -45,7 +39,6 @@ private:
 	void InitializeGround();
 	void InitializeMassAggregates();
 	void RemoveMassAggregates();
-	void RemoveGround();
 };
 
 #endif

@@ -4,6 +4,9 @@
 class Camera;
 class GuiSystem;
 class ParticleSystem;
+class TextureManager;
+class MaterialManager;
+class ModelManager;
 class DisplayObject3DManager;
 class TextRenderer;
 class Game;
@@ -27,6 +30,9 @@ private:
 	DrawData* mDrawData;
 	DisplayObject3DManager* mDisplayList;
 	GLShaderManager mShaderManager;
+	TextureManager* mTextureManager;
+	MaterialManager* mMaterialManager;
+	ModelManager* mModelManager;
 	TextRenderer*	mTextRenderer;
 	Game* mGame;
 	Skybox* mSkybox;
@@ -63,6 +69,9 @@ public:
 	static MainApp* GetApp();
 	static ParticleSystem* GetPhysicsSystem();
 	static DisplayObject3DManager* GetGraphicsSystem();
+	static TextureManager* GetTextureManager();
+	static MaterialManager* GetMaterialManager();
+	static ModelManager* GetModelManager();
 };
 
 #endif

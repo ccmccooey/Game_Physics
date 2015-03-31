@@ -4,8 +4,6 @@
 #include "Vector3f.h"
 #include <string>
 
-class Model;
-class Material;
 class DisplayObject3D;
 class Particle;
 
@@ -25,16 +23,17 @@ private:
 
 public:
 	GameObject();
-	GameObject(Model* model);
-	GameObject(Model* model, const Vector3f &positionPhysics);
-	GameObject(Model* model, float x, float y, float z);
-	GameObject(Model* model, Material* material, const Vector3f &positionPhysics);
+	GameObject(const std::string &modelKey);
+	GameObject(const std::string &modelKey, const Vector3f &positionPhysics);
+	GameObject(const std::string &modelKey, float x, float y, float z);
+	GameObject(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics);
 	GameObject(const GameObject &rhs);
 	virtual ~GameObject();
 
 	//accessors
 	DisplayObject3D* GetGraphicsObject() const;
 	Particle* GetPhysicsObject() const;
+	const Vector3f& GetPhysicsPosition() const;
 	bool AddedToSystems() const;
 	const std::string& GetTag() const;
 	unsigned int GetID() const;
@@ -47,7 +46,7 @@ public:
 	void SetTag(const std::string &tag);
 
 private:
-	void CommonInit();
+	void CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics);
 
 public:
 	static GameObject* Clone(const GameObject* other);

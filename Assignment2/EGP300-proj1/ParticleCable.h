@@ -13,6 +13,7 @@ public:
 
 public:
 	ParticleCable();
+	ParticleCable(float maxLength, float restitution);
 	ParticleCable(const ParticleCable &rhs);
 	~ParticleCable();
 

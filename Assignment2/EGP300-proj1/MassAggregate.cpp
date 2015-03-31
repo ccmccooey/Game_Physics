@@ -2,8 +2,6 @@
 #include "ParticleRod.h"
 #include "Particle.h"
 #include "DisplayObject3D.h"
-#include "DisplayObject3DManager.h"
-#include "ParticleSystem.h"
 #include "GameObject.h"
 #include "GameObjectLink.h"
 #include "DebugLogger.h"
@@ -11,35 +9,35 @@
 using namespace std;
 
 //constructors
-MassAggregate::MassAggregate(MassAggregateModels* models)
+MassAggregate::MassAggregate()
 {
 	mGeometryType = MA_DEFAULT_GEOMETRY;
 	mInitialPosition = MA_DEFAULT_POSITION;
-	CreateBody(models);
+	CreateBody();
 }
-MassAggregate::MassAggregate(MassAggregateModels* models, MassAggregateGeometry geometry)
+MassAggregate::MassAggregate(MassAggregateGeometry geometry)
 {
 	mGeometryType = geometry;
 	mInitialPosition = MA_DEFAULT_POSITION;
-	CreateBody(models);
+	CreateBody();
 }
-MassAggregate::MassAggregate(MassAggregateModels* models, MassAggregateGeometry geometry, const Vector3f &position)
+MassAggregate::MassAggregate(MassAggregateGeometry geometry, const Vector3f &position)
 {
 	mGeometryType = geometry;
 	mInitialPosition = position;
-	CreateBody(models);
+	CreateBody();
 }
-MassAggregate::MassAggregate(MassAggregateModels* models, MassAggregateGeometry geometry, float initialX, float initialY, float initialZ)
+MassAggregate::MassAggregate(MassAggregateGeometry geometry, float initialX, float initialY, float initialZ)
 {
 	mGeometryType = geometry;
 	mInitialPosition = Vector3f(initialX, initialY, initialZ);
-	CreateBody(models);
+	CreateBody();
 }
-MassAggregate::MassAggregate(MassAggregateModels* models, const MassAggregate &rhs)
+MassAggregate::MassAggregate(const MassAggregate &rhs)
 {
 	mGeometryType = rhs.mGeometryType;
 	mInitialPosition = rhs.mInitialPosition;
-	CreateBody(models);
+	CreateBody();
 }
 MassAggregate::~MassAggregate()
 {
@@ -73,6 +71,12 @@ Particle* MassAggregate::GetParticleAt(unsigned int index) const
 	}
 	return nullptr;
 }
+Particle* MassAggregate::GetParticleLast() const
+{
+	if (mParticles.size() > 0)
+		return mParticles[mParticles.size() - 1]->GetPhysicsObject();
+	return nullptr;
+}
 DisplayObject3D* MassAggregate::GetGraphicsObjectAt(unsigned int index) const
 {
 	if (index >= 0 && index < mParticles.size())
@@ -81,10 +85,9 @@ DisplayObject3D* MassAggregate::GetGraphicsObjectAt(unsigned int index) const
 	}
 	return nullptr;
 }
-//setters
 
 //creating the geometry
-void MassAggregate::CreateBody(MassAggregateModels* models)
+void MassAggregate::CreateBody()
 {
 	mAddedToSystems = false;
 
@@ -94,181 +97,151 @@ void MassAggregate::CreateBody(MassAggregateModels* models)
 	switch(mGeometryType)
 	{
 	case MassAggregateGeometry::MA_Point:
-		CreateBodyPoint(models);
+		CreateBodyPoint();
 		break;
 	case MassAggregateGeometry::MA_Solid_Line:
-		CreateBodyLine(models);
+		CreateBodyLine();
 		break;
 	case MassAggregateGeometry::MA_Solid_Cube:
-		CreateBodyCube(models);
+		CreateBodyCube();
 		break;
 	case MassAggregateGeometry::MA_Solid_Tetrahedron:
-		CreateBodyTetrahedron(models);
+		CreateBodyTetrahedron();
 		break;
 	case MassAggregateGeometry::MA_Solid_PyramidWithTop:
-		CreateBodyPyramidWithTop(models);
+		CreateBodyPyramidWithTop();
 		break;
 	}
 }
 
-void MassAggregate::InsertParticle(Model* model, const Vector3f &relativePosition)
+void MassAggregate::InsertParticle(const Vector3f &relativePosition)
 {
-	GameObject* obj = new GameObject(model, mInitialPosition + relativePosition);
+	GameObject* obj = new GameObject("Cube", "ParticleMetal", mInitialPosition + relativePosition);
 	mParticles.push_back(obj);
 }
-void MassAggregate::InsertLink(Model* model, int particleIndexA, int particleIndexB, LinkTypes type)
+void MassAggregate::InsertParticle(GameObject* obj)
+{
+	mParticles.push_back(obj);
+}
+void MassAggregate::InsertLink(int particleIndexA, int particleIndexB, LinkTypes type)
 {
 	if (type == LinkTypes::Rod)
 	{
 		ParticleRod* rod = new ParticleRod(8.0f);
 		rod->mParticleA = mParticles[particleIndexA]->GetPhysicsObject();
 		rod->mParticleB = mParticles[particleIndexB]->GetPhysicsObject();
-		GameObjectLink* link = new GameObjectLink(model, rod);		
+		GameObjectLink* link = new GameObjectLink("Cube", "SteelRod", rod);		
 		mLinks.push_back(link);
 	}
 }
 
 #pragma region Create Point
-void MassAggregate::CreateBodyPoint(MassAggregateModels* models)
+void MassAggregate::CreateBodyPoint()
 {
-	InsertParticle(models->modelParticle, mInitialPosition);
+	InsertParticle(mInitialPosition);
 }
 #pragma endregion
 #pragma region Create Line
-void MassAggregate::CreateBodyLine(MassAggregateModels* models)
+void MassAggregate::CreateBodyLine()
 {
-	InsertParticle(models->modelParticle, Vector3f::zero);
-	InsertParticle(models->modelParticle, Vector3f::unitX * 10.0f +Vector3f::unitY * 5.0f);
-	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
+	InsertParticle(Vector3f::zero);
+	InsertParticle(Vector3f::unitX * 10.0f +Vector3f::unitY * 5.0f);
+	InsertLink(0, 1, LinkTypes::Rod);
 }
 #pragma endregion
 #pragma region Create Tetrahedron
-void MassAggregate::CreateBodyTetrahedron(MassAggregateModels* models)
+void MassAggregate::CreateBodyTetrahedron()
 {
 	float v = 5.0f;
 	float h = v * 0.5f;
-	InsertParticle(models->modelParticle, Vector3f(-h, 0.0f, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(h, 0.0f, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(0.0f, 0.0f, -v));
-	InsertParticle(models->modelParticle, Vector3f(0.0f, v, -h));
+	InsertParticle(Vector3f(-h, 0.0f, 0.0f));
+	InsertParticle(Vector3f(h, 0.0f, 0.0f));
+	InsertParticle(Vector3f(0.0f, 0.0f, -v));
+	InsertParticle( Vector3f(0.0f, v, -h));
 
-	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
-	InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
-	InsertLink(models->modelRod, 2, 0, LinkTypes::Rod);
-	InsertLink(models->modelRod, 0, 3, LinkTypes::Rod);
-	InsertLink(models->modelRod, 1, 3, LinkTypes::Rod);
-	InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
+	InsertLink(0, 1, LinkTypes::Rod);
+	InsertLink(1, 2, LinkTypes::Rod);
+	InsertLink(2, 0, LinkTypes::Rod);
+	InsertLink(0, 3, LinkTypes::Rod);
+	InsertLink(1, 3, LinkTypes::Rod);
+	InsertLink(2, 3, LinkTypes::Rod);
 }
 #pragma endregion
 #pragma region Create Cube
-void MassAggregate::CreateBodyCube(MassAggregateModels* models)
+void MassAggregate::CreateBodyCube()
 {
 	float d = 5.0f;
 
 	//bottom square particles
-	InsertParticle(models->modelParticle, Vector3f(0.0f, 0.0f, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(d, 0.0f, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(d, 0.0f, d));
-	InsertParticle(models->modelParticle, Vector3f(0.0f, 0.0f, d));
+	InsertParticle(Vector3f(0.0f, 0.0f, 0.0f));
+	InsertParticle(Vector3f(d, 0.0f, 0.0f));
+	InsertParticle(Vector3f(d, 0.0f, d));
+	InsertParticle(Vector3f(0.0f, 0.0f, d));
 	//top square particles
-	InsertParticle(models->modelParticle, Vector3f(0.0f, d, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(d, d, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(d, d, d));
-	InsertParticle(models->modelParticle, Vector3f(0.0f, d, d));
+	InsertParticle(Vector3f(0.0f, d, 0.0f));
+	InsertParticle(Vector3f(d, d, 0.0f));
+	InsertParticle(Vector3f(d, d, d));
+	InsertParticle(Vector3f(0.0f, d, d));
 
 	//bottom square links
-	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
-	InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
-	InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
-	InsertLink(models->modelRod, 3, 0, LinkTypes::Rod);
+	InsertLink(0, 1, LinkTypes::Rod);
+	InsertLink(1, 2, LinkTypes::Rod);
+	InsertLink(2, 3, LinkTypes::Rod);
+	InsertLink(3, 0, LinkTypes::Rod);
 
 	//top square links
-	InsertLink(models->modelRod, 4, 5, LinkTypes::Rod);
-	InsertLink(models->modelRod, 5, 6, LinkTypes::Rod);
-	InsertLink(models->modelRod, 6, 7, LinkTypes::Rod);
-	InsertLink(models->modelRod, 7, 4, LinkTypes::Rod);
+	InsertLink(4, 5, LinkTypes::Rod);
+	InsertLink(5, 6, LinkTypes::Rod);
+	InsertLink(6, 7, LinkTypes::Rod);
+	InsertLink(7, 4, LinkTypes::Rod);
 
 	//connecting the bottom and top squares
-	InsertLink(models->modelRod, 0, 4, LinkTypes::Rod);
-	InsertLink(models->modelRod, 1, 5, LinkTypes::Rod);
-	InsertLink(models->modelRod, 2, 6, LinkTypes::Rod);
-	InsertLink(models->modelRod, 3, 7, LinkTypes::Rod);
+	InsertLink(0, 4, LinkTypes::Rod);
+	InsertLink(1, 5, LinkTypes::Rod);
+	InsertLink(2, 6, LinkTypes::Rod);
+	InsertLink(3, 7, LinkTypes::Rod);
 }
 #pragma endregion
 #pragma region Create Pyrmaid with Top
-void MassAggregate::CreateBodyPyramidWithTop(MassAggregateModels* models)
+void MassAggregate::CreateBodyPyramidWithTop()
 {
 	float v = 5.0f;
 	float h = v * 0.5f;
-	InsertParticle(models->modelParticle, Vector3f(-h, 0.0f, h));
-	InsertParticle(models->modelParticle, Vector3f(h, 0.0f, h));
-	InsertParticle(models->modelParticle, Vector3f(h, 0.0f, -h));
-	InsertParticle(models->modelParticle, Vector3f(-h, 0.0f, -h));
-	InsertParticle(models->modelParticle, Vector3f(0.0f, v, 0.0f));
-	InsertParticle(models->modelParticle, Vector3f(0.0f, v + v, 0.0f));
+	InsertParticle(Vector3f(-h, 0.0f, h));
+	InsertParticle(Vector3f(h, 0.0f, h));
+	InsertParticle(Vector3f(h, 0.0f, -h));
+	InsertParticle(Vector3f(-h, 0.0f, -h));
+	InsertParticle(Vector3f(0.0f, v, 0.0f));
+	InsertParticle(Vector3f(0.0f, v + v, 0.0f));
 
-	InsertLink(models->modelRod, 0, 1, LinkTypes::Rod);
-	InsertLink(models->modelRod, 1, 2, LinkTypes::Rod);
-	InsertLink(models->modelRod, 2, 3, LinkTypes::Rod);
-	InsertLink(models->modelRod, 3, 0, LinkTypes::Rod);
+	InsertLink(0, 1, LinkTypes::Rod);
+	InsertLink(1, 2, LinkTypes::Rod);
+	InsertLink(2, 3, LinkTypes::Rod);
+	InsertLink(3, 0, LinkTypes::Rod);
 
-	InsertLink(models->modelRod, 0, 4, LinkTypes::Rod);
-	InsertLink(models->modelRod, 1, 4, LinkTypes::Rod);
-	InsertLink(models->modelRod, 2, 4, LinkTypes::Rod);
-	InsertLink(models->modelRod, 3, 4, LinkTypes::Rod);
+	InsertLink(0, 4, LinkTypes::Rod);
+	InsertLink(1, 4, LinkTypes::Rod);
+	InsertLink(2, 4, LinkTypes::Rod);
+	InsertLink(3, 4, LinkTypes::Rod);
 
-	InsertLink(models->modelRod, 4, 5, LinkTypes::Rod);
+	InsertLink(4, 5, LinkTypes::Rod);
 	
 }
 #pragma endregion
 
-
-//adding to physics system
-/*
-void MassAggregate::AddToSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
+//adding new particles
+void MassAggregate::ConnectParticle(GameObject* existingParticle, int connectToIndex, LinkTypes linkType)
 {
-	if (!mAddedToSystems)
-	{
-		unsigned int i;
-		unsigned int size;
+	InsertParticle(existingParticle);
+	if (connectToIndex < 0)
+		connectToIndex = 0;
+	if (connectToIndex >= (int)mParticles.size() - 1)
+		connectToIndex = (int)mParticles.size() - 2;
 
-		size = mParticles.size();
-		for (i = 0; i < size; i++)
-		{
-			mParticles[i]->AddToSystems(physicsSystem, graphicsSystem);
-		}
-		size = mLinks.size();
-		for (i = 0; i < size; i++)
-		{
-			physicsSystem->AddContactGenerator(mLinks[i]->GetLink());
-			graphicsSystem->AddObject(mLinks[i]->GetGraphicsObject());
-		}
-		mAddedToSystems = true;
-	}
+	InsertLink(mParticles.size() - 1, connectToIndex, LinkTypes::Rod); //connects a the most recently added particle to another particle represented by and index
 }
-void MassAggregate::DeleteFromSystems(ParticleSystem* physicsSystem, DisplayObject3DManager* graphicsSystem)
-{
-	if (mAddedToSystems)
-	{
-		unsigned int i;
-		unsigned int size;
 
-		size = mParticles.size();
-		for (i = 0; i < size; i++)
-		{
-			mParticles[i]->DeleteFromSystems(physicsSystem, graphicsSystem);
-		}
-		size = mLinks.size();
-		for (i = 0; i < size; i++)
-		{
-			physicsSystem->RemoveContactGenerator(mLinks[i]->GetLink());
-			graphicsSystem->RemoveObject(mLinks[i]->GetGraphicsObject());
-		}
-		mAddedToSystems = false;
-	}
-}*/
-
-
+//linking the positions
 void MassAggregate::LinkPositions() //link the position of the graphics object from the physics object
 {
 	unsigned int i;
@@ -286,6 +259,7 @@ void MassAggregate::LinkPositions() //link the position of the graphics object f
 	}
 }
 
+//adding force to all the particles in the mass aggregates
 void MassAggregate::AddForce(const Vector3f &force)
 {
 	unsigned int i;

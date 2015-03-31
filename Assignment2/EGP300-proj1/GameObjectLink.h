@@ -1,11 +1,12 @@
 #ifndef _GAME_OBJECT_LINK_H
 #define _GAME_OBJECT_LINK_H
 
+#include <string>
+
 class ParticleSystem;
 class DisplayObject3DManager;
 class ParticleLink;
 class DisplayObject3D;
-class Model;
 
 class GameObjectLink
 {
@@ -17,7 +18,8 @@ private:
 	static unsigned int msIDs;
 
 public:
-	GameObjectLink(Model* model, ParticleLink *link);
+	GameObjectLink(const std::string &modelName, ParticleLink *link);
+	GameObjectLink(const std::string &modelName, const std::string &materialName, ParticleLink *link);
 	GameObjectLink(const GameObjectLink &rhs);
 	~GameObjectLink();
 

@@ -261,6 +261,15 @@
     <ClCompile Include="InputSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectSpawner.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelManager.cpp">
+      <Filter>Source Files\Graphics\3D Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -450,9 +459,6 @@
     <ClInclude Include="GroundForceGenerator.h">
       <Filter>Header Files\Physics\ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="MaterialManager.h">
-      <Filter>Header Files\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="DebugLogger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -479,6 +485,21 @@
     </ClInclude>
     <ClInclude Include="SpecialKeyCode.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Notes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSpawner.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialManager.h">
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelManager.h">
+      <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

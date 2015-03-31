@@ -1,31 +1,44 @@
 #include "GameObjectLink.h"
+#include "MainApp.h"
 #include "DisplayObject3DManager.h"
 #include "ParticleSystem.h"
 #include "ParticleLink.h"
 #include "DisplayObject3D.h"
-#include "MainApp.h"
+#include "ModelManager.h"
+#include "MaterialManager.h"
 #include "ScaleFactor.h"
 #include "SimpleMath.h"
 #include "Vector2f.h"
-
-#include "InputSystem.h"
 #include <iostream>
-
-unsigned int GameObjectLink::msIDs = 0;
 
 #define PI_OVER_2 1.5707963267948966192313216916398f
 
+unsigned int GameObjectLink::msIDs = 0;
+
 //constructors
-GameObjectLink::GameObjectLink(Model* model, ParticleLink *link)
+GameObjectLink::GameObjectLink(const std::string &modelName, ParticleLink *link)
 	:mID(msIDs)
 {
-	mGraphicsObject = new DisplayObject3D(model);
+	mGraphicsObject = new DisplayObject3D(MainApp::GetModelManager()->FindModel(modelName));
 	mPhysicsLink = link;
 
 	MainApp::GetGraphicsSystem()->AddObject(mGraphicsObject);
 	MainApp::GetPhysicsSystem()->AddContactGenerator(mPhysicsLink);
 	msIDs++;
 }
+
+GameObjectLink::GameObjectLink(const std::string &modelName, const std::string &materialName, ParticleLink *link)
+	:mID(msIDs)
+{
+	mGraphicsObject = new DisplayObject3D(MainApp::GetModelManager()->FindModel(modelName));
+	mGraphicsObject->SetMaterial(MainApp::GetMaterialManager()->FindMaterial(materialName));
+	mPhysicsLink = link;
+
+	MainApp::GetGraphicsSystem()->AddObject(mGraphicsObject);
+	MainApp::GetPhysicsSystem()->AddContactGenerator(mPhysicsLink);
+	msIDs++;
+}
+
 GameObjectLink::GameObjectLink(const GameObjectLink &rhs)
 	:mID(msIDs)
 {
@@ -69,9 +82,9 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 		float rotY = atan2f(v.z, v.x); //between 90 and -90 its screwed up
 		float rotZ = atan2f(v.y, v.x);
 		
-		
+		pTransform->SetRotationRadians(rotX, rotY, rotZ);
 
-
+		/*
 		if (mID == 0)
 		{
 			if (InputSystem::KeyDown(' '))
@@ -87,7 +100,7 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 		{
 			rotY += PI_OVER_2 * PI_OVER_2;
 			//std::cerr << "RotY (" << rotY * (180.0f / 3.1415926f) << ") degrees" << std::endl;
-		}
+		}*/
 		
 
 		/*
@@ -96,8 +109,8 @@ void GameObjectLink::LinkPositions() //link the position of the graphics object 
 			rotY *= 1.0f;
 		}*/
 		
-		rotY = 0.0f;
-		pTransform->SetRotationRadians(rotX, rotY, rotZ);
+		//rotY = 0.0f;
+		
 		//pTransform->SetRotationRadians()
 		
 
