@@ -1,0 +1,20 @@
+// Flat Shader
+// Vertex Shader
+// Richard S. Wright Jr.
+// OpenGL SuperBible
+
+#version 400
+
+// Incoming per vertex
+in vec4 inVertex;
+
+uniform mat4 mvpMatrix;
+
+out vec4 vVertex;
+
+void main(void)
+{
+	vVertex = inVertex;
+
+	gl_Position = mvpMatrix * inVertex;
+}
