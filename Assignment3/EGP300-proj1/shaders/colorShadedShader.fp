@@ -11,12 +11,9 @@ in vec2 vUV;
 out vec4 vFragColor;       // Fragment color to rasterize
 
 
-uniform sampler2D tex;
+uniform vec4 color;
 
 void main(void)
 {
-
-	vFragColor = texture(tex, vUV);
-	if (vFragColor.a < 0.05)
-		discard;
+	vFragColor = color * ((vUV[0] + vUV[1]) * 0.5);
 }

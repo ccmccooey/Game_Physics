@@ -1,4 +1,8 @@
 #include "ShaderManager.h"
+#include "ShaderGreySolid.h"
+#include "ShaderGreyShaded.h"
+#include "ShaderColorSolid.h"
+#include "ShaderColorShaded.h"
 #include "ShaderTextureReplace.h"
 #include "ShaderTextureColor.h"
 
@@ -30,16 +34,35 @@ void ShaderManager::CreateShaders()
 		mShaders[i] = nullptr;
 
 	//create all the shaders
+	
+	//grey solid shader
+	ShaderGreySolid* shaderGreySolid = new ShaderGreySolid();
+	AddShader(shaderGreySolid);
+
+	//grey shaded shader
+	ShaderGreyShaded* shaderGreyShaded = new ShaderGreyShaded();
+	AddShader(shaderGreyShaded);
+
+	//color solid shader
+	ShaderColorSolid* shaderColorSolid = new ShaderColorSolid();
+	AddShader(shaderColorSolid);
+
+	//color shaded shader
+	ShaderColorShaded* shaderColorShaded = new ShaderColorShaded();
+	AddShader(shaderColorShaded);
 
 	//texture replace shader
 	ShaderTextureReplace* shaderTextureReplace = new ShaderTextureReplace();
-	shaderTextureReplace->Initialize();
-	mShaders[(unsigned int)shaderTextureReplace->GetType()] = shaderTextureReplace;
+	AddShader(shaderTextureReplace);
 
 	//texture replace shader
 	ShaderTextureColor* shaderTextureColor = new ShaderTextureColor();
-	shaderTextureColor->Initialize();
-	mShaders[(unsigned int)shaderTextureColor->GetType()] = shaderTextureColor;
+	AddShader(shaderTextureColor);
+}
+void ShaderManager::AddShader(ShaderBase* shader)
+{
+	shader->Initialize();
+	mShaders[(unsigned int)shader->GetType()] = shader;
 }
 
 ShaderBase* ShaderManager::GetShaderPtr(ShaderType type) const

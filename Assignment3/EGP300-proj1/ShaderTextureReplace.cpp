@@ -27,7 +27,7 @@ void ShaderTextureReplace::Use(M3DMatrix44f &mvpMatrix)
 	glUseProgram(mShaderID);
 
 	glUniform1i(mLocTexture, 0);
-	glUniformMatrix4fv(mLocMVP, 1, GL_FALSE, mvpMatrix);
+	glUniformMatrix4fv(mLocMVP, 1, GL_FALSE, *ShaderBase::msBoundMatrix);
 
 	ShaderBase::Use(mvpMatrix);
 }

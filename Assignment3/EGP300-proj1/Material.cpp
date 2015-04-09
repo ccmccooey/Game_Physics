@@ -116,5 +116,7 @@ void Material::Use(const M3DMatrix44f &projectionMatrix, M3DMatrix44f &modelView
 	if (mTexture != nullptr)
 		mTexture->BindTexture();
 
+	ShaderBase::BindMVPMatrix(mvpMatrix);
+	ShaderBase::BindColor(mColor);
 	mShader->Use(mvpMatrix);
 }

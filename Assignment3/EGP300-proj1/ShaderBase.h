@@ -3,12 +3,16 @@
 
 #include "GLFiles.h"
 #include "ShaderType.h"
+#include "Color.h"
 
 class ShaderBase
 {
 protected:
 	const ShaderType mType;
 	GLint mShaderID;
+
+	static const Color* msBoundColor;
+	static M3DMatrix44f* msBoundMatrix;
 
 protected:
 	ShaderBase(ShaderType type);
@@ -23,6 +27,8 @@ public:
 
 	ShaderType GetType() const;
 
+	static void BindMVPMatrix(M3DMatrix44f &mvpMatrix);
+	static void BindColor(const Color &color);
 };
 
 #endif

@@ -66,6 +66,10 @@ void Color::ToColorArrayRGBA(GLfloat* &colorArray)
 {
 	colorArray = mRGBA;
 }
+void Color::ToFloatArray4(const float arr[4]) const
+{
+	arr = mRGBA;
+}
 
 //assignment operator
 Color& Color::operator=( const Color& rhs )

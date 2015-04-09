@@ -18,6 +18,9 @@ public:
 	void CreateShaders();
 
 	ShaderBase* GetShaderPtr(ShaderType type) const;
+
+private:
+	void AddShader(ShaderBase* shader);
 };
 
 #endif

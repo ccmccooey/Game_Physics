@@ -24,6 +24,7 @@ public:
 	~Color();
 	void Set(float r, float g, float b, float a);
 	void ToColorArrayRGBA(GLfloat* &colorArray);
+	void ToFloatArray4(const float arr[4]) const;
 
 	float R() const;
 	float G() const;

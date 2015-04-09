@@ -288,6 +288,18 @@
     <ClCompile Include="ShaderTextureColor.cpp">
       <Filter>Source Files\Graphics\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="ShaderColorShaded.cpp">
+      <Filter>Source Files\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderColorSolid.cpp">
+      <Filter>Source Files\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderGreySolid.cpp">
+      <Filter>Source Files\Graphics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderGreyShaded.cpp">
+      <Filter>Source Files\Graphics\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -523,6 +535,18 @@
       <Filter>Header Files\Physics\ParticlePhysics</Filter>
     </ClInclude>
     <ClInclude Include="ShaderTextureColor.h">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderColorShaded.h">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderColorSolid.h">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderGreyShaded.h">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderGreySolid.h">
       <Filter>Header Files\Graphics\Shaders</Filter>
     </ClInclude>
   </ItemGroup>
