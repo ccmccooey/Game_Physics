@@ -6,7 +6,7 @@
 #include "DisplayObject3D.h"
 #include "Material.h"
 #include "ParticleSystem.h"
-#include "DisplayObject3DManager.h"
+#include "GraphicsSystem.h"
 #include "ScaleFactor.h"
 #include <iostream>
 
@@ -54,11 +54,11 @@ GameObject::~GameObject()
 }
 void GameObject::CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics)
 {
-	mGraphicsObject = new DisplayObject3D(MainApp::GetModelManager()->FindModel(modelKey));
+	mGraphicsObject = new DisplayObject3D(GraphicsSystem::GetModel(modelKey));
 	if (materialKey != "")
-		mGraphicsObject->SetMaterial(MainApp::GetMaterialManager()->FindMaterial(materialKey));
-	mPhysicsObject = new Particle(mGraphicsObject->getTransform());
-	mPhysicsObject->SetPosition(positionPhysics);
+		mGraphicsObject->SetMaterial(GraphicsSystem::GetMaterial(materialKey));
+	//mPhysicsObject = new Particle(mGraphicsObject->getTransform());
+	//mPhysicsObject->SetPosition(positionPhysics);
 	mAdded = false;
 
 	AddToSystems();
@@ -70,14 +70,15 @@ DisplayObject3D* GameObject::GetGraphicsObject() const
 {
 	return mGraphicsObject;
 }
+/*
 Particle* GameObject::GetPhysicsObject() const
 {
-	return mPhysicsObject;
+	//return mPhysicsObject;
 }
 const Vector3f& GameObject::GetPhysicsPosition() const
 {
 	return mPhysicsObject->GetPosition();
-}
+}*/
 bool GameObject::AddedToSystems() const
 {
 	return mAdded;
@@ -96,8 +97,8 @@ void GameObject::AddToSystems()
 {
 	if (!mAdded)
 	{
-		MainApp::GetGraphicsSystem()->AddObject(mGraphicsObject);
-		MainApp::GetPhysicsSystem()->AddParticle(mPhysicsObject);
+		GraphicsSystem::AddDisplayObject(mGraphicsObject);
+		//MainApp::GetPhysicsSystem()->AddParticle(mPhysicsObject);
 		mAdded = true;
 	}
 }
@@ -105,15 +106,15 @@ void GameObject::DeleteFromSystems()
 {
 	if (mAdded)
 	{
-		MainApp::GetGraphicsSystem()->RemoveObject(mGraphicsObject);
-		MainApp::GetPhysicsSystem()->RemoveFromSystem(mPhysicsObject);
+		GraphicsSystem::RemoveDisplayObject(mGraphicsObject);
+		//MainApp::GetPhysicsSystem()->RemoveFromSystem(mPhysicsObject);
 		mAdded = false;
 	}
 }
 
 void GameObject::LinkPositions() //link the position of the graphics object from the physics object
 {
-	mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
+	//mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
 }
 void GameObject::SetTag(const std::string &tag)
 {
@@ -121,8 +122,7 @@ void GameObject::SetTag(const std::string &tag)
 }
 void GameObject::SetMaterial(const std::string &material)
 {
-	Material* mat = MainApp::GetMaterialManager()->FindMaterial(material);
-	mGraphicsObject->SetMaterial(mat);
+	mGraphicsObject->SetMaterial(GraphicsSystem::GetMaterial(material));
 }
 
 //cloning objects

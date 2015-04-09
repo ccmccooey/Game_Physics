@@ -16,15 +16,12 @@
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
-    <ClCompile Include="Collector.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="DebugLogger.cpp" />
     <ClCompile Include="DisplayObject3DManager.cpp" />
     <ClCompile Include="DrawData.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameObjectLink.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
     <ClCompile Include="GroundContactGenerator.cpp" />
@@ -33,11 +30,9 @@
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUISystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
-    <ClCompile Include="Level.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainApp.cpp" />
-    <ClCompile Include="MassAggregate.cpp" />
     <ClCompile Include="MassAggregateModels.cpp" />
     <ClCompile Include="Material.cpp" />
     <ClCompile Include="MaterialManager.cpp" />
@@ -48,7 +43,6 @@
     <ClCompile Include="ModelOld.cpp" />
     <ClCompile Include="ModelData.cpp" />
     <ClCompile Include="DisplayObject3D.cpp" />
-    <ClCompile Include="ObjectSpawner.cpp" />
     <ClCompile Include="ParticleCable.cpp" />
     <ClCompile Include="ParticleContact.cpp" />
     <ClCompile Include="ParticleContactGenerator.cpp" />
@@ -66,6 +60,7 @@
     <ClCompile Include="Particle.cpp" />
     <ClCompile Include="ShaderBase.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
+    <ClCompile Include="ShaderTextureColor.cpp" />
     <ClCompile Include="ShaderTextureReplace.cpp" />
     <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="SpringForceGenerator.cpp" />
@@ -94,7 +89,6 @@
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
-    <ClInclude Include="Collector.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
     <ClInclude Include="DebugLogger.h" />
@@ -113,13 +107,9 @@
     <ClInclude Include="GUIImage.h" />
     <ClInclude Include="GuiOperationEnum.h" />
     <ClInclude Include="GUISystem.h" />
-    <ClInclude Include="GameObjectLink.h" />
     <ClInclude Include="InputSystem.h" />
-    <ClInclude Include="Level.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MainApp.h" />
-    <ClInclude Include="MassAggregate.h" />
-    <ClInclude Include="MassAggregateGeometry.h" />
     <ClInclude Include="MassAggregateModels.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialManager.h" />
@@ -134,8 +124,6 @@
     <ClInclude Include="Notes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="ObjectSpawner.h" />
     <ClInclude Include="ParticleCable.h" />
     <ClInclude Include="ParticleContactResolver.h" />
     <ClInclude Include="ParticleLink.h" />
@@ -156,6 +144,7 @@
     <ClInclude Include="ScaleFactor.h" />
     <ClInclude Include="ShaderBase.h" />
     <ClInclude Include="ShaderManager.h" />
+    <ClInclude Include="ShaderTextureColor.h" />
     <ClInclude Include="ShaderTextureReplace.h" />
     <ClInclude Include="ShaderType.h" />
     <ClInclude Include="SimpleMath.h" />

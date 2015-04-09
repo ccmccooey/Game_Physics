@@ -11,7 +11,7 @@ ShaderTextureReplace::~ShaderTextureReplace()
 
 }
 
-void ShaderTextureReplace::Initialize()	
+void ShaderTextureReplace::Initialize()
 {
 	mShaderID = gltLoadShaderPairWithAttributes(	"shaders/textureShader.vp", "shaders/textureShader.fp",
 														2,
@@ -20,8 +20,6 @@ void ShaderTextureReplace::Initialize()
 
 	mLocTexture = glGetUniformLocation(mShaderID, "tex");
 	mLocMVP = glGetUniformLocation(mShaderID, "mvpMatrix");
-
-	ShaderBase::Initialize();
 }
 	
 void ShaderTextureReplace::Use(M3DMatrix44f &mvpMatrix)
@@ -31,7 +29,7 @@ void ShaderTextureReplace::Use(M3DMatrix44f &mvpMatrix)
 	glUniform1i(mLocTexture, 0);
 	glUniformMatrix4fv(mLocMVP, 1, GL_FALSE, mvpMatrix);
 
-	ShaderTextureReplace::Use(mvpMatrix);
+	ShaderBase::Use(mvpMatrix);
 }
 
 

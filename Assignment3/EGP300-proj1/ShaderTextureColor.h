@@ -1,17 +1,18 @@
-#ifndef _SHADER_TEXTURE_REPLACE
-#define _SHADER_TEXTYRE_REPLACE
+#ifndef _SHADER_TEXTURE_COLOR
+#define _SHADER_TEXTYRE_COLOR
 
 #include "ShaderBase.h"
 
-class ShaderTextureReplace :public ShaderBase
+class ShaderTextureColor :public ShaderBase
 {
 private:
 	GLint mLocTexture; //location of remote location "tex"	
 	GLint mLocMVP; //location of remote "mvpMatrix"
+	GLint mLocColor;  //location of remote "color"
 
 public:
-	ShaderTextureReplace();
-	~ShaderTextureReplace();
+	ShaderTextureColor();
+	~ShaderTextureColor();
 
 	virtual void Initialize();
 

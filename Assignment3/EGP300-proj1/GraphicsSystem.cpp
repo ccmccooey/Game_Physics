@@ -20,6 +20,8 @@ GraphicsSystem* GraphicsSystem::msSystem = nullptr;
 //constructors
 GraphicsSystem::GraphicsSystem()
 {
+	msSystem = this;
+
 	Initialize();
 }
 GraphicsSystem::~GraphicsSystem()
@@ -53,7 +55,11 @@ void GraphicsSystem::Initialize()
 
 	//stock shaders for basic 3D rendering
 	mStockShaders = new GLShaderManager();
-	mStockShaders->InitializeStockShaders();
+	bool ok = mStockShaders->InitializeStockShaders();
+	if (!ok)
+	{
+		printf("Error Initializing stock shaders\n");
+	}
 
 	//create the renderer for displaying text
 	mTextRenderer = new TextRenderer();
@@ -69,6 +75,10 @@ void GraphicsSystem::Initialize()
 	mDrawData->textRenderer = mTextRenderer;
 	mDrawData->stockShaders = mStockShaders;
 	mDrawData->shaderManager = mShaderManager;
+	mDrawData->frustum = &mViewFrustum3D->GetProjectionMatrix();
+
+	//create the display list
+	mDisplayList = new DisplayObject3DManager();
 }
 void GraphicsSystem::LoadContent()
 {
@@ -96,6 +106,20 @@ void GraphicsSystem::CleanUp()
 	mTextureManager = nullptr;
 }
 
+//non-static accessors may be removed later
+GLShaderManager* GraphicsSystem::GetStockShaders() const
+{
+	return mStockShaders;
+}
+TextRenderer* GraphicsSystem::GetTextRenderer() const
+{
+	return mTextRenderer;
+}
+DrawData* GraphicsSystem::GetDrawData() const
+{
+	return mDrawData;
+}
+
 //static accessors
 GraphicsSystem* GraphicsSystem::Instance()
 {
@@ -113,6 +137,10 @@ Model* GraphicsSystem::GetModel(const std::string &model)
 {
 	return msSystem->mModelManager->FindModel(model);
 }
+ShaderBase* GraphicsSystem::GetShader(ShaderType type)
+{
+	return msSystem->mShaderManager->GetShaderPtr(type);
+}
 DisplayObject3DManager* GraphicsSystem::GetDisplayObjectManager()
 {
 	return msSystem->mDisplayList;
@@ -121,11 +149,15 @@ DisplayObject3DManager* GraphicsSystem::GetDisplayObjectManager()
 //adding and removing graphics objects
 void GraphicsSystem::AddDisplayObject(DisplayObject3D* object)
 {
-	msSystem->AddDisplayObject(object);
+	msSystem->mDisplayList->AddObject(object);
 }
 void GraphicsSystem::RemoveDisplayObject(DisplayObject3D* object)
 {
-	msSystem->RemoveDisplayObject(object);
+	msSystem->mDisplayList->RemoveObject(object);
+}
+void GraphicsSystem::RemoveAllDisplayObjects()
+{
+	msSystem->mDisplayList->RemoveAllObjects();
 }
 
 //change the perspective of the view frustum
@@ -148,11 +180,11 @@ void GraphicsSystem::UpdateWindowSize(int w, int h)
 }
 
 //draw call
-void GraphicsSystem::RenderScene(DrawData *data, Camera* camera)
+void GraphicsSystem::RenderScene(Camera* camera)
 {
-	msSystem->Draw(data, camera);
+	msSystem->Draw(camera);
 }
-void GraphicsSystem::Draw(DrawData *data, Camera* camera) const
+void GraphicsSystem::Draw(Camera* camera) const
 {
 	M3DMatrix44f &view = camera->getView();
 	const M3DMatrix44f &projection = mViewFrustum3D->GetProjectionMatrix();

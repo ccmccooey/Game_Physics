@@ -11,7 +11,6 @@ class GameObject
 {
 protected:
 	DisplayObject3D* mGraphicsObject;
-	Particle* mPhysicsObject;
 
 private:
 	bool mAdded;
@@ -32,7 +31,7 @@ public:
 
 	//accessors
 	DisplayObject3D* GetGraphicsObject() const;
-	Particle* GetPhysicsObject() const;
+	//Particle* GetPhysicsObject() const;
 	const Vector3f& GetPhysicsPosition() const;
 	bool AddedToSystems() const;
 	const std::string& GetTag() const;

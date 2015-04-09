@@ -3,18 +3,10 @@
 
 class Camera;
 class GuiSystem;
-class ParticleSystem;
-class TextureManager;
-class MaterialManager;
-class ModelManager;
-class DisplayObject3DManager;
-class TextRenderer;
+class GraphicsSystem;
 class Game;
 class CameraContainer;
 class Skybox;
-struct DrawData;
-
-#include "GLfiles.h"
 
 class MainApp
 {
@@ -22,19 +14,11 @@ private:
 	static MainApp* msApplication;
 
 private:
+	GraphicsSystem* mGraphicsSystem;
+	Game* mGame;
 	Camera* mCamera;
 	CameraContainer* mCameraContainer;
-	GuiSystem*	mGuiSystem;
-	ParticleSystem* mParticleSystem;
-	GLFrustum mViewFrustum3D;
-	DrawData* mDrawData;
-	DisplayObject3DManager* mDisplayList;
-	GLShaderManager mShaderManager;
-	TextureManager* mTextureManager;
-	MaterialManager* mMaterialManager;
-	ModelManager* mModelManager;
-	TextRenderer*	mTextRenderer;
-	Game* mGame;
+	GuiSystem*	mGuiSystem;	
 	Skybox* mSkybox;
 
 	int mWindowWidth;
@@ -68,11 +52,6 @@ private:
 
 public:
 	static MainApp* GetApp();
-	static ParticleSystem* GetPhysicsSystem();
-	static DisplayObject3DManager* GetGraphicsSystem();
-	static TextureManager* GetTextureManager();
-	static MaterialManager* GetMaterialManager();
-	static ModelManager* GetModelManager();
 };
 
 #endif

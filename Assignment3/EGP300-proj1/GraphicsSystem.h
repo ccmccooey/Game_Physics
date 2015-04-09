@@ -11,6 +11,7 @@
 #ifndef _GRAPHICS_SYSTEM_H
 #define _GRAPHICS_SYSTEM_H
 
+#include "ShaderType.h"
 #include <string>
 
 class TextureManager;
@@ -67,6 +68,11 @@ public:
 	static void CreateSystem(); //creates the graphics system, only one can be created at a time
 	static void DestroySystem(); //destroys the graphics system
 
+	//non-static accessors may be removed later
+	GLShaderManager* GetStockShaders() const;
+	TextRenderer* GetTextRenderer() const;
+	DrawData* GetDrawData() const;
+
 	//static accessors
 	static Texture* GetTexture(const std::string &key); //find a texture asset using a key
 	static Material* GetMaterial(const std::string &key); //find a material using a key
@@ -77,6 +83,7 @@ public:
 	//adding and removing graphics objects
 	static void AddDisplayObject(DisplayObject3D* object); //add a display object to the display list
 	static void RemoveDisplayObject(DisplayObject3D* object); //remove a display object from the display list
+	static void RemoveAllDisplayObjects(); //remove all display objects from the display list
 
 	//update the window width and height when it is resized
 	void UpdateWindowSize(int w, int h);
@@ -85,7 +92,7 @@ public:
 	void ChangePersective(float near, float far);
 
 	//draw call
-	static void RenderScene(DrawData *data, Camera* camera); //render the scene, this should be called once in the render function
+	static void RenderScene(Camera* camera); //render the scene, this should be called once in the render function
 	static GraphicsSystem* Instance();
 
 private:
@@ -94,7 +101,7 @@ private:
 	void CleanDisplayList(); //remove all display objects from the display list
 	void CleanUp(); //deletes the assets and all memory used by the graphics system
 
-	void Draw(DrawData *data, Camera* camera) const; //private draw function used by the RenderScene function
+	void Draw(Camera* camera) const; //private draw function used by the RenderScene function
 };
 
 #endif

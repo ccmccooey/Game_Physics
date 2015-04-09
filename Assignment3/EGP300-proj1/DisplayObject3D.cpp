@@ -68,8 +68,8 @@ void DisplayObject3D::Draw(DrawData* drawData)
 
 	
 	if (mMaterial == nullptr)
-		mModel->Draw(drawData->shaderManager, *drawData->frustum, modelView, mvpMatrix);
+		mModel->Draw(drawData->stockShaders, *drawData->frustum, modelView, mvpMatrix);
 	else
-		mModel->Draw(drawData->shaderManager, *drawData->frustum, modelView, mvpMatrix, mMaterial);
+		mModel->Draw(drawData->stockShaders, *drawData->frustum, modelView, mvpMatrix, mMaterial);
 	//mModel->Draw(&shaderManager, mvpMatrix);
 }

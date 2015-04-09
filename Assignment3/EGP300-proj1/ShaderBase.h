@@ -13,7 +13,8 @@ protected:
 protected:
 	ShaderBase(ShaderType type);
 
-	virtual void Initialize();
+public:
+	virtual void Initialize()=0;
 
 public:
 	virtual ~ShaderBase();

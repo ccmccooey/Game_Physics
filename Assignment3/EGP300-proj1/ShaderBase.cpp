@@ -11,12 +11,6 @@ ShaderBase::~ShaderBase()
 
 }
 
-
-void ShaderBase::Initialize()
-{
-	
-}
-
 void ShaderBase::Use(M3DMatrix44f &mvpMatrix)
 {
 	

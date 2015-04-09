@@ -4,13 +4,8 @@
 #include "CameraContainer.h"
 #include "Camera.h"
 #include "ParticleSystem.h"
-#include "ModelManager.h"
-#include "MaterialManager.h"
-#include "TextureManager.h"
-#include "Model.h"
+#include "GraphicsSystem.h"
 #include "GameObject.h"
-#include "DisplayObject3DManager.h"
-#include "Particle.h"
 #include "InputSystem.h"
 #include "Skybox.h"
 
@@ -45,12 +40,6 @@ void MainApp::Initialize()
 	//initial run speed of the simulation
 	mRunSpeed = 1.0f;
 
-	//stock shaders for basic 3D rendering
-	mShaderManager.InitializeStockShaders();
-
-	//create the renderer for displaying text
-	mTextRenderer = new TextRenderer();
-
 	//create the camera
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
@@ -61,51 +50,36 @@ void MainApp::Initialize()
 	mCameraRotationSpeed = 1.0f;
 	mCameraMoveSpeed = 0.75f;
 
-	//draw data
-	mDrawData = new DrawData();
-	mDrawData->textRenderer = mTextRenderer;
-	mDrawData->shaderManager = &mShaderManager;
-
 	//gui system
 	mWindowWidth = 800;
 	mWindowHeight = 600;
 	mGuiSystem = new GuiSystem(mWindowWidth, mWindowHeight);
 
 	//create the graphics
-	mTextureManager = new TextureManager();
-	mMaterialManager = new MaterialManager();
-	mModelManager = new ModelManager();
-	mDisplayList = new DisplayObject3DManager();
+	GraphicsSystem::CreateSystem();
+	mGraphicsSystem = GraphicsSystem::Instance();
 
 	//create the physics
-	mParticleSystem = new ParticleSystem();
 
 	//create the skybox
 	mSkybox = new Skybox("Content/OtherTextures/skybox.png");
 	UpdateSkyboxPosition();
 
 	//game
-	//mGame = new Game(mParticleSystem, mDisplayList);
-	mGame = new Game();
-	mGame->LatchCameraToPlayer(mCameraContainer);
+	//mGame = new Game();
+	//mGame->LatchCameraToPlayer(mCameraContainer);
 
 	mDebugInfo = false;
 
 }
 void MainApp::CleanUp()
 {
-	delete mGame;
+	//delete mGame;
 	delete mSkybox;	
 	delete mCameraContainer;
 	delete mCamera;
-	delete mDisplayList;
-	delete mModelManager;
-	delete mMaterialManager;
-	delete mTextureManager;
-	delete mParticleSystem;
+	GraphicsSystem::DestroySystem();
 	delete mGuiSystem;
-	delete mTextRenderer;
-	delete mDrawData;
 }
 
 //fixed update
@@ -114,14 +88,13 @@ void MainApp::FixedUpdate(double t)
 	if (!mPaused)
 	{
 		mGame->Update(t);
-		mParticleSystem->FixedUpdate(mRunSpeed * t);
+		//mParticleSystem->FixedUpdate(mRunSpeed * t);
 
 		if (mUpdateOnlyOnce)
 		{
 			mUpdateOnlyOnce = false;
 			mPaused = true;
 		}
-		mGame->UpdateGraphicsObjects();
 
 		mCameraContainer->Update();
 
@@ -204,7 +177,7 @@ void MainApp::UpdateWindowSize(int w, int h)
 	mWindowWidth = w;
 	mWindowHeight = h;
 
-	mViewFrustum3D.SetPerspective(35.0f, (float)(mWindowWidth / mWindowHeight), 1.0f, 1000.0f);
+	mGraphicsSystem->UpdateWindowSize(mWindowWidth, mWindowHeight);
 
 	mGuiSystem->UpdateWindowSize(mWindowWidth, mWindowHeight);
 }
@@ -212,17 +185,14 @@ void MainApp::UpdateWindowSize(int w, int h)
 //render everything
 void MainApp::RenderScene()
 {
-	M3DMatrix44f &view = mCamera->getView();
-	const M3DMatrix44f &projection = mViewFrustum3D.GetProjectionMatrix();
 
-	mDrawData->frustum = &mViewFrustum3D.GetProjectionMatrix();
-	mDrawData->view = &view;
 
-	mSkybox->Draw(mDrawData);
+	mSkybox->Draw(mGraphicsSystem->GetDrawData());
 
-	mDisplayList->Draw(mDrawData);
+	GraphicsSystem::RenderScene(mCamera);
 
-	mGuiSystem->DrawGUI(&mShaderManager, mTextRenderer);
+
+	mGuiSystem->DrawGUI(mGraphicsSystem->GetStockShaders(), mGraphicsSystem->GetTextRenderer());
 	
 }
 
@@ -288,24 +258,4 @@ void MainApp::UpdateSkyboxPosition()
 MainApp* MainApp::GetApp()
 {
 	return msApplication;
-}
-ParticleSystem* MainApp::GetPhysicsSystem()
-{
-	return msApplication->mParticleSystem;
-}
-DisplayObject3DManager* MainApp::GetGraphicsSystem()
-{
-	return msApplication->mDisplayList;
-}
-TextureManager* MainApp::GetTextureManager()
-{
-	return msApplication->mTextureManager;
-}
-MaterialManager* MainApp::GetMaterialManager()
-{
-	return msApplication->mMaterialManager;
-}
-ModelManager* MainApp::GetModelManager()
-{
-	return msApplication->mModelManager;
 }

@@ -31,7 +31,7 @@ void Skybox::Draw(DrawData* data)
 	//shaderManager.UseStockShader(GLT_SHADER_SHADED, mvpMatrix);
 	m3dMatrixMultiply44(mvpMatrix, *data->frustum, mTransform->GetModelMatrix());
 
-	mModel->Draw(data->shaderManager, *data->frustum, modelView, mvpMatrix);
+	mModel->Draw(data->stockShaders, *data->frustum, modelView, mvpMatrix);
 }
 
 void Skybox::SetPostion(const Vector3f &position)

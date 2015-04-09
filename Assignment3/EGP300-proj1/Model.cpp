@@ -66,7 +66,10 @@ void Model::CleanMeshData()
 void Model::Draw(GLShaderManager *shaderManager, const M3DMatrix44f &projection, M3DMatrix44f &modelView, M3DMatrix44f &mvpMatrix)
 {
 	if (mMaterial != nullptr)
-		mMaterial->Use(shaderManager, projection, modelView, mvpMatrix);
+	{
+		//mMaterial->Use(shaderManager, projection, modelView, mvpMatrix);
+		mMaterial->Use(projection, modelView, mvpMatrix);
+	}
 	
 	for (unsigned int i = 0; i < mMeshArray.size(); i++)
 	{
@@ -77,8 +80,8 @@ void Model::Draw(GLShaderManager *shaderManager, const M3DMatrix44f &projection,
 //draw the meshes using a different material
 void Model::Draw(GLShaderManager *shaderManager, const M3DMatrix44f &projection, M3DMatrix44f &modelView, M3DMatrix44f &mvpMatrix, Material* material) //Draw all the batches using a different material
 {
-	material->Use(shaderManager, projection, modelView, mvpMatrix);
-
+	//material->Use(shaderManager, projection, modelView, mvpMatrix);
+	material->Use(projection, modelView, mvpMatrix);
 
 	for (unsigned int i = 0; i < mMeshArray.size(); i++)
 	{

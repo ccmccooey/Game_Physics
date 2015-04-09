@@ -158,7 +158,7 @@ void Camera::rotateCameraYaw(float amount) //rotate on y axis
 {
 	mRotationAngle += amount;
 	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
-	mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
+	mRotation = mRotation.fromAxis(mRotationAngle * (float)m3dDegToRad(amount), 0.0f, 1.0f, 0.0f);
 	mRotation.setEulerDeg(0.0f, mRotationAngle, 0.0f);
 	mForward = mRotation.getVectorForward();
 	updateView();
@@ -167,7 +167,7 @@ void Camera::rotateCameraPitch(float amount) //rotate on y axis
 {
 	mRotationAngle += amount;
 	mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
-	mRotation = mRotation.fromAxis(mRotationAngle * m3dDegToRad(amount), 1.0f, 0.0f, 0.0f);
+	mRotation = mRotation.fromAxis(mRotationAngle * (float)m3dDegToRad(amount), 1.0f, 0.0f, 0.0f);
 	mRotation.setEulerDeg(mRotationAngle, 0.0f, 0.0f);
 	mForward = mRotation.getVectorForward();
 	updateView();
@@ -182,7 +182,7 @@ void Camera::rotateCamera(float deltaPitch, float deltaYaw, float deltaRoll) //r
 	//euler = mRotation.getEulerAngles();
 
 	Vector3f euler = mRotation.getEulerAngles();
-	mRotation.setEuler(euler.x, euler.y + m3dDegToRad(deltaYaw), euler.z);
+	mRotation.setEuler(euler.x, euler.y + (float)m3dDegToRad(deltaYaw), euler.z);
 
 	mForward = mRotation.getVectorForward();
 	updateView();
