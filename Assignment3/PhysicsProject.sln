@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "EGP300-proj2", "EGP300-proj1\EGP300-proj1.vcxproj", "{D4F2C127-EFC4-440C-85C8-E3279169551C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PhysicsProject", "PhysicsProject\PhysicsProject.vcxproj", "{D4F2C127-EFC4-440C-85C8-E3279169551C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

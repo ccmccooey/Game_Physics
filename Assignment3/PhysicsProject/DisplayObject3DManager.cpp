@@ -17,7 +17,6 @@ DisplayObject3DManager::DisplayObject3DManager()
 }
 DisplayObject3DManager::~DisplayObject3DManager()
 {
-	FlushDeleteQueue();
 	RemoveAllObjects();
 	FlushDeleteQueue();
 }
