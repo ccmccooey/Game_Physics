@@ -77,7 +77,6 @@ public:
 
 	//static math functions
 	static float DotProduct(const Vector3f &first, const Vector3f &second);
-	static float CrossProductF(const Vector3f &first, const Vector3f &second);
 	static Vector3f CrossProduct(const Vector3f &first, const Vector3f &second);
 	static bool AlmostEqual(const Vector3f &first, const Vector3f &second);
 	static float AngleBetween(const Vector3f &firstNormal, const Vector3f &secondNormal);
@@ -93,6 +92,7 @@ public:
 	static Vector3f EulerForward(const Vector3f &vector);
 	static void VectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize); //fill a float array from an array of vector3s
 	static Vector3f Normalized(const Vector3f &vector);
+	static Vector3f ProjectOntoVector(const Vector3f &u, const Vector3f &v);
 
 public:
 	//constant vectors

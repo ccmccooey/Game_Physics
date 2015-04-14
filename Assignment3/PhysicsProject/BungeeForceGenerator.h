@@ -2,9 +2,9 @@
 #define _BUNGEE_FORCE_GENERATOR_H
 
 #include "Vector3f.h"
-#include "ParticleForceGenerator.h"
+#include "ForceGenerator.h"
 
-class BungeeForceGenerator :public ParticleForceGenerator
+class BungeeForceGenerator :public ForceGenerator
 {
 private:
 	const float mK;
@@ -31,6 +31,7 @@ public:
 
 	//apply force (override function)
 	void ApplyForce(Particle* particle, double t);
+	void ApplyForce(RigidBody* rigidBody, double t);
 };
 
 #endif

@@ -262,10 +262,6 @@ float Vector3f::DotProduct(const Vector3f &first, const Vector3f &second)
 {
 	return first.x * second.x + first.y * second.y + first.z * second.z;
 }
-float Vector3f::CrossProductF(const Vector3f &first, const Vector3f &second)
-{
-	return (first.y * second.z - first.z - second.y) + (first.z * second.x - first.x - second.z) + (first.x * second.y - first.y - second.x);
-}
 Vector3f Vector3f::CrossProduct(const Vector3f &first, const Vector3f &second)
 {
 	return Vector3f( (first.y * second.z - first.z - second.y), (first.z * second.x - first.x - second.z), (first.x * second.y - first.y - second.x) );
@@ -344,4 +340,8 @@ Vector3f Vector3f::EulerForward(float pitch, float yaw, float roll)
 Vector3f Vector3f::EulerForward(const Vector3f &vector)
 {
 	return Vector3f::EulerForward(vector.x, vector.y, vector.z);
+}
+Vector3f Vector3f::ProjectOntoVector(const Vector3f &u, const Vector3f &v)
+{
+	return v * (Vector3f::DotProduct(u, v)) / (v.LengthSquared());
 }

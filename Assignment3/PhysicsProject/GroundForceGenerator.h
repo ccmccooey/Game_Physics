@@ -4,9 +4,9 @@
 #define DEFAULT_GROUND_FORCE 2.0f
 
 #include "Vector3f.h"
-#include "ParticleForceGenerator.h"
+#include "ForceGenerator.h"
 
-class GroundForceGenerator :public ParticleForceGenerator
+class GroundForceGenerator :public ForceGenerator
 {
 private:
 	float mGravity; //amount of gravity
@@ -21,6 +21,7 @@ public:
 	void SetGravity(float gravity);
 
 	void ApplyForce(Particle* particle, double t);
+	void ApplyForce(RigidBody* rigidBody, double t);
 };
 
 

@@ -51,7 +51,7 @@
     <ClCompile Include="ParticleContactResolver.cpp" />
     <ClCompile Include="ParticleLink.cpp" />
     <ClCompile Include="ParticleOld.cpp" />
-    <ClCompile Include="ParticleForceGenerator.cpp" />
+    <ClCompile Include="ForceGenerator.cpp" />
     <ClCompile Include="ParticleRod.cpp" />
     <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="PhysicsSystem.cpp" />
@@ -141,7 +141,7 @@
     <ClInclude Include="ParticleContact.h" />
     <ClInclude Include="ParticleContactGenerator.h" />
     <ClInclude Include="ParticleDrag.h" />
-    <ClInclude Include="ParticleForceGenerator.h" />
+    <ClInclude Include="ForceGenerator.h" />
     <ClInclude Include="ParticleRod.h" />
     <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="PhysicsSystem.h" />

@@ -2,9 +2,9 @@
 #define _ANCHORED_SPRING_FORCE_GENERATOR_H
 
 #include "Vector3f.h"
-#include "ParticleForceGenerator.h"
+#include "ForceGenerator.h"
 
-class AnchoredSpringForceGenerator :public ParticleForceGenerator
+class AnchoredSpringForceGenerator :public ForceGenerator
 {
 private:
 	float const mK;
@@ -24,6 +24,7 @@ public:
 
 	//apply force
 	void ApplyForce(Particle* particle, double t);
+	void ApplyForce(RigidBody* rigidBody, double t);
 };
 
 #endif

@@ -1,16 +1,16 @@
 #include "GroundForceGenerator.h"
 #include "ScaleFactor.h"
 #include "Particle.h"
-#include <limits>
+#include "RigidBody.h"
 
 
 GroundForceGenerator::GroundForceGenerator()
-:ParticleForceGenerator()
+:ForceGenerator()
 {
 	mGravity = DEFAULT_GROUND_FORCE;
 }
 GroundForceGenerator::GroundForceGenerator(float gravity)
-	:ParticleForceGenerator()
+	:ForceGenerator()
 {
 	mGravity = gravity;
 }
@@ -33,4 +33,8 @@ void GroundForceGenerator::SetGravity(float gravity)
 void GroundForceGenerator::ApplyForce(Particle* particle, double t)
 {	
 	particle->AddForce(Vector3f::unitY * -mGravity);
+}
+void GroundForceGenerator::ApplyForce(RigidBody* rb, double t)
+{	
+	rb->AddForce(Vector3f::unitY * -mGravity);
 }

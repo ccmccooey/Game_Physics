@@ -11,7 +11,7 @@
 ParticleSystem::ParticleSystem()
 {
 	mParticles = vector<Particle*>();
-	mRegistry = vector<ParticleForceGenerator*>();
+	mRegistry = vector<ForceGenerator*>();
 	mContactGenerators = vector<ParticleContactGenerator*>();
 	mActiveContacts = vector<ParticleContact*>();
 	mDeleteQueue = queue<ParticleContact*>();
@@ -109,7 +109,7 @@ void ParticleSystem::AddContactGenerator(ParticleContactGenerator* contactGenera
 {
 	mContactGenerators.push_back(contactGenerator);
 }
-void ParticleSystem::AddForceGenerator(ParticleForceGenerator *forceGenerator)
+void ParticleSystem::AddForceGenerator(ForceGenerator *forceGenerator)
 {
 	mRegistry.push_back(forceGenerator);
 }
@@ -138,7 +138,7 @@ void ParticleSystem::RemoveContactGenerator(ParticleContactGenerator* contactGen
 		}
 	}
 }
-void ParticleSystem::RemoveForceGenerator(ParticleForceGenerator *forceGenerator)
+void ParticleSystem::RemoveForceGenerator(ForceGenerator *forceGenerator)
 {
 	unsigned int i;
 	for (i = 0; i < mRegistry.size(); i++)
@@ -154,7 +154,7 @@ void ParticleSystem::RemoveForceGenerator(ParticleForceGenerator *forceGenerator
 void ParticleSystem::RemoveLast()
 {
 	mParticles.pop_back();
-	ParticleForceGenerator* fg = mRegistry.back();
+	ForceGenerator* fg = mRegistry.back();
 	delete fg;
 	mRegistry.pop_back();
 }

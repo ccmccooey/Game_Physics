@@ -1,11 +1,12 @@
 #include "GravityForceGenerator.h"
 #include "ScaleFactor.h"
 #include "Particle.h"
+#include "RigidBody.h"
 #include <limits>
 
 
 GravityForceGenerator::GravityForceGenerator()
-:ParticleForceGenerator()
+:ForceGenerator()
 {
 	mSource = nullptr;
 
@@ -63,8 +64,27 @@ and we need a vector indicating the direction
 		//particle->AddForce(mGravityDirection * mGravityAcceleration
 	}
 }
+void GravityForceGenerator::ApplyForce(RigidBody* rb, double t)
+{
+	if (rb == mSourceRB)
+	{ 
+		return;
+	}
 
-void  GravityForceGenerator::SetRigidBody(Particle* sourceOfForce)
+	//Force = gravity 
+	if (mSourceRB != nullptr)
+	{
+		
+		mGravityDirection = Vector3f::DirectionTo(mSource->GetPosition(), rb->GetPosition());		
+		double distance = (double)Vector3f::Distance(rb->GetPosition(), mSource->GetPosition());// *1000; //1000 km to m
+		double val = (double)mSource->GetMass() * GRAVIATAIONAL_CONSTANT * (double)rb->GetMass();
+		double force =  val / (distance * distance);	
+		mGravityAcceleration = (float)force;
+		rb->AddForce(mGravityDirection * mGravityAcceleration);
+	}
+}
+
+void  GravityForceGenerator::SetSource(Particle* sourceOfForce)
 {
 	mSource = sourceOfForce;
 }

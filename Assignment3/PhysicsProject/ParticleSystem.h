@@ -5,7 +5,7 @@
 #include <queue>
 
 class Particle;
-class ParticleForceGenerator;
+class ForceGenerator;
 class ParticleContactGenerator;
 class ParticleContact;
 class ParticleContactResolver;
@@ -16,7 +16,7 @@ class ParticleSystem
 {
 private:
 	vector<Particle*> mParticles;
-	vector<ParticleForceGenerator*> mRegistry;
+	vector<ForceGenerator*> mRegistry;
 	vector<ParticleContactGenerator*> mContactGenerators;
 	vector<ParticleContact*> mActiveContacts;
 	ParticleContactResolver* mResolver;
@@ -35,12 +35,12 @@ public:
 
 	//adding and removing particles
 	void AddParticle(Particle* particle);
-	void AddForceGenerator(ParticleForceGenerator *forceGenerator);
+	void AddForceGenerator(ForceGenerator *forceGenerator);
 	void AddContact(const ParticleContact *contact);
 	void AddContactGenerator(ParticleContactGenerator* contactGenerator);
 
 	void RemoveContactGenerator(ParticleContactGenerator* contactGenerator);
-	void RemoveForceGenerator(ParticleForceGenerator *forceGenerator);
+	void RemoveForceGenerator(ForceGenerator *forceGenerator);
 	void RemoveFromSystem(Particle* particle);
 	void RemoveLast();
 

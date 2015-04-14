@@ -4,12 +4,13 @@
 #define GRAVIATAIONAL_CONSTANT 6.673e-20
 
 #include "Vector3f.h"
-#include "ParticleForceGenerator.h"
+#include "ForceGenerator.h"
 
-class GravityForceGenerator :public ParticleForceGenerator
+class GravityForceGenerator :public ForceGenerator
 {
 private:
 	Particle* mSource;
+	RigidBody* mSourceRB;
 	float mGravityAcceleration; //I know its suppose to be calculated, but the numbers are too massive to be computed, even with long double
 
 public:
@@ -19,7 +20,10 @@ public:
 	Particle* GetSource() const;
 
 	void ApplyForce(Particle* particle, double t);
-	void SetRigidBody(Particle* sourceOfForce);
+	void ApplyForce(RigidBody* rigidBody, double t);
+
+	void SetSource(Particle* sourceOfForce);
+	void SetSource(RigidBody* rigidBody);
 };
 
 

@@ -1,4 +1,5 @@
 #include "AnchoredSpringForceGenerator.h"
+#include "RigidBody.h"
 #include "Particle.h"
 
 //constructors
@@ -52,4 +53,16 @@ void AnchoredSpringForceGenerator::ApplyForce(Particle* particle, double t)
 	force.Normalize();
 	force *= -magnitude;
 	particle->AddForce(force);
+}
+void AnchoredSpringForceGenerator::ApplyForce(RigidBody* rb, double t)
+{
+	Vector3f force = rb->GetPosition() - mAnchor;
+
+	float magnitude = force.Length();
+	magnitude = fabs(magnitude - mRestLength);
+	magnitude *= mK;
+
+	force.Normalize();
+	force *= -magnitude;
+	rb->AddForce(force);
 }
