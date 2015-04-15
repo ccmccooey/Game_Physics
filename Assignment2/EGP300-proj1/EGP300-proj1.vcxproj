@@ -93,6 +93,7 @@
     <ClInclude Include="Collector.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
+    <ClInclude Include="Contact.h" />
     <ClInclude Include="DebugLogger.h" />
     <ClInclude Include="DisplayObject3DManager.h" />
     <ClInclude Include="DrawData.h" />
@@ -180,7 +181,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

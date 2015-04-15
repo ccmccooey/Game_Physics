@@ -519,6 +519,9 @@
     <ClInclude Include="MouseButtons.h">
       <Filter>Header Files\Input</Filter>
     </ClInclude>
+    <ClInclude Include="Contact.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Comments.txt">
