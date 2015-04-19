@@ -43,6 +43,7 @@ public:
 	Vector3f const& GetForce() const;
 	Vector3f const& GetAngularVelocity() const;
 	Quaternion const& GetOrientation() const;
+	Vector3f GetRotationVector() const;
 	Matrix33f const& GetInverseInteriaTensor() const;
 	float GetMass() const;
 	float GetInverseMass() const;

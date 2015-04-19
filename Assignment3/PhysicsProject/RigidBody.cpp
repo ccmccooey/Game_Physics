@@ -62,6 +62,10 @@ Quaternion const& RigidBody::GetOrientation() const
 {
 	return mOrientation;
 }
+Vector3f RigidBody::GetRotationVector() const
+{
+	return Vector3f::zero;
+}
 Matrix33f const& RigidBody::GetInverseInteriaTensor() const
 {
 	return mInverseInertiaTensor;

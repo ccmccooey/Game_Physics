@@ -18,6 +18,11 @@ MaterialManager::MaterialManager()
 {
 	mMaterialMap = map<string, Material*>();
 	mIDs = 0;
+
+	//default material
+	Material* newMaterial = new Material();	
+	newMaterial->SetShader(ShaderType::SHADER_GREY_SOLID);
+	InsertMaterial("Default", newMaterial);
 }
 MaterialManager::~MaterialManager()
 {
@@ -47,17 +52,44 @@ bool MaterialManager::AddMaterial(Texture *texture) //add a single material and 
 	return AddMaterial(texture, "material" +to_string(mIDs));
 	mIDs++;
 }
+void MaterialManager::InsertMaterial(const std::string &key, Material* material)
+{
+	std::pair<string, Material*> thePair= pair<string, Material*>(key, material);
+	mMaterialMap.insert(thePair);
+}
 bool MaterialManager::AddMaterial(Texture *texture, const string &customKey) //add a single material and use a custom key
 {
 	bool ok = true;
-
-	Material* newMaterial = new Material(texture);
 	
-	std::pair<string, Material*> thePair= pair<string, Material*>(customKey, newMaterial);
-
-	mMaterialMap.insert(thePair);
-	ok = true;
+	Material* newMaterial = new Material(texture);	
+	newMaterial->SetShader(ShaderType::SHADER_TEXTURE_REPLACE);
+	InsertMaterial(customKey, newMaterial);
 	
+	ok = true;	
+	return ok;
+}
+bool MaterialManager::AddMaterial(Texture *texture, const Color &color, const string &customKey) //add a single material and use a custom key, returns if it is successful
+{
+	bool ok = true;
+
+	Material* newMaterial = new Material(texture);	
+	newMaterial->SetShader(ShaderType::SHADER_TEXTURE_COLOR);
+	newMaterial->SetColor(color);
+	InsertMaterial(customKey, newMaterial);
+
+	ok = true;	
+	return ok;
+}
+bool MaterialManager::AddMaterial(const Color &color, const string &customKey) //add a single material and use a custom key, returns if it is successful
+{
+	bool ok = true;
+
+	Material* newMaterial = new Material();	
+	newMaterial->SetShader(ShaderType::SHADER_COLOR_SHADED);
+	newMaterial->SetColor(color);
+	InsertMaterial(customKey, newMaterial);
+
+	ok = true;	
 	return ok;
 }
 int MaterialManager::AddMaterialMany(Texture **textures, int count) //add multiple materials with a single function and use the filepath as the key

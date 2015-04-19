@@ -5,12 +5,13 @@
 #include <string>
 
 class DisplayObject3D;
-class Particle;
+class RigidBody;
 
 class GameObject
 {
 protected:
 	DisplayObject3D* mGraphicsObject;
+	RigidBody* mPhysicsObject;
 
 private:
 	bool mAdded;
@@ -31,7 +32,7 @@ public:
 
 	//accessors
 	DisplayObject3D* GetGraphicsObject() const;
-	//Particle* GetPhysicsObject() const;
+	RigidBody* GetPhysicsObject() const;
 	const Vector3f& GetPhysicsPosition() const;
 	bool AddedToSystems() const;
 	const std::string& GetTag() const;

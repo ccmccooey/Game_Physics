@@ -3,7 +3,7 @@
 #include "GuiSystem.h"
 #include "CameraContainer.h"
 #include "Camera.h"
-#include "ParticleSystem.h"
+#include "PhysicsSystem.h"
 #include "GraphicsSystem.h"
 #include "GameObject.h"
 #include "InputSystem.h"
@@ -60,13 +60,14 @@ void MainApp::Initialize()
 	mGraphicsSystem = GraphicsSystem::Instance();
 
 	//create the physics
+	mPhysicsSystem = new PhysicsSystem();
 
 	//create the skybox
 	mSkybox = new Skybox("Content/OtherTextures/skybox.png");
 	UpdateSkyboxPosition();
 
 	//game
-	//mGame = new Game();
+	mGame = new Game();
 	//mGame->LatchCameraToPlayer(mCameraContainer);
 
 	mDebugInfo = false;
@@ -74,12 +75,13 @@ void MainApp::Initialize()
 }
 void MainApp::CleanUp()
 {
-	//delete mGame;
+	delete mGame;
 	delete mSkybox;	
 	delete mCameraContainer;
 	delete mCamera;
-	GraphicsSystem::DestroySystem();
 	delete mGuiSystem;
+	delete mPhysicsSystem;
+	GraphicsSystem::DestroySystem();	
 }
 
 //fixed update
@@ -254,8 +256,13 @@ void MainApp::UpdateSkyboxPosition()
 	mSkybox->SetPostion(Vector3f::zero);
 }
 
+
 //singleton accessors
 MainApp* MainApp::GetApp()
 {
 	return msApplication;
+}
+PhysicsSystem* MainApp::GetPhysicsSystem()
+{
+	return msApplication->mPhysicsSystem;
 }

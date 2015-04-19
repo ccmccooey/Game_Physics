@@ -95,9 +95,12 @@ public:
 	static void RenderScene(Camera* camera); //render the scene, this should be called once in the render function
 	static GraphicsSystem* Instance();
 
+public:
+	void LoadContent(); //load all assets including textures, materials, and models
+
 private:
 	void Initialize(); //initializes the graphics system
-	void LoadContent(); //load all assets including textures, materials, and models
+	
 	void CleanDisplayList(); //remove all display objects from the display list
 	void CleanUp(); //deletes the assets and all memory used by the graphics system
 

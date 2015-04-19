@@ -12,11 +12,27 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
+    <ClCompile Include="AssetLoader.cpp" />
     <ClCompile Include="BasicGeometry.cpp" />
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
+    <ClCompile Include="Collider.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="CollisionDetector.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="CollisionTest.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Color.cpp" />
+    <ClCompile Include="Contact.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="ContactResolver.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="DebugLogger.cpp" />
     <ClCompile Include="DisplayObject3DManager.cpp" />
     <ClCompile Include="DrawData.cpp" />
@@ -84,6 +100,7 @@
     <ClCompile Include="tinyxmlparser.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Transform2D.cpp" />
+    <ClCompile Include="UnitTest.cpp" />
     <ClCompile Include="Vector2f.cpp" />
     <ClCompile Include="Vector3f.cpp" />
   </ItemGroup>
@@ -93,12 +110,21 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnchoredSpringForceGenerator.h" />
+    <ClInclude Include="AssetLoader.h" />
     <ClInclude Include="BasicGeometry.h" />
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="ColliderBox.h" />
+    <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="CollisionData.h" />
+    <ClInclude Include="CollisionDetector.h" />
+    <ClInclude Include="CollisionTest.h" />
     <ClInclude Include="Color.h" />
     <None Include="Comments.txt" />
+    <ClInclude Include="Contact.h" />
+    <ClInclude Include="ContactResolver.h" />
     <ClInclude Include="DebugLogger.h" />
     <ClInclude Include="DisplayObject3DManager.h" />
     <ClInclude Include="DrawData.h" />
@@ -177,6 +203,7 @@
     <ClInclude Include="tinyxml.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Transform2D.h" />
+    <ClInclude Include="UnitTest.h" />
     <ClInclude Include="unit_test.h" />
     <ClInclude Include="Vector2f.h" />
     <ClInclude Include="Vector3f.h" />

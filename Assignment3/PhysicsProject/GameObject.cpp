@@ -2,10 +2,10 @@
 #include "MainApp.h"
 #include "ModelManager.h"
 #include "MaterialManager.h"
-#include "Particle.h"
+#include "RigidBody.h"
 #include "DisplayObject3D.h"
 #include "Material.h"
-#include "ParticleSystem.h"
+#include "PhysicsSystem.h"
 #include "GraphicsSystem.h"
 #include "ScaleFactor.h"
 #include <iostream>
@@ -54,11 +54,15 @@ GameObject::~GameObject()
 }
 void GameObject::CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics)
 {
+	//create the graphics object
 	mGraphicsObject = new DisplayObject3D(GraphicsSystem::GetModel(modelKey));
 	if (materialKey != "")
 		mGraphicsObject->SetMaterial(GraphicsSystem::GetMaterial(materialKey));
-	//mPhysicsObject = new Particle(mGraphicsObject->getTransform());
-	//mPhysicsObject->SetPosition(positionPhysics);
+	
+	//create the physics object
+	mPhysicsObject = new RigidBody();
+	mPhysicsObject->SetPosition(positionPhysics);
+
 	mAdded = false;
 
 	AddToSystems();
@@ -70,11 +74,12 @@ DisplayObject3D* GameObject::GetGraphicsObject() const
 {
 	return mGraphicsObject;
 }
-/*
-Particle* GameObject::GetPhysicsObject() const
+
+RigidBody* GameObject::GetPhysicsObject() const
 {
-	//return mPhysicsObject;
+	return mPhysicsObject;
 }
+/*
 const Vector3f& GameObject::GetPhysicsPosition() const
 {
 	return mPhysicsObject->GetPosition();
@@ -98,7 +103,7 @@ void GameObject::AddToSystems()
 	if (!mAdded)
 	{
 		GraphicsSystem::AddDisplayObject(mGraphicsObject);
-		//MainApp::GetPhysicsSystem()->AddParticle(mPhysicsObject);
+		MainApp::GetPhysicsSystem()->AddRigidBody(mPhysicsObject);
 		mAdded = true;
 	}
 }
@@ -107,14 +112,14 @@ void GameObject::DeleteFromSystems()
 	if (mAdded)
 	{
 		GraphicsSystem::RemoveDisplayObject(mGraphicsObject);
-		//MainApp::GetPhysicsSystem()->RemoveFromSystem(mPhysicsObject);
+		MainApp::GetPhysicsSystem()->RemoveRigidBody(mPhysicsObject);
 		mAdded = false;
 	}
 }
 
 void GameObject::LinkPositions() //link the position of the graphics object from the physics object
 {
-	//mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
+	mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
 }
 void GameObject::SetTag(const std::string &tag)
 {

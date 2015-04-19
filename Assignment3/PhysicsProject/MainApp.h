@@ -4,6 +4,7 @@
 class Camera;
 class GuiSystem;
 class GraphicsSystem;
+class PhysicsSystem;
 class Game;
 class CameraContainer;
 class Skybox;
@@ -15,6 +16,7 @@ private:
 
 private:
 	GraphicsSystem* mGraphicsSystem;
+	PhysicsSystem* mPhysicsSystem;
 	Game* mGame;
 	Camera* mCamera;
 	CameraContainer* mCameraContainer;
@@ -43,6 +45,8 @@ public:
 	void CheckGui();
 	void UpdateDebugInformation();
 	void UpdateSkyboxPosition();
+
+	static PhysicsSystem* GetPhysicsSystem();
 
 	void RenderScene();
 

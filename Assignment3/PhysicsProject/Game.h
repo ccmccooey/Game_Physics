@@ -2,12 +2,14 @@
 #define _GAME_H
 
 #include <string>
+#include <vector>
+
+class GameObject;
 
 class Game
 {
 private:
-	
-private:
+	std::vector<GameObject*> mGameObjects;
 
 public:
 	Game();

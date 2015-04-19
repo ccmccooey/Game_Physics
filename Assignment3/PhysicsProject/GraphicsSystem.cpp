@@ -80,10 +80,16 @@ void GraphicsSystem::Initialize()
 	//create the display list
 	mDisplayList = new DisplayObject3DManager();
 }
+
+//loading content
 void GraphicsSystem::LoadContent()
 {
+	mTextureManager->AddTexture("Content/ObjectTextures/Steel.png", "Steel");
 
+	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Steel"), "Steel");
 }
+
+//clean up functions
 void GraphicsSystem::CleanDisplayList()
 {
 	mDisplayList->RemoveAllObjects();

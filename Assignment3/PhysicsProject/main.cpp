@@ -1,6 +1,7 @@
 #include "PointLight.h"
 #include "MainApp.h"
 #include "InputSystem.h"
+#include "UnitTest.h"
 #include <ctime>
 #include <vector>
 #include <iostream>
@@ -21,6 +22,8 @@ void setupWorld();
 
 void myInit()
 {
+	UnitTest::RunTest();
+
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
 	//seed the random

@@ -17,6 +17,7 @@ class Material;
 class Texture;
 
 #include <string>
+#include "Color.h"
 #include <map>
 
 using namespace std;
@@ -35,6 +36,8 @@ public:
 	//adding and removing materials
 	bool AddMaterial(Texture *texture); //add a single material and use the filepath as the key, returns if it is successful
 	bool AddMaterial(Texture *texture, const string &customKey); //add a single material and use a custom key, returns if it is successful
+	bool AddMaterial(Texture *texture, const Color &color, const string &customKey); //add a single material and use a custom key, returns if it is successful
+	bool AddMaterial(const Color &color, const string &customKey); //add a single material and use a custom key, returns if it is successful
 	int AddMaterialMany(Texture **texture, int count); //add multiple materials with a single function and use the filepath as the key, returns the number of materials that were successful loaded
 
 
@@ -43,6 +46,7 @@ public:
 	bool MaterialExists(const string &key) const;
 
 private:
+	void InsertMaterial(const std::string &key, Material* material);
 	void RemoveAllMaterials();
 
 };
