@@ -1,13 +1,13 @@
 #include "Matrix33f.h"
 #include <sstream>
 
+//constant matricies
 const Matrix33f Matrix33f::identity = Matrix33f(1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 const Matrix33f Matrix33f::zero = Matrix33f(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
 
+//constructors
 Matrix33f::Matrix33f()
 {
-	//m3dLoadIdentity33(mat);
-
 	mData[0] = 1.0f; mData[1] = 0.0f; mData[2] = 0.0f;
 	mData[3] = 0.0f; mData[4] = 1.0f; mData[5] = 0.0f;
 	mData[6] = 0.0f; mData[7] = 0.0f; mData[8] = 1.0f;
@@ -41,7 +41,6 @@ Matrix33f& Matrix33f::operator *= ( const Matrix33f& rhs )
 {
 	return *this;
 }
-
 const Matrix33f Matrix33f::operator*(float mult) const
 {
 	Matrix33f mat = Matrix33f();
@@ -70,8 +69,6 @@ const Matrix33f Matrix33f::operator*(const Matrix33f& rhs) const
 		mData[6] * rhs.mData[1] + mData[7] * rhs.mData[4] + mData[8] * rhs.mData[7],
 		mData[6] * rhs.mData[2] + mData[7] * rhs.mData[5] + mData[8] * rhs.mData[8]
 	);
-		
-
 }
 
 //reference operators
