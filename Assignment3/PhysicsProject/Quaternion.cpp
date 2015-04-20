@@ -12,6 +12,7 @@
 
 #include <math.h>
 #include "Quaternion.h"
+#include "Matrix44f.h"
 #include "GLfiles.h"
 #include <sstream>
 
@@ -292,22 +293,41 @@ float Quaternion::lengthSquared()
 }
 void Quaternion::toRotationMatrix(M3DMatrix44f &mat)
 {
-	mat[0] = 1.0f - 2.0f * mY * mY - 2.0f * mZ * mZ;
+	mat[0] = 1.0f - (2.0f * mY * mY + 2.0f * mZ * mZ);
 	mat[1] = 2.0f * mX * mY + 2.0f * mZ * mW;
 	mat[2] = 2.0f * mX * mZ - 2.0f * mY * mW;
 	mat[3] = 0.0f;
 	mat[4] = 2.0f * mX * mY - 2.0f * mZ * mW;
-	mat[5] = 1.0f - 2.0f * mX * mX - 2.0f * mZ * mZ;
+	mat[5] = 1.0f - (2.0f * mX * mX + 2.0f * mZ * mZ);
 	mat[6] = 2.0f * mZ * mY + 2.0f * mX * mW;
 	mat[7] = 0.0f;
 	mat[8] = 2.0f * mX * mZ + 2.0f * mY * mW;
 	mat[9] = 2.0f * mZ * mY - 2.0f * mX * mW;
-	mat[10] = 1.0f - 2.0f * mX * mX - 2.0f * mY * mY;
+	mat[10] = 1.0f - (2.0f * mX * mX + 2.0f * mY * mY);
 	mat[11] = 0.0f;
 	mat[12] = 0.0f;
 	mat[13] = 0.0f;
 	mat[14] = 0.0f;
 	mat[15] = 1.0f;
+}
+void Quaternion::toRotationMatrix(Matrix44f &matrix) //convert the quaternion to a rotation matrix for physics
+{
+	matrix[0] = 1.0f - (2.0f * mY * mY + 2.0f * mZ * mZ);
+	matrix[1] = 2.0f * mX * mY + 2.0f * mZ * mW;
+	matrix[2] = 2.0f * mX * mZ - 2.0f * mY * mW;
+	matrix[3] = 0.0f;
+	matrix[4] = 2.0f * mX * mY - 2.0f * mZ * mW;
+	matrix[5] = 1.0f - (2.0f * mX * mX + 2.0f * mZ * mZ);
+	matrix[6] = 2.0f * mZ * mY + 2.0f * mX * mW;
+	matrix[7] = 0.0f;
+	matrix[8] = 2.0f * mX * mZ + 2.0f * mY * mW;
+	matrix[9] = 2.0f * mZ * mY - 2.0f * mX * mW;
+	matrix[10] = 1.0f - (2.0f * mX * mX + 2.0f * mY * mY);
+	matrix[11] = 0.0f;
+	matrix[12] = 0.0f;
+	matrix[13] = 0.0f;
+	matrix[14] = 0.0f;
+	matrix[15] = 1.0f;
 }
 
 void Quaternion::setRotation(float angle, float x, float y, float z)

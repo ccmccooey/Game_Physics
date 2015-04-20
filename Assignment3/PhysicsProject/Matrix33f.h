@@ -2,7 +2,7 @@
 #define _MATRIX_33_H
 
 #include <ostream>
-//#include "GLfiles.h"
+#include "Vector3f.h"
 
 class Matrix33f
 {
@@ -34,6 +34,7 @@ public:
 	//matrix functions
 	Matrix33f Transpose() const;
 	float Determinant() const;
+	void SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 
 	//print operators
 	friend std::ostream& Matrix33f::operator<<(std::ostream& stream, const Matrix33f& matrix);

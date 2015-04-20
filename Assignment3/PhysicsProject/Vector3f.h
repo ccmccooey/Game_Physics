@@ -14,6 +14,8 @@
 #ifndef _VECTOR3F_H
 #define _VECTOR3F_H
 
+class Matrix44f;
+
 #include "GLfiles.h"
 #include <ostream>
 
@@ -93,6 +95,9 @@ public:
 	static void VectorArrayToFloatArray(float floatArray[], const Vector3f *vectorArray, int vectorArraySize); //fill a float array from an array of vector3s
 	static Vector3f Normalized(const Vector3f &vector);
 	static Vector3f ProjectOntoVector(const Vector3f &u, const Vector3f &v);
+
+	static Vector3f LocalToWorld(const Vector3f &local, const Matrix44f* transform);
+	static Vector3f WorldToWorld(const Vector3f &world, const Matrix44f* transform);
 
 public:
 	//constant vectors

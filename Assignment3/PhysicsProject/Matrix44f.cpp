@@ -108,6 +108,28 @@ float Matrix44f::Determinant33(int v00, int v01, int v02, int v10, int v11, int 
 		(mData[v00] * mData[v11] * mData[v22]) + (mData[v01] * mData[v12] * mData[v20]) + (mData[v02] * mData[v10] * mData[v21]) -
 		(mData[v20] * mData[v11] * mData[v02]) - (mData[v21] * mData[v12] * mData[v00]) - (mData[v22] * mData[v10] * mData[v01]); 
 }
+Vector3f Matrix44f::TransformInverse(const Vector3f &vector) const
+{
+	Vector3f tmp = vector;
+	tmp.x -= mData[3];
+	tmp.y -= mData[7];
+	tmp.z -= mData[11];
+	return Vector3f(tmp.x * mData[0] + tmp.y * mData[4] * tmp.z * mData[8],
+					tmp.x * mData[1] + tmp.y * mData[5] * tmp.z * mData[9],
+					tmp.x * mData[2] + tmp.y * mData[6] * tmp.z * mData[10]);
+}
+Vector3f Matrix44f::TransformDirection(const Vector3f &direction) const
+{
+	return Vector3f(direction.x * mData[0] + direction.y * mData[1] * direction.z * mData[2],
+					direction.x * mData[4] + direction.y * mData[5] * direction.z * mData[6],
+					direction.x * mData[8] + direction.y * mData[9] * direction.z * mData[10]);
+}
+Vector3f Matrix44f::TransformInverseDirection(const Vector3f &direction) const
+{
+	return Vector3f(direction.x * mData[0] + direction.y * mData[4] * direction.z * mData[8],
+					direction.x * mData[1] + direction.y * mData[5] * direction.z * mData[9],
+					direction.x * mData[2] + direction.y * mData[6] * direction.z * mData[10]);
+}
 
 //helper functions
 void Matrix44f::SwapIndexValuesAt(int a, int b)
@@ -164,6 +186,29 @@ void Matrix44f::CreateRotationMatrix(Matrix44f &result, const Vector3f &anglesRa
 	result.mData[4] = sinf(anglesRadians.z); result.mData[5] = cosf(anglesRadians.x) * cosf(anglesRadians.z); result.mData[6] = -sinf(anglesRadians.x); result.mData[7] = 0.0f;
 	result.mData[8] = -sinf(anglesRadians.y); result.mData[9] = sinf(anglesRadians.x); result.mData[10] = cosf(anglesRadians.x) * cosf(anglesRadians.y); result.mData[11] = 0.0f;
 	result.mData[12] = 0.0f; result.mData[13] = 0.0f; result.mData[14] = 0.0f; result.mData[15] = 1.0f;
+}
+void Matrix44f::CreateRotationMatrixFromAxis(Matrix44f &result, const Vector3f &axis, float rotationRadians)
+{
+	float c = cosf(rotationRadians);
+	float s = sinf(rotationRadians);
+	float t = 1 - c; //1 - cos(angle)
+
+	result.mData[0] = t * (axis.x * axis.x) + c;
+	result.mData[1] = (t * axis.x * axis.y) + (s * axis.z);
+	result.mData[2] = (t * axis.x * axis.z) - (s * axis.y);
+	result.mData[3] = 0.0f;
+	result.mData[4] = (t * axis.x * axis.y) - (s * axis.z);
+	result.mData[5] = (t * axis.x * axis.y) + c;
+	result.mData[6] = (t * axis.y * axis.z) + (s * axis.x);
+	result.mData[7] = 0.0f;
+	result.mData[8] = (t * axis.x * axis.z) + (s * axis.y);
+	result.mData[9] = (t * axis.y * axis.z) - (s * axis.x);
+	result.mData[10] = (t * axis.z * axis.z) + c;
+	result.mData[11] = 0.0f;
+	result.mData[12] = 0.0f;
+	result.mData[13] = 0.0f;
+	result.mData[14] = 0.0f;
+	result.mData[15] = 1.0f;
 }
 void Matrix44f::CreateRTSMatrix(Matrix44f &result, const Vector3f &translation, const Vector3f &anglesRadians, const Vector3f &scale)
 {

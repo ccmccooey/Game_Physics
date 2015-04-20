@@ -30,6 +30,48 @@ Contact::~Contact()
 
 }
 
+void Contact::CalculateContactBasis()
+{
+	Vector3f contactTangent[2];
+
+	// Check whether the Z-axis is nearer to the X or Y axis
+	if (fabs(mContactNormal.x) > fabs(mContactNormal.y))
+	{
+		// Scaling factor to ensure the results are normalized
+		const float s = 1.0f / sqrtf(mContactNormal.z * mContactNormal.z + mContactNormal.x * mContactNormal.x);
+
+		// The new X-axis is at right angles to the world Y-axis
+		contactTangent[0].x = mContactNormal.z * s;
+		contactTangent[0].y = 0;
+		contactTangent[0].z = -mContactNormal.x * s;
+
+		// The new Y-axis is at right angles to the new X- and Z- axes
+		contactTangent[1].x = mContactNormal.y*contactTangent[0].x;
+		contactTangent[1].y = mContactNormal.z*contactTangent[0].x - mContactNormal.x*contactTangent[0].z;
+		contactTangent[1].z = -mContactNormal.y*contactTangent[0].x;
+	}
+	else
+	{
+		// Scaling factor to ensure the results are normalised
+		const float s = 1.0 / sqrtf(mContactNormal.z * mContactNormal.z + mContactNormal.y * mContactNormal.y);
+
+		// The new X-axis is at right angles to the world X-axis
+		contactTangent[0].x = 0;
+		contactTangent[0].y = -mContactNormal.z * s;
+		contactTangent[0].z = mContactNormal.y * s;
+
+		// The new Y-axis is at right angles to the new X- and Z- axes
+		contactTangent[1].x = mContactNormal.y * contactTangent[0].z - mContactNormal.z * contactTangent[0].y;
+		contactTangent[1].y = -mContactNormal.x * contactTangent[0].z;
+		contactTangent[1].z = mContactNormal.x * contactTangent[0].y;
+	}
+
+	// Make a matrix from the three vectors.
+	mContactToWorld.setComponents(
+		mContactNormal,
+		contactTangent[0],
+		contactTangent[1]);
+}
 void Contact::CalculateInternals(double duration) 
 {
 

@@ -13,6 +13,8 @@
 #ifndef _QUATERNION_H
 #define _QUATERNION_H
 
+class Matrix44f;
+
 #include "Vector3f.h"
 #include "GLfiles.h"
 #include <string>
@@ -49,10 +51,10 @@ public:
 	void setY(float y);
 	void setZ(float z);
 	void setW(float w);
+	void setValues(float x, float y, float z, float w);
 	void setEuler(float x, float y, float z); //values are in radians
 	void setEulerDeg(float x, float y, float z); //values are in degrees
-	void setValues(float x, float y, float z, float w);
-	void setRotation(float AngleDegrees, float xAxis, float yAxis, float zAxis);
+	void setRotation(float AngleDegrees, float xAxis, float yAxis, float zAxis); //axis angle rotation
 
 	//change
 	void changeEuler(float x, float y, float z); //values are in radians
@@ -72,7 +74,8 @@ public:
 	float length();
 	float lengthSquared();
 
-	void toRotationMatrix(M3DMatrix44f &matrix); //convert the quaternion to a rotation matrix
+	void toRotationMatrix(M3DMatrix44f &matrix); //convert the quaternion to a rotation matrix for graphics
+	void toRotationMatrix(Matrix44f &matrix); //convert the quaternion to a rotation matrix for physics
 
 	std::string toString();
 

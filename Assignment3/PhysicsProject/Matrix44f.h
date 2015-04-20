@@ -33,6 +33,9 @@ public:
 	//matrix functions
 	Matrix44f Transpose() const;
 	float Determinant() const;
+	Vector3f TransformInverse(const Vector3f &vector) const;
+	Vector3f TransformDirection(const Vector3f &direction) const;
+	Vector3f TransformInverseDirection(const Vector3f &direction) const;
 
 	//print operators
 	friend std::ostream& Matrix44f::operator<<(std::ostream& stream, const Matrix44f& matrix);
@@ -43,6 +46,7 @@ public:
 	static void CreateTranslationMatrix(Matrix44f &result, const Vector3f &translation);
 	static void CreateScaleMatrix(Matrix44f &result, const Vector3f &scale);
 	static void CreateRotationMatrix(Matrix44f &result, const Vector3f &anglesRadians);
+	static void CreateRotationMatrixFromAxis(Matrix44f &result, const Vector3f &axis, float rotationRadians);
 	static void CreateRTSMatrix(Matrix44f &result, const Vector3f &translation, const Vector3f &anglesRadians, const Vector3f &scale);
 
 private:

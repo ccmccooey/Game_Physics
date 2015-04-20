@@ -33,6 +33,7 @@ public:
 	Contact(const Contact &rhs);
 	~Contact();
 
+	void CalculateContactBasis();
 	void CalculateInternals(double duration);
 	Vector3f CalculateLocalVelocity(unsigned bodyIndex, float duration);
 };

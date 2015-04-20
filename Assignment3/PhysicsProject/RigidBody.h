@@ -47,7 +47,7 @@ public:
 	Matrix33f const& GetInverseInteriaTensor() const;
 	float GetMass() const;
 	float GetInverseMass() const;
-	std::string ToString() const;
+	std::string ToString() const;	
 
 	//setters
 	void CopyDataFrom(const RigidBody &other);
@@ -64,6 +64,10 @@ public:
 	void AddTorque(const Vector3f &torque);
 	void Translate(const Vector3f &translation);
 	void Translate(float x, float y, float z);
+
+private:
+	//updating the transform
+	void CalculateTransformMatrix();
 };
 
 #endif

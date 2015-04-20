@@ -8,6 +8,7 @@ RigidBody::RigidBody()
 	mAcceleration = Vector3f();
 	mAngularVelocity = Vector3f();
 	mOrientation = Quaternion();
+	mTransformMatrix = Matrix44f();
 	SetMass(1.0f);
 }
 RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
@@ -18,6 +19,7 @@ RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 	mAcceleration = Vector3f();
 	mAngularVelocity = Vector3f();
 	mOrientation = Quaternion();
+	mTransformMatrix = Matrix44f();
 	SetMass(mass);
 }
 RigidBody::RigidBody(const RigidBody &rhs)
@@ -74,6 +76,15 @@ std::string RigidBody::ToString() const
 {
 	std::string str = "Mass: " + std::to_string(mMass) + ", Position: " +mPosition.ToString() + ", Velocity: " +mVelocity.ToString() + ", Acceleration: " +mAcceleration.ToString();
 	return str;
+}
+
+// updating the transform
+void RigidBody::CalculateTransformMatrix()
+{
+	mOrientation.toRotationMatrix(mTransformMatrix);
+	mTransformMatrix[3] += mPosition.x;
+	mTransformMatrix[7] += mPosition.y;
+	mTransformMatrix[11] += mPosition.z;
 }
 
 //setters
