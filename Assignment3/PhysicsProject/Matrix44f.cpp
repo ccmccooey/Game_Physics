@@ -108,6 +108,31 @@ float Matrix44f::Determinant33(int v00, int v01, int v02, int v10, int v11, int 
 		(mData[v00] * mData[v11] * mData[v22]) + (mData[v01] * mData[v12] * mData[v20]) + (mData[v02] * mData[v10] * mData[v21]) -
 		(mData[v20] * mData[v11] * mData[v02]) - (mData[v21] * mData[v12] * mData[v00]) - (mData[v22] * mData[v10] * mData[v01]); 
 }
+bool Matrix44f::Inverse(Matrix44f &result) const
+{
+	// Make sure the determinant is non-zero.
+	float determinant = Determinant();
+	if (determinant != 0)
+	{
+		determinant = 1.0f / determinant;
+		result.mData[0] = (-mData[9] * mData[6] + mData[5] * mData[10]) * determinant;
+		result.mData[4] = (mData[8] * mData[6] - mData[4] * mData[10]) * determinant;
+		result.mData[8] = (-mData[8] * mData[5] + mData[4] * mData[9]) * determinant;
+		result.mData[1] = (mData[9] * mData[2] - mData[1] * mData[10]) * determinant;
+		result.mData[5] = (-mData[8] * mData[2] + mData[0] * mData[10]) * determinant;
+		result.mData[9] = (mData[8] * mData[1] - mData[0] * mData[9]) * determinant;
+		result.mData[2] = (-mData[5] * mData[2] + mData[1] * mData[6]) * determinant;
+		result.mData[6] = (+mData[4] * mData[2] - mData[0] * mData[6]) * determinant;
+		result.mData[10] = (-mData[4] * mData[1] + mData[0] * mData[5]) * determinant;
+		result.mData[3] = (mData[9] * mData[6] * mData[3] - mData[5] * mData[10] * mData[3] - mData[9] * mData[2] * mData[7] + mData[1] * mData[10] * mData[7] + mData[5] * mData[2] * mData[11] - mData[1] * mData[6] * mData[11]) * determinant;
+		result.mData[7] = (-mData[8] * mData[6] * mData[3] + mData[4] * mData[10] * mData[3] + mData[8] * mData[2] * mData[7] - mData[0] * mData[10] * mData[7] - mData[4] * mData[2] * mData[11] + mData[0] * mData[6] * mData[11]) * determinant;
+		result.mData[11] = (mData[8] * mData[5] * mData[3] - mData[4] * mData[9] * mData[3] - mData[8] * mData[1] * mData[7] + mData[0] * mData[9] * mData[7] + mData[4] * mData[1] * mData[11] - mData[0] * mData[5] * mData[11]) * determinant;
+	}	
+}
+void Matrix44f::Invert()
+{
+	Inverse(*this);
+}
 Vector3f Matrix44f::TransformInverse(const Vector3f &vector) const
 {
 	Vector3f tmp = vector;

@@ -46,9 +46,9 @@ void Contact::CalculateContactBasis()
 		contactTangent[0].z = -mContactNormal.x * s;
 
 		// The new Y-axis is at right angles to the new X- and Z- axes
-		contactTangent[1].x = mContactNormal.y*contactTangent[0].x;
-		contactTangent[1].y = mContactNormal.z*contactTangent[0].x - mContactNormal.x*contactTangent[0].z;
-		contactTangent[1].z = -mContactNormal.y*contactTangent[0].x;
+		contactTangent[1].x = mContactNormal.y * contactTangent[0].x;
+		contactTangent[1].y = mContactNormal.z * contactTangent[0].x - mContactNormal.x * contactTangent[0].z;
+		contactTangent[1].z = -mContactNormal.y * contactTangent[0].x;
 	}
 	else
 	{
@@ -67,10 +67,13 @@ void Contact::CalculateContactBasis()
 	}
 
 	// Make a matrix from the three vectors.
+	mContactToWorld.SetColumns(mContactNormal, contactTangent[0], contactTangent[1]);
+
+	/*
 	mContactToWorld.setComponents(
 		mContactNormal,
 		contactTangent[0],
-		contactTangent[1]);
+		contactTangent[1]);*/
 }
 void Contact::CalculateInternals(double duration) 
 {
@@ -95,7 +98,7 @@ void Contact::CalculateInternals(double duration)
     // Calculate the desired change in velocity for resolution.
     // Visited later in today’s lecture.
     
-	calculateDesiredDeltaVelocity(duration);
+	CalculateDesiredDeltaVelocity(duration);
 }
 
 Vector3f Contact::CalculateLocalVelocity(unsigned bodyIndex, float duration)
@@ -103,8 +106,10 @@ Vector3f Contact::CalculateLocalVelocity(unsigned bodyIndex, float duration)
     RigidBody *thisBody = mBodies[bodyIndex];
 
     // Work out the velocity of the contact point.
-    Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[bodyIndex];
-    velocity += thisBody->GetVelocity();
+    //Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[bodyIndex];
+    //velocity += thisBody->GetVelocity();
+
+	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[bodyIndex]) + thisBody->GetVelocity();
 
     // Returned velocity is in contact space - note transformTranspose.
     Vector3f mContactVelocity = mContactToWorld.transformTranspose(velocity);

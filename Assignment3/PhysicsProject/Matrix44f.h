@@ -36,6 +36,8 @@ public:
 	Vector3f TransformInverse(const Vector3f &vector) const;
 	Vector3f TransformDirection(const Vector3f &direction) const;
 	Vector3f TransformInverseDirection(const Vector3f &direction) const;
+	bool Inverse(Matrix44f &result) const;
+	void Invert();
 
 	//print operators
 	friend std::ostream& Matrix44f::operator<<(std::ostream& stream, const Matrix44f& matrix);

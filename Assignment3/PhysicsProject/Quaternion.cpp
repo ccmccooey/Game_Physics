@@ -291,7 +291,7 @@ float Quaternion::lengthSquared()
 {
 	return mW + mX + mY + mZ;
 }
-void Quaternion::toRotationMatrix(M3DMatrix44f &mat)
+void Quaternion::toRotationMatrix(M3DMatrix44f &mat) //convert the quaternion to a rotation matrix for the glm graphics
 {
 	mat[0] = 1.0f - (2.0f * mY * mY + 2.0f * mZ * mZ);
 	mat[1] = 2.0f * mX * mY + 2.0f * mZ * mW;

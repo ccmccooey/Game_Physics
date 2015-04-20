@@ -35,7 +35,12 @@ public:
 	Matrix33f Transpose() const;
 	float Determinant() const;
 	void SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third);
+	void SetRows(const Vector3f &first, const Vector3f &second, const Vector3f &third);
+	Vector3f TransformTranspose(const Vector3f &vector) const;
 
+	//static functions
+	static Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue);
+	
 	//print operators
 	friend std::ostream& Matrix33f::operator<<(std::ostream& stream, const Matrix33f& matrix);
 	std::string ToString() const;

@@ -92,6 +92,38 @@ float Matrix33f::Determinant() const
 		(mData[0] * mData[4] * mData[8]) + (mData[1] * mData[5] * mData[6]) + (mData[2] * mData[3] * mData[7]) -
 		(mData[6] * mData[4] * mData[2]) - (mData[7] * mData[5] * mData[0]) - (mData[8] * mData[3] * mData[1]); 
 }
+void Matrix33f::SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third)
+{
+	mData[0] = first.x; mData[1] = second.x; mData[2] = third.x;
+	mData[3] = first.y; mData[4] = second.y; mData[5] = third.y;
+	mData[6] = first.z; mData[7] = second.z; mData[8] = third.z;  
+}
+void Matrix33f::SetRows(const Vector3f &first, const Vector3f &second, const Vector3f &third)
+{
+	mData[0] = first.x; mData[1] = first.y; mData[2] = first.z;
+	mData[3] = second.x; mData[4] = second.y; mData[5] = second.z;
+	mData[6] = third.x; mData[7] = third.y; mData[8] = third.z;
+}
+Vector3f Matrix33f::TransformTranspose(const Vector3f &vector) const
+{
+	return Vector3f(
+		vector.x * mData[0] + vector.y * mData[3] + vector.z * mData[6],
+		vector.x * mData[1] + vector.y * mData[4] + vector.z * mData[7],
+		vector.x * mData[2] + vector.y * mData[5] + vector.z * mData[8]);
+}
+Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue)
+{
+	return Matrix33f(
+		a.mData[0] * (1.0f - lerpValue) + b.mData[0] * lerpValue,
+		a.mData[1] * (1.0f - lerpValue) + b.mData[1] * lerpValue,
+		a.mData[2] * (1.0f - lerpValue) + b.mData[2] * lerpValue,
+		a.mData[3] * (1.0f - lerpValue) + b.mData[3] * lerpValue,
+		a.mData[4] * (1.0f - lerpValue) + b.mData[4] * lerpValue,
+		a.mData[5] * (1.0f - lerpValue) + b.mData[5] * lerpValue,
+		a.mData[6] * (1.0f - lerpValue) + b.mData[6] * lerpValue,
+		a.mData[7] * (1.0f - lerpValue) + b.mData[7] * lerpValue,
+		a.mData[8] * (1.0f - lerpValue) + b.mData[8] * lerpValue);
+}
 
 //helper functions
 void Matrix33f::SwapIndexValuesAt(int a, int b)
