@@ -81,7 +81,7 @@ void Contact::CalculateInternals(double duration)
     // Calculate an set of axis at the contact point.
     CalculateContactBasis();
 
-    // Store the relative position of the contact relative to each body
+    // Store the relative position of the contact relative to each mBody
     mRelativeContactPosition[0] = mContactPoint - mBodies[0]->GetPosition();
     if (mBodies[1] != nullptr)
 	{
@@ -100,19 +100,48 @@ void Contact::CalculateInternals(double duration)
     
 	CalculateDesiredDeltaVelocity(duration);
 }
-
-Vector3f Contact::CalculateLocalVelocity(unsigned bodyIndex, float duration)
+void Contact::CalculateDesiredDeltaVelocity(float duration)
 {
-    RigidBody *thisBody = mBodies[bodyIndex];
+	const static float velocityLimit = (float)0.25f;
+
+	// Calculate the acceleration induced velocity accumulated this frame
+	float velocityFromAcc = 0;
+
+	
+	//velocityFromAcc += mBodies[0]->GetPreviousFrameAcceleration() * duration * mContactNormal;
+	velocityFromAcc += Vector3f::DotProduct(mBodies[0]->GetPreviousFrameAcceleration(), mContactNormal) * duration;
+	
+
+	if (mBodies[1] != nullptr)
+	{
+		velocityFromAcc += Vector3f::DotProduct(mBodies[1]->GetPreviousFrameAcceleration(), mContactNormal) * duration;
+		//velocityFromAcc -= mBodies[1]->GetPreviousFrameAcceleration() * duration * mContactNormal;				
+	}
+	
+
+	// If the velocity is very slow, limit the restitution
+	float thisRestitution = mRestitution;
+	if (fabs(mContactVelocity.x) < velocityLimit)
+	{
+		thisRestitution = 0.0f;
+	}
+
+	// Combine the bounce velocity with the removed acceleration velocity.
+	mDesiredDeltaVelocity = -mContactVelocity.x - thisRestitution * (mContactVelocity.x - velocityFromAcc);
+}
+
+Vector3f Contact::CalculateLocalVelocity(unsigned mBodyIndex, float duration)
+{
+    RigidBody *thisBody = mBodies[mBodyIndex];
 
     // Work out the velocity of the contact point.
-    //Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[bodyIndex];
+    //Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[mBodyIndex];
     //velocity += thisBody->GetVelocity();
 
-	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[bodyIndex]) + thisBody->GetVelocity();
+	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[mBodyIndex]) + thisBody->GetVelocity();
 
     // Returned velocity is in contact space - note transformTranspose.
-    Vector3f mContactVelocity = mContactToWorld.transformTranspose(velocity);
+    Vector3f mContactVelocity = mContactToWorld.TransformTranspose(velocity);
 
     // And return it
     return mContactVelocity;

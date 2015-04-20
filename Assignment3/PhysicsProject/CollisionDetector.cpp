@@ -1,17 +1,21 @@
 #include "CollisionDetector.h"
+#include "CollisionData.h"
 #include "Vector3f.h"
 #include "Contact.h"
 
 unsigned int CollisionDetector::sphereAndSphere(const ColliderSphere &one, const ColliderSphere &two, CollisionData *data)
 {
 	// Make sure we have contacts.
-	if (data->contactsLeft <= 0)
+	//if (data->contactsLeft <= 0)
+	if (data->contactsGenerated <= 0)
 	{
 		return 0;
 	}
+
 	// Cache the sphere positions.
 	Vector3f positionOne = one.getAxis(3);
 	Vector3f positionTwo = two.getAxis(3);
+
 	// Find the vector between the objects.
 	Vector3f midline = positionOne - positionTwo;
 	float size = midline.Length();

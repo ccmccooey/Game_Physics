@@ -13,7 +13,9 @@ private:
 	Vector3f mPosition;
 	Vector3f mVelocity;
 	Vector3f mAcceleration;
+	Vector3f mPreviousAcceleration; //the acceleration of the rigid body on the previous frame
 	Vector3f mAccumulatedForce;
+	Vector3f mRotation;
 
 	Quaternion mOrientation;
 	Vector3f mAngularVelocity;
@@ -40,9 +42,11 @@ public:
 	Vector3f const& GetPosition() const;
 	Vector3f const& GetVelocity() const;
 	Vector3f const& GetAcceleration() const;
+	Vector3f const& GetPreviousFrameAcceleration() const;
 	Vector3f const& GetForce() const;
 	Vector3f const& GetAngularVelocity() const;
 	Quaternion const& GetOrientation() const;
+	Vector3f const& GetRotation() const;
 	Vector3f GetRotationVector() const;
 	Matrix33f const& GetInverseInteriaTensor() const;
 	float GetMass() const;

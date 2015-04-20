@@ -36,6 +36,7 @@ public:
 	void CalculateContactBasis();
 	void CalculateInternals(double duration);
 	Vector3f CalculateLocalVelocity(unsigned bodyIndex, float duration);
+	void CalculateDesiredDeltaVelocity(float duration);
 };
 
 #endif

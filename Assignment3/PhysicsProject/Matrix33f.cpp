@@ -124,6 +124,22 @@ Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValu
 		a.mData[7] * (1.0f - lerpValue) + b.mData[7] * lerpValue,
 		a.mData[8] * (1.0f - lerpValue) + b.mData[8] * lerpValue);
 }
+void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy = 0.0f, float ixz = 0.0f, float iyz = 0.0f)
+{
+	mData[0] = ix;
+	mData[1] = mData[3] = -ixy;
+	mData[2] = mData[6] = -ixz;
+	mData[4] = iy;
+	mData[5] = mData[7] = -iyz;
+	mData[8] = iz;
+}
+void Matrix33f::SetBlockInertiaTensor(const Vector3f &halfSizes, float mass)
+{
+	Vector3f squares = halfSizes;
+	squares.Power(2.0f);
+
+	SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z), 0.3f * mass * (squares.x + squares.y));
+}
 
 //helper functions
 void Matrix33f::SwapIndexValuesAt(int a, int b)

@@ -6,7 +6,9 @@ RigidBody::RigidBody()
 	mVelocity = Vector3f();
 	mAccumulatedForce = Vector3f();
 	mAcceleration = Vector3f();
+	mPreviousAcceleration = Vector3f();
 	mAngularVelocity = Vector3f();
+	mRotation = Vector3f();
 	mOrientation = Quaternion();
 	mTransformMatrix = Matrix44f();
 	SetMass(1.0f);
@@ -14,9 +16,11 @@ RigidBody::RigidBody()
 RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 {
 	mPosition = initialPosition;
+	mRotation = Vector3f();
 	mVelocity = Vector3f();
 	mAccumulatedForce = Vector3f();
 	mAcceleration = Vector3f();
+	mPreviousAcceleration = Vector3f();
 	mAngularVelocity = Vector3f();
 	mOrientation = Quaternion();
 	mTransformMatrix = Matrix44f();
@@ -44,6 +48,10 @@ Vector3f const& RigidBody::GetAcceleration() const
 {
 	return mAcceleration;
 }
+Vector3f const& RigidBody::GetPreviousFrameAcceleration() const
+{
+	return mPreviousAcceleration;
+}
 Vector3f const& RigidBody::GetForce() const
 {
 	return mAccumulatedForce;
@@ -66,7 +74,11 @@ Quaternion const& RigidBody::GetOrientation() const
 }
 Vector3f RigidBody::GetRotationVector() const
 {
-	return Vector3f::zero;
+	return mRotation;
+}
+Vector3f const& RigidBody::GetRotation() const
+{
+	return mRotation;
 }
 Matrix33f const& RigidBody::GetInverseInteriaTensor() const
 {
@@ -95,6 +107,7 @@ void RigidBody::CopyDataFrom(const RigidBody &other)
 	mAcceleration = other.mAcceleration;
 	mMass = other.mMass;
 	mInverseMass = other.mInverseMass;
+	mRotation = other.mRotation;
 	mOrientation = other.mOrientation;
 	mAngularVelocity = other.mAngularVelocity;
 }
@@ -155,6 +168,7 @@ void RigidBody::FinishUpdate()
 //update
 void RigidBody::FixedUpdate(double t)
 {
+	mPreviousAcceleration = mAcceleration;
 	mAcceleration = mAccumulatedForce * mInverseMass;
 	
 	mVelocity = mVelocity + mAcceleration * (float)t;

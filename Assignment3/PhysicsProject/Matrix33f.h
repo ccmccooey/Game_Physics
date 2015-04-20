@@ -37,6 +37,8 @@ public:
 	void SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 	void SetRows(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 	Vector3f TransformTranspose(const Vector3f &vector) const;
+	void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy = 0.0f, float ixz = 0.0f, float iyz = 0.0f);
+	void SetBlockInertiaTensor(const Vector3f &halfSizes, float mass);
 
 	//static functions
 	static Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue);
