@@ -2,6 +2,7 @@
 #define _MATRIX_44_H
 
 #include <string>
+#include "Vector3f.h"
 
 class Matrix44f
 {
@@ -38,9 +39,16 @@ public:
 	std::string ToString() const;
 	void ToArray(float floatArray[16]);
 
+	//special matricies to generate
+	static void CreateTranslationMatrix(Matrix44f &result, const Vector3f &translation);
+	static void CreateScaleMatrix(Matrix44f &result, const Vector3f &scale);
+	static void CreateRotationMatrix(Matrix44f &result, const Vector3f &anglesRadians);
+	static void CreateRTSMatrix(Matrix44f &result, const Vector3f &translation, const Vector3f &anglesRadians, const Vector3f &scale);
+
 private:
 	//helper functions
 	void SwapIndexValuesAt(int a, int b);
+	float Determinant33(int v00, int v01, int v02, int v10, int v11, int v12, int v20, int v21, int v22)  const;
 
 };
 

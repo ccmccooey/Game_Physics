@@ -1,3 +1,5 @@
 Debug
 *.sdf
 
+Release
+/Ian Millington-Game Physics Engine Development_ How to Build a Robust Commercial-Grade Physics Engine for your Game (Second Edition)-Morgan Kaufmann (2010).pdf

@@ -84,18 +84,29 @@ Matrix44f Matrix44f::Transpose() const
 	return Matrix44f(mData[0], mData[4], mData[8], mData[12], mData[1], mData[5], mData[9], mData[13], mData[2], mData[6], mData[10], mData[14], mData[3], mData[7], mData[11], mData[15]);
 }
 float Matrix44f::Determinant() const
-{
-	
+{	
 	/*
-	o o o o         0  1  2  3
-	o o o o			4  5  6  7
-	o o o o			8  9  10 11
-	o o o o			12 13 14 15
+	0  1  2  3
+	4  5  6  7
+	8  9  10 11
+	12 13 14 15
+	*/
+	return mData[0] * Matrix44f::Determinant33(5, 6, 7, 9, 10, 11, 13, 14, 15) -
+		   mData[1] * Matrix44f::Determinant33(4, 6, 7, 8, 10, 11, 12, 14, 15) +
+		   mData[2] * Matrix44f::Determinant33(4, 5, 7, 8, 9, 11, 12, 13, 15) -
+		   mData[3] * Matrix44f::Determinant33(4, 5, 6, 8, 9, 10, 12, 13, 14);
+}
+float Matrix44f::Determinant33(int v00, int v01, int v02, int v10, int v11, int v12, int v20, int v21, int v22)  const
+{
+	/*
+	00 01 02
+	10 11 12
+	20 21 22
 	*/
 
 	return 
-		(mData[0] * mData[5] * mData[10] * mData[15]) + (mData[1] * mData[6] * mData[11] * mData[12]) + (mData[2] * mData[7] * mData[8] * mData[13]) + (mData[3] * mData[4] * mData[9] * mData[14]) -
-		(mData[12] * mData[9] * mData[6]  * mData[3]) - (mData[13] * mData[10] * mData[7] * mData[0]) - (mData[14] * mData[11] * mData[4] * mData[1] - (mData[15] * mData[8] * mData[5] * mData[2])); 
+		(mData[v00] * mData[v11] * mData[v22]) + (mData[v01] * mData[v12] * mData[v20]) + (mData[v02] * mData[v10] * mData[v21]) -
+		(mData[v20] * mData[v11] * mData[v02]) - (mData[v21] * mData[v12] * mData[v00]) - (mData[v22] * mData[v10] * mData[v01]); 
 }
 
 //helper functions
@@ -130,4 +141,36 @@ void Matrix44f::ToArray(float floatArray[16])
 	floatArray[4] = mData[4]; floatArray[5] = mData[5]; floatArray[6] = mData[6]; floatArray[7] = mData[7];
 	floatArray[8] = mData[8]; floatArray[9] = mData[9]; floatArray[10] = mData[10]; floatArray[11] = mData[11];
 	floatArray[12] = mData[12]; floatArray[13] = mData[13]; floatArray[14] = mData[14]; floatArray[15] = mData[15];
+}
+
+//special matricies to generate
+void Matrix44f::CreateTranslationMatrix(Matrix44f &result, const Vector3f &translation)
+{
+	result.mData[0] = 1.0f; result.mData[1] = 0.0f; result.mData[2] = 0.0f; result.mData[3] = translation.x;
+	result.mData[4] = 0.0f; result.mData[5] = 1.0f; result.mData[6] = 0.0f; result.mData[7] = translation.y;
+	result.mData[8] = 0.0f; result.mData[9] = 0.0f; result.mData[10] = 1.0f; result.mData[11] = translation.z;
+	result.mData[12] = 0.0f; result.mData[13] = 0.0f; result.mData[14] = 0.0f; result.mData[15] = 1.0f;
+}
+void Matrix44f::CreateScaleMatrix(Matrix44f &result, const Vector3f &scale)
+{
+	result.mData[0] = scale.x; result.mData[1] = 0.0f; result.mData[2] = 0.0f; result.mData[3] = 0.0f;
+	result.mData[4] = 0.0f; result.mData[5] = scale.y; result.mData[6] = 0.0f; result.mData[7] = 0.0f;
+	result.mData[8] = 0.0f; result.mData[9] = 0.0f; result.mData[10] = scale.z; result.mData[11] = 0.0f;
+	result.mData[12] = 0.0f; result.mData[13] = 0.0f; result.mData[14] = 0.0f; result.mData[15] = 1.0f;
+}
+void Matrix44f::CreateRotationMatrix(Matrix44f &result, const Vector3f &anglesRadians)
+{
+	result.mData[0] = cosf(anglesRadians.y) * cosf(anglesRadians.z); result.mData[1] = -sinf(anglesRadians.z); result.mData[2] = sinf(anglesRadians.z); result.mData[3] = 0.0f;
+	result.mData[4] = sinf(anglesRadians.z); result.mData[5] = cosf(anglesRadians.x) * cosf(anglesRadians.z); result.mData[6] = -sinf(anglesRadians.x); result.mData[7] = 0.0f;
+	result.mData[8] = -sinf(anglesRadians.y); result.mData[9] = sinf(anglesRadians.x); result.mData[10] = cosf(anglesRadians.x) * cosf(anglesRadians.y); result.mData[11] = 0.0f;
+	result.mData[12] = 0.0f; result.mData[13] = 0.0f; result.mData[14] = 0.0f; result.mData[15] = 1.0f;
+}
+void Matrix44f::CreateRTSMatrix(Matrix44f &result, const Vector3f &translation, const Vector3f &anglesRadians, const Vector3f &scale)
+{
+	Matrix44f rotationMatrix, translationMatrix, scaleMatrix;
+	Matrix44f::CreateRotationMatrix(rotationMatrix, anglesRadians);
+	Matrix44f::CreateTranslationMatrix(translationMatrix, translation);
+	Matrix44f::CreateScaleMatrix(scaleMatrix, scale);
+
+	result = ((rotationMatrix * translationMatrix) * scaleMatrix);
 }

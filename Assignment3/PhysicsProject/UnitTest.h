@@ -7,6 +7,10 @@ class UnitTest
 {
 public:
 	static void RunTest();
+
+private:
+	static void TestMatrix33f();
+	static void TestMatrix44f();
 };
 
 #endif

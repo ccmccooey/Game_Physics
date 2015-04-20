@@ -91,6 +91,12 @@
     <Filter Include="Source Files\Physics\Collision">
       <UniqueIdentifier>{7384e8a0-5661-41e1-a7dc-ef28a2008491}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{d58c4ec6-314b-40eb-9930-3338a8c175b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{9518db26-6e96-4625-8725-7b89f9acfc5e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -150,9 +156,6 @@
     <ClCompile Include="PointLight.cpp">
       <Filter>Source Files\Graphics\3D Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Quaternion.cpp">
-      <Filter>Source Files\Graphics\3D Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="Rectangle2D.cpp">
       <Filter>Source Files\Graphics\2D Rendering</Filter>
     </ClCompile>
@@ -176,12 +179,6 @@
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Source Files\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3f.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2f.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TextField.cpp">
       <Filter>Source Files\Graphics\TextRendering</Filter>
@@ -309,12 +306,6 @@
     <ClCompile Include="RigidBody.cpp">
       <Filter>Source Files\Physics</Filter>
     </ClCompile>
-    <ClCompile Include="Matrix33f.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix44f.cpp">
-      <Filter>Source Files\Physics</Filter>
-    </ClCompile>
     <ClCompile Include="ForceGenerator.cpp">
       <Filter>Source Files\Physics\ForceGenerators</Filter>
     </ClCompile>
@@ -339,6 +330,21 @@
     <ClCompile Include="AssetLoader.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="Matrix33f.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix44f.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2f.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3f.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Quaternion.cpp">
+      <Filter>Source Files\Math</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -346,9 +352,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLfiles.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3f.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="FixedArray.h">
@@ -371,9 +374,6 @@
     </ClInclude>
     <ClInclude Include="Transform2D.h">
       <Filter>Header Files\Graphics\2D Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2f.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUISystem.h">
       <Filter>Header Files\Graphics\2D Rendering</Filter>
@@ -406,9 +406,6 @@
       <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="PointLight.h">
-      <Filter>Header Files\Graphics\3D Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Quaternion.h">
       <Filter>Header Files\Graphics\3D Rendering</Filter>
     </ClInclude>
     <ClInclude Include="DisplayObject3D.h">
@@ -591,12 +588,6 @@
     <ClInclude Include="RigidBody.h">
       <Filter>Header Files\Physics\ParticlePhysics</Filter>
     </ClInclude>
-    <ClInclude Include="Matrix33f.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix44f.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
     <ClInclude Include="ForceGenerator.h">
       <Filter>Header Files\Physics\ForceGenerators</Filter>
     </ClInclude>
@@ -629,6 +620,21 @@
     </ClInclude>
     <ClInclude Include="AssetLoader.h">
       <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix44f.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix33f.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2f.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3f.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Quaternion.h">
+      <Filter>Header Files\Math</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
