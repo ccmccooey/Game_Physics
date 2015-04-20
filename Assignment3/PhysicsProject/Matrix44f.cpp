@@ -1,4 +1,5 @@
 #include "Matrix44f.h"
+#include <sstream>
 
 //constant matricies
 const Matrix44f Matrix44f::identity = Matrix44f(1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
@@ -84,8 +85,49 @@ Matrix44f Matrix44f::Transpose() const
 }
 float Matrix44f::Determinant() const
 {
+	
 	/*
+	o o o o         0  1  2  3
+	o o o o			4  5  6  7
+	o o o o			8  9  10 11
+	o o o o			12 13 14 15
+	*/
+
 	return 
-		(mData[0] * mData[4] * mData[8]) + (mData[1] * mData[5] * mData[6]) + (mData[2] * mData[3] * mData[7]) -
-		(mData[6] * mData[4] * mData[2]) - (mData[7] * mData[5] * mData[0]) - (mData[8] * mData[3] * mData[1]); */
+		(mData[0] * mData[5] * mData[10] * mData[15]) + (mData[1] * mData[6] * mData[11] * mData[12]) + (mData[2] * mData[7] * mData[8] * mData[13]) + (mData[3] * mData[4] * mData[9] * mData[14]) -
+		(mData[12] * mData[9] * mData[6]  * mData[3]) - (mData[13] * mData[10] * mData[7] * mData[0]) - (mData[14] * mData[11] * mData[4] * mData[1] - (mData[15] * mData[8] * mData[5] * mData[2])); 
+}
+
+//helper functions
+void Matrix44f::SwapIndexValuesAt(int a, int b)
+{
+	float tmp = mData[a];
+	mData[a] = mData[b];
+	mData[b] = tmp;
+}
+
+//stream operators
+std::ostream& operator<<(std::ostream& stream, const Matrix44f& matrix)
+{
+	stream << "[" 
+		<< matrix.mData[0] << ", " << matrix.mData[1] << ", " << matrix.mData[2] << ", " << matrix.mData[3] << "; "
+		<< matrix.mData[4] << ", " << matrix.mData[5] << ", " << matrix.mData[6] << ", " << matrix.mData[7] << "; "
+		<< matrix.mData[8] << ", " << matrix.mData[9] << ", " << matrix.mData[10] << ", " << matrix.mData[11] << "; "
+		<< matrix.mData[12] << ", " << matrix.mData[13] << ", " << matrix.mData[14] << ", " << matrix.mData[15] <<
+		"]";
+
+	return stream;
+}
+std::string Matrix44f::ToString() const
+{
+	std::ostringstream ss;
+	ss << (*this);
+	return ss.str();
+}
+void Matrix44f::ToArray(float floatArray[16])
+{
+	floatArray[0] = mData[0]; floatArray[1] = mData[1]; floatArray[2] = mData[2]; floatArray[3] = mData[3];
+	floatArray[4] = mData[4]; floatArray[5] = mData[5]; floatArray[6] = mData[6]; floatArray[7] = mData[7];
+	floatArray[8] = mData[8]; floatArray[9] = mData[9]; floatArray[10] = mData[10]; floatArray[11] = mData[11];
+	floatArray[12] = mData[12]; floatArray[13] = mData[13]; floatArray[14] = mData[14]; floatArray[15] = mData[15];
 }
