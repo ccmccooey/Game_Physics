@@ -1,6 +1,9 @@
 #include "Game.h"
+#include "MainApp.h"
+#include "PhysicsSystem.h"
 #include "GameObject.h"
 #include "AssetLoader.h"
+#include "GroundForceGenerator.h"
 
 using namespace std;
 
@@ -24,6 +27,10 @@ void Game::Initialize()
 	//create a sphere
 	GameObject* mySphere = new GameObject("Sphere", "Steel", Vector3f::zero);
 	mGameObjects.push_back(mySphere);
+
+	//create the force generators
+	GroundForceGenerator* gfg = new GroundForceGenerator(5.0f);
+	MainApp::GetPhysicsSystem()->AddForceGenerator(gfg);
 }
 
 //update all the mass aggregate graphics
