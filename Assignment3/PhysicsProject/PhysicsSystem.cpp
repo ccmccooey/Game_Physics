@@ -1,4 +1,5 @@
 #include "PhysicsSystem.h"
+#include "RigidBody.h"
 
 using namespace std;
 
@@ -56,13 +57,13 @@ bool PhysicsSystem::ValidIndex(int index) const
 }
 
 //adding rigid bodies
-void PhysicsSystem::AddRigidBody(RigidBody* rigidBody)
+RigidBody* PhysicsSystem::AddRigidBody(RigidBody* rigidBody)
 {	
 	mRigidBodies.push_back(rigidBody);	
 }
 void PhysicsSystem::AddNewRigidBody(const Vector3f &position)
 {
-
+	RigidBody* rb = new RigidBody(1.0f, position);
 }
 
 //removing rigid bodies
