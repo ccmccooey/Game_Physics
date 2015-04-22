@@ -21,8 +21,9 @@ class BasicGeometry
 public:
 	static void setDataToCube(GLBatch* mesh);
 	static void setDataToCube(GLBatch* mesh, Vector3f relativeSpace);
-	static void setDataToQuad(GLBatch* mesh);
-	static void setDataToQuad(GLBatch* batch, float uvX, float uvY, float uvW, float uvH);
+	static void setDataToQuad3D(GLBatch* mesh);
+	static void setDataToQuad2D(GLBatch* mesh);
+	static void setDataToQuad(GLBatch* batch, float uvX, float uvY, float uvW, float uvH, bool originCenter);
 	static void setDataToSphere(GLBatch* mesh);
 };
 

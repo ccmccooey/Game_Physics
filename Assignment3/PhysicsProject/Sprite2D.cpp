@@ -62,7 +62,7 @@ void Sprite2D::InitializeBatch()
 	mWidth = mTexture->getWidth();
 	mHeight = mTexture->getHeight();
 
-	BasicGeometry::setDataToQuad(mBatch);
+	BasicGeometry::setDataToQuad2D(mBatch);
 }
 void Sprite2D::InitializeBatch(int sourceX, int sourceY, int sourceWidth, int sourceHeight)
 {
@@ -80,7 +80,7 @@ void Sprite2D::InitializeBatch(int sourceX, int sourceY, int sourceWidth, int so
 	uvW = (float)sourceWidth / textureWidth;
 	uvH = (float)sourceHeight / textureHeight;
 
-	BasicGeometry::setDataToQuad(mBatch, uvX, uvY, uvW, uvH);
+	BasicGeometry::setDataToQuad(mBatch, uvX, uvY, uvW, uvH, false);
 }
 
 //creating the texture from a file path for openGL to bind

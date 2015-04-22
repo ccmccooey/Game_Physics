@@ -1,5 +1,6 @@
 #include "PhysicsSystem.h"
 #include "RigidBody.h"
+#include "ForceGenerator.h"
 
 using namespace std;
 
@@ -57,13 +58,26 @@ bool PhysicsSystem::ValidIndex(int index) const
 }
 
 //adding rigid bodies
-RigidBody* PhysicsSystem::AddRigidBody(RigidBody* rigidBody)
+void PhysicsSystem::AddRigidBody(RigidBody* rigidBody)
 {	
 	mRigidBodies.push_back(rigidBody);	
 }
-void PhysicsSystem::AddNewRigidBody(const Vector3f &position)
+RigidBody* PhysicsSystem::AddNewRigidBody(const Vector3f &position)
 {
 	RigidBody* rb = new RigidBody(1.0f, position);
+	return rb;
+}
+
+//adding force generators
+void PhysicsSystem::AddForceGenerator(ForceGenerator* forceGenerator)
+{
+	mRegistry.push_back(forceGenerator);
+}
+
+//adding contacts
+void PhysicsSystem::AddContact(Contact* contact)
+{
+	mActiveContacts.push_back(contact);
 }
 
 //removing rigid bodies
@@ -103,10 +117,24 @@ void PhysicsSystem::RemoveAllRigidBodies()
 //update the physics system
 void PhysicsSystem::FixedUpdate(double t)
 {
-	unsigned int size = mRigidBodies.size();
-	for (unsigned int i = 0; i < size; i++)
+	unsigned int rbSize = mRigidBodies.size();
+	unsigned int registrySize = mRegistry.size();
+	unsigned int i;
+	unsigned int j;
+
+	//apply all the forces
+	for (i = 0; i < rbSize; i++)
 	{
-		//update here
+		for (j = 0; j < registrySize; j++)
+		{
+			mRegistry[i]->ApplyForce(mRigidBodies[i], t);
+		}
+	}
+
+	//update the rigid bodies
+	for (i = 0; i < rbSize; i++)
+	{
+		mRigidBodies[i]->FixedUpdate(t);
 	}
 	FlushDeleteQueue();
 }

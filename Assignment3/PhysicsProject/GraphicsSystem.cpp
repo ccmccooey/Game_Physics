@@ -85,8 +85,12 @@ void GraphicsSystem::Initialize()
 void GraphicsSystem::LoadContent()
 {
 	mTextureManager->AddTexture("Content/ObjectTextures/Steel.png", "Steel");
+	mTextureManager->AddTexture("Content/OtherTextures/Grass.png", "Grass");
+	mTextureManager->AddTexture("Content/OtherTextures/Dirt.png", "Dirt");
 
 	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Steel"), "Steel");
+	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Grass"), "Grass");
+	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Dirt"), "Dirt");
 }
 
 //clean up functions

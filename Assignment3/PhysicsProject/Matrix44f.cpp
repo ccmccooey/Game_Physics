@@ -127,7 +127,9 @@ bool Matrix44f::Inverse(Matrix44f &result) const
 		result.mData[3] = (mData[9] * mData[6] * mData[3] - mData[5] * mData[10] * mData[3] - mData[9] * mData[2] * mData[7] + mData[1] * mData[10] * mData[7] + mData[5] * mData[2] * mData[11] - mData[1] * mData[6] * mData[11]) * determinant;
 		result.mData[7] = (-mData[8] * mData[6] * mData[3] + mData[4] * mData[10] * mData[3] + mData[8] * mData[2] * mData[7] - mData[0] * mData[10] * mData[7] - mData[4] * mData[2] * mData[11] + mData[0] * mData[6] * mData[11]) * determinant;
 		result.mData[11] = (mData[8] * mData[5] * mData[3] - mData[4] * mData[9] * mData[3] - mData[8] * mData[1] * mData[7] + mData[0] * mData[9] * mData[7] + mData[4] * mData[1] * mData[11] - mData[0] * mData[5] * mData[11]) * determinant;
-	}	
+		return 1;
+	}
+	return 0;
 }
 void Matrix44f::Invert()
 {
@@ -154,6 +156,12 @@ Vector3f Matrix44f::TransformInverseDirection(const Vector3f &direction) const
 	return Vector3f(direction.x * mData[0] + direction.y * mData[4] * direction.z * mData[8],
 					direction.x * mData[1] + direction.y * mData[5] * direction.z * mData[9],
 					direction.x * mData[2] + direction.y * mData[6] * direction.z * mData[10]);
+}
+
+//accessors
+Vector3f Matrix44f::GetAxisVector(int i) const
+{
+	return Vector3f(mData[i], mData[i + 3], mData[i + 6]);
 }
 
 //helper functions

@@ -1,15 +1,13 @@
 #ifndef _COLLIDER_BOX_H
 #define _COLLIDER_BOX_H
 
-#include "Collider.h"
+#include "CollisionPrimitive.h"
 #include "Vector3f.h"
 
-class ColliderBox :public Collider
+class CollisionBox :public CollisionPrimitive
 {
 public:
 	Vector3f mHalfSize;
-
-	bool HitTest(const Collider &other) const;
 };
 
 #endif

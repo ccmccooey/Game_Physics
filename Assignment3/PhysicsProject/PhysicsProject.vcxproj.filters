@@ -97,6 +97,9 @@
     <Filter Include="Source Files\Math">
       <UniqueIdentifier>{9518db26-6e96-4625-8725-7b89f9acfc5e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Physics\Collision\CollisionPrimitives">
+      <UniqueIdentifier>{803b97ab-636f-4130-89da-7761f1c1e688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -312,9 +315,6 @@
     <ClCompile Include="Contact.cpp">
       <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="Collider.cpp">
-      <Filter>Source Files\Physics\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionTest.cpp">
       <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
@@ -347,6 +347,12 @@
     </ClCompile>
     <ClCompile Include="Vector3f_MatrixFunctions.cpp">
       <Filter>Source Files\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Ground.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionPrimitive.cpp">
+      <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -594,13 +600,7 @@
     <ClInclude Include="ForceGenerator.h">
       <Filter>Header Files\Physics\ForceGenerators</Filter>
     </ClInclude>
-    <ClInclude Include="Collider.h">
-      <Filter>Header Files\Physics\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="ColliderBox.h">
-      <Filter>Header Files\Physics\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="ColliderSphere.h">
       <Filter>Header Files\Physics\Collision</Filter>
     </ClInclude>
     <ClInclude Include="Contact.h">
@@ -638,6 +638,18 @@
     </ClInclude>
     <ClInclude Include="Quaternion.h">
       <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Ground.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>Header Files\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionSphere.h">
+      <Filter>Header Files\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPlane.h">
+      <Filter>Header Files\Physics\Collision\CollisionPrimitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

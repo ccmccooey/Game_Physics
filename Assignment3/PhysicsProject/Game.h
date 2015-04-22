@@ -1,6 +1,8 @@
 #ifndef _GAME_H
 #define _GAME_H
 
+class Ground;
+
 #include <string>
 #include <vector>
 
@@ -10,6 +12,7 @@ class Game
 {
 private:
 	std::vector<GameObject*> mGameObjects;
+	Ground* mGround;
 
 public:
 	Game();

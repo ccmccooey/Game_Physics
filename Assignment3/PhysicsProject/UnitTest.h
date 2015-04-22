@@ -11,6 +11,7 @@ public:
 private:
 	static void TestMatrix33f();
 	static void TestMatrix44f();
+	static void TestQuaternion();
 };
 
 #endif

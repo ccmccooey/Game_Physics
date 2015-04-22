@@ -86,11 +86,15 @@ void BasicGeometry::setDataToCube(GLBatch* batch, Vector3f relativeSpace)
 	delete[] theColorFloats;
 	//delete[] normals;
 }
-void BasicGeometry::setDataToQuad(GLBatch* batch)
+void BasicGeometry::setDataToQuad2D(GLBatch* batch)
 {
-	 BasicGeometry::setDataToQuad(batch, 0, 0, 1, 1);
+	 BasicGeometry::setDataToQuad(batch, 0, 0, 1, 1, false);
 }
-void BasicGeometry::setDataToQuad(GLBatch* batch, float uvX, float uvY, float uvW, float uvH)
+void BasicGeometry::setDataToQuad3D(GLBatch* batch)
+{
+	BasicGeometry::setDataToQuad(batch, 0, 0, 1, 1, true);
+}
+void BasicGeometry::setDataToQuad(GLBatch* batch, float uvX, float uvY, float uvW, float uvH, bool originCenter)
 {
 	int vertsCount = 4;
 	Vector3f* verts = new Vector3f[vertsCount];	
@@ -105,11 +109,20 @@ void BasicGeometry::setDataToQuad(GLBatch* batch, float uvX, float uvY, float uv
 	verts[1] = Vector3f(-x, -y, z);
 	verts[2] = Vector3f(x, -y, z);
 	verts[3] = Vector3f(x, y, z);*/
-
-	verts[0] = Vector3f(0, -1, z);
-	verts[1] = Vector3f(0, 0, z);
-	verts[2] = Vector3f(1, 0, z);
-	verts[3] = Vector3f(1, -1, z);
+	if (originCenter)
+	{
+		verts[0] = Vector3f(-0.5f, -0.5f, z);
+		verts[1] = Vector3f(-0.5f, 0.5f, z);
+		verts[2] = Vector3f(0.5f, 0.5f, z);
+		verts[3] = Vector3f(0.5f, -0.5f, z);
+	}
+	else
+	{
+		verts[0] = Vector3f(0, -1, z);
+		verts[1] = Vector3f(0, 0, z);
+		verts[2] = Vector3f(1, 0, z);
+		verts[3] = Vector3f(1, -1, z);
+	}
 
 	//quads	
 	int indexCount = 4;

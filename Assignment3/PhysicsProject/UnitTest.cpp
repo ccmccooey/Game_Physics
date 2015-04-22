@@ -1,6 +1,7 @@
 #include "UnitTest.h"
 #include "Matrix33f.h"
 #include "Matrix44f.h"
+#include "Quaternion.h"
 #include <iostream>
 
 using namespace std;
@@ -9,6 +10,7 @@ void UnitTest::RunTest()
 {
 	UnitTest::TestMatrix33f();
 	UnitTest::TestMatrix44f();
+	UnitTest::TestQuaternion();
 }
 
 void UnitTest::TestMatrix33f()
@@ -146,6 +148,39 @@ void UnitTest::TestMatrix44f()
 	cout << "answer   = " << detGot << endl;
 	cout << endl;
 
+	cout << endl;
+}
+
+void UnitTest::TestQuaternion()
+{
+	//test euler angles
+	Vector3f eulerAnglesDegrees;
+	Quaternion got;
+	Quaternion expected;
+
+	cout << "===========================================================" << endl;
+	cout << "================= Beginning Quaternions =====================" << endl;
+
+	expected = Quaternion(0.70711f, 0.70711f, 0.0f, 0.0f);
+	got = Quaternion();
+	eulerAnglesDegrees = Vector3f(90.0f, 0.0f, 0.0f);
+	got.setEulerDeg(eulerAnglesDegrees.x, eulerAnglesDegrees.y, eulerAnglesDegrees.z);
+
+	cout << "------------------Testing (euler angles degrees to quaternion) ------------------------" << endl;
+	cout << "euler angles degrees = " << eulerAnglesDegrees << endl;
+	cout << "expected = " << expected << endl;
+	cout << "answer   = " << got << endl;
+	cout << endl;
+
+	expected = Quaternion(0.5684899206203877f, -0.006520341738628904f, 0.6156582687007653f, 0.5456570273321997f);
+	got = Quaternion();
+	eulerAnglesDegrees = Vector3f(70.0f, 45.0f, 120.0f);
+	got.setEulerDeg(eulerAnglesDegrees.x, eulerAnglesDegrees.y, eulerAnglesDegrees.z);
+
+	cout << "------------------Testing (euler angles degrees to quaternion) ------------------------" << endl;
+	cout << "euler angles degrees = " << eulerAnglesDegrees << endl;
+	cout << "expected = " << expected << endl;
+	cout << "answer   = " << got << endl;
 	cout << endl;
 }
 

@@ -26,7 +26,7 @@ Quaternion::Quaternion()
 	mEulerAngles = Vector3f::zero;
 	mRecalculateEuler = true;
 }
-Quaternion::Quaternion(float x, float y, float z, float w)
+Quaternion::Quaternion(float w, float x, float y, float z)
 {
 	mX = x;
 	mY = y;
@@ -285,25 +285,25 @@ std::string Quaternion::toString()
 //math stuff
 float Quaternion::length()
 {
-	return sqrt(mW + mX + mY + mZ);
+	return sqrt(mW * mW + mX * mX + mY * mY + mZ * mZ);
 }
 float Quaternion::lengthSquared()
 {
-	return mW + mX + mY + mZ;
+	return mW * mW + mX * mX + mY * mY + mZ * mZ;
 }
 void Quaternion::toRotationMatrix(M3DMatrix44f &mat) //convert the quaternion to a rotation matrix for the glm graphics
 {
-	mat[0] = 1.0f - (2.0f * mY * mY + 2.0f * mZ * mZ);
+	mat[0] = 1.0f - 2.0f * mY * mY - 2.0f * mZ * mZ;
 	mat[1] = 2.0f * mX * mY + 2.0f * mZ * mW;
 	mat[2] = 2.0f * mX * mZ - 2.0f * mY * mW;
 	mat[3] = 0.0f;
 	mat[4] = 2.0f * mX * mY - 2.0f * mZ * mW;
-	mat[5] = 1.0f - (2.0f * mX * mX + 2.0f * mZ * mZ);
+	mat[5] = 1.0f - 2.0f * mX * mX - 2.0f * mZ * mZ;
 	mat[6] = 2.0f * mZ * mY + 2.0f * mX * mW;
 	mat[7] = 0.0f;
 	mat[8] = 2.0f * mX * mZ + 2.0f * mY * mW;
 	mat[9] = 2.0f * mZ * mY - 2.0f * mX * mW;
-	mat[10] = 1.0f - (2.0f * mX * mX + 2.0f * mY * mY);
+	mat[10] = 1.0f - 2.0f * mX * mX - 2.0f * mY * mY;
 	mat[11] = 0.0f;
 	mat[12] = 0.0f;
 	mat[13] = 0.0f;
@@ -332,10 +332,11 @@ void Quaternion::toRotationMatrix(Matrix44f &matrix) //convert the quaternion to
 
 void Quaternion::setRotation(float angle, float x, float y, float z)
 {
-	mX = x * sin( angle * 0.5f );
-	mY = y * sin( angle * 0.5f );
-	mZ = z * sin( angle * 0.5f );
-	mW = cos( angle * 0.5f );
+	float s = sinf(angle * 0.5f);
+	mX = x * s;
+	mY = y * s;
+	mZ = z * s;
+	mW = cosf( angle * 0.5f );
 	mRecalculateEuler =true;
 }
 
@@ -364,7 +365,8 @@ Quaternion Quaternion::fromAxis(float Angle, float x, float y, float z)
     }
     else
     {
-		quat.mX = quat.mY = 0.0f;
+		quat.mX = 0.0f;
+		quat.mY = 0.0f;
 		quat.mZ = 0.0f;
 		quat.mW = 1.0f;
     }

@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "AssetLoader.h"
 #include "GroundForceGenerator.h"
+#include "Ground.h"
 
 using namespace std;
 
@@ -24,8 +25,11 @@ void Game::Initialize()
 
 	mGameObjects = vector<GameObject*>();
 
+	//create the ground
+	mGround = new Ground();
+
 	//create a sphere
-	GameObject* mySphere = new GameObject("Sphere", "Steel", Vector3f::zero);
+	GameObject* mySphere = new GameObject("Sphere", "Steel", Vector3f::unitY * 10.0f);
 	mGameObjects.push_back(mySphere);
 
 	//create the force generators
@@ -46,12 +50,16 @@ void Game::Update(double t)
 //cleanup
 void Game::CleanUp()
 {
+
+
 	unsigned int size = mGameObjects.size();
 	for (unsigned int i = 0; i < size; i++)
 	{
 		//delete mGameObjects[i];
 	}
 	mGameObjects.clear();
+
+	delete mGround;
 }
 
 //reset the mass aggregates

@@ -43,7 +43,7 @@ void MainApp::Initialize()
 	//create the camera
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
-	mCamera->moveCamera(0.0f, 15.0f, 30.0f);
+	mCamera->moveCamera(0.0f, 20.0f, 40.0f);
 
 	mCameraContainer = new CameraContainer(mCamera);
 
@@ -90,7 +90,7 @@ void MainApp::FixedUpdate(double t)
 	if (!mPaused)
 	{
 		mGame->Update(t);
-		//mParticleSystem->FixedUpdate(mRunSpeed * t);
+		mPhysicsSystem->FixedUpdate(mRunSpeed * t);
 
 		if (mUpdateOnlyOnce)
 		{

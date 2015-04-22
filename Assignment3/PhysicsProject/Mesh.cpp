@@ -26,7 +26,7 @@ Mesh::Mesh(Geometry geometryType)
 	}
 	else if (geometryType == Geometry::QUAD)
 	{
-		BasicGeometry::setDataToQuad(mBatch);		
+		BasicGeometry::setDataToQuad3D(mBatch);		
 	}
 	else if (geometryType == Geometry::SPHERE)
 	{

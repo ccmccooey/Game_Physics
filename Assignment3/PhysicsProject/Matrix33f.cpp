@@ -28,7 +28,7 @@ Matrix33f::~Matrix33f()
 
 }
 
-
+//operators
 Matrix33f& Matrix33f::operator = ( const Matrix33f& rhs )
 {
 	mData[0] = rhs.mData[0]; mData[1] = rhs.mData[1]; mData[2] = rhs.mData[2]; 
@@ -124,7 +124,7 @@ Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValu
 		a.mData[7] * (1.0f - lerpValue) + b.mData[7] * lerpValue,
 		a.mData[8] * (1.0f - lerpValue) + b.mData[8] * lerpValue);
 }
-void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy = 0.0f, float ixz = 0.0f, float iyz = 0.0f)
+void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy, float ixz, float iyz)
 {
 	mData[0] = ix;
 	mData[1] = mData[3] = -ixy;

@@ -29,8 +29,8 @@ public:
 	bool ValidIndex(int index) const;
 
 	//adding rigid bodies, contacts, and force generators
-	RigidBody* AddRigidBody(RigidBody* rigidBody);
-	void AddNewRigidBody(const Vector3f &position);
+	void AddRigidBody(RigidBody* rigidBody);
+	RigidBody* AddNewRigidBody(const Vector3f &position);
 	void AddForceGenerator(ForceGenerator* forceGenerator);
 	void AddContact(Contact* contact);
 

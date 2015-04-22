@@ -33,7 +33,7 @@ private:
 
 public:
 	Quaternion();
-	Quaternion(float x, float y, float z, float w);
+	Quaternion(float w, float x, float y, float z);
 	~Quaternion();	
 
 	//accessors

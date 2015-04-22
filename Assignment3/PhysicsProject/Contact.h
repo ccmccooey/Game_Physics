@@ -30,13 +30,14 @@ protected:
 
 public:
 	Contact();
-	Contact(const Contact &rhs);
+	Contact(const Contact &rhs); 
 	~Contact();
 
 	void CalculateContactBasis();
 	void CalculateInternals(double duration);
 	Vector3f CalculateLocalVelocity(unsigned bodyIndex, float duration);
 	void CalculateDesiredDeltaVelocity(float duration);
+	void SetBodyData(RigidBody* actorA, RigidBody* actorB, float friction, float restitution);
 };
 
 #endif

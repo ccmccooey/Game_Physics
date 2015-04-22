@@ -3,24 +3,25 @@
 #include "Vector3f.h"
 #include "Contact.h"
 
-unsigned int CollisionDetector::sphereAndSphere(const ColliderSphere &one, const ColliderSphere &two, CollisionData *data)
+unsigned int CollisionDetector::SphereAndSphere(const CollisionSphere &one, const CollisionSphere &two, CollisionData *data)
 {
-	// Make sure we have contacts.
-	//if (data->contactsLeft <= 0)
-	if (data->contactsGenerated <= 0)
+	// Make sure we have remaining contacts.
+	if (data->mContactsLeft <= 0)
 	{
 		return 0;
 	}
 
+	
 	// Cache the sphere positions.
-	Vector3f positionOne = one.getAxis(3);
-	Vector3f positionTwo = two.getAxis(3);
+	Vector3f positionOne = one.GetAxis(3); //its 3 because the third column is the translation
+	Vector3f positionTwo = two.GetAxis(3);
 
 	// Find the vector between the objects.
 	Vector3f midline = positionOne - positionTwo;
 	float size = midline.Length();
+
 	// See if it is large enough.
-	if (size <= 0.0f || size >= one.radius+two.radius)
+	if (size <= 0.0f || size >= one.mRadius + two.mRadius)
 	{
 		return 0;
 	}
@@ -30,9 +31,9 @@ unsigned int CollisionDetector::sphereAndSphere(const ColliderSphere &one, const
 	Contact* contact = data->contacts;
 	contact->mContactNormal = normal;
 	contact->mContactPoint = positionOne + midline * 0.5f;
-	contact->mPenetrationDepth = (one.radius + two.radius - size);
-	contact->setBodyData(one.body, two.body,
-	data->friction, data->restitution);
+	contact->mPenetrationDepth = (one.mRadius + two.mRadius - size);
+	contact->SetBodyData(one.mBody, two.mBody, 1.0f, 1.0f);
 	data->addContacts(1);
+
 	return 1;
 }

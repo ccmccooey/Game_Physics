@@ -17,9 +17,7 @@
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
-    <ClCompile Include="Collider.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
@@ -36,6 +34,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="GraphicsSystem.cpp" />
     <ClCompile Include="GravityForceGenerator.cpp" />
+    <ClCompile Include="Ground.cpp" />
     <ClCompile Include="GroundContactGenerator.cpp" />
     <ClCompile Include="GroundForceGenerator.cpp" />
     <ClCompile Include="GUIButton.cpp" />
@@ -112,9 +111,10 @@
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
-    <ClInclude Include="Collider.h" />
+    <ClInclude Include="CollisionPlane.h" />
+    <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="ColliderBox.h" />
-    <ClInclude Include="ColliderSphere.h" />
+    <ClInclude Include="CollisionSphere.h" />
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="CollisionTest.h" />
@@ -132,6 +132,7 @@
     <ClInclude Include="GLfiles.h" />
     <ClInclude Include="GraphicsSystem.h" />
     <ClInclude Include="GravityForceGenerator.h" />
+    <ClInclude Include="Ground.h" />
     <ClInclude Include="GroundContactGenerator.h" />
     <ClInclude Include="GroundForceGenerator.h" />
     <ClInclude Include="GUIButton.h" />

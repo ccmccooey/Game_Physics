@@ -50,7 +50,7 @@ void TextRenderer::Initialize()
 	for (int i = 0; i < mMeshCount; i++)
 	{
 		GLBatch* batch = new GLBatch();
-		BasicGeometry::setDataToQuad(batch, (float)x / (float)width, (float)y / (float)height, (float)letterWidth / (float)width, (float)letterWidth / (float)height);
+		BasicGeometry::setDataToQuad(batch, (float)x / (float)width, (float)y / (float)height, (float)letterWidth / (float)width, (float)letterWidth / (float)height, false);
 
 		x += letterWidth;
 		if (x >= letterWidth * 16)

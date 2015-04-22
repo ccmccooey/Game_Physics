@@ -39,6 +39,9 @@ public:
 	bool Inverse(Matrix44f &result) const;
 	void Invert();
 
+	//accessors
+	Vector3f GetAxisVector(int i) const;
+
 	//print operators
 	friend std::ostream& Matrix44f::operator<<(std::ostream& stream, const Matrix44f& matrix);
 	std::string ToString() const;
