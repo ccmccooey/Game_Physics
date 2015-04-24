@@ -26,6 +26,7 @@ public:
 	Matrix33f& operator *= ( const Matrix33f& rhs );
 	const Matrix33f operator*(float mult) const;
 	const Matrix33f operator*(const Matrix33f& rhs) const;
+	Vector3f operator*(const Vector3f& vector) const;
 
 	//reference operators
 	float operator[](int index) const; //get
@@ -36,6 +37,7 @@ public:
 	float Determinant() const;
 	void SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 	void SetRows(const Vector3f &first, const Vector3f &second, const Vector3f &third);
+	Vector3f Transform(const Vector3f &vector) const;
 	Vector3f TransformTranspose(const Vector3f &vector) const;
 	void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy = 0.0f, float ixz = 0.0f, float iyz = 0.0f);
 	void SetBlockInertiaTensor(const Vector3f &halfSizes, float mass);

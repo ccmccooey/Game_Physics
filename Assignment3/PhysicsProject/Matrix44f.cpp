@@ -67,6 +67,13 @@ const Matrix44f Matrix44f::operator*(const Matrix44f& rhs) const
 		mData[12] * rhs.mData[3] + mData[13] * rhs.mData[7] + mData[14] * rhs.mData[11] + mData[15] * rhs.mData[15]		
 	);
 }
+Vector3f Matrix44f::operator*(const Vector3f &vector) const
+{
+	return Vector3f(
+		vector.x * mData[0] + vector.y * mData[1] + vector.z * mData[2] + mData[3],
+		vector.x * mData[4] + vector.y * mData[5] + vector.z * mData[6] + mData[7],
+		vector.x * mData[8] + vector.y * mData[9] + vector.z * mData[10] + mData[11]);
+}
 
 //reference operators
 float Matrix44f::operator[](int index) const

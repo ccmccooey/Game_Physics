@@ -38,6 +38,9 @@ public:
 	const Matrix33f& GetContactToWorld() const;
 	float GetDesiredDeltaVelocity() const;
 	const Vector3f& GetContactVelocity() const;
+	
+	//basic settors
+	void AddContactVelocity(const Vector3f &contactVelocity);
 
 	//calculation functions
 	void CalculateContactBasis();
@@ -45,6 +48,7 @@ public:
 	Vector3f CalculateLocalVelocity(unsigned bodyIndex, float duration);
 	void CalculateDesiredDeltaVelocity(float duration);
 	void SetBodyData(RigidBody* actorA, RigidBody* actorB, float friction, float restitution);
+	void ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChange[2], float penetrationDepth);
 	void ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationChange[2]);
 };
 

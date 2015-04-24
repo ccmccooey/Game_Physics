@@ -49,6 +49,12 @@ const Vector3f& Contact::GetContactVelocity() const
 	return mContactVelocity;
 }
 
+//basic settors
+void Contact::AddContactVelocity(const Vector3f &contactVelocity)
+{
+	mContactVelocity += contactVelocity;
+}
+
 //calculation functions
 void Contact::CalculateContactBasis()
 {
@@ -168,14 +174,17 @@ Vector3f Contact::CalculateLocalVelocity(unsigned mBodyIndex, float duration)
     return mContactVelocity;
 }
 
+//aplly a change in position
+
+//apply a change in velocity
 void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationChange[2])
 {
     // Get hold of the inverse mass and inverse inertia tensor, both in
     // world coordinates.
     Matrix33f inverseInertiaTensor[2];
-    mBodies[0]-getInverseInertiaTensorWorld(&inverseInertiaTensor[0]);
+    mBodies[0]->GetInverseInertiaTensorWorld(&inverseInertiaTensor[0]);
     if (mBodies[1])
-        mBodies[1]->getInverseInertiaTensorWorld(&inverseInertiaTensor[1]);
+        mBodies[1]->GetInverseInertiaTensorWorld(&inverseInertiaTensor[1]);
 
     // We will calculate the impulse for each contact axis
     Vector3f impulseContact;
@@ -183,39 +192,41 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
     if (mFriction == 0.0f)
     {
         // Use the short format for mFrictionless contacts
-        impulseContact = calculateFrictionlessImpulse(inverseInertiaTensor);
+        impulseContact = CalculateFrictionlessImpulse(inverseInertiaTensor);
     }
     else
     {
         // Otherwise we may have impulses that aren't in the direction of the
         // contact, so we need the more complex version.
-        impulseContact = calculateFrictionImpulse(inverseInertiaTensor);
+        impulseContact = CalculateFrictionImpulse(inverseInertiaTensor);
     }
 
     // Convert impulse to world coordinates
-    Vector3f impulse = contactToWorld.transform(impulseContact);
+    Vector3f impulse = mContactToWorld.Transform(impulseContact);
 
     // Split in the impulse into linear and rotational components
-    Vector3 impulsiveTorque = relativeContactPosition[0] % impulse;
-    rotationChange[0] = inverseInertiaTensor[0].transform(impulsiveTorque);
-    velocityChange[0].clear();
-    velocityChange[0].addScaledVector(impulse, mBodies[0]->getInverseMass());
+    Vector3f impulsiveTorque = Vector3f::CrossProduct(mRelativeContactPosition[0], impulse);
+    rotationChange[0] = inverseInertiaTensor[0].Transform(impulsiveTorque);
+    //velocityChange[0].Clear();
+    //velocityChange[0].AddScaledVector(impulse, mBodies[0]->getInverseMass());
+	velocityChange[0] = impulse * mBodies[0]->GetInverseMass();
 
     // Apply the changes
-    mBodies[0]->addVelocity(velocityChange[0]);
-    mBodies[0]->addRotation(rotationChange[0]);
+    mBodies[0]->AddVelocity(velocityChange[0]);
+    mBodies[0]->AddRotation(rotationChange[0]);
 
     if (mBodies[1])
     {
         // Work out mBodies one's linear and angular changes
-        Vector3 impulsiveTorque = impulse % relativeContactPosition[1];
-        rotationChange[1] = inverseInertiaTensor[1].transform(impulsiveTorque);
-        velocityChange[1].clear();
-        velocityChange[1].addScaledVector(impulse, -mBodies[1]->getInverseMass());
+        Vector3f impulsiveTorque = Vector3f::CrossProduct(impulse, mRelativeContactPosition[1]);
+        rotationChange[1] = inverseInertiaTensor[1].Transform(impulsiveTorque);
+        //velocityChange[1].clear();
+        //velocityChange[1].addScaledVector(impulse, -mBodies[1]->getInverseMass());
+		velocityChange[1] = impulse * -mBodies[0]->GetInverseMass();
 
         // And apply them.
-        mBodies[1]->addVelocity(velocityChange[1]);
-        mBodies[1]->addRotation(rotationChange[1]);
+        mBodies[1]->AddVelocity(velocityChange[1]);
+        mBodies[1]->AddRotation(rotationChange[1]);
     }
 }
 

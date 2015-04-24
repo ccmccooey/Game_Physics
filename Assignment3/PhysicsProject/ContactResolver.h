@@ -10,7 +10,7 @@ private:
 	unsigned int mVelocityIterationsUsed;
 
 	unsigned int mPositionIterations;
-	unsigned int mVeloictyIterations;
+	unsigned int mVelocityIterations;
 
 	float mVelocityEpsilon;
 	float mPositionEpsilon;

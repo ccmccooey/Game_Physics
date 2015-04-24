@@ -69,7 +69,7 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
         //contact[index].matchAwakeState();
 
         // Resolve the penetration.
-        contact[index].applyPositionChange(linearChange, angularChange, max);
+        contact[index].ApplyPositionChange(linearChange, angularChange, max);
 
         // Again this action may have changed the penetration of other
         // bodies, so we update contacts.
@@ -77,89 +77,97 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
 
         for (i = 0; i < numContacts; i++)
         {
-            // Check each body in the contact
+            // Check each rigid body in the contact
 			for (b = 0; b < 2; b++) if (contact[i].mBodies[b] != nullptr)
             {
-                // Check for a match with each body in the newly
+                // Check for a match with each rigid body in the newly
                 // resolved contact
                 for (d = 0; d < 2; d++)
                 {
-                    if (c[i].body[b] == c[index].body[d])
+                    if (contact[i].mBodies[b] == contact[index].mBodies[d])
                     {
                         //deltaPosition = linearChange[d] + angularChange[d].vectorProduct(c[i].relativeContactPosition[b]);
 						deltaPosition = linearChange[d] + Vector3f::CrossProduct(angularChange[d], contact[i].GetRelativeContactPosition(b));
 
                         // The sign of the change is positive if we're
-                        // dealing with the second body in a contact
+                        // dealing with the second rigid body in a contact
                         // and negative otherwise (because we're
                         // subtracting the resolution)..
-                        c[i].penetration +=
-                            deltaPosition.scalarProduct(c[i].contactNormal)
-                            * (b?1:-1);
+                        
+						//contact[i].penetration += deltaPosition.scalarProduct(contact[i].contactNormal) * (b ? 1:-1);
+						if (b)
+							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal);
+						else
+							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal) * -1.0f;
                     }
                 }
             }
         }
-        positionIterationsUsed++;
+        mPositionIterationsUsed++;
     }
 }
 
 void ContactResolver::ResolveVelocities(Contact *contact, unsigned numContacts, float duration)
 {
     Vector3f velocityChange[2], rotationChange[2];
-    Vector3f deltaVel;
+    Vector3f deltaVelocity;
 
     // iteratively handle impacts in order of severity.
     mVelocityIterationsUsed = 0;
-    while (velocityIterationsUsed < velocityIterations)
+	float desiredVelocity;
+    while (mVelocityIterationsUsed < mVelocityIterations)
     {
         // Find contact with maximum magnitude of probable velocity change.
-        float max = velocityEpsilon;
+        float max = mVelocityEpsilon;
         unsigned index = numContacts;
         for (unsigned i = 0; i < numContacts; i++)
         {
-            if (c[i].desiredDeltaVelocity > max)
+			desiredVelocity = contact[i].GetDesiredDeltaVelocity();
+			if (desiredVelocity > max)
             {
-                max = c[i].desiredDeltaVelocity;
+				max = desiredVelocity;
                 index = i;
             }
         }
         if (index == numContacts) break;
 
         // Match the awake state at the contact
-        c[index].matchAwakeState();
+        //contact[index].matchAwakeState();
 
         // Do the resolution on the contact that came out top.
-        c[index].applyVelocityChange(velocityChange, rotationChange);
+        contact[index].ApplyVelocityChange(velocityChange, rotationChange);
 
         // With the change in velocity of the two bodies, the update of
         // contact velocities means that some of the relative closing
         // velocities need recomputing.
         for (unsigned i = 0; i < numContacts; i++)
         {
-            // Check each body in the contact
-            for (unsigned b = 0; b < 2; b++) if (c[i].body[b])
+            // Check each rigid body in the contact
+            for (unsigned b = 0; b < 2; b++) if (contact[i].mBodies[b])
             {
-                // Check for a match with each body in the newly
+                // Check for a match with each rigid body in the newly
                 // resolved contact
                 for (unsigned d = 0; d < 2; d++)
                 {
-                    if (c[i].body[b] == c[index].body[d])
+                    if (contact[i].mBodies[b] == contact[index].mBodies[d])
                     {
-                        deltaVel = velocityChange[d] +
-                            rotationChange[d].vectorProduct(
-                                c[i].relativeContactPosition[b]);
+                        //deltaVel = velocityChange[d] + rotationChange[d].vectorProduct(contact[i].relativeContactPosition[b]);
+						deltaVelocity = velocityChange[d] + Vector3f::CrossProduct(rotationChange[d], contact[i].GetRelativeContactPosition(b));
 
                         // The sign of the change is negative if we're dealing
-                        // with the second body in a contact.
-                        c[i].contactVelocity +=
-                            c[i].contactToWorld.transformTranspose(deltaVel)
-                            * (b?-1:1);
-                        c[i].calculateDesiredDeltaVelocity(duration);
+                        // with the second rigid body in a contact.
+                        //contact[i].contactVelocity += contact[i].contactToWorld.transformTranspose(deltaVel) * (b?-1:1);
+                        
+						if (b)
+							contact[i].AddContactVelocity(contact[i].GetContactToWorld().TransformTranspose(deltaVelocity));
+						else
+							contact[i].AddContactVelocity(contact[i].GetContactToWorld().TransformTranspose(deltaVelocity) * -1.0f);
+						
+						contact[i].CalculateDesiredDeltaVelocity(duration);
                     }
                 }
             }
         }
-        velocityIterationsUsed++;
+        mVelocityIterationsUsed++;
     }
 }

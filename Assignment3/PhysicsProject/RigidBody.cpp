@@ -10,6 +10,7 @@ RigidBody::RigidBody()
 	mAngularVelocity = Vector3f();
 	mRotation = Vector3f();
 	mOrientation = Quaternion();
+	mAccumulatedTorque = Vector3f();
 	mTransformMatrix = Matrix44f();
 	SetMass(1.0f);
 }
@@ -23,6 +24,7 @@ RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 	mPreviousAcceleration = Vector3f();
 	mAngularVelocity = Vector3f();
 	mOrientation = Quaternion();
+	mAccumulatedTorque = Vector3f();
 	mTransformMatrix = Matrix44f();
 	SetMass(mass);
 }
@@ -80,6 +82,14 @@ Vector3f const& RigidBody::GetRotation() const
 {
 	return mRotation;
 }
+Vector3f RigidBody::GetPositionInWorldSpace(const Vector3f &position) const
+{
+	return mTransformMatrix.Transform(position);	
+}
+Vector3f RigidBody::GetPositionInLocalSpace(const Vector3f &position) const
+{
+	return mTransformMatrix.TransformInverse(position);
+}
 std::string RigidBody::ToString() const
 {
 	std::string str = "Mass: " + std::to_string(mMass) + ", Position: " +mPosition.ToString() + ", Velocity: " +mVelocity.ToString() + ", Acceleration: " +mAcceleration.ToString();
@@ -114,8 +124,10 @@ void RigidBody::CopyDataFrom(const RigidBody &other)
 	mMass = other.mMass;
 	mInverseMass = other.mInverseMass;
 	mRotation = other.mRotation;
+	mAccumulatedTorque = other.mAccumulatedTorque;
 	mOrientation = other.mOrientation;
 	mAngularVelocity = other.mAngularVelocity;
+	mTransformMatrix = other.mTransformMatrix;
 }
 void RigidBody::SetVelocity(const Vector3f &velocity)
 {
@@ -148,13 +160,34 @@ void RigidBody::AddVelocity(const Vector3f &velocity)
 {
 	mVelocity += velocity;
 }
+void RigidBody::AddRotation(const Vector3f &rotation)
+{
+	mRotation += rotation;
+}
 void RigidBody::AddTorque(const Vector3f &torque)
 {
-
+	mAccumulatedTorque += torque;
 }
 void RigidBody::AddForce(const Vector3f &force)
 {
 	mAccumulatedForce += force;
+}
+void RigidBody::AddForceAtLocalPosition(const Vector3f &force, const Vector3f &point)
+{
+	// Convert to coordinates relative to center of mass.
+	Vector3f pt = GetPositionInWorldSpace(point); 
+	AddForceAtPosition(force, pt);
+
+}
+
+void RigidBody::AddForceAtPosition(const Vector3f &force, const Vector3f &point)
+{
+	// Convert to coordinates relative to center of mass.
+	Vector3f pt = point - mPosition;
+
+	mAccumulatedForce += force;
+	mAccumulatedTorque += Vector3f::CrossProduct(pt, force);
+	//isAwake = true;
 }
 void RigidBody::Translate(const Vector3f &translation)
 {

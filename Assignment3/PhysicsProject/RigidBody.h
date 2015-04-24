@@ -16,7 +16,7 @@ private:
 	Vector3f mPreviousAcceleration; //the acceleration of the rigid body on the previous frame
 	Vector3f mAccumulatedForce;
 	Vector3f mRotation;
-
+	Vector3f mAccumulatedTorque;
 	Quaternion mOrientation;
 	Vector3f mAngularVelocity;
 	Matrix33f mInverseInertiaTensor;
@@ -53,6 +53,8 @@ public:
 	float GetInverseMass() const;
 	Matrix44f const& GetTransformMatrix() const;
 	Matrix33f GetInertiaTensorWorld() const;
+	Vector3f GetPositionInWorldSpace(const Vector3f &position) const;
+	Vector3f GetPositionInLocalSpace(const Vector3f &position) const;
 
 	//inertia tensor accessor functions using output variables
 	void GetInertiaTensorWorld(Matrix33f *inertiaTensorOut) const; 
@@ -74,8 +76,11 @@ public:
 
 	//movement
 	void AddVelocity(const Vector3f &velocity);
+	void AddRotation(const Vector3f &rotation);
 	void AddForce(const Vector3f &force);
 	void AddTorque(const Vector3f &torque);
+	void AddForceAtLocalPosition(const Vector3f &force, const Vector3f &point);
+	void AddForceAtPosition(const Vector3f &force, const Vector3f &point);
 	void Translate(const Vector3f &translation);
 	void Translate(float x, float y, float z);
 

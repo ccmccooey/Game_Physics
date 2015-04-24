@@ -70,6 +70,13 @@ const Matrix33f Matrix33f::operator*(const Matrix33f& rhs) const
 		mData[6] * rhs.mData[2] + mData[7] * rhs.mData[5] + mData[8] * rhs.mData[8]
 	);
 }
+Vector3f Matrix33f::operator*(const Vector3f &vector) const
+{
+	return Vector3f(
+		vector.x * mData[0] + vector.y * mData[1] + vector.z * mData[2],
+		vector.x * mData[3] + vector.y * mData[4] + vector.z * mData[5],
+		vector.x * mData[6] + vector.y * mData[7] + vector.z * mData[8]);
+}
 
 //reference operators
 float Matrix33f::operator[](int index) const
@@ -110,6 +117,10 @@ Vector3f Matrix33f::TransformTranspose(const Vector3f &vector) const
 		vector.x * mData[0] + vector.y * mData[3] + vector.z * mData[6],
 		vector.x * mData[1] + vector.y * mData[4] + vector.z * mData[7],
 		vector.x * mData[2] + vector.y * mData[5] + vector.z * mData[8]);
+}
+Vector3f Matrix33f::Transform(const Vector3f &vector) const
+{
+	return (*this) * vector;
 }
 Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue)
 {

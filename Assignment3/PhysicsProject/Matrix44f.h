@@ -25,6 +25,7 @@ public:
 	Matrix44f& operator *= ( const Matrix44f& rhs );
 	const Matrix44f operator*(float mult) const;
 	const Matrix44f operator*(const Matrix44f& rhs) const;
+	Vector3f operator*(const Vector3f &vector) const;
 
 	//reference operators
 	float operator[](int index) const; //get
