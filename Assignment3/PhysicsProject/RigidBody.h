@@ -20,6 +20,7 @@ private:
 	Quaternion mOrientation;
 	Vector3f mAngularVelocity;
 	Matrix33f mInverseInertiaTensor;
+	Matrix33f mInverseInertiaTensorWorld;
  
 	// Derived data: computed from orientation
 	Matrix44f mTransformMatrix;
@@ -48,9 +49,18 @@ public:
 	Quaternion const& GetOrientation() const;
 	Vector3f const& GetRotation() const;
 	Vector3f GetRotationVector() const;
-	Matrix33f const& GetInverseInteriaTensor() const;
 	float GetMass() const;
 	float GetInverseMass() const;
+	Matrix44f const& GetTransformMatrix() const;
+	Matrix33f GetInertiaTensorWorld() const;
+
+	//inertia tensor accessor functions using output variables
+	void GetInertiaTensorWorld(Matrix33f *inertiaTensorOut) const; 
+	void GetInverseInertiaTensorWorld(Matrix33f *inverseInertiaTensorOut) const;
+
+	
+
+	//conerting to a string
 	std::string ToString() const;	
 
 	//setters

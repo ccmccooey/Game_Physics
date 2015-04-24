@@ -80,14 +80,20 @@ Vector3f const& RigidBody::GetRotation() const
 {
 	return mRotation;
 }
-Matrix33f const& RigidBody::GetInverseInteriaTensor() const
-{
-	return mInverseInertiaTensor;
-}
 std::string RigidBody::ToString() const
 {
 	std::string str = "Mass: " + std::to_string(mMass) + ", Position: " +mPosition.ToString() + ", Velocity: " +mVelocity.ToString() + ", Acceleration: " +mAcceleration.ToString();
 	return str;
+}
+
+//inertia tensor accessors
+void RigidBody::GetInertiaTensorWorld(Matrix33f *inertiaTensor) const
+{
+    inertiaTensor->SetInverse(mInverseInertiaTensorWorld); //Matrix33f inverse function not implemented
+}
+void RigidBody::GetInverseInertiaTensorWorld(Matrix33f *inverseInertiaTensor) const
+{
+    *inverseInertiaTensor = mInverseInertiaTensorWorld;
 }
 
 // updating the transform

@@ -221,6 +221,19 @@ void Quaternion::setValues(float x, float y, float z, float w)
 	mW = w;
 	calculateEulerAngles();
 }
+void Quaternion::setUsingRotationMatrix(const M3DMatrix44f &matrix44)
+{
+	//math that is used
+	//qw= sqrt(1 + m00 + m11 + m22) /2
+	//qx = (m21 - m12)/( 4 *qw)
+	//qy = (m02 - m20)/( 4 *qw)
+	//qz = (m10 - m01)/( 4 *qw)
+
+	mW = sqrtf(1.0f + matrix44[0] + matrix44[5] + matrix44[10]) * 0.5f;
+	mX = (matrix44[6] - matrix44[9]) / (mW * 4.0f);
+	mY = (matrix44[8] - matrix44[2]) / (mW * 4.0f);
+	mZ = (matrix44[1] - matrix44[4]) / (mW * 4.0f);
+}
 
 //assignment operators
 Quaternion& Quaternion::operator=(const Quaternion &rhs)

@@ -140,6 +140,22 @@ void Matrix33f::SetBlockInertiaTensor(const Vector3f &halfSizes, float mass)
 
 	SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z), 0.3f * mass * (squares.x + squares.y));
 }
+void Matrix33f::SetSkewSymmetric(const Vector3f vector)
+{
+	mData[0] = 0.0f;
+	mData[1] = -vector.z;
+	mData[2] = vector.y;
+	mData[3] = vector.z;
+	mData[4] = 0.0f;
+	mData[5] = -vector.x;
+	mData[6] = -vector.y;
+	mData[7] = vector.x;
+	mData[8] = 0.0f;
+}
+void Matrix33f::SetInverse(const Matrix33f &matrixToInvert)
+{
+
+}
 
 //helper functions
 void Matrix33f::SwapIndexValuesAt(int a, int b)

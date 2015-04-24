@@ -1,6 +1,7 @@
 #include "Contact.h"
 #include "RigidBody.h"
 
+//constructors
 Contact::Contact()
 {
 	mBodies[0] = nullptr;
@@ -30,6 +31,25 @@ Contact::~Contact()
 
 }
 
+//accessors
+const Vector3f& Contact::GetRelativeContactPosition(unsigned int index) const
+{
+	return mRelativeContactPosition[index];
+}
+const Matrix33f& Contact::GetContactToWorld() const
+{
+	return mContactToWorld;
+}
+float Contact::GetDesiredDeltaVelocity() const
+{
+	return mDesiredDeltaVelocity;
+}
+const Vector3f& Contact::GetContactVelocity() const
+{
+	return mContactVelocity;
+}
+
+//calculation functions
 void Contact::CalculateContactBasis()
 {
 	Vector3f contactTangent[2];
@@ -135,7 +155,8 @@ Vector3f Contact::CalculateLocalVelocity(unsigned mBodyIndex, float duration)
     RigidBody *thisBody = mBodies[mBodyIndex];
 
     // Work out the velocity of the contact point.
-    //Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[mBodyIndex];
+    
+	//Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[mBodyIndex];
     //velocity += thisBody->GetVelocity();
 
 	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[mBodyIndex]) + thisBody->GetVelocity();
@@ -145,5 +166,56 @@ Vector3f Contact::CalculateLocalVelocity(unsigned mBodyIndex, float duration)
 
     // And return it
     return mContactVelocity;
+}
+
+void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationChange[2])
+{
+    // Get hold of the inverse mass and inverse inertia tensor, both in
+    // world coordinates.
+    Matrix33f inverseInertiaTensor[2];
+    mBodies[0]-getInverseInertiaTensorWorld(&inverseInertiaTensor[0]);
+    if (mBodies[1])
+        mBodies[1]->getInverseInertiaTensorWorld(&inverseInertiaTensor[1]);
+
+    // We will calculate the impulse for each contact axis
+    Vector3f impulseContact;
+
+    if (mFriction == 0.0f)
+    {
+        // Use the short format for mFrictionless contacts
+        impulseContact = calculateFrictionlessImpulse(inverseInertiaTensor);
+    }
+    else
+    {
+        // Otherwise we may have impulses that aren't in the direction of the
+        // contact, so we need the more complex version.
+        impulseContact = calculateFrictionImpulse(inverseInertiaTensor);
+    }
+
+    // Convert impulse to world coordinates
+    Vector3f impulse = contactToWorld.transform(impulseContact);
+
+    // Split in the impulse into linear and rotational components
+    Vector3 impulsiveTorque = relativeContactPosition[0] % impulse;
+    rotationChange[0] = inverseInertiaTensor[0].transform(impulsiveTorque);
+    velocityChange[0].clear();
+    velocityChange[0].addScaledVector(impulse, mBodies[0]->getInverseMass());
+
+    // Apply the changes
+    mBodies[0]->addVelocity(velocityChange[0]);
+    mBodies[0]->addRotation(rotationChange[0]);
+
+    if (mBodies[1])
+    {
+        // Work out mBodies one's linear and angular changes
+        Vector3 impulsiveTorque = impulse % relativeContactPosition[1];
+        rotationChange[1] = inverseInertiaTensor[1].transform(impulsiveTorque);
+        velocityChange[1].clear();
+        velocityChange[1].addScaledVector(impulse, -mBodies[1]->getInverseMass());
+
+        // And apply them.
+        mBodies[1]->addVelocity(velocityChange[1]);
+        mBodies[1]->addRotation(rotationChange[1]);
+    }
 }
 

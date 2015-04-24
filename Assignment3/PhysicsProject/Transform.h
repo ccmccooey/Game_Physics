@@ -14,6 +14,8 @@
 #ifndef _TRANSFORM_H
 #define _TRANSFORM_H
 
+class Matrix44f;
+
 #include "Vector3f.h"
 #include "Quaternion.h"
 #include "GLfiles.h"
@@ -65,6 +67,7 @@ public:
 	void SetScale(float scaleX, float scaleY, float scaleZ);
 	void SetScale(const Vector3f &scale);
 	void SetScale(float scale);
+	void SetTransformRT(const Matrix44f &matrix); //set transform including the rotation and translation (scale does not change)
 	void CopyTransformData(const Transform &rhs);
 
 	//rotations translations and scaling

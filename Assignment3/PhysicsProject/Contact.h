@@ -33,11 +33,19 @@ public:
 	Contact(const Contact &rhs); 
 	~Contact();
 
+	//accessors
+	const Vector3f& GetRelativeContactPosition(unsigned int index) const;
+	const Matrix33f& GetContactToWorld() const;
+	float GetDesiredDeltaVelocity() const;
+	const Vector3f& GetContactVelocity() const;
+
+	//calculation functions
 	void CalculateContactBasis();
 	void CalculateInternals(double duration);
 	Vector3f CalculateLocalVelocity(unsigned bodyIndex, float duration);
 	void CalculateDesiredDeltaVelocity(float duration);
 	void SetBodyData(RigidBody* actorA, RigidBody* actorB, float friction, float restitution);
+	void ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationChange[2]);
 };
 
 #endif

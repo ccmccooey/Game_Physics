@@ -55,6 +55,7 @@ public:
 	void setEuler(float x, float y, float z); //values are in radians
 	void setEulerDeg(float x, float y, float z); //values are in degrees
 	void setRotation(float AngleDegrees, float xAxis, float yAxis, float zAxis); //axis angle rotation
+	void setUsingRotationMatrix(const M3DMatrix44f &matrix44);
 
 	//change
 	void changeEuler(float x, float y, float z); //values are in radians

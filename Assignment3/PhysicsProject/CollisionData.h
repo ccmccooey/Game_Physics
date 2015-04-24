@@ -5,10 +5,11 @@ class Contact;
 
 struct CollisionData 
 {
-	Contact *contactArray;
+public:
+	Contact *mContactArray;
 
 	/** Holds the contact array to write into. */
-	Contact *contacts;
+	Contact *mContacts;
 
 	/** Holds the maximum number of contacts the array can take. */
 	int mContactsLeft;
@@ -27,6 +28,10 @@ struct CollisionData
 	* close should have collisions generated.
 	*/
 	float mTolerance;
+
+public:
+	void AddContacts(unsigned int count); //adds a specified number of contacts
+	void AddContact(); //adds a single contact
 };
 
 #endif

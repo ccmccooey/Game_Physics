@@ -12,7 +12,7 @@
 **********************************************************************/
 
 #include "Transform.h"
-
+#include "Matrix44f.h"
 
 //constructors
 Transform::Transform()
@@ -170,6 +170,21 @@ void Transform::SetScale(float scale)
 	mScale.y = scale;
 	mScale.z = scale;
 	UpdateModelMatrix();
+}
+void Transform::SetTransformRT(const Matrix44f &matrix)
+{
+	mModelMatrix[0] = matrix[0]; mModelMatrix[1] = matrix[1]; mModelMatrix[2] = matrix[2]; mModelMatrix[3] = matrix[3];
+	mModelMatrix[4] = matrix[4]; mModelMatrix[5] = matrix[5]; mModelMatrix[6] = matrix[6]; mModelMatrix[7] = matrix[7];
+	mModelMatrix[8] = matrix[8]; mModelMatrix[9] = matrix[9]; mModelMatrix[10] = matrix[10]; mModelMatrix[11] = matrix[11];
+	mModelMatrix[12] = matrix[12]; mModelMatrix[13] = matrix[13]; mModelMatrix[14] = matrix[14]; mModelMatrix[15] = matrix[15];
+
+	mPosition.x = mModelMatrix[3];
+	mPosition.y = mModelMatrix[7];
+	mPosition.z = mModelMatrix[11];
+
+	mRotation.setUsingRotationMatrix(mModelMatrix);
+
+	//UpdateModelMatrix();
 }
 void Transform::CopyTransformData(const Transform &rhs)
 {

@@ -17,6 +17,7 @@
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
+    <ClCompile Include="CollisionData.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionTest.cpp">
@@ -24,9 +25,7 @@
     </ClCompile>
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Contact.cpp" />
-    <ClCompile Include="ContactResolver.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="ContactResolver.cpp" />
     <ClCompile Include="DebugLogger.cpp" />
     <ClCompile Include="DisplayObject3DManager.cpp" />
     <ClCompile Include="DrawData.cpp" />
@@ -231,7 +230,7 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v120</PlatformToolset>
+    <PlatformToolset>v110</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>

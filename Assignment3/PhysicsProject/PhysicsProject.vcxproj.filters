@@ -354,6 +354,9 @@
     <ClCompile Include="CollisionPrimitive.cpp">
       <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="CollisionData.cpp">
+      <Filter>Source Files\Physics\Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
