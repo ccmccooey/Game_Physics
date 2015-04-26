@@ -235,6 +235,22 @@ void Quaternion::setUsingRotationMatrix(const M3DMatrix44f &matrix44)
 	mZ = (matrix44[1] - matrix44[4]) / (mW * 4.0f);
 }
 
+//rotations
+void Quaternion::rotateByVector(const Vector3f& vector)
+{
+    Quaternion q(0, vector.x, vector.y, vector.z);
+    (*this) *= q;
+}
+void Quaternion::addScaledVector(const Vector3f& vector, float scale)
+{
+    Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
+    q *= (*this);
+    mW += q.mW * 0.5f; //r
+    mX += q.mX * 0.5f; //i
+    mY += q.mY * 0.5f; //j
+    mZ += q.mZ * 0.5f; //k
+}
+
 //assignment operators
 Quaternion& Quaternion::operator=(const Quaternion &rhs)
 {
@@ -270,7 +286,11 @@ const Quaternion Quaternion::operator*(const Quaternion &other) const
 	result.calculateEulerAngles();
 	return result;
 }
-
+Quaternion& Quaternion::operator*=(const Quaternion &other)
+{
+	(*this) = (*this) * other;
+	return (*this);
+}
 
 //comparison operators
 bool Quaternion::operator==(const Quaternion &other) const
@@ -288,7 +308,7 @@ std::ostream& operator<<(std::ostream& stream, const Quaternion& rotation)
 	stream << "(x " << rotation.mX << ")(y " << rotation.mY  << ")(z " << rotation.mZ << ")(w " << rotation.mW << ")";
 	return stream;
 }
-std::string Quaternion::toString()
+std::string Quaternion::toString() const
 {
 	std::ostringstream ss;
 	ss << (*this);
@@ -296,15 +316,15 @@ std::string Quaternion::toString()
 }
 
 //math stuff
-float Quaternion::length()
+float Quaternion::length() const
 {
 	return sqrt(mW * mW + mX * mX + mY * mY + mZ * mZ);
 }
-float Quaternion::lengthSquared()
+float Quaternion::lengthSquared() const
 {
 	return mW * mW + mX * mX + mY * mY + mZ * mZ;
 }
-void Quaternion::toRotationMatrix(M3DMatrix44f &mat) //convert the quaternion to a rotation matrix for the glm graphics
+void Quaternion::toRotationMatrix(M3DMatrix44f &mat) const//convert the quaternion to a rotation matrix for the glm graphics
 {
 	mat[0] = 1.0f - 2.0f * mY * mY - 2.0f * mZ * mZ;
 	mat[1] = 2.0f * mX * mY + 2.0f * mZ * mW;
@@ -323,7 +343,7 @@ void Quaternion::toRotationMatrix(M3DMatrix44f &mat) //convert the quaternion to
 	mat[14] = 0.0f;
 	mat[15] = 1.0f;
 }
-void Quaternion::toRotationMatrix(Matrix44f &matrix) //convert the quaternion to a rotation matrix for physics
+void Quaternion::toRotationMatrix(Matrix44f &matrix) const//convert the quaternion to a rotation matrix for physics
 {
 	matrix[0] = 1.0f - (2.0f * mY * mY + 2.0f * mZ * mZ);
 	matrix[1] = 2.0f * mX * mY + 2.0f * mZ * mW;

@@ -19,6 +19,11 @@ public:
 	ContactResolver();
 	~ContactResolver();
 
+
+	void SetIterations(unsigned int velocityIterations, unsigned int positionIterations);
+    void SetIterations(unsigned int iterations); //applies to velocity and position
+    void SetEpsilon(float velocityEpsilon, float positionEpsilon);
+
 	void ResolveContacts(Contact *contacts, unsigned int numContacts, double duration);
 
 	void PrepareContacts(Contact* contacts, unsigned int numContacts, float duration);

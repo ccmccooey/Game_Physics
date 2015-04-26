@@ -7,9 +7,11 @@
 
 class CollisionDetector
 {
+public:
 	static unsigned int SphereAndSphere(const CollisionSphere &one, const CollisionSphere &two, CollisionData *data);
 	static unsigned int SphereAndHalfSpace(const CollisionSphere &sphere, const CollisionPlane &plane, CollisionData *data);
 	static unsigned int SphereAndTruePlane(const CollisionSphere &sphere, const CollisionPlane &plane,CollisionData *data);
+	static unsigned int PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b);
 };
 
 #endif

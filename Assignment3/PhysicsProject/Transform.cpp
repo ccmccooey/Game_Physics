@@ -184,7 +184,16 @@ void Transform::SetTransformRT(const Matrix44f &matrix)
 
 	mRotation.setUsingRotationMatrix(mModelMatrix);
 
-	//UpdateModelMatrix();
+	mScale = Vector3f::one;
+
+	UpdateModelMatrix();
+}
+void Transform::SetTransformData(const Vector3f &position, const Quaternion &rotation, const Vector3f &scale)
+{
+	mPosition = position;
+	mRotation = rotation;
+	mScale = scale;
+	UpdateModelMatrix();
 }
 void Transform::CopyTransformData(const Transform &rhs)
 {

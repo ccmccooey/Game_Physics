@@ -19,6 +19,7 @@ private:
 	Vector3f mAccumulatedTorque;
 	Quaternion mOrientation;
 	Vector3f mAngularVelocity;
+	Vector3f mAngularAcceleration;
 	Matrix33f mInverseInertiaTensor;
 	Matrix33f mInverseInertiaTensorWorld;
  
@@ -73,6 +74,7 @@ public:
 	void SetAngularVelocity(const Vector3f &angleVelocity);
 	void SetOrientation(const Quaternion &orientation);
 	void SetMass(float mass);
+	void CalculateDerivedData();
 
 	//movement
 	void AddVelocity(const Vector3f &velocity);
@@ -87,6 +89,8 @@ public:
 private:
 	//updating the transform
 	void CalculateTransformMatrix();
+
+	static inline void TransformInertiaTensor(Matrix33f &iitWorld, const Quaternion &q, const Matrix33f &iitBody, const Matrix44f &rotmat);
 };
 
 #endif

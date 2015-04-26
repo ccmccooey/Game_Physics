@@ -5,6 +5,7 @@
 #include "RigidBody.h"
 #include "DisplayObject3D.h"
 #include "Material.h"
+#include "CollisionSphere.h"
 #include "PhysicsSystem.h"
 #include "GraphicsSystem.h"
 #include "ScaleFactor.h"
@@ -63,6 +64,11 @@ void GameObject::CommonInit(const std::string &modelKey, const std::string &mate
 	mPhysicsObject = new RigidBody();
 	mPhysicsObject->SetPosition(positionPhysics);
 
+	//create the collider object
+	mCollider = new CollisionSphere();
+	mCollider->mBody = mPhysicsObject;
+	mCollider->mRadius = 1.0f;
+
 	mAdded = false;
 
 	AddToSystems();
@@ -104,6 +110,7 @@ void GameObject::AddToSystems()
 	{
 		GraphicsSystem::AddDisplayObject(mGraphicsObject);
 		MainApp::GetPhysicsSystem()->AddRigidBody(mPhysicsObject);
+		MainApp::GetPhysicsSystem()->AddNewCollider(mCollider);
 		mAdded = true;
 	}
 }
@@ -113,13 +120,16 @@ void GameObject::DeleteFromSystems()
 	{
 		GraphicsSystem::RemoveDisplayObject(mGraphicsObject);
 		MainApp::GetPhysicsSystem()->RemoveRigidBody(mPhysicsObject);
+		MainApp::GetPhysicsSystem()->DeleteCollider(mCollider);
 		mAdded = false;
 	}
 }
 
 void GameObject::LinkPositions() //link the position of the graphics object from the physics object
 {
-	mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
+	//mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
+	//mGraphicsObject->getTransform()->SetTransformRT(mPhysicsObject->GetTransformMatrix());
+	mGraphicsObject->getTransform()->SetTransformData(mPhysicsObject->GetPosition(), mPhysicsObject->GetOrientation(), Vector3f::one);
 }
 void GameObject::SetTag(const std::string &tag)
 {

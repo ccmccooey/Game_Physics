@@ -29,14 +29,20 @@ Matrix44f::~Matrix44f()
 
 }
 
-//operators
-Matrix44f& Matrix44f::operator = ( const Matrix44f& rhs )
+//basic math operators
+const Matrix44f Matrix44f::operator+(const Matrix44f& rhs) const
 {
-	mData[0] = rhs.mData[0]; mData[1] = rhs.mData[1]; mData[2] = rhs.mData[2]; mData[3] = rhs.mData[3];
-	mData[4] = rhs.mData[4]; mData[5] = rhs.mData[5]; mData[6] = rhs.mData[6]; mData[7] = rhs.mData[7];
-	mData[8] = rhs.mData[8]; mData[9] = rhs.mData[9]; mData[10] = rhs.mData[10]; mData[11] = rhs.mData[11];
-	mData[12] = rhs.mData[12]; mData[13] = rhs.mData[13]; mData[14] = rhs.mData[14]; mData[15] = rhs.mData[15];
-	return *this;
+	return Matrix44f(mData[0] + rhs.mData[0], mData[1] + rhs.mData[1], mData[2] + rhs.mData[2], mData[3] + rhs.mData[3],
+					 mData[4] + rhs.mData[4], mData[5] + rhs.mData[5], mData[6] + rhs.mData[6], mData[7] + rhs.mData[7],
+					 mData[8] + rhs.mData[8], mData[9] + rhs.mData[9], mData[10] + rhs.mData[10], mData[11] + rhs.mData[11],
+					 mData[12] + rhs.mData[12], mData[13] + rhs.mData[13], mData[14] + rhs.mData[14], mData[15] + rhs.mData[15]);
+}
+const Matrix44f Matrix44f::operator-(const Matrix44f& rhs) const
+{
+	return Matrix44f(mData[0] - rhs.mData[0], mData[1] - rhs.mData[1], mData[2] - rhs.mData[2], mData[3] - rhs.mData[3],
+					 mData[4] - rhs.mData[4], mData[5] - rhs.mData[5], mData[6] - rhs.mData[6], mData[7] - rhs.mData[7],
+					 mData[8] - rhs.mData[8], mData[9] - rhs.mData[9], mData[10] - rhs.mData[10], mData[11] - rhs.mData[11],
+					 mData[12] - rhs.mData[12], mData[13] - rhs.mData[13], mData[14] - rhs.mData[14], mData[15] - rhs.mData[15]);
 }
 const Matrix44f Matrix44f::operator*(float mult) const
 {
@@ -73,6 +79,42 @@ Vector3f Matrix44f::operator*(const Vector3f &vector) const
 		vector.x * mData[0] + vector.y * mData[1] + vector.z * mData[2] + mData[3],
 		vector.x * mData[4] + vector.y * mData[5] + vector.z * mData[6] + mData[7],
 		vector.x * mData[8] + vector.y * mData[9] + vector.z * mData[10] + mData[11]);
+}
+
+//assignment and math operators
+Matrix44f& Matrix44f::operator = ( const Matrix44f& rhs )
+{
+	mData[0] = rhs.mData[0]; mData[1] = rhs.mData[1]; mData[2] = rhs.mData[2]; mData[3] = rhs.mData[3];
+	mData[4] = rhs.mData[4]; mData[5] = rhs.mData[5]; mData[6] = rhs.mData[6]; mData[7] = rhs.mData[7];
+	mData[8] = rhs.mData[8]; mData[9] = rhs.mData[9]; mData[10] = rhs.mData[10]; mData[11] = rhs.mData[11];
+	mData[12] = rhs.mData[12]; mData[13] = rhs.mData[13]; mData[14] = rhs.mData[14]; mData[15] = rhs.mData[15];
+	return (*this);
+}
+Matrix44f& Matrix44f::operator += ( const Matrix44f& rhs )
+{
+	mData[0] += rhs.mData[0]; mData[1] += rhs.mData[1]; mData[2] += rhs.mData[2]; mData[3] += rhs.mData[3];
+	mData[4] += rhs.mData[4]; mData[5] += rhs.mData[5]; mData[6] += rhs.mData[6]; mData[7] += rhs.mData[7];
+	mData[8] += rhs.mData[8]; mData[9] += rhs.mData[9]; mData[10] += rhs.mData[10]; mData[11] += rhs.mData[11];
+	mData[12] += rhs.mData[12]; mData[13] += rhs.mData[13]; mData[14] += rhs.mData[14]; mData[15] += rhs.mData[15];
+	return (*this);
+}
+Matrix44f& Matrix44f::operator -= ( const Matrix44f& rhs )
+{
+	mData[0] -= rhs.mData[0]; mData[1] -= rhs.mData[1]; mData[2] -= rhs.mData[2]; mData[3] -= rhs.mData[3];
+	mData[4] -= rhs.mData[4]; mData[5] -= rhs.mData[5]; mData[6] -= rhs.mData[6]; mData[7] -= rhs.mData[7];
+	mData[8] -= rhs.mData[8]; mData[9] -= rhs.mData[9]; mData[10] -= rhs.mData[10]; mData[11] -= rhs.mData[11];
+	mData[12] -= rhs.mData[12]; mData[13] -= rhs.mData[13]; mData[14] -= rhs.mData[14]; mData[15] -= rhs.mData[15];
+	return (*this);
+}
+Matrix44f& Matrix44f::operator *= ( const Matrix44f& rhs )
+{
+	(*this) = (*this) * rhs;
+	return (*this);
+}
+Matrix44f& Matrix44f::operator *= ( float mult )
+{
+	(*this) = (*this) * mult;
+	return (*this);
 }
 
 //reference operators
@@ -141,6 +183,12 @@ bool Matrix44f::Inverse(Matrix44f &result) const
 void Matrix44f::Invert()
 {
 	Inverse(*this);
+}
+
+//transform vector functions
+Vector3f Matrix44f::Transform(const Vector3f &vector) const
+{
+    return (*this) * vector;
 }
 Vector3f Matrix44f::TransformInverse(const Vector3f &vector) const
 {

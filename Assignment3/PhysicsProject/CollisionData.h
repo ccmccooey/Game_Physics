@@ -6,6 +6,9 @@ class Contact;
 struct CollisionData 
 {
 public:
+	CollisionData(unsigned int capacity);
+	~CollisionData();
+
 	Contact *mContactArray;
 
 	/** Holds the contact array to write into. */

@@ -12,19 +12,35 @@ ContactResolver::~ContactResolver()
 
 }
 
+
+void ContactResolver::SetIterations(unsigned int velocityIterations, unsigned int positionIterations)
+{
+	mPositionIterations = positionIterations;
+	mVelocityIterations = velocityIterations;
+}
+void ContactResolver::SetIterations(unsigned int iterations) //applies to velocity and position
+{
+	mPositionIterations = mVelocityIterations = iterations;
+}
+void ContactResolver::SetEpsilon(float velocityEpsilon, float positionEpsilon)
+{
+	mVelocityEpsilon = velocityEpsilon;
+	mPositionEpsilon = positionEpsilon;
+}
+
 void ContactResolver::ResolveContacts (Contact *contacts, unsigned int numContacts, double duration)
 {
     // Make sure we have something to do.
     if (numContacts == 0) return;
 
     //Prepare the contacts for processing
-    PrepareContacts(contacts, numContacts, duration);
+    PrepareContacts(contacts, numContacts, (float)duration);
 
     //Resolve the interpenetration problems with the contacts.
-    ResolvePositions(contacts, numContacts, duration);
+    ResolvePositions(contacts, numContacts, (float)duration);
 
     //Resolve the velocity problems with the contacts.
-    ResolveVelocities(contacts, numContacts, duration);
+    ResolveVelocities(contacts, numContacts, (float)duration);
 }
 
 void ContactResolver::PrepareContacts(Contact* contacts, unsigned numContacts, float duration)

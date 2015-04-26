@@ -1,17 +1,40 @@
 #include "PhysicsSystem.h"
 #include "RigidBody.h"
 #include "ForceGenerator.h"
+#include "ContactResolver.h"
+#include "CollisionSphere.h"
+#include "CollisionPlane.h"
+#include "CollisionDetector.h"
+#include "CollisionData.h"
+
+#define MAX_CONTACTS 100
 
 using namespace std;
 
+typedef vector<CollisionPrimitive*>::iterator CollidersIter;
+typedef vector<CollisionPrimitive*>::const_iterator CollidersConstIter;
+
+//constructor
 PhysicsSystem::PhysicsSystem()
 {
+	mColliders = vector<CollisionPrimitive*>();
+	mRigidBodies = vector<RigidBody*>();
+	mRegistry = vector<ForceGenerator*>();
+	mContactGenerators = vector<ContactGenerator*>();
+	mDeleteQueue = queue<RigidBody*>();
+	mContactResolver = new ContactResolver();
 
+	mCollisionData = new CollisionData(MAX_CONTACTS);
+	mGround = new CollisionPlane(Vector3f::unitY, -30.0f);
 }
 PhysicsSystem::~PhysicsSystem()
 {
 	RemoveAllRigidBodies();
 	FlushDeleteQueue();
+
+	delete mContactResolver;
+	delete mCollisionData;
+	delete mGround;
 }
 
 //accessors
@@ -74,12 +97,6 @@ void PhysicsSystem::AddForceGenerator(ForceGenerator* forceGenerator)
 	mRegistry.push_back(forceGenerator);
 }
 
-//adding contacts
-void PhysicsSystem::AddContact(Contact* contact)
-{
-	mActiveContacts.push_back(contact);
-}
-
 //removing rigid bodies
 void PhysicsSystem::RemoveRigidBody(RigidBody* rigidBody)
 {
@@ -114,9 +131,69 @@ void PhysicsSystem::RemoveAllRigidBodies()
 	}
 }
 
+//adding and removing colliders
+void PhysicsSystem::AddNewCollider(CollisionPrimitive* collider)
+{	
+	mColliders.push_back(collider);
+}
+void PhysicsSystem::DeleteCollider(CollisionPrimitive* collider)
+{
+	CollidersConstIter iter = mColliders.begin();	
+	CollidersConstIter back = mColliders.end();
+
+	while (iter != back)
+	{
+		if ((*iter) == collider)
+		{
+			delete (*iter);
+			mColliders.erase(iter);
+			break;
+		}
+		++iter;
+	}
+}
+void PhysicsSystem::DeleteAllColliders()
+{
+	unsigned int size = mColliders.size();
+	for (unsigned int i = 0; i < size; i++)
+	{
+		delete mColliders[i];
+	}
+	mColliders.clear();
+}
+
+//generate contacts
+void PhysicsSystem::GenerateContacts()
+{
+	unsigned int i, j;	
+
+	unsigned int size = mColliders.size();
+	for (i = 0; i < size; i++)
+	{
+		CollisionDetector::SphereAndHalfSpace(*((CollisionSphere*)mColliders[i]) , *mGround, mCollisionData);
+		for (j = i; j < size; j++)
+		{	
+			//avoid collision detecting colliders with themselves
+			if (i != j) 
+			{
+				CollisionDetector::SphereAndSphere(*((CollisionSphere*)mColliders[i]), *((CollisionSphere*)mColliders[j]), mCollisionData); //Horrible!
+			}
+		}
+	}
+}
+
+//Process contacts
+void PhysicsSystem::ProcessContacts(double t)
+{
+	//resolver.setIterations(usedContacts * 4);
+    //resolver.resolveContacts(contacts, usedContacts, duration);
+	mContactResolver->ResolveContacts(mCollisionData->mContacts, mCollisionData->mContactCount, t);
+}
+
 //update the physics system
 void PhysicsSystem::FixedUpdate(double t)
 {
+	//declare the sizes and iteration variables
 	unsigned int rbSize = mRigidBodies.size();
 	unsigned int registrySize = mRegistry.size();
 	unsigned int i;
@@ -136,6 +213,12 @@ void PhysicsSystem::FixedUpdate(double t)
 	{
 		mRigidBodies[i]->FixedUpdate(t);
 	}
+
+	//generate contacts
+	GenerateContacts();
+
+
+	//delete removed rigid bodies from memory
 	FlushDeleteQueue();
 }
 

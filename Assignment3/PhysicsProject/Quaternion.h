@@ -57,28 +57,28 @@ public:
 	void setRotation(float AngleDegrees, float xAxis, float yAxis, float zAxis); //axis angle rotation
 	void setUsingRotationMatrix(const M3DMatrix44f &matrix44);
 
-	//change
-	void changeEuler(float x, float y, float z); //values are in radians
-	void changeEulerDeg(float x, float y, float z); //values are in degrees
-	
+	//rotations
+	void rotateByVector(const Vector3f& vector);
+	void addScaledVector(const Vector3f& vector, float scale);
 
 	//multiply
 	void multiply(const Quaternion & rhs);
 	void normalize();
 
 	//operators
-	Quaternion& Quaternion::operator=(const Quaternion &other);
-	const Quaternion Quaternion::operator*(const Quaternion &other) const;
-	bool Quaternion::operator==(const Quaternion &other) const;
-	bool Quaternion::operator!=(const Quaternion &other) const;
-	friend std::ostream& Quaternion::operator<<(std::ostream& stream, const Quaternion& rotation);
-	float length();
-	float lengthSquared();
+	Quaternion& operator=(const Quaternion &other);
+	const Quaternion operator*(const Quaternion &other) const;
+	bool operator==(const Quaternion &other) const;
+	bool operator!=(const Quaternion &other) const;
+	Quaternion& operator*=(const Quaternion &other);
+	friend std::ostream& operator<<(std::ostream& stream, const Quaternion& rotation);
+	float length() const;
+	float lengthSquared() const;
 
-	void toRotationMatrix(M3DMatrix44f &matrix); //convert the quaternion to a rotation matrix for graphics
-	void toRotationMatrix(Matrix44f &matrix); //convert the quaternion to a rotation matrix for physics
+	void toRotationMatrix(M3DMatrix44f &matrix) const; //convert the quaternion to a rotation matrix for graphics
+	void toRotationMatrix(Matrix44f &matrix) const; //convert the quaternion to a rotation matrix for physics
 
-	std::string toString();
+	std::string toString() const;
 
 
 	//static functions

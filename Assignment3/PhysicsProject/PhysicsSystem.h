@@ -6,9 +6,14 @@
 #include <queue>
 #include <string>
 
+class CollisionPrimitive;
+class CollisionPlane;
+class ContactResolver;
+class ContactGenerator;
 class ForceGenerator;
 class RigidBody;
 class Contact;
+struct CollisionData;
 
 class PhysicsSystem
 {
@@ -16,7 +21,12 @@ private:
 	std::vector<RigidBody*> mRigidBodies;
 	std::queue<RigidBody*> mDeleteQueue;
 	std::vector<ForceGenerator*> mRegistry;
-	std::vector<Contact*> mActiveContacts;
+	std::vector<ContactGenerator*> mContactGenerators;
+	std::vector<CollisionPrimitive*> mColliders;
+	
+	ContactResolver* mContactResolver;
+	CollisionData* mCollisionData;
+	CollisionPlane* mGround;
 
 public:
 	PhysicsSystem();
@@ -32,19 +42,27 @@ public:
 	void AddRigidBody(RigidBody* rigidBody);
 	RigidBody* AddNewRigidBody(const Vector3f &position);
 	void AddForceGenerator(ForceGenerator* forceGenerator);
-	void AddContact(Contact* contact);
 
 	//removing rigid bodies, contacts, and force generators
 	void RemoveRigidBody(RigidBody* rigidBody);
 	void RemoveRigidBodyAt(int index);
 	void RemoveAllRigidBodies();
 	void RemoveForceGenerator(ForceGenerator* forceGenerator);
-	void RemoveContact(Contact* contact);
+
+	//adding and removing colliders
+	void AddNewCollider(CollisionPrimitive* collider);
+	void DeleteCollider(CollisionPrimitive* collider);
+	void DeleteAllColliders();
 
 	//update the physics system
 	void FixedUpdate(double t);
 
 private:
+	void GenerateContacts();
+	void ProcessContacts(double t);
+
+	
+
 	void FlushDeleteQueue();
 
 };

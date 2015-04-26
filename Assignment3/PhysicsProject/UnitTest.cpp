@@ -78,8 +78,18 @@ void UnitTest::TestMatrix33f()
 	cout << "------------------Testing (determinate B) ------------------------" << endl;
 	cout << "expected = " << detExpected << endl;
 	cout << "answer   = " << detGot << endl;
-	cout << endl;
+	cout << endl;	
 
+	//test inverse
+	expected = Matrix33f(-0.8889f, 2.4444f, 0.3333f, 0.4444f, -7.222f, -0.1667f, 1.2222f, -3.1111f, -0.3333f);
+	got = Matrix33f();
+	got.SetInverse(a);
+
+	cout << "------------------Testing (inverse A) ------------------------" << endl;
+	cout << "expected = " << expected << endl;
+	cout << "answer   = " << got << endl;
+	cout << endl;
+		
 	cout << endl;
 }
 void UnitTest::TestMatrix44f()

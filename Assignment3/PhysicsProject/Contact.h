@@ -45,11 +45,15 @@ public:
 	//calculation functions
 	void CalculateContactBasis();
 	void CalculateInternals(double duration);
-	Vector3f CalculateLocalVelocity(unsigned bodyIndex, float duration);
-	void CalculateDesiredDeltaVelocity(float duration);
+	Vector3f CalculateLocalVelocity(unsigned int bodyIndex, double duration);
+	void CalculateDesiredDeltaVelocity(double duration);
 	void SetBodyData(RigidBody* actorA, RigidBody* actorB, float friction, float restitution);
 	void ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChange[2], float penetrationDepth);
 	void ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationChange[2]);
+
+private:
+	inline Vector3f CalculateFrictionlessImpulse(Matrix33f* inverseInertiaTensor);
+	inline Vector3f CalculateFrictionImpulse(Matrix33f* inverseInertiaTensor);
 };
 
 #endif

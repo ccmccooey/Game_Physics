@@ -3,6 +3,10 @@
 #include "Vector3f.h"
 #include "Contact.h"
 
+unsigned int CollisionDetector::PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b)
+{
+	return 0;
+}
 unsigned int CollisionDetector::SphereAndSphere(const CollisionSphere &one, const CollisionSphere &two, CollisionData *data)
 {
 	// Make sure we have remaining contacts.
@@ -26,8 +30,7 @@ unsigned int CollisionDetector::SphereAndSphere(const CollisionSphere &one, cons
 		return 0;
 	}
 
-	// We manually create the normal, because we have the
-	// size to hand.
+	// We manually create the normal, because we have the size to hand.
 	Vector3f normal = midline * (1.0f / size);
 	Contact* contact = data->mContacts;
 	contact->mContactNormal = normal;

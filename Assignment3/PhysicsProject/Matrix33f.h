@@ -22,11 +22,18 @@ public:
 	~Matrix33f();
 
 	//basic math operator overloads
-	Matrix33f& operator = ( const Matrix33f& rhs );
-	Matrix33f& operator *= ( const Matrix33f& rhs );
+	const Matrix33f operator+(const Matrix33f& rhs) const;
+	const Matrix33f operator-(const Matrix33f& rhs) const;
 	const Matrix33f operator*(float mult) const;
 	const Matrix33f operator*(const Matrix33f& rhs) const;
 	Vector3f operator*(const Vector3f& vector) const;
+
+	//assignment and math operators
+	Matrix33f& operator = ( const Matrix33f& rhs );
+	Matrix33f& operator += ( const Matrix33f& rhs );
+	Matrix33f& operator -= ( const Matrix33f& rhs );
+	Matrix33f& operator *= ( const Matrix33f& rhs );
+	Matrix33f& operator *= ( float mult );
 
 	//reference operators
 	float operator[](int index) const; //get
@@ -35,6 +42,7 @@ public:
 	//matrix functions
 	Matrix33f Transpose() const;
 	float Determinant() const;
+	Matrix33f Inverse() const;
 	void SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 	void SetRows(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 	Vector3f Transform(const Vector3f &vector) const;
@@ -45,7 +53,7 @@ public:
 	void SetInverse(const Matrix33f &matrixToInvert);
 
 	//static functions
-	static Matrix33f Matrix33f::Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue);
+	static Matrix33f Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue);
 	
 	//print operators
 	friend std::ostream& Matrix33f::operator<<(std::ostream& stream, const Matrix33f& matrix);

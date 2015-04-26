@@ -8,13 +8,13 @@ class RigidBody;
 
 class CollisionPrimitive
 {
+
 public:
 	// Pointer to owning rigid body.
 	RigidBody* mBody;
 
 	// Offset of primitive in local space of rigid body.
 	Matrix44f mOffset;
-
 
 private:
 	Matrix44f mTransform;

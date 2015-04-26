@@ -28,26 +28,27 @@ Matrix33f::~Matrix33f()
 
 }
 
-//operators
-Matrix33f& Matrix33f::operator = ( const Matrix33f& rhs )
+//basic math operator overloads
+const Matrix33f Matrix33f::operator+(const Matrix33f& rhs) const
 {
-	mData[0] = rhs.mData[0]; mData[1] = rhs.mData[1]; mData[2] = rhs.mData[2]; 
-	mData[3] = rhs.mData[3]; mData[4] = rhs.mData[4]; mData[5] = rhs.mData[5];
-	mData[6] = rhs.mData[6]; mData[7] = rhs.mData[7]; mData[8] = rhs.mData[8];
-	return *this;
+	return Matrix33f(
+		mData[0] + rhs.mData[0], mData[1] + rhs.mData[1], mData[2] + rhs.mData[2],
+		mData[3] + rhs.mData[3], mData[4] + rhs.mData[4], mData[5] + rhs.mData[5],
+		mData[6] + rhs.mData[6], mData[7] + rhs.mData[7], mData[8] + rhs.mData[8]);
 }
-
-Matrix33f& Matrix33f::operator *= ( const Matrix33f& rhs )
+const Matrix33f Matrix33f::operator-(const Matrix33f& rhs) const
 {
-	return *this;
+	return Matrix33f(
+		mData[0] - rhs.mData[0], mData[1] - rhs.mData[1], mData[2] - rhs.mData[2],
+		mData[3] - rhs.mData[3], mData[4] - rhs.mData[4], mData[5] - rhs.mData[5],
+		mData[6] - rhs.mData[6], mData[7] - rhs.mData[7], mData[8] - rhs.mData[8]);
 }
 const Matrix33f Matrix33f::operator*(float mult) const
 {
-	Matrix33f mat = Matrix33f();
-	mat.mData[0] *= mult; mat.mData[1] *= mult; mat.mData[2] *= mult;
-	mat.mData[3] *= mult; mat.mData[4] *= mult; mat.mData[5] *= mult;
-	mat.mData[6] *= mult; mat.mData[7] *= mult; mat.mData[8] *= mult;
-	return mat;
+	return Matrix33f(
+		mData[0] * mult, mData[1] * mult, mData[2] * mult,
+		mData[3] * mult, mData[4] * mult, mData[5] * mult,
+		mData[6] * mult, mData[7] * mult, mData[8] * mult);
 }
 const Matrix33f Matrix33f::operator*(const Matrix33f& rhs) const
 {
@@ -57,8 +58,7 @@ const Matrix33f Matrix33f::operator*(const Matrix33f& rhs) const
 	a31xb11 + a32xb21 + a33xb31,	a31xb12 + a32xb22 + a33xb32,	a31xb13 + a32xb23 + a33xb33
 	*/
 
-	return Matrix33f
-		(
+	return Matrix33f(
 		mData[0] * rhs.mData[0] + mData[1] * rhs.mData[3] + mData[2] * rhs.mData[6],
 		mData[0] * rhs.mData[1] + mData[1] * rhs.mData[4] + mData[2] * rhs.mData[7],
 		mData[0] * rhs.mData[2] + mData[1] * rhs.mData[5] + mData[2] * rhs.mData[8],
@@ -67,8 +67,7 @@ const Matrix33f Matrix33f::operator*(const Matrix33f& rhs) const
 		mData[3] * rhs.mData[2] + mData[4] * rhs.mData[5] + mData[5] * rhs.mData[8],
 		mData[6] * rhs.mData[0] + mData[7] * rhs.mData[3] + mData[8] * rhs.mData[6],
 		mData[6] * rhs.mData[1] + mData[7] * rhs.mData[4] + mData[8] * rhs.mData[7],
-		mData[6] * rhs.mData[2] + mData[7] * rhs.mData[5] + mData[8] * rhs.mData[8]
-	);
+		mData[6] * rhs.mData[2] + mData[7] * rhs.mData[5] + mData[8] * rhs.mData[8]);
 }
 Vector3f Matrix33f::operator*(const Vector3f &vector) const
 {
@@ -76,6 +75,39 @@ Vector3f Matrix33f::operator*(const Vector3f &vector) const
 		vector.x * mData[0] + vector.y * mData[1] + vector.z * mData[2],
 		vector.x * mData[3] + vector.y * mData[4] + vector.z * mData[5],
 		vector.x * mData[6] + vector.y * mData[7] + vector.z * mData[8]);
+}
+
+//assignment and math operators
+Matrix33f& Matrix33f::operator = ( const Matrix33f& rhs )
+{
+	mData[0] = rhs.mData[0]; mData[1] = rhs.mData[1]; mData[2] = rhs.mData[2];
+	mData[3] = rhs.mData[3]; mData[4] = rhs.mData[4]; mData[5] = rhs.mData[5];
+	mData[6] = rhs.mData[6]; mData[7] = rhs.mData[7]; mData[8] = rhs.mData[8];
+	return (*this);
+}
+Matrix33f& Matrix33f::operator += ( const Matrix33f& rhs )
+{
+	mData[0] += rhs.mData[0]; mData[1] += rhs.mData[1]; mData[2] += rhs.mData[2];
+	mData[3] += rhs.mData[3]; mData[4] += rhs.mData[4]; mData[5] += rhs.mData[5];
+	mData[6] += rhs.mData[6]; mData[7] += rhs.mData[7]; mData[8] += rhs.mData[8];
+	return (*this);
+}
+Matrix33f& Matrix33f::operator -= ( const Matrix33f& rhs )
+{
+	mData[0] -= rhs.mData[0]; mData[1] -= rhs.mData[1]; mData[2] -= rhs.mData[2];
+	mData[3] -= rhs.mData[3]; mData[4] -= rhs.mData[4]; mData[5] -= rhs.mData[5];
+	mData[6] -= rhs.mData[6]; mData[7] -= rhs.mData[7]; mData[8] -= rhs.mData[8];
+	return (*this);
+}
+Matrix33f& Matrix33f::operator *= ( const Matrix33f& rhs )
+{
+	(*this) = (*this) * rhs;
+	return (*this);
+}
+Matrix33f& Matrix33f::operator *= ( float mult )
+{
+	(*this) = (*this) * mult;
+	return (*this);
 }
 
 //reference operators
@@ -98,6 +130,12 @@ float Matrix33f::Determinant() const
 	return 
 		(mData[0] * mData[4] * mData[8]) + (mData[1] * mData[5] * mData[6]) + (mData[2] * mData[3] * mData[7]) -
 		(mData[6] * mData[4] * mData[2]) - (mData[7] * mData[5] * mData[0]) - (mData[8] * mData[3] * mData[1]); 
+}
+Matrix33f Matrix33f::Inverse() const
+{
+	Matrix33f mat = Matrix33f();
+	mat.SetInverse(*this);
+	return mat;
 }
 void Matrix33f::SetColumns(const Vector3f &first, const Vector3f &second, const Vector3f &third)
 {
@@ -163,9 +201,35 @@ void Matrix33f::SetSkewSymmetric(const Vector3f vector)
 	mData[7] = vector.x;
 	mData[8] = 0.0f;
 }
-void Matrix33f::SetInverse(const Matrix33f &matrixToInvert)
+void Matrix33f::SetInverse(const Matrix33f &matrix)
 {
+	float t4 = matrix.mData[0] * matrix.mData[4];
+    float t6 = matrix.mData[0] * matrix.mData[5];
+    float t8 = matrix.mData[1] * matrix.mData[3];
+    float t10 = matrix.mData[2] * matrix.mData[3];
+    float t12 = matrix.mData[1] * matrix.mData[6];
+    float t14 = matrix.mData[2] * matrix.mData[6];
 
+    // Calculate the determinant
+    float t16 = (t4 * matrix.mData[8] - t6*matrix.mData[7] - t8 * matrix.mData[8]+
+                t10 * matrix.mData[7] + t12*matrix.mData[5] - t14 * matrix.mData[4]);
+
+    // Make sure the determinant is non-zero.
+    if (t16 == (float)0.0f)
+	{
+		return;
+	}
+    float t17 = 1.0f / t16;
+
+    this->mData[0] = (matrix.mData[4] * matrix.mData[8]-matrix.mData[5] * matrix.mData[7])*t17;
+    this->mData[1] = -(matrix.mData[1] * matrix.mData[8]-matrix.mData[2] * matrix.mData[7])*t17;
+    this->mData[2] = (matrix.mData[1] * matrix.mData[5]-matrix.mData[2] * matrix.mData[4])*t17;
+    this->mData[3] = -(matrix.mData[3] * matrix.mData[8]-matrix.mData[5] * matrix.mData[6])*t17;
+    this->mData[4] = (matrix.mData[0] * matrix.mData[8]-t14)*t17;
+    this->mData[5] = -(t6-t10)*t17;
+    this->mData[6] = (matrix.mData[3] * matrix.mData[7]-matrix.mData[4] * matrix.mData[6])*t17;
+    this->mData[7] = -(matrix.mData[0] * matrix.mData[7]-t12)*t17;
+    this->mData[8] = (t4-t8)*t17;
 }
 
 //helper functions

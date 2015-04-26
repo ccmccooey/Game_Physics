@@ -68,6 +68,7 @@ public:
 	void SetScale(const Vector3f &scale);
 	void SetScale(float scale);
 	void SetTransformRT(const Matrix44f &matrix); //set transform including the rotation and translation (scale does not change)
+	void SetTransformData(const Vector3f &position, const Quaternion &rotation, const Vector3f &scale);
 	void CopyTransformData(const Transform &rhs);
 
 	//rotations translations and scaling

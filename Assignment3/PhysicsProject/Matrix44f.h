@@ -21,11 +21,18 @@ public:
 	~Matrix44f();
 
 	//basic math operator overloads
-	Matrix44f& operator = ( const Matrix44f& rhs );
-	Matrix44f& operator *= ( const Matrix44f& rhs );
+	const Matrix44f operator+(const Matrix44f& rhs) const;
+	const Matrix44f operator-(const Matrix44f& rhs) const;
 	const Matrix44f operator*(float mult) const;
 	const Matrix44f operator*(const Matrix44f& rhs) const;
 	Vector3f operator*(const Vector3f &vector) const;
+
+	//assignment and math operators
+	Matrix44f& operator = ( const Matrix44f& rhs );
+	Matrix44f& operator += ( const Matrix44f& rhs );
+	Matrix44f& operator -= ( const Matrix44f& rhs );
+	Matrix44f& operator *= ( const Matrix44f& rhs );
+	Matrix44f& operator *= ( float mult );
 
 	//reference operators
 	float operator[](int index) const; //get
@@ -34,6 +41,7 @@ public:
 	//matrix functions
 	Matrix44f Transpose() const;
 	float Determinant() const;
+	Vector3f Transform(const Vector3f &vector) const;
 	Vector3f TransformInverse(const Vector3f &vector) const;
 	Vector3f TransformDirection(const Vector3f &direction) const;
 	Vector3f TransformInverseDirection(const Vector3f &direction) const;

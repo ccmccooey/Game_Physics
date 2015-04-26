@@ -66,6 +66,10 @@ float RigidBody::GetInverseMass() const
 {
 	return mInverseMass;
 }
+Matrix44f const& RigidBody::GetTransformMatrix() const
+{
+	return mTransformMatrix;
+}
 Vector3f const& RigidBody::GetAngularVelocity() const
 {
 	return mAngularVelocity;
@@ -154,6 +158,17 @@ void RigidBody::SetOrientation(const Quaternion &orientation)
 {
 	mOrientation = orientation;
 }
+void RigidBody::CalculateDerivedData()
+{
+    mOrientation.normalize();
+
+    // Calculate the transform matrix for the body.
+    //CalculateTransformMatrix(mTransformMatrix, mPosition, mOrientation);
+	CalculateTransformMatrix();
+
+    // Calculate the inertiaTensor in world space.
+    TransformInertiaTensor(mInverseInertiaTensorWorld, mOrientation, mInverseInertiaTensor, mTransformMatrix);
+}
 
 //movement
 void RigidBody::AddVelocity(const Vector3f &velocity)
@@ -177,7 +192,6 @@ void RigidBody::AddForceAtLocalPosition(const Vector3f &force, const Vector3f &p
 	// Convert to coordinates relative to center of mass.
 	Vector3f pt = GetPositionInWorldSpace(point); 
 	AddForceAtPosition(force, pt);
-
 }
 
 void RigidBody::AddForceAtPosition(const Vector3f &force, const Vector3f &point)
@@ -199,9 +213,30 @@ void RigidBody::Translate(float x, float y, float z)
 	mPosition.y += y;
 	mPosition.z += z;
 }
-void RigidBody::FinishUpdate()
+
+
+//transform function (from book too much going on)
+inline void RigidBody::TransformInertiaTensor(Matrix33f &iitWorld, const Quaternion &q, const Matrix33f &iitBody, const Matrix44f &rotmat)
 {
-	mAccumulatedForce = Vector3f::zero;
+    float t4 = rotmat[0] * iitBody[0] + rotmat[1] * iitBody[3] + rotmat[2] * iitBody[6];
+    float t9 = rotmat[0] * iitBody[1] + rotmat[1] * iitBody[4] + rotmat[2] * iitBody[7];
+    float t14 = rotmat[0] * iitBody[2] + rotmat[1] * iitBody[5] + rotmat[2] * iitBody[8];
+    float t28 = rotmat[4] * iitBody[0] + rotmat[5] * iitBody[3] + rotmat[6] * iitBody[6];
+    float t33 = rotmat[4] * iitBody[1] + rotmat[5] * iitBody[4] + rotmat[6] * iitBody[7];
+    float t38 = rotmat[4] * iitBody[2] + rotmat[5] * iitBody[5] + rotmat[6] * iitBody[8];
+    float t52 = rotmat[8] * iitBody[0] + rotmat[9] * iitBody[3] + rotmat[10] * iitBody[6];
+    float t57 = rotmat[8] * iitBody[1] + rotmat[9] * iitBody[4] + rotmat[10] * iitBody[7];
+    float t62 = rotmat[8] * iitBody[2] + rotmat[9] * iitBody[5] + rotmat[10] * iitBody[8];
+
+    iitWorld[0] = t4 * rotmat[0] + t9 * rotmat[1] + t14 * rotmat[2];
+    iitWorld[1] = t4 * rotmat[4] + t9 * rotmat[5] + t14 * rotmat[6];
+    iitWorld[2] = t4 * rotmat[8] + t9 * rotmat[9] + t14 * rotmat[10];
+    iitWorld[3] = t28 * rotmat[0] + t33 * rotmat[1] + t38 * rotmat[2];
+    iitWorld[4] = t28 * rotmat[4] + t33 * rotmat[5] + t38 * rotmat[6];
+    iitWorld[5] = t28 * rotmat[8] + t33 * rotmat[9] + t38 * rotmat[10];
+    iitWorld[6] = t52 * rotmat[0] + t57 * rotmat[1] + t62 * rotmat[2];
+    iitWorld[7] = t52 * rotmat[4] + t57 * rotmat[5] + t62 * rotmat[6];
+    iitWorld[8] = t52 * rotmat[8] + t57 * rotmat[9] + t62 * rotmat[10];
 }
 
 //update
@@ -210,9 +245,28 @@ void RigidBody::FixedUpdate(double t)
 	mPreviousAcceleration = mAcceleration;
 	mAcceleration = mAccumulatedForce * mInverseMass;
 	
+	//Calculate angular acceleration
+	mAngularAcceleration = mInverseInertiaTensorWorld.Transform(mAccumulatedTorque);
+
+	//Calculate angular velocity
+	mRotation += mAngularAcceleration * (float)t;
+	
+	//Calculate linear velocity
 	mVelocity = mVelocity + mAcceleration * (float)t;
 
+	// rotate the object based on angular velocity.
+    mOrientation.addScaledVector(mRotation, (float)t);
+
+	//move the object based on linear velocity
 	mPosition += mVelocity * (float)t;
 
+	CalculateDerivedData();
+
+	//zero out the accumulated force and accumulated torque
 	FinishUpdate();
+}
+void RigidBody::FinishUpdate()
+{
+	mAccumulatedForce = Vector3f::zero;
+	mAccumulatedTorque = Vector3f::zero;
 }

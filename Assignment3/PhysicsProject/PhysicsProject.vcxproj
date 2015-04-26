@@ -17,12 +17,16 @@
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
+    <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="CollisionData.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="CollisionPlane.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
     <ClCompile Include="CollisionDetector.cpp" />
     <ClCompile Include="CollisionTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="CollsionSphere.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Contact.cpp" />
     <ClCompile Include="ContactResolver.cpp" />
@@ -110,9 +114,9 @@
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
+    <ClInclude Include="ColliderManager.h" />
     <ClInclude Include="CollisionPlane.h" />
     <ClInclude Include="CollisionPrimitive.h" />
-    <ClInclude Include="ColliderBox.h" />
     <ClInclude Include="CollisionSphere.h" />
     <ClInclude Include="CollisionData.h" />
     <ClInclude Include="CollisionDetector.h" />

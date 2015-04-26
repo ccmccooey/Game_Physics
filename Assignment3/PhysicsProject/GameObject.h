@@ -4,6 +4,7 @@
 #include "Vector3f.h"
 #include <string>
 
+class CollisionSphere;
 class DisplayObject3D;
 class RigidBody;
 
@@ -12,6 +13,7 @@ class GameObject
 protected:
 	DisplayObject3D* mGraphicsObject;
 	RigidBody* mPhysicsObject;
+	CollisionSphere* mCollider;
 
 private:
 	bool mAdded;

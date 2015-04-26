@@ -7,6 +7,11 @@ class CollisionSphere :public CollisionPrimitive
 {
 public:
 	float mRadius;
+
+public:
+	CollisionSphere();
+	CollisionSphere(float radius);
+	CollisionSphere(const CollisionSphere &rhs);
 };
 
 #endif
