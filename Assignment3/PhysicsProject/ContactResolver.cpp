@@ -139,7 +139,7 @@ void ContactResolver::ResolveVelocities(Contact *contact, unsigned numContacts, 
         // Find contact with maximum magnitude of probable velocity change.
         float max = mVelocityEpsilon;
         unsigned index = numContacts;
-        for (unsigned i = 0; i < numContacts; i++)
+        for (unsigned int i = 0; i < numContacts; i++)
         {
 			desiredVelocity = contact[i].GetDesiredDeltaVelocity();
 			if (desiredVelocity > max)
@@ -159,14 +159,14 @@ void ContactResolver::ResolveVelocities(Contact *contact, unsigned numContacts, 
         // With the change in velocity of the two bodies, the update of
         // contact velocities means that some of the relative closing
         // velocities need recomputing.
-        for (unsigned i = 0; i < numContacts; i++)
+        for (unsigned int i = 0; i < numContacts; i++)
         {
             // Check each rigid body in the contact
-            for (unsigned b = 0; b < 2; b++) if (contact[i].mBodies[b])
+            for (unsigned int b = 0; b < 2; b++) if (contact[i].mBodies[b])
             {
                 // Check for a match with each rigid body in the newly
                 // resolved contact
-                for (unsigned d = 0; d < 2; d++)
+                for (unsigned int d = 0; d < 2; d++)
                 {
                     if (contact[i].mBodies[b] == contact[index].mBodies[d])
                     {

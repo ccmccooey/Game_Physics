@@ -114,9 +114,9 @@ void RigidBody::GetInverseInertiaTensorWorld(Matrix33f *inverseInertiaTensor) co
 void RigidBody::CalculateTransformMatrix()
 {
 	mOrientation.toRotationMatrix(mTransformMatrix);
-	mTransformMatrix[3] += mPosition.x;
-	mTransformMatrix[7] += mPosition.y;
-	mTransformMatrix[11] += mPosition.z;
+	mTransformMatrix[3] = mPosition.x;
+	mTransformMatrix[7] = mPosition.y;
+	mTransformMatrix[11] = mPosition.z;
 }
 
 //setters
@@ -163,7 +163,6 @@ void RigidBody::CalculateDerivedData()
     mOrientation.normalize();
 
     // Calculate the transform matrix for the body.
-    //CalculateTransformMatrix(mTransformMatrix, mPosition, mOrientation);
 	CalculateTransformMatrix();
 
     // Calculate the inertiaTensor in world space.
@@ -178,6 +177,7 @@ void RigidBody::AddVelocity(const Vector3f &velocity)
 void RigidBody::AddRotation(const Vector3f &rotation)
 {
 	mRotation += rotation;
+	CalculateTransformMatrix();
 }
 void RigidBody::AddTorque(const Vector3f &torque)
 {
@@ -206,12 +206,14 @@ void RigidBody::AddForceAtPosition(const Vector3f &force, const Vector3f &point)
 void RigidBody::Translate(const Vector3f &translation)
 {
 	mPosition += translation;
+	CalculateTransformMatrix();
 }
 void RigidBody::Translate(float x, float y, float z)
 {
 	mPosition.x += x;
 	mPosition.y += y;
 	mPosition.z += z;
+	CalculateTransformMatrix();
 }
 
 
@@ -242,7 +244,10 @@ inline void RigidBody::TransformInertiaTensor(Matrix33f &iitWorld, const Quatern
 //update
 void RigidBody::FixedUpdate(double t)
 {
+	//keep track of the acceleration on the previous frame
 	mPreviousAcceleration = mAcceleration;
+
+	//calculate linear acceleration
 	mAcceleration = mAccumulatedForce * mInverseMass;
 	
 	//Calculate angular acceleration

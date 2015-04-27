@@ -14,6 +14,8 @@ using namespace std;
 typedef vector<CollisionPrimitive*>::iterator CollidersIter;
 typedef vector<CollisionPrimitive*>::const_iterator CollidersConstIter;
 
+unsigned long PhysicsSystem::msTotalPhysicsUpdates = 0;
+
 //constructor
 PhysicsSystem::PhysicsSystem()
 {
@@ -222,6 +224,8 @@ void PhysicsSystem::FixedUpdate(double t)
 
 	//delete removed rigid bodies from memory
 	FlushDeleteQueue();
+
+	msTotalPhysicsUpdates++;
 }
 
 void PhysicsSystem::FlushDeleteQueue()

@@ -28,6 +28,8 @@ private:
 	CollisionData* mCollisionData;
 	CollisionPlane* mGround;
 
+	static unsigned long msTotalPhysicsUpdates;
+
 public:
 	PhysicsSystem();
 	~PhysicsSystem();

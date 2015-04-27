@@ -283,7 +283,8 @@ const Quaternion Quaternion::operator*(const Quaternion &other) const
 	result.mX = (mW * other.mX + mX * other.mW + mY * other.mZ - mZ * other.mY);
 	result.mY = (mW * other.mY - mX * other.mZ + mY * other.mW + mZ * other.mX);
 	result.mZ = (mW * other.mZ + mX * other.mY - mY * other.mX + mZ * other.mW);
-	result.calculateEulerAngles();
+	//result.calculateEulerAngles();
+	result.normalize();
 	return result;
 }
 Quaternion& Quaternion::operator*=(const Quaternion &other)

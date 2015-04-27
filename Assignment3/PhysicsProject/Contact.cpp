@@ -311,7 +311,7 @@ void Contact::ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChan
 
     // We need to work out the inertia of each object in the direction
     // of the contact normal, due to angular inertia only.
-    for (unsigned i = 0; i < 2; i++) if (mBodies[i])
+    for (unsigned int i = 0; i < 2; i++) if (mBodies[i])
     {
         Matrix33f inverseInertiaTensor;
         mBodies[i]->GetInverseInertiaTensorWorld(&inverseInertiaTensor);
@@ -335,7 +335,7 @@ void Contact::ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChan
     }
 
     // Loop through again calculating and applying the changes
-    for (unsigned i = 0; i < 2; i++) if (mBodies[i])
+    for (unsigned int i = 0; i < 2; i++) if (mBodies[i])
     {
         // The linear and angular movements required are in proportion to
         // the two inverse inertias.

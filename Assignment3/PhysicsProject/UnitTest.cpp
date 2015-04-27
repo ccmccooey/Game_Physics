@@ -158,6 +158,17 @@ void UnitTest::TestMatrix44f()
 	cout << "answer   = " << detGot << endl;
 	cout << endl;
 
+	expected = Matrix44f(0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 5, 0, 0, 0, 0);
+	got = Matrix44f::zero;
+	got[3] += 1;
+	got[7] += 2;
+	got[11] += 5;
+
+	cout << "------------------Testing (a[3] += 1, a[7] += 2, a[11] += 5) ------------------------" << endl;
+	cout << "expected = " << expected << endl;
+	cout << "answer   = " << got << endl;
+	cout << endl;
+
 	cout << endl;
 }
 
