@@ -60,8 +60,8 @@ public:
 	void FixedUpdate(double t);
 
 private:
-	void GenerateContacts();
-	void ProcessContacts(double t);
+	unsigned int GenerateContacts(); //returns the number of contacts generated
+	void ProcessContacts(double t, unsigned int usedContacts);
 
 	
 

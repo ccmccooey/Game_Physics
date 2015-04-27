@@ -271,11 +271,13 @@ const Quaternion Quaternion::operator*(const Quaternion &other) const
 	(Q1 * Q2).y = (w1y2 - x1z2 + y1w2 + z1x2)
 	(Q1 * Q2).z = (w1z2 + x1y2 - y1x2 + z1w2
 
-	 float w = W*q.W - (X*q.X + Y*q.Y + Z*q.Z);
-
+	float w = W*q.W - (X*q.X + Y*q.Y + Z*q.Z);
     float x = W*q.X + q.W*X + Y*q.Z - Z*q.Y;
     float y = W*q.Y + q.W*Y + Z*q.X - X*q.Z;
     float z = W*q.Z + q.W*Z + X*q.Y - Y*q.X;
+
+
+
 
 	*/
 	Quaternion result = Quaternion();
@@ -284,13 +286,20 @@ const Quaternion Quaternion::operator*(const Quaternion &other) const
 	result.mY = (mW * other.mY - mX * other.mZ + mY * other.mW + mZ * other.mX);
 	result.mZ = (mW * other.mZ + mX * other.mY - mY * other.mX + mZ * other.mW);
 	//result.calculateEulerAngles();
-	result.normalize();
+	//result.normalize();
 	return result;
 }
 Quaternion& Quaternion::operator*=(const Quaternion &other)
 {
-	(*this) = (*this) * other;
-	return (*this);
+	Quaternion q = *this;
+    mW = q.mW * other.mW - q.mX * other.mX - q.mY * other.mY - q.mZ * other.mZ;
+    mX = q.mW * other.mX + q.mX * other.mW + q.mY * other.mZ - q.mZ * other.mY;
+    mY = q.mW * other.mY + q.mY * other.mW + q.mZ * other.mX - q.mX * other.mZ;
+    mZ = q.mW * other.mZ + q.mZ * other.mW + q.mX * other.mY - q.mY * other.mX;
+	return *this;
+	
+	//(*this) = (*this) * other;
+	//return (*this);
 }
 
 //comparison operators
@@ -300,13 +309,13 @@ bool Quaternion::operator==(const Quaternion &other) const
 }
 bool Quaternion::operator!=(const Quaternion &other) const
 {
-	return (mX != other.mX && mY != other.mY && mZ != other.mZ && mW != other.mW);
+	return (mX != other.mX || mY != other.mY || mZ != other.mZ || mW != other.mW);
 }
 
 //stream operator
 std::ostream& operator<<(std::ostream& stream, const Quaternion& rotation)
 {
-	stream << "(x " << rotation.mX << ")(y " << rotation.mY  << ")(z " << rotation.mZ << ")(w " << rotation.mW << ")";
+	stream << ")(w " << rotation.mW << ")(y " << rotation.mY  << ")(z " << rotation.mZ << "(x " << rotation.mX << ")";
 	return stream;
 }
 std::string Quaternion::toString() const

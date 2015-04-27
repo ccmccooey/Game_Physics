@@ -165,31 +165,33 @@ void PhysicsSystem::DeleteAllColliders()
 }
 
 //generate contacts
-void PhysicsSystem::GenerateContacts()
+unsigned int PhysicsSystem::GenerateContacts()
 {
-	unsigned int i, j;	
+	unsigned int i, j;
+	unsigned int contactsMade = 0;
 
 	unsigned int size = mColliders.size();
 	for (i = 0; i < size; i++)
 	{
-		CollisionDetector::SphereAndHalfSpace(*((CollisionSphere*)mColliders[i]) , *mGround, mCollisionData);
+		contactsMade += CollisionDetector::SphereAndHalfSpace(*((CollisionSphere*)mColliders[i]) , *mGround, mCollisionData);
 		for (j = i; j < size; j++)
 		{	
 			//avoid collision detecting colliders with themselves
 			if (i != j) 
 			{
-				CollisionDetector::SphereAndSphere(*((CollisionSphere*)mColliders[i]), *((CollisionSphere*)mColliders[j]), mCollisionData); //Horrible!
+				contactsMade += CollisionDetector::SphereAndSphere(*((CollisionSphere*)mColliders[i]), *((CollisionSphere*)mColliders[j]), mCollisionData); //Horrible!
 			}
 		}
 	}
+	return contactsMade;
 }
 
 //Process contacts
-void PhysicsSystem::ProcessContacts(double t)
+void PhysicsSystem::ProcessContacts(double t, unsigned int usedContacts)
 {
 	//resolver.setIterations(usedContacts * 4);
     //resolver.resolveContacts(contacts, usedContacts, duration);
-	mContactResolver->ResolveContacts(mCollisionData->mContactArray, mCollisionData->mContactCount, t);
+	mContactResolver->ResolveContacts(mCollisionData->mContactArray, usedContacts, t);
 }
 
 //update the physics system
@@ -217,10 +219,10 @@ void PhysicsSystem::FixedUpdate(double t)
 	}
 
 	//generate contacts
-	GenerateContacts();
+	unsigned int usedContacts = GenerateContacts();
 
 	//process contats
-	ProcessContacts(t);
+	ProcessContacts(t, usedContacts);
 
 	//delete removed rigid bodies from memory
 	FlushDeleteQueue();

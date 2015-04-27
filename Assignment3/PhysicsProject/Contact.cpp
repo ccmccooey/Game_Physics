@@ -70,7 +70,7 @@ void Contact::CalculateContactBasis()
 
 		// The new X-axis is at right angles to the world Y-axis
 		contactTangent[0].x = mContactNormal.z * s;
-		contactTangent[0].y = 0;
+		contactTangent[0].y = 0.0f;
 		contactTangent[0].z = -mContactNormal.x * s;
 
 		// The new Y-axis is at right angles to the new X- and Z- axes
@@ -84,7 +84,7 @@ void Contact::CalculateContactBasis()
 		const float s = 1.0f / sqrtf(mContactNormal.z * mContactNormal.z + mContactNormal.y * mContactNormal.y);
 
 		// The new X-axis is at right angles to the world X-axis
-		contactTangent[0].x = 0;
+		contactTangent[0].x = 0.0f;
 		contactTangent[0].y = -mContactNormal.z * s;
 		contactTangent[0].z = mContactNormal.y * s;
 
@@ -427,7 +427,7 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
     // world coordinates.
     Matrix33f inverseInertiaTensor[2];
     mBodies[0]->GetInverseInertiaTensorWorld(&inverseInertiaTensor[0]);
-    if (mBodies[1])
+    if (mBodies[1] != nullptr)
         mBodies[1]->GetInverseInertiaTensorWorld(&inverseInertiaTensor[1]);
 
     // We will calculate the impulse for each contact axis
