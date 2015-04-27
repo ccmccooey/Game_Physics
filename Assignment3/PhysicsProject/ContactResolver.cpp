@@ -9,6 +9,9 @@ ContactResolver::ContactResolver()
 
 	mPositionIterations = 1;
 	mVelocityIterations = 1;
+
+	mPositionEpsilon = FLT_EPSILON;
+	mVelocityEpsilon = FLT_EPSILON;
 }
 ContactResolver::~ContactResolver()
 {
@@ -115,9 +118,9 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
                         
 						//contact[i].penetration += deltaPosition.scalarProduct(contact[i].contactNormal) * (b ? 1:-1);
 						if (b)
-							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal) * -1.0f;
-						else
 							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal);
+						else
+							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal) * -1.0f;
                     }
                 }
             }

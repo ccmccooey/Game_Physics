@@ -14,6 +14,8 @@ CollisionData::CollisionData(unsigned int capacity)
 
 	mGlobalFriction = 0.0f;
 	mGlobalRestitution = 0.5f;
+
+	mTolerance = 0.1f;
 }
 CollisionData::~CollisionData()
 {

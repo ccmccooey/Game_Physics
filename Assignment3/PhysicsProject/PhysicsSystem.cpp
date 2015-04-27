@@ -191,6 +191,8 @@ void PhysicsSystem::ProcessContacts(double t, unsigned int usedContacts)
 {
 	//resolver.setIterations(usedContacts * 4);
     //resolver.resolveContacts(contacts, usedContacts, duration);
+
+	mContactResolver->SetIterations(usedContacts * 4);
 	mContactResolver->ResolveContacts(mCollisionData->mContactArray, usedContacts, t);
 }
 
@@ -208,7 +210,7 @@ void PhysicsSystem::FixedUpdate(double t)
 	{
 		for (j = 0; j < registrySize; j++)
 		{
-			mRegistry[i]->ApplyForce(mRigidBodies[i], t);
+			mRegistry[j]->ApplyForce(mRigidBodies[i], t);
 		}
 	}
 
@@ -227,6 +229,7 @@ void PhysicsSystem::FixedUpdate(double t)
 	//delete removed rigid bodies from memory
 	FlushDeleteQueue();
 
+	//update the physics frame counter
 	msTotalPhysicsUpdates++;
 }
 

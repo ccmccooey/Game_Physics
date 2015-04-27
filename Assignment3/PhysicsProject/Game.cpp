@@ -30,6 +30,10 @@ void Game::Initialize()
 
 	//create a sphere
 	GameObject* mySphere = new GameObject("Sphere", "Steel", Vector3f::unitY * 10.0f);
+	mySphere->SetSize(10.0f);
+	mGameObjects.push_back(mySphere);
+
+	mySphere = new GameObject("Sphere", "Steel", Vector3f::unitY * 25.0f);
 	mGameObjects.push_back(mySphere);
 
 	//create the force generators

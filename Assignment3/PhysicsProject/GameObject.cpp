@@ -129,7 +129,7 @@ void GameObject::LinkPositions() //link the position of the graphics object from
 {
 	//mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
 	//mGraphicsObject->getTransform()->SetTransformRT(mPhysicsObject->GetTransformMatrix());
-	mGraphicsObject->getTransform()->SetTransformData(mPhysicsObject->GetPosition(), mPhysicsObject->GetOrientation(), Vector3f::one);
+	mGraphicsObject->getTransform()->SetTransformData(mPhysicsObject->GetPosition(), mPhysicsObject->GetOrientation(), Vector3f::one * mCollider->mRadius);
 }
 void GameObject::SetTag(const std::string &tag)
 {
@@ -138,6 +138,10 @@ void GameObject::SetTag(const std::string &tag)
 void GameObject::SetMaterial(const std::string &material)
 {
 	mGraphicsObject->SetMaterial(GraphicsSystem::GetMaterial(material));
+}
+void GameObject::SetSize(float size)
+{
+	mCollider->mRadius = size;
 }
 
 //cloning objects
