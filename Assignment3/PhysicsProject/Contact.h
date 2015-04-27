@@ -21,6 +21,7 @@ public:
 	// Provided by contact generator - based on bodies in collision.
 	float mRestitution;
 	float mFriction;
+	bool mNull; //I use this for debugging
 
 protected:
 	Matrix33f mContactToWorld;

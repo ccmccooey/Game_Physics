@@ -3,13 +3,21 @@
 
 CollisionData::CollisionData(unsigned int capacity)
 {
-	mContacts = new Contact[capacity];
+	mContactArray = new Contact[capacity];
+	for (unsigned int i = 0; i < capacity; i++)
+	{
+		mContactArray[i] = Contact();
+	}
 	mContactCount = 0;
 	mContactsLeft = capacity;
+	mContacts = mContactArray;
+
+	mGlobalFriction = 0.0f;
+	mGlobalRestitution = 0.5f;
 }
 CollisionData::~CollisionData()
 {
-	delete [] mContacts;
+	delete [] mContactArray;
 }
 
 

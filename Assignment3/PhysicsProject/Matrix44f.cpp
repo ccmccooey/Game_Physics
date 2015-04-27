@@ -216,7 +216,7 @@ Vector3f Matrix44f::TransformInverseDirection(const Vector3f &direction) const
 //accessors
 Vector3f Matrix44f::GetAxisVector(int i) const
 {
-	return Vector3f(mData[i], mData[i + 3], mData[i + 6]);
+	return Vector3f(mData[i], mData[i + 4], mData[i + 8]);
 }
 
 //helper functions

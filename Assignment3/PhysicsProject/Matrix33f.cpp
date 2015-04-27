@@ -232,6 +232,12 @@ void Matrix33f::SetInverse(const Matrix33f &matrix)
     this->mData[8] = (t4-t8)*t17;
 }
 
+//accessors
+Vector3f Matrix33f::GetAxisVector(int i) const
+{
+	return Vector3f(mData[i], mData[i + 3], mData[i + 6]);
+}
+
 //helper functions
 void Matrix33f::SwapIndexValuesAt(int a, int b)
 {

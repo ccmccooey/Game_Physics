@@ -13,6 +13,7 @@ Contact::Contact()
 	mPenetrationDepth = 0.0f;
 	mRestitution = 0.0f;
 	mFriction = 0.0f;
+	mNull = true;
 }
 Contact::Contact(const Contact &rhs)
 {
@@ -25,6 +26,7 @@ Contact::Contact(const Contact &rhs)
 	mPenetrationDepth = rhs.mPenetrationDepth;
 	mRestitution = rhs.mRestitution;
 	mFriction = rhs.mFriction;
+	mNull = rhs.mNull;
 }
 Contact::~Contact()
 {
@@ -288,14 +290,12 @@ inline Vector3f Contact::CalculateFrictionImpulse(Matrix33f* inverseInertiaTenso
 }
 
 void Contact::SetBodyData(RigidBody* actorA, RigidBody* actorB, float friction, float restitution)
-{
-	if (actorA != nullptr)
-	{
-		mBodies[0] = actorA;
-	}
+{	
+	mBodies[0] = actorA;	
 	mBodies[1] = actorB;
 	mFriction = friction;
 	mRestitution = restitution;
+	mNull = mBodies[0] != nullptr;
 }
 
 //aplly a change in position
@@ -407,7 +407,7 @@ void Contact::ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChan
         // And the change in orientation
 		Quaternion orientation = mBodies[i]->GetOrientation();
         //mBodies[i]->getOrientation(&q);
-        orientation.addScaledVector(angularChange[i], ((float)1.0));
+        orientation.addScaledVector(angularChange[i], 1.0f);
         mBodies[i]->SetOrientation(orientation);
 
         // We need to calculate the derived data for any body that is

@@ -6,6 +6,9 @@ ContactResolver::ContactResolver()
 {
 	mPositionIterationsUsed = 0;
 	mVelocityIterationsUsed = 0;
+
+	mPositionIterations = 1;
+	mVelocityIterations = 1;
 }
 ContactResolver::~ContactResolver()
 {
@@ -28,7 +31,7 @@ void ContactResolver::SetEpsilon(float velocityEpsilon, float positionEpsilon)
 	mPositionEpsilon = positionEpsilon;
 }
 
-void ContactResolver::ResolveContacts (Contact *contacts, unsigned int numContacts, double duration)
+void ContactResolver::ResolveContacts(Contact *contacts, unsigned int numContacts, double duration)
 {
     // Make sure we have something to do.
     if (numContacts == 0) return;
@@ -43,11 +46,11 @@ void ContactResolver::ResolveContacts (Contact *contacts, unsigned int numContac
     ResolveVelocities(contacts, numContacts, (float)duration);
 }
 
-void ContactResolver::PrepareContacts(Contact* contacts, unsigned numContacts, float duration)
+void ContactResolver::PrepareContacts(Contact* contacts, unsigned int numContacts, float duration)
 {
     // Generate contact velocity and axis information.
     Contact* lastContact = contacts + numContacts;
-    for (Contact* contact=contacts; contact < lastContact; contact++)
+    for (Contact* contact = contacts; contact < lastContact; contact++)
     {
         // Calculate the internal contact data (inertia, basis, etc).
         contact->CalculateInternals(duration);
@@ -71,7 +74,7 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
 		max = Vector3f::EPSILON;
 		
         index = numContacts;
-        for (i = 0; i< numContacts; i++)
+        for (i = 0; i < numContacts; i++)
         {
 			if (contact[i].mPenetrationDepth > max)
             {
@@ -112,9 +115,9 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
                         
 						//contact[i].penetration += deltaPosition.scalarProduct(contact[i].contactNormal) * (b ? 1:-1);
 						if (b)
-							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal);
-						else
 							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal) * -1.0f;
+						else
+							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal);
                     }
                 }
             }
@@ -175,9 +178,9 @@ void ContactResolver::ResolveVelocities(Contact *contact, unsigned numContacts, 
                         //contact[i].contactVelocity += contact[i].contactToWorld.transformTranspose(deltaVel) * (b?-1:1);
                         
 						if (b)
-							contact[i].AddContactVelocity(contact[i].GetContactToWorld().TransformTranspose(deltaVelocity));
-						else
 							contact[i].AddContactVelocity(contact[i].GetContactToWorld().TransformTranspose(deltaVelocity) * -1.0f);
+						else
+							contact[i].AddContactVelocity(contact[i].GetContactToWorld().TransformTranspose(deltaVelocity));
 						
 						contact[i].CalculateDesiredDeltaVelocity(duration);
                     }

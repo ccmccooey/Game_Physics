@@ -3,6 +3,8 @@
 #include "Vector3f.h"
 #include "Contact.h"
 
+unsigned long CollisionDetector::iterations = 0;
+
 unsigned int CollisionDetector::PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b)
 {
 	return 0;
@@ -33,10 +35,11 @@ unsigned int CollisionDetector::SphereAndSphere(const CollisionSphere &one, cons
 	// We manually create the normal, because we have the size to hand.
 	Vector3f normal = midline * (1.0f / size);
 	Contact* contact = data->mContacts;
+	contact[0] = Contact();
+	contact->SetBodyData(one.mBody, two.mBody, 1.0f, 1.0f);
 	contact->mContactNormal = normal;
 	contact->mContactPoint = positionOne + midline * 0.5f;
-	contact->mPenetrationDepth = (one.mRadius + two.mRadius - size);
-	contact->SetBodyData(one.mBody, two.mBody, 1.0f, 1.0f);
+	contact->mPenetrationDepth = (one.mRadius + two.mRadius - size);	
 	data->AddContacts(1);
 
 	return 1;
@@ -44,6 +47,8 @@ unsigned int CollisionDetector::SphereAndSphere(const CollisionSphere &one, cons
 
 unsigned int CollisionDetector::SphereAndHalfSpace(const CollisionSphere &sphere, const CollisionPlane &plane, CollisionData *data)
 {
+	iterations++;
+
     // Make sure we have contacts
     if (data->mContactsLeft <= 0)
 	{
@@ -63,10 +68,10 @@ unsigned int CollisionDetector::SphereAndHalfSpace(const CollisionSphere &sphere
 
     // Create the contact - it has a normal in the plane direction.
     Contact* contact = data->mContacts;
+	contact->SetBodyData(sphere.mBody, NULL, data->mGlobalFriction, data->mGlobalRestitution);
 	contact->mContactNormal = plane.mNormal;
 	contact->mPenetrationDepth = ballDistance * -1.0f;
-	contact->mContactPoint = position - plane.mNormal * (ballDistance + sphere.mRadius);
-	contact->SetBodyData(sphere.mBody, NULL, data->mGlobalFriction, data->mGlobalRestitution);
+	contact->mContactPoint = position - plane.mNormal * (ballDistance + sphere.mRadius);	
 
     data->AddContacts(1);
     return 1;

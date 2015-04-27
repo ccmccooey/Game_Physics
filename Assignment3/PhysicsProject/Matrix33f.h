@@ -37,7 +37,7 @@ public:
 
 	//reference operators
 	float operator[](int index) const; //get
-	float& operator [](int index); //set
+	float& operator[](int index); //set
 
 	//matrix functions
 	Matrix33f Transpose() const;
@@ -47,10 +47,11 @@ public:
 	void SetRows(const Vector3f &first, const Vector3f &second, const Vector3f &third);
 	Vector3f Transform(const Vector3f &vector) const;
 	Vector3f TransformTranspose(const Vector3f &vector) const;
-	void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy = 0.0f, float ixz = 0.0f, float iyz = 0.0f);
+	void SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy = 0.0f, float ixz = 0.0f, float iyz = 0.0f);
 	void SetBlockInertiaTensor(const Vector3f &halfSizes, float mass);
 	void SetSkewSymmetric(const Vector3f vector);
 	void SetInverse(const Matrix33f &matrixToInvert);
+	Vector3f GetAxisVector(int i) const;
 
 	//static functions
 	static Matrix33f Lerp(const Matrix33f& a, const Matrix33f& b, float lerpValue);

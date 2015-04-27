@@ -187,7 +187,7 @@ void PhysicsSystem::ProcessContacts(double t)
 {
 	//resolver.setIterations(usedContacts * 4);
     //resolver.resolveContacts(contacts, usedContacts, duration);
-	mContactResolver->ResolveContacts(mCollisionData->mContacts, mCollisionData->mContactCount, t);
+	mContactResolver->ResolveContacts(mCollisionData->mContactArray, mCollisionData->mContactCount, t);
 }
 
 //update the physics system
@@ -217,6 +217,8 @@ void PhysicsSystem::FixedUpdate(double t)
 	//generate contacts
 	GenerateContacts();
 
+	//process contats
+	ProcessContacts(t);
 
 	//delete removed rigid bodies from memory
 	FlushDeleteQueue();
