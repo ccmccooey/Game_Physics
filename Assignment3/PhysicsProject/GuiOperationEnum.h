@@ -12,6 +12,18 @@ enum GuiOperationEnum
 	DebugInfo,
 	Help,
 
+	//simulation buttons
+	Create_Sphere,
+	Create_Box,
+	Set_Size_Small,
+	Set_Size_Medium,
+	Set_Size_Large,
+	Set_Material_Airfilled,
+	Set_Material_Plastic,
+	Set_Material_Wood,
+	Set_Material_Steel,
+	Set_Material_Iron,
+
 	TOTAL_OPERATIONS
 };
 

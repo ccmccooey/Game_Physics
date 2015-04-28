@@ -18,7 +18,7 @@ public:
 
 public:
 	CollisionPlane();
-	CollisionPlane(const Vector3f &normal, float offset);
+	CollisionPlane(const Vector3f &normal, float offset, bool plane);
 	CollisionPlane(const CollisionPlane &rhs);
 };
 

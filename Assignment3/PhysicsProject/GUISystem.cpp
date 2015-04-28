@@ -50,8 +50,7 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	mGuiSpriteManager = new Sprite2DManager();
 
 	//allocate space for the buttons
-	int size = 5;
-	mGuiButtons = vector<GUIButton*>(size);
+	mGuiButtons = vector<GUIButton*>((unsigned int)GuiOperationEnum::TOTAL_OPERATIONS);
 
 	//declare the initial positon of the buttons
 	mRowX = 0;
@@ -64,12 +63,30 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 96, 0, 32, 32, "Show debug information");
 	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 128, 0, 32, 32, "Movement: <asdw keys>\nCamera Movement: <arrow keys>\nJump <space key>");
 
+	//create all the simulation specific buttons and their assets
+	AddButtonAndSprite(GuiOperationEnum::Create_Sphere, "CreateSphere", 0, 64, 32, 32, "Create a sphere in front of the camera");
+	AddButtonAndSprite(GuiOperationEnum::Create_Box, "CreateBox", 32, 64, 32, 32, "Create a box in front of the camera");
+	AddButtonAndSprite(GuiOperationEnum::Set_Size_Small, "SetSizeSmall", 64, 64, 32, 32, "Set object size to small");
+	AddButtonAndSprite(GuiOperationEnum::Set_Size_Medium, "SetSizeMedium", 96, 64, 32, 32, "Set object size to medium");
+	AddButtonAndSprite(GuiOperationEnum::Set_Size_Large, "SetSizeLarge", 128, 64, 32, 32, "Set object size to large");
+	AddButtonAndSprite(GuiOperationEnum::Set_Material_Airfilled, "SetMaterialAirfilled", 160, 64, 32, 32, "Set material to be air filled object");
+	AddButtonAndSprite(GuiOperationEnum::Set_Material_Plastic, "SetMaterialPlastic", 192, 64, 32, 32, "Set material to be a plastic object");
+	AddButtonAndSprite(GuiOperationEnum::Set_Material_Wood, "SetMaterialWood", 224, 64, 32, 32, "Set material to be a wooden object");
+	AddButtonAndSprite(GuiOperationEnum::Set_Material_Steel, "SetMaterialSteel", 256, 64, 32, 32, "Set material to be a steel object");
+	AddButtonAndSprite(GuiOperationEnum::Set_Material_Iron, "SetMaterialIron", 288, 64, 32, 32, "Set material to be an iron object");
+
 	//debug text
 	mDebugText = new TextField();
 	mDebugText->SetPosition(0.0f, -400.0f, 0.0f);
 	mDebugText->SetSize(12.0f);
 	mDebugText->SetEolSpacing(-24.0f);
 	mDrawDebugText = false;
+
+	//hud text
+	mHudText = new TextField();
+	mHudText->SetPosition(0.0f, -32.0f, 0.0f);
+	mHudText->SetSize(8.0f);
+	mHudText->SetEolSpacing(-16.0f);
 
 	//tooltip text
 	mTooltip = new TextField();
@@ -120,6 +137,10 @@ void GuiSystem::Cleanup()
 	//delete the tooltip text
 	delete mTooltip;
 	mTooltip = nullptr;
+
+	//delete the hud text
+	delete mHudText;
+	mHudText = nullptr;
 
 	//delete the debug text
 	delete mDebugText;

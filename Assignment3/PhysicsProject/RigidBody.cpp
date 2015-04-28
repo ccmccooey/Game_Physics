@@ -174,6 +174,10 @@ void RigidBody::AddVelocity(const Vector3f &velocity)
 {
 	mVelocity += velocity;
 }
+void RigidBody::AddAcceleration(const Vector3f &acceleration)
+{
+	mAccumulatedForce += (acceleration * mMass);
+}
 void RigidBody::AddRotation(const Vector3f &rotation)
 {
 	mRotation += rotation;
@@ -259,7 +263,7 @@ void RigidBody::FixedUpdate(double t)
 	//Calculate linear velocity
 	mVelocity = mVelocity + mAcceleration * (float)t;
 
-	// rotate the object based on angular velocity.
+	//rotate the object based on angular velocity.
     mOrientation.addScaledVector(mRotation, (float)t);
 
 	//move the object based on linear velocity

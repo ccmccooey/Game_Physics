@@ -79,7 +79,12 @@ int TextureManager::AddTextureMany(const string* filepaths, int count) //add mul
 //search functions
 Texture* TextureManager::FindTexture(const string &key) const
 {
-	return mTextureMap.find(key)->second;
+	map<string, Texture*>::const_iterator iter = mTextureMap.find(key);
+	if (iter != mTextureMap.end())
+	{
+		return iter->second;
+	}
+	return nullptr;
 }
 bool TextureManager::TextureExists(const string &key) const
 {

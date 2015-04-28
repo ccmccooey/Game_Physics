@@ -1,21 +1,24 @@
 #ifndef _COLLISION_DETECTOR_H
 #define _COLLISION_DETECTOR_H
 
-#include "CollisionData.h"
-#include "CollisionSphere.h"
-#include "CollisionBox.h"
-#include "CollisionPlane.h"
+class Vector3f;
+struct CollisionData;
+class CollisionPrimitive;
+class CollisionPlane;
+class CollisionSphere;
+class CollisionBox;
+
 
 class CollisionDetector
 {
-private:
-	static unsigned long iterations;
-
 public:
+	//this function will figure out which collision function to call
+	static unsigned int PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b, CollisionData *data);
+
 	//sphere collisions
 	static unsigned int SphereAndSphere(const CollisionSphere &one, const CollisionSphere &two, CollisionData *data);
 	static unsigned int SphereAndHalfSpace(const CollisionSphere &sphere, const CollisionPlane &plane, CollisionData *data);
-	static unsigned int SphereAndTruePlane(const CollisionSphere &sphere, const CollisionPlane &plane,CollisionData *data);
+	static unsigned int SphereAndTruePlane(const CollisionSphere &sphere, const CollisionPlane &plane, CollisionData *data);
 
 	//box collisions
 	static unsigned int BoxAndPoint(const CollisionBox &box, const Vector3f &point, CollisionData *data);
@@ -23,8 +26,7 @@ public:
 	static unsigned int BoxAndHalfSpace(const CollisionBox &box, const CollisionPlane &plane, CollisionData *data);
 	static unsigned int BoxAndBox(const CollisionBox &one, const CollisionBox &two, CollisionData *data);
 
-	//this function will figure out which collision function to call
-	static unsigned int PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b);
+	
 
 private:
 	

@@ -224,6 +224,7 @@ void MainApp::CheckGui()
 			mDebugInfo = !mDebugInfo;
 			break;
 		default:
+			mGame->SendGuiEvent(operation);
 			break;
 		}
 	}

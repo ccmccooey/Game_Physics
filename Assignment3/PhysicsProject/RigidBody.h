@@ -78,6 +78,7 @@ public:
 
 	//movement
 	void AddVelocity(const Vector3f &velocity);
+	void AddAcceleration(const Vector3f &acceleration);
 	void AddRotation(const Vector3f &rotation);
 	void AddForce(const Vector3f &force);
 	void AddTorque(const Vector3f &torque);

@@ -36,5 +36,6 @@ void GroundForceGenerator::ApplyForce(Particle* particle, double t)
 }
 void GroundForceGenerator::ApplyForce(RigidBody* rb, double t)
 {	
-	rb->AddForce(Vector3f::unitY * -mGravity);
+	//rb->AddForce(Vector3f::unitY * -mGravity);
+	rb->AddAcceleration(Vector3f::unitY * -mGravity);
 }

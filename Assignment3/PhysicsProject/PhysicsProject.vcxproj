@@ -14,11 +14,13 @@
     <ClCompile Include="AnchoredSpringForceGenerator.cpp" />
     <ClCompile Include="AssetLoader.cpp" />
     <ClCompile Include="BasicGeometry.cpp" />
+    <ClCompile Include="BoxCollisionHelperFunctions.cpp" />
     <ClCompile Include="BungeeForceGenerator.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="CameraContainer.cpp" />
     <ClCompile Include="CollisionBox.cpp" />
     <ClCompile Include="CollisionData.cpp" />
+    <ClCompile Include="CollisionDetector_BoxCollisions.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="CollisionPlane.cpp" />
     <ClCompile Include="CollisionPrimitive.cpp" />
@@ -60,6 +62,7 @@
     <ClCompile Include="ModelOld.cpp" />
     <ClCompile Include="ModelData.cpp" />
     <ClCompile Include="DisplayObject3D.cpp" />
+    <ClCompile Include="ObjectMaterial.cpp" />
     <ClCompile Include="ParticleCable.cpp" />
     <ClCompile Include="ParticleContact.cpp" />
     <ClCompile Include="ParticleContactGenerator.cpp" />
@@ -112,11 +115,13 @@
     <ClInclude Include="AnchoredSpringForceGenerator.h" />
     <ClInclude Include="AssetLoader.h" />
     <ClInclude Include="BasicGeometry.h" />
+    <ClInclude Include="BoxCollisionHelperFunctions.h" />
     <ClInclude Include="BungeeForceGenerator.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
     <ClInclude Include="ColliderManager.h" />
     <ClInclude Include="CollisionBox.h" />
+    <ClInclude Include="CollisionGeometries.h" />
     <ClInclude Include="CollisionPlane.h" />
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="CollisionSphere.h" />
@@ -164,6 +169,7 @@
     <ClInclude Include="Notes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="ObjectMaterial.h" />
     <ClInclude Include="ParticleCable.h" />
     <ClInclude Include="ParticleContactResolver.h" />
     <ClInclude Include="ParticleLink.h" />

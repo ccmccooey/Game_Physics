@@ -192,6 +192,24 @@ bool Vector3f::operator!=(const Vector3f& rhs) const
 	return (x != rhs.x || y != rhs.y || z != rhs.z);
 }
 
+//reference component operators
+float Vector3f::operator[](unsigned int index) const //get
+{
+	if (index == 0)
+		return x;
+	if (index == 1)
+		return y;
+	return z;
+}
+float& Vector3f::operator[](unsigned int index) //set
+{
+	if (index == 0)
+		return x;
+	if (index == 1)
+		return y;
+	return z;
+}
+
 //streaming operators
 std::ostream& operator<<(std::ostream& stream, const Vector3f& vector)
 {
@@ -206,7 +224,7 @@ std::string Vector3f::ToString() const
 	ss << (*this);
 	return ss.str();
 }
-void Vector3f::ToArray(float floatArray[3])
+void Vector3f::ToArray(float floatArray[3]) const
 {
 	floatArray[0] = x;
 	floatArray[1] = y;

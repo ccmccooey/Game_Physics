@@ -375,6 +375,15 @@
     <ClCompile Include="IntersectionTests.cpp">
       <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
+    <ClCompile Include="BoxCollisionHelperFunctions.cpp">
+      <Filter>Source Files\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDetector_BoxCollisions.cpp">
+      <Filter>Source Files\Physics\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectMaterial.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -677,6 +686,15 @@
     </ClInclude>
     <ClInclude Include="IntersectionTests.h">
       <Filter>Header Files\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="BoxCollisionHelperFunctions.h">
+      <Filter>Header Files\Physics\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionGeometries.h">
+      <Filter>Header Files\Physics\Collision\CollisionPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectMaterial.h">
+      <Filter>Header Files\Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

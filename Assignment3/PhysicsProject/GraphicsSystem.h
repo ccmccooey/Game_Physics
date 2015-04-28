@@ -105,6 +105,7 @@ private:
 	void CleanUp(); //deletes the assets and all memory used by the graphics system
 
 	void Draw(Camera* camera) const; //private draw function used by the RenderScene function
+	void LoadTextureAndAddMaterial(const std::string &texturePath, const std::string key); //create both a texture and material asset
 };
 
 #endif

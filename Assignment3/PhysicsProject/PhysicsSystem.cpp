@@ -27,7 +27,8 @@ PhysicsSystem::PhysicsSystem()
 	mContactResolver = new ContactResolver();
 
 	mCollisionData = new CollisionData(MAX_CONTACTS);
-	mGround = new CollisionPlane(Vector3f::unitY, -30.0f);
+	//mGround = new CollisionPlane(Vector3f::unitY, -30.0f);
+	AddNewCollider(new CollisionPlane(Vector3f::unitY, -30.0f, false)); //ground contact
 }
 PhysicsSystem::~PhysicsSystem()
 {
@@ -36,7 +37,7 @@ PhysicsSystem::~PhysicsSystem()
 
 	delete mContactResolver;
 	delete mCollisionData;
-	delete mGround;
+	//delete mGround;
 }
 
 //accessors
@@ -175,13 +176,14 @@ unsigned int PhysicsSystem::GenerateContacts()
 	unsigned int size = mColliders.size();
 	for (i = 0; i < size; i++)
 	{
-		contactsMade += CollisionDetector::SphereAndHalfSpace(*((CollisionSphere*)mColliders[i]) , *mGround, mCollisionData);
+		//contactsMade += CollisionDetector::SphereAndHalfSpace(*((CollisionSphere*)mColliders[i]) , *mGround, mCollisionData);
 		for (j = i; j < size; j++)
 		{	
 			//avoid collision detecting colliders with themselves
 			if (i != j) 
 			{
-				contactsMade += CollisionDetector::SphereAndSphere(*((CollisionSphere*)mColliders[i]), *((CollisionSphere*)mColliders[j]), mCollisionData); //Horrible!
+				contactsMade += CollisionDetector::PrimitiveAndPrimitive(mColliders[i], mColliders[j], mCollisionData);
+				//contactsMade += CollisionDetector::SphereAndSphere(*((CollisionSphere*)mColliders[i]), *((CollisionSphere*)mColliders[j]), mCollisionData); //Horrible!
 			}
 		}
 	}

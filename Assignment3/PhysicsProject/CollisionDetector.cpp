@@ -1,13 +1,46 @@
+#include "IntersectionTests.h"
 #include "CollisionDetector.h"
 #include "CollisionData.h"
-#include "IntersectionTests.h"
-#include "Vector3f.h"
+
 #include "Contact.h"
+#include "CollisionGeometries.h"
 
-unsigned long CollisionDetector::iterations = 0;
-
-unsigned int CollisionDetector::PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b)
+unsigned int CollisionDetector::PrimitiveAndPrimitive(CollisionPrimitive* a, CollisionPrimitive* b, CollisionData *data)
 {
+	CollisionPrimitive* tmp;
+	if (a->IsHalfSpace() || a->IsPlane())
+	{
+		tmp = a;
+		a = b;
+		b = tmp;
+	}
+	if (b->IsBox() && !a->IsBox())
+	{
+		tmp = a;
+		a = b;
+		b = tmp;
+	}
+
+	if (a->IsSphere())
+	{
+		if (b->IsSphere())
+			return SphereAndSphere(*((CollisionSphere*)a), *((CollisionSphere*)b), data);
+		else if (b->IsPlane())
+			return SphereAndTruePlane(*((CollisionSphere*)a), *((CollisionPlane*)b), data);
+		else if (b->IsHalfSpace())
+			return SphereAndHalfSpace(*((CollisionSphere*)a), *((CollisionPlane*)b), data);
+	}
+	else if (a->IsBox())
+	{
+		if (b->IsSphere())
+			return BoxAndSphere(*((CollisionBox*)a), *((CollisionSphere*)b), data);
+		else if (b->IsHalfSpace())
+			return BoxAndHalfSpace(*((CollisionBox*)a), *((CollisionPlane*)b), data);
+		else if (b->IsBox())
+			return BoxAndBox(*((CollisionBox*)a), *((CollisionBox*)b), data);
+	}
+
+
 	return 0;
 }
 
@@ -53,8 +86,6 @@ unsigned int CollisionDetector::SphereAndSphere(const CollisionSphere &one, cons
 #pragma region Sphere and HalfSpace
 unsigned int CollisionDetector::SphereAndHalfSpace(const CollisionSphere &sphere, const CollisionPlane &plane, CollisionData *data)
 {
-	iterations++;
-
     // Make sure we have contacts
     if (data->mContactsLeft <= 0)
 	{
@@ -142,7 +173,7 @@ unsigned int CollisionDetector::BoxAndPoint(const CollisionBox &box, const Vecto
 	{
 		return 0;
 	}
-    normal = box.GetAxis(0) * ((relPt.x < 0)?-1:1);
+    normal = box.GetAxis(0) * ((relPt.x < 0.0f)?-1.0f:1.0f);
 
     float depth = box.mHalfSize.y - fabs(relPt.y);
     if (depth < 0)
@@ -152,7 +183,7 @@ unsigned int CollisionDetector::BoxAndPoint(const CollisionBox &box, const Vecto
     else if (depth < minimumDepth)
     {
         minimumDepth = depth;
-        normal = box.GetAxis(1) * ((relPt.y < 0)?-1:1);
+        normal = box.GetAxis(1) * ((relPt.y < 0.0f)?-1.0f:1.0f);
     }
 
     depth = box.mHalfSize.z - fabs(relPt.z);
@@ -163,7 +194,7 @@ unsigned int CollisionDetector::BoxAndPoint(const CollisionBox &box, const Vecto
     else if (depth < minimumDepth)
     {
         minimumDepth = depth;
-        normal = box.GetAxis(2) * ((relPt.z < 0)?-1:1);
+        normal = box.GetAxis(2) * ((relPt.z < 0.0f)?-1.0f:1.0f);
     }
 
     // Compile the contact
@@ -260,7 +291,8 @@ unsigned int CollisionDetector::BoxAndHalfSpace(const CollisionBox &box, const C
 
     Contact* contact = data->mContacts;
     unsigned contactsUsed = 0;
-    for (unsigned i = 0; i < 8; i++) {
+    for (unsigned int i = 0; i < 8; i++)
+	{
 
         // Calculate the position of each vertex
         Vector3f vertexPos(mults[i][0], mults[i][1], mults[i][2]);
@@ -299,127 +331,4 @@ unsigned int CollisionDetector::BoxAndHalfSpace(const CollisionBox &box, const C
     data->AddContacts(contactsUsed);
     return contactsUsed;
 }
-#pragma endregion
-
-#pragma region Box and Box
-#define CHECK_OVERLAP(axis, index) \ if (!tryAxis(one, two, (axis), toCentre, (index), pen, best)) return 0;
-unsigned int CollisionDetector::BoxAndBox(const CollisionBox &one, const CollisionBox &two, CollisionData *data)
-{
-    //if (!IntersectionTests::boxAndBox(one, two)) return 0;
-
-    // Find the vector between the two centres
-    Vector3f toCentre = two.GetAxis(3) - one.GetAxis(3);
-
-    // We start assuming there is no contact
-    float pen = FLT_MAX;
-    unsigned int best = ~0;//0xffffff;
-
-    // Now we check each axes, returning if it gives us
-    // a separating axis, and keeping track of the axis with
-    // the smallest penetration otherwise.
-    CHECK_OVERLAP(one.GetAxis(0), 0);
-    CHECK_OVERLAP(one.GetAxis(1), 1);
-    CHECK_OVERLAP(one.GetAxis(2), 2);
-
-    CHECK_OVERLAP(two.GetAxis(0), 3);
-    CHECK_OVERLAP(two.GetAxis(1), 4);
-    CHECK_OVERLAP(two.GetAxis(2), 5);
-
-    // Store the best axis-major, in case we run into almost
-    // parallel edge collisions later
-    unsigned bestSingleAxis = best;
-
-    CHECK_OVERLAP(one.GetAxis(0) % two.GetAxis(0), 6);
-    CHECK_OVERLAP(one.GetAxis(0) % two.GetAxis(1), 7);
-    CHECK_OVERLAP(one.GetAxis(0) % two.GetAxis(2), 8);
-    CHECK_OVERLAP(one.GetAxis(1) % two.GetAxis(0), 9);
-    CHECK_OVERLAP(one.GetAxis(1) % two.GetAxis(1), 10);
-    CHECK_OVERLAP(one.GetAxis(1) % two.GetAxis(2), 11);
-    CHECK_OVERLAP(one.GetAxis(2) % two.GetAxis(0), 12);
-    CHECK_OVERLAP(one.GetAxis(2) % two.GetAxis(1), 13);
-    CHECK_OVERLAP(one.GetAxis(2) % two.GetAxis(2), 14);
-
-    // Make sure we've got a result.
-    //assert(best != 0xffffff);
-
-    // We now know there's a collision, and we know which
-    // of the axes gave the smallest penetration. We now
-    // can deal with it in different ways depending on
-    // the case.
-    if (best < 3)
-    {
-        // We've got a vertex of box two on a face of box one.
-        fillPointFaceBoxBox(one, two, toCentre, data, best, pen);
-        data->AddContacts(1);
-        return 1;
-    }
-    else if (best < 6)
-    {
-        // We've got a vertex of box one on a face of box two.
-        // We use the same algorithm as above, but swap around
-        // one and two (and therefore also the vector between their
-        // centres).
-        fillPointFaceBoxBox(two, one, toCentre*-1.0f, data, best-3, pen);
-        data->AddContacts(1);
-        return 1;
-    }
-    else
-    {
-        // We've got an edge-edge contact. Find out which axes
-        best -= 6;
-        unsigned oneAxisIndex = best / 3;
-        unsigned twoAxisIndex = best % 3;
-        Vector3f oneAxis = one.GetAxis(oneAxisIndex);
-        Vector3f twoAxis = two.GetAxis(twoAxisIndex);
-        Vector3f axis = oneAxis % twoAxis;
-        axis.Normalize();
-
-        // The axis should point from box one to box two.
-        if (axis * toCentre > 0.0f) axis = axis * -1.0f;
-
-        // We have the axes, but not the edges: each axis has 4 edges parallel
-        // to it, we need to find which of the 4 for each object. We do
-        // that by finding the point in the centre of the edge. We know
-        // its component in the direction of the box's collision axis is zero
-        // (its a mid-point) and we determine which of the extremes in each
-        // of the other axes is closest.
-        Vector3f ptOnOneEdge = one.halfSize;
-        Vector3f ptOnTwoEdge = two.halfSize;
-        for (unsigned i = 0; i < 3; i++)
-        {
-            if (i == oneAxisIndex) ptOnOneEdge[i] = 0;
-            else if (one.GetAxis(i) * axis > 0) ptOnOneEdge[i] = -ptOnOneEdge[i];
-
-            if (i == twoAxisIndex) ptOnTwoEdge[i] = 0;
-            else if (two.GetAxis(i) * axis < 0) ptOnTwoEdge[i] = -ptOnTwoEdge[i];
-        }
-
-        // Move them into world coordinates (they are already oriented
-        // correctly, since they have been derived from the axes).
-        ptOnOneEdge = one.transform * ptOnOneEdge;
-        ptOnTwoEdge = two.transform * ptOnTwoEdge;
-
-        // So we have a point and a direction for the colliding edges.
-        // We need to find out point of closest approach of the two
-        // line-segments.
-        Vector3f vertex = contactPoint(
-            ptOnOneEdge, oneAxis, one.halfSize[oneAxisIndex],
-            ptOnTwoEdge, twoAxis, two.halfSize[twoAxisIndex],
-            bestSingleAxis > 2
-            );
-
-        // We can fill the contact.
-        Contact* contact = data->mContacts;
-
-        contact->mPenetrationDepth = pen;
-        contact->mContactNormal = axis;
-        contact->mContactPoint = vertex;
-		contact->SetBodyData(one.mBody, two.mBody,
-            data->mGlobalFriction, data->mRestitution);
-        data->AddContacts(1);
-        return 1;
-    }
-    return 0;
-}
-#undef CHECK_OVERLAP
 #pragma endregion

@@ -40,6 +40,7 @@ private:
 	int mRowX; //indicates the current row of the gui sprites
 	int mRowY; //indicates the current column of the gui sprites
 	TextField* mDebugText;
+	TextField* mHudText;
 	bool mDrawDebugText;
 	TextField* mTooltip;
 

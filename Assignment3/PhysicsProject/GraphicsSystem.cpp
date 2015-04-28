@@ -1,3 +1,4 @@
+#include <iostream>
 #include "GraphicsSystem.h"
 #include "ShaderManager.h"
 #include "TextureManager.h"
@@ -84,13 +85,27 @@ void GraphicsSystem::Initialize()
 //loading content
 void GraphicsSystem::LoadContent()
 {
-	mTextureManager->AddTexture("Content/ObjectTextures/Steel.png", "Steel");
-	mTextureManager->AddTexture("Content/OtherTextures/Grass.png", "Grass");
-	mTextureManager->AddTexture("Content/OtherTextures/Dirt.png", "Dirt");
+	LoadTextureAndAddMaterial("Content/ObjectTextures/AirFilled.png", "AirFilled");	
+	LoadTextureAndAddMaterial("Content/ObjectTextures/Wood.png", "Wood");
+	LoadTextureAndAddMaterial("Content/ObjectTextures/Plastic.png", "Plastic");
+	LoadTextureAndAddMaterial("Content/ObjectTextures/Steel.png", "Steel");
+	LoadTextureAndAddMaterial("Content/ObjectTextures/Iron.png", "Iron");
 
-	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Steel"), "Steel");
-	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Grass"), "Grass");
-	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Dirt"), "Dirt");
+	LoadTextureAndAddMaterial("Content/OtherTextures/Grass.png", "Grass");
+	LoadTextureAndAddMaterial("Content/OtherTextures/Dirt.png", "Dirt");
+}
+void GraphicsSystem::LoadTextureAndAddMaterial(const std::string &texturePath, const std::string key) //create both a texture and material asset
+{
+	mTextureManager->AddTexture(texturePath, key);
+	Texture* texture = mTextureManager->FindTexture(key);
+	if (texture != nullptr)
+	{
+		mMaterialManager->AddMaterial(texture, key);
+	}
+	else
+	{
+		std::cerr << "ERROR: Could not find texture with key (" << key << ") using filepath (" << texturePath << ")" << std::endl;
+	}
 }
 
 //clean up functions

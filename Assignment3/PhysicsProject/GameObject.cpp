@@ -6,6 +6,7 @@
 #include "DisplayObject3D.h"
 #include "Material.h"
 #include "CollisionSphere.h"
+#include "CollisionBox.h"
 #include "PhysicsSystem.h"
 #include "GraphicsSystem.h"
 #include "ScaleFactor.h"
@@ -17,32 +18,22 @@ unsigned int GameObject::msIDS = 0;
 GameObject::GameObject()
 	:mID(GameObject::msIDS)
 {
-	CommonInit("Cube", "", Vector3f::zero);
+	CommonInit("Cube", "", Vector3f::zero, GameObjectShape::Sphere, 1.0f, 1.0f);
 }
 GameObject::GameObject(const std::string &modelKey)
 	:mID(GameObject::msIDS)
 {
-	CommonInit(modelKey, "", Vector3f::zero);
+	CommonInit(modelKey, "", Vector3f::zero, GameObjectShape::Sphere, 1.0f, 1.0f);
 }
-GameObject::GameObject(const std::string &modelKey, const Vector3f &positionPhysics)
+GameObject::GameObject(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics, GameObjectShape shape, float mass, float size)
 	:mID(GameObject::msIDS)
 {
-	CommonInit(modelKey, "", Vector3f(positionPhysics));
-}
-GameObject::GameObject(const std::string &modelKey, float x, float y, float z)
-	:mID(GameObject::msIDS)
-{
-	CommonInit(modelKey, "", Vector3f(x, y, z));
-}
-GameObject::GameObject(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics)
-	:mID(GameObject::msIDS)
-{
-	CommonInit(modelKey, materialKey, Vector3f(positionPhysics));
+	CommonInit(modelKey, materialKey, Vector3f(positionPhysics), shape, mass, size);
 }
 GameObject::GameObject(const GameObject &rhs)
 	:mID(GameObject::msIDS)
 {
-	CommonInit("Cube", "", Vector3f::zero);
+	CommonInit("Cube", "", Vector3f::zero, GameObjectShape::Sphere, 1.0f, 1.0f);
 }
 GameObject::~GameObject()
 {
@@ -53,7 +44,7 @@ GameObject::~GameObject()
 		cerr << "ERROR: Object " << mID << " has been deleted without being removed from the graphics and physics system" << endl;
 	}
 }
-void GameObject::CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics)
+void GameObject::CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics, GameObjectShape shape, float mass, float size)
 {
 	//create the graphics object
 	mGraphicsObject = new DisplayObject3D(GraphicsSystem::GetModel(modelKey));
@@ -63,12 +54,29 @@ void GameObject::CommonInit(const std::string &modelKey, const std::string &mate
 	//create the physics object
 	mPhysicsObject = new RigidBody();
 	mPhysicsObject->SetPosition(positionPhysics);
+	mPhysicsObject->SetMass(mass);
 
 	//create the collider object
-	mCollider = new CollisionSphere();
-	mCollider->mBody = mPhysicsObject;
-	mCollider->mRadius = 1.0f;
-
+	if (shape == GameObjectShape::Sphere)
+	{
+		CollisionSphere* sphere = new CollisionSphere();
+		sphere->mBody = mPhysicsObject;
+		sphere->mRadius = size;
+		
+		mCollider = (CollisionPrimitive*)sphere;
+	}
+	else if (shape == GameObjectShape::Box)
+	{
+		CollisionBox* box = new CollisionBox();
+		box->mBody = mPhysicsObject;
+		box->mHalfSize = Vector3f::one * size;
+		
+		mCollider = (CollisionPrimitive*)box;
+	}
+	else
+	{
+		std::cerr << "ERROR: Tried to create a gameobject with an invalid shape" << std::endl;
+	}
 	mAdded = false;
 
 	AddToSystems();
@@ -129,7 +137,19 @@ void GameObject::LinkPositions() //link the position of the graphics object from
 {
 	//mGraphicsObject->getTransform()->SetPosition(mPhysicsObject->GetPosition() * DISTANCE_SCALE);
 	//mGraphicsObject->getTransform()->SetTransformRT(mPhysicsObject->GetTransformMatrix());
-	mGraphicsObject->getTransform()->SetTransformData(mPhysicsObject->GetPosition(), mPhysicsObject->GetOrientation(), Vector3f::one * mCollider->mRadius);
+	Vector3f scale = Vector3f::one;
+	if (mCollider->IsSphere())
+	{
+		CollisionSphere* sphere = (CollisionSphere*)mCollider;
+		scale = Vector3f::one * sphere->mRadius;
+	}
+	else if (mCollider->IsBox())
+	{
+		CollisionBox* box = (CollisionBox*)mCollider;
+		scale = box->mHalfSize * 2.0f;
+	}
+
+	mGraphicsObject->getTransform()->SetTransformData(mPhysicsObject->GetPosition(), mPhysicsObject->GetOrientation(), scale);
 }
 void GameObject::SetTag(const std::string &tag)
 {
@@ -138,10 +158,6 @@ void GameObject::SetTag(const std::string &tag)
 void GameObject::SetMaterial(const std::string &material)
 {
 	mGraphicsObject->SetMaterial(GraphicsSystem::GetMaterial(material));
-}
-void GameObject::SetSize(float size)
-{
-	mCollider->mRadius = size;
 }
 
 //cloning objects

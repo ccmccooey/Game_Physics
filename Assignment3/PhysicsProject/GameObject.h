@@ -4,16 +4,23 @@
 #include "Vector3f.h"
 #include <string>
 
-class CollisionSphere;
+class CollisionPrimitive;
 class DisplayObject3D;
 class RigidBody;
 
 class GameObject
 {
+public:
+	enum GameObjectShape
+	{
+		Sphere = 0,
+		Box
+	};
+
 protected:
 	DisplayObject3D* mGraphicsObject;
 	RigidBody* mPhysicsObject;
-	CollisionSphere* mCollider;
+	CollisionPrimitive* mCollider;
 
 private:
 	bool mAdded;
@@ -26,9 +33,7 @@ private:
 public:
 	GameObject();
 	GameObject(const std::string &modelKey);
-	GameObject(const std::string &modelKey, const Vector3f &positionPhysics);
-	GameObject(const std::string &modelKey, float x, float y, float z);
-	GameObject(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics);
+	GameObject(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics, GameObjectShape shape, float mass, float size);
 	GameObject(const GameObject &rhs);
 	virtual ~GameObject();
 
@@ -47,10 +52,9 @@ public:
 	void LinkPositions(); //link the position of the graphics object from the physics object
 	void SetTag(const std::string &tag);
 	void SetMaterial(const std::string &material);
-	void SetSize(float size);
 
 private:
-	void CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics);
+	void CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics, GameObjectShape shape, float mass, float size);
 
 public:
 	static GameObject* Clone(const GameObject* other);

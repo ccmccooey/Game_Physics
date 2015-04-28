@@ -29,8 +29,7 @@ public:
 	float mGlobalRestitution;
 
 	/**
-	* Holds the collision tolerance, even uncolliding objects this
-	* close should have collisions generated.
+	* Holds the collision tolerance, even uncolliding objects this close should have collisions generated.
 	*/
 	float mTolerance;
 

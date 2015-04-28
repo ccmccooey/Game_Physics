@@ -51,22 +51,25 @@ public:
 	Vector3f& operator *= ( float mult );
 	Vector3f& operator /= ( float div );
 	
-	const Vector3f Vector3f::operator+(const Vector3f &other) const;
-	const Vector3f Vector3f::operator-(const Vector3f &other) const;	
-	const Vector3f Vector3f::operator*(const Vector3f &other) const;
-	const Vector3f Vector3f::operator/(const Vector3f &other) const;
-	const Vector3f Vector3f::operator*(float mult) const;
-	const Vector3f Vector3f::operator/(float div) const;
+	const Vector3f operator+(const Vector3f &other) const;
+	const Vector3f operator-(const Vector3f &other) const;	
+	const Vector3f operator*(const Vector3f &other) const;
+	const Vector3f operator/(const Vector3f &other) const;
+	const Vector3f operator*(float mult) const;
+	const Vector3f operator/(float div) const;
 	const Vector3f operator-() const;
 
-	const Vector3f Vector3f::operator*(const M3DMatrix44f &matrix) const;
+	const Vector3f operator*(const M3DMatrix44f &matrix) const;
 
-	bool Vector3f::operator==(const Vector3f &other) const;
-	bool Vector3f::operator!=(const Vector3f &other) const;
+	bool operator==(const Vector3f &other) const;
+	bool operator!=(const Vector3f &other) const;
+
+	float operator[](unsigned int index) const; //get
+	float& operator[](unsigned int index); //set
 
 	friend std::ostream& Vector3f::operator<<(std::ostream& stream, const Vector3f& vector);
 	std::string ToString() const;
-	void ToArray(float floatArray[3]);
+	void ToArray(float floatArray[3]) const;
 
 	//math functions
 	float Length() const;
