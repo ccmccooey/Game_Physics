@@ -20,6 +20,8 @@ public:
 	/** Holds the number of contacts found so far. */
 	unsigned int mContactCount;
 
+	unsigned int mMaxContacts;
+
 	/** Holds the friction value to write into any collisions. */
 	float mGlobalFriction;
 
@@ -35,6 +37,8 @@ public:
 public:
 	void AddContacts(unsigned int count); //adds a specified number of contacts
 	void AddContact(); //adds a single contact
+
+	void ResetContacts();
 };
 
 #endif

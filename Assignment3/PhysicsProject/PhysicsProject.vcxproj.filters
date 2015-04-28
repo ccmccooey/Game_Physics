@@ -366,11 +366,14 @@
     <ClCompile Include="CollisionPlane.cpp">
       <Filter>Source Files\Physics\Collision\CollisionPrimitives</Filter>
     </ClCompile>
-    <ClCompile Include="CollsionSphere.cpp">
-      <Filter>Source Files\Physics\Collision\CollisionPrimitives</Filter>
-    </ClCompile>
     <ClCompile Include="CollisionBox.cpp">
       <Filter>Source Files\Physics\Collision\CollisionPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionSphere.cpp">
+      <Filter>Source Files\Physics\Collision\CollisionPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="IntersectionTests.cpp">
+      <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -668,6 +671,12 @@
     </ClInclude>
     <ClInclude Include="CollisionSphere.h">
       <Filter>Header Files\Physics\Collision\CollisionPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionBox.h">
+      <Filter>Header Files\Physics\Collision\CollisionPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="IntersectionTests.h">
+      <Filter>Header Files\Physics\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -11,6 +11,7 @@ CollisionData::CollisionData(unsigned int capacity)
 	mContactCount = 0;
 	mContactsLeft = capacity;
 	mContacts = mContactArray;
+	mMaxContacts = capacity;
 
 	mGlobalFriction = 0.0f;
 	mGlobalRestitution = 0.5f;
@@ -40,4 +41,11 @@ void CollisionData::AddContact()
 
     // Move the array forward
     mContacts++;
+}
+
+void CollisionData::ResetContacts()
+{
+	mContacts = mContactArray;
+	mContactsLeft = mMaxContacts;
+	mContactCount = 0;
 }

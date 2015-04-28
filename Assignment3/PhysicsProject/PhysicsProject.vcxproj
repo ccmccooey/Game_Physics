@@ -26,7 +26,7 @@
     <ClCompile Include="CollisionTest.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="CollsionSphere.cpp" />
+    <ClCompile Include="CollisionSphere.cpp" />
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Contact.cpp" />
     <ClCompile Include="ContactResolver.cpp" />
@@ -44,6 +44,7 @@
     <ClCompile Include="GUIImage.cpp" />
     <ClCompile Include="GUISystem.cpp" />
     <ClCompile Include="InputSystem.cpp" />
+    <ClCompile Include="IntersectionTests.cpp" />
     <ClCompile Include="lodepng.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainApp.cpp" />
@@ -115,6 +116,7 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraContainer.h" />
     <ClInclude Include="ColliderManager.h" />
+    <ClInclude Include="CollisionBox.h" />
     <ClInclude Include="CollisionPlane.h" />
     <ClInclude Include="CollisionPrimitive.h" />
     <ClInclude Include="CollisionSphere.h" />
@@ -143,6 +145,7 @@
     <ClInclude Include="GuiOperationEnum.h" />
     <ClInclude Include="GUISystem.h" />
     <ClInclude Include="InputSystem.h" />
+    <ClInclude Include="IntersectionTests.h" />
     <ClInclude Include="lodepng.h" />
     <ClInclude Include="MainApp.h" />
     <ClInclude Include="MassAggregateModels.h" />

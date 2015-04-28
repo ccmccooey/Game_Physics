@@ -21,6 +21,7 @@ private:
 
 public:
 	Vector3f GetAxis(unsigned index) const;
+	const Matrix44f& GetTransformMatrix() const;
 };
 
 #endif

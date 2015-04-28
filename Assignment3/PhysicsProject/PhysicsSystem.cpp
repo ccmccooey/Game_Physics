@@ -167,6 +167,8 @@ void PhysicsSystem::DeleteAllColliders()
 //generate contacts
 unsigned int PhysicsSystem::GenerateContacts()
 {
+	mCollisionData->ResetContacts();
+
 	unsigned int i, j;
 	unsigned int contactsMade = 0;
 
