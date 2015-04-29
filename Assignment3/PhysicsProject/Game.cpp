@@ -6,6 +6,7 @@
 #include "GroundForceGenerator.h"
 #include "Ground.h"
 #include "ObjectMaterial.h"
+#include "Random.h"
 
 using namespace std;
 
@@ -141,7 +142,7 @@ void Game::SendGuiEvent(GuiOperationEnum ev)
 		mObjectMaterial->mName = "Iron";
 		break;
 	case GuiOperationEnum::Create_Sphere:
-		this->CreateObjectSphere(Vector3f::unitY * 20.0f);
+		this->CreateObjectSphere(Vector3f::unitY * 20.0f + (Vector3f::unitZ * Random::ArithmeticFloat()));
 		break;
 	case GuiOperationEnum::Create_Box:
 		this->CreateObjectBox(Vector3f::unitY * 20.0f);

@@ -442,7 +442,8 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
     {
         // Otherwise we may have impulses that aren't in the direction of the
         // contact, so we need the more complex version.
-        impulseContact = CalculateFrictionImpulse(inverseInertiaTensor);
+        //impulseContact = CalculateFrictionImpulse(inverseInertiaTensor);
+		impulseContact = CalculateFrictionlessImpulse(inverseInertiaTensor);
     }
 
     // Convert impulse to world coordinates
@@ -466,7 +467,7 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
         rotationChange[1] = inverseInertiaTensor[1].Transform(impulsiveTorque);
         //velocityChange[1].clear();
         //velocityChange[1].addScaledVector(impulse, -mBodies[1]->getInverseMass());
-		velocityChange[1] = impulse * -mBodies[0]->GetInverseMass();
+		velocityChange[1] = impulse * -mBodies[1]->GetInverseMass();
 
         // And apply them.
         mBodies[1]->AddVelocity(velocityChange[1]);
