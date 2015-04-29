@@ -8,7 +8,8 @@ Vector3f CollisionPrimitive::GetAxis(unsigned index) const
 }
 const Matrix44f& CollisionPrimitive::GetTransformMatrix() const
 {
-	return mTransform;
+	return mBody->GetTransformMatrix();
+	//return mTransform;
 }
 
 CollisionPrimitive::Shape CollisionPrimitive::GetShape() const

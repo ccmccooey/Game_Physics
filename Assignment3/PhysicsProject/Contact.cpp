@@ -172,6 +172,18 @@ Vector3f Contact::CalculateLocalVelocity(unsigned int mBodyIndex, double duratio
     // Returned velocity is in contact space - note transformTranspose.
     Vector3f mContactVelocity = mContactToWorld.TransformTranspose(velocity);
 
+	// Calculate the ammount of velocity that is due to forces without reactions.
+	Vector3f accVelocity = thisBody->GetPreviousFrameAcceleration() * (float)duration;
+
+    // Calculate the velocity in contact-coordinates.
+    accVelocity = mContactToWorld.TransformTranspose(accVelocity);
+
+    // We ignore any component of acceleration in the contact normal direction, we are only interested in planar acceleration
+    accVelocity.x = 0;
+
+    // Add the planar velocities - if there's enough friction they will be removed during velocity resolution
+    mContactVelocity += accVelocity;
+
     // And return it
     return mContactVelocity;
 }

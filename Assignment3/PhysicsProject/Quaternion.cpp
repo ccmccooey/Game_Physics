@@ -19,21 +19,30 @@
 //constructors
 Quaternion::Quaternion()
 {	
+	mW = 1.0f;
 	mX = 0.0f;
 	mY = 0.0f;
-	mZ = 0.0f;
-	mW = 1.0f;
+	mZ = 0.0f;	
 	mEulerAngles = Vector3f::zero;
 	mRecalculateEuler = true;
 }
 Quaternion::Quaternion(float w, float x, float y, float z)
 {
+	mW = w;
 	mX = x;
 	mY = y;
-	mZ = z;
-	mW = w;
+	mZ = z;	
 	mEulerAngles = Vector3f::zero;
 	mRecalculateEuler = true;
+}
+Quaternion::Quaternion(const Quaternion &rhs)
+{
+	mW = rhs.mW;
+	mX = rhs.mX;
+	mY = rhs.mY;
+	mZ = rhs.mZ;
+	mEulerAngles = rhs.mEulerAngles;
+	mRecalculateEuler = false;
 }
 
 //destructor
@@ -128,9 +137,10 @@ Vector3f Quaternion::getVectorRight() const
 //setters
 void Quaternion::normalize()
 {
-	float length = sqrt(mW + mX + mY + mZ);
-	//division by zero
-	if (length == 0)
+	float length = this->length();
+
+	//prevent division by zero
+	if (length == 0.0f)
 	{
 		mW = 1.0f; 
 		mX = mY = mZ = 0.0f;
@@ -144,6 +154,8 @@ void Quaternion::normalize()
 	}
 	calculateEulerAngles();
 }
+
+//set the rotation of the quaternion using Euler angles
 void Quaternion::setEulerDeg(float x, float y, float z)
 {
 	setEuler((float)m3dDegToRad(x), (float)m3dDegToRad(y), (float)m3dDegToRad(z));
@@ -221,6 +233,8 @@ void Quaternion::setValues(float x, float y, float z, float w)
 	mW = w;
 	calculateEulerAngles();
 }
+
+//sets the quaternion using a rotation matrix
 void Quaternion::setUsingRotationMatrix(const M3DMatrix44f &matrix44)
 {
 	//math that is used
@@ -229,7 +243,13 @@ void Quaternion::setUsingRotationMatrix(const M3DMatrix44f &matrix44)
 	//qy = (m02 - m20)/( 4 *qw)
 	//qz = (m10 - m01)/( 4 *qw)
 
-	mW = sqrtf(1.0f + matrix44[0] + matrix44[5] + matrix44[10]) * 0.5f;
+	float sqVal = 1.0f + matrix44[0] + matrix44[5] + matrix44[10];
+	if (sqVal < 0)
+	{
+		throw; //shouldn't get here!
+	}
+
+	mW = sqrtf(sqVal) * 0.5f;
 	mX = (matrix44[6] - matrix44[9]) / (mW * 4.0f);
 	mY = (matrix44[8] - matrix44[2]) / (mW * 4.0f);
 	mZ = (matrix44[1] - matrix44[4]) / (mW * 4.0f);
@@ -251,7 +271,7 @@ void Quaternion::addScaledVector(const Vector3f& vector, float scale)
     mZ += q.mZ * 0.5f; //k
 }
 
-//assignment operators
+//assignment operator
 Quaternion& Quaternion::operator=(const Quaternion &rhs)
 {
 	mX = rhs.mX;
@@ -275,18 +295,13 @@ const Quaternion Quaternion::operator*(const Quaternion &other) const
     float x = W*q.X + q.W*X + Y*q.Z - Z*q.Y;
     float y = W*q.Y + q.W*Y + Z*q.X - X*q.Z;
     float z = W*q.Z + q.W*Z + X*q.Y - Y*q.X;
-
-
-
-
 	*/
+
 	Quaternion result = Quaternion();
 	result.mW = (mW * other.mW - mX * other.mX - mY * other.mY - mZ * other.mZ);
 	result.mX = (mW * other.mX + mX * other.mW + mY * other.mZ - mZ * other.mY);
 	result.mY = (mW * other.mY - mX * other.mZ + mY * other.mW + mZ * other.mX);
 	result.mZ = (mW * other.mZ + mX * other.mY - mY * other.mX + mZ * other.mW);
-	//result.calculateEulerAngles();
-	//result.normalize();
 	return result;
 }
 Quaternion& Quaternion::operator*=(const Quaternion &other)
@@ -334,7 +349,9 @@ float Quaternion::lengthSquared() const
 {
 	return mW * mW + mX * mX + mY * mY + mZ * mZ;
 }
-void Quaternion::toRotationMatrix(M3DMatrix44f &mat) const//convert the quaternion to a rotation matrix for the glm graphics
+
+//convert the quaternion to a rotation matrix for the glm graphics
+void Quaternion::toRotationMatrix(M3DMatrix44f &mat) const
 {
 	mat[0] = 1.0f - 2.0f * mY * mY - 2.0f * mZ * mZ;
 	mat[1] = 2.0f * mX * mY + 2.0f * mZ * mW;
@@ -353,7 +370,9 @@ void Quaternion::toRotationMatrix(M3DMatrix44f &mat) const//convert the quaterni
 	mat[14] = 0.0f;
 	mat[15] = 1.0f;
 }
-void Quaternion::toRotationMatrix(Matrix44f &matrix) const//convert the quaternion to a rotation matrix for physics
+
+//convert the quaternion to a rotation matrix for physics
+void Quaternion::toRotationMatrix(Matrix44f &matrix) const
 {
 	matrix[0] = 1.0f - (2.0f * mY * mY + 2.0f * mZ * mZ);
 	matrix[1] = 2.0f * mX * mY + 2.0f * mZ * mW;
@@ -373,6 +392,7 @@ void Quaternion::toRotationMatrix(Matrix44f &matrix) const//convert the quaterni
 	matrix[15] = 1.0f;
 }
 
+//these functions create a quaternion from an axis angle representation
 void Quaternion::setRotation(float angle, float x, float y, float z)
 {
 	float s = sinf(angle * 0.5f);
@@ -380,7 +400,7 @@ void Quaternion::setRotation(float angle, float x, float y, float z)
 	mY = y * s;
 	mZ = z * s;
 	mW = cosf( angle * 0.5f );
-	mRecalculateEuler =true;
+	mRecalculateEuler = true;
 }
 
 Quaternion Quaternion::fromAxis(float Angle, float x, float y, float z) 
@@ -399,12 +419,12 @@ Quaternion Quaternion::fromAxis(float Angle, float x, float y, float z)
 
 		// Note: Previously was negative angle, which was incorrect.
 		omega = 0.5f * Angle;
-		s = (float)sin(omega);
+		s = sinf(omega);
 	  
 		quat.mX = s*x;
 		quat.mY = s*y;
 		quat.mZ = s*z;
-		quat.mW = (float)cos(omega);
+		quat.mW = cosf(omega);
     }
     else
     {

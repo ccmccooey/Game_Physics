@@ -51,17 +51,18 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 
 	//allocate space for the buttons
 	mGuiButtons = vector<GUIButton*>((unsigned int)GuiOperationEnum::TOTAL_OPERATIONS);
-
+	
 	//declare the initial positon of the buttons
 	mRowX = 0;
 	mRowY = 0;
 
-	//create all the buttons and their assets
+	//create all the buttons and their assetss
 	AddButtonAndSprite(GuiOperationEnum::Play, "PlayButton", 0, 0, 32, 32, "Play simulation");
 	AddButtonAndSprite(GuiOperationEnum::Stop, "StopButton", 32, 0, 32, 32, "Pause simulation");
-	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 64, 0, 32, 32, "Reset simulation");
-	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 96, 0, 32, 32, "Show debug information");
-	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 128, 0, 32, 32, "Movement: <asdw keys>\nCamera Movement: <arrow keys>\nJump <space key>");
+	AddButtonAndSprite(GuiOperationEnum::SingleStep, "SingleStep", 64, 0, 32, 32, "Take one single physics update");
+	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 96, 0, 32, 32, "Reset simulation");
+	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 128, 0, 32, 32, "Show debug information");
+	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 160, 0, 32, 32, "Movement: <asdw keys>\nCamera Movement: <arrow keys>\nJump <space key>");
 
 	//create all the simulation specific buttons and their assets
 	AddButtonAndSprite(GuiOperationEnum::Create_Sphere, "CreateSphere", 0, 64, 32, 32, "Create a sphere in front of the camera");

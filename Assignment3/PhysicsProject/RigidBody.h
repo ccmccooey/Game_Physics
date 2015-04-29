@@ -29,6 +29,7 @@ private:
 
 	float mMass;
 	float mInverseMass;
+	bool mStatic;
 
 public:
 	RigidBody();

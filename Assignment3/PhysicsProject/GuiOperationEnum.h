@@ -8,6 +8,7 @@ enum GuiOperationEnum
 	//main buttons
 	Play,
 	Stop,
+	SingleStep,
 	Reset,
 	DebugInfo,
 	Help,

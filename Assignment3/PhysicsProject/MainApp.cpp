@@ -213,6 +213,10 @@ void MainApp::CheckGui()
 		case GuiOperationEnum::Stop:
 			mPaused = true;
 			break;
+		case GuiOperationEnum::SingleStep:
+			mPaused = false;
+			mUpdateOnlyOnce = true;
+			break;
 		case GuiOperationEnum::Reset:
 			mGame->Reset();
 			break;

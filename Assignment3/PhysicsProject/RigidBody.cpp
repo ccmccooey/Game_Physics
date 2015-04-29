@@ -12,6 +12,7 @@ RigidBody::RigidBody()
 	mOrientation = Quaternion();
 	mAccumulatedTorque = Vector3f();
 	mTransformMatrix = Matrix44f();
+	mStatic = false;
 	SetMass(1.0f);
 }
 RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
@@ -26,6 +27,7 @@ RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 	mOrientation = Quaternion();
 	mAccumulatedTorque = Vector3f();
 	mTransformMatrix = Matrix44f();
+	mStatic = false;
 	SetMass(mass);
 }
 RigidBody::RigidBody(const RigidBody &rhs)
@@ -248,6 +250,12 @@ inline void RigidBody::TransformInertiaTensor(Matrix33f &iitWorld, const Quatern
 //update
 void RigidBody::FixedUpdate(double t)
 {
+	//static rigid bodies are unaffected by physics
+	if (mStatic)
+	{
+		return;
+	}
+
 	//keep track of the acceleration on the previous frame
 	mPreviousAcceleration = mAcceleration;
 
@@ -263,11 +271,11 @@ void RigidBody::FixedUpdate(double t)
 	//Calculate linear velocity
 	mVelocity = mVelocity + mAcceleration * (float)t;
 
-	//rotate the object based on angular velocity.
-    mOrientation.addScaledVector(mRotation, (float)t);
-
 	//move the object based on linear velocity
 	mPosition += mVelocity * (float)t;
+
+	//rotate the object based on angular velocity.
+    mOrientation.addScaledVector(mRotation, (float)t);
 
 	CalculateDerivedData();
 

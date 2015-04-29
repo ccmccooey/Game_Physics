@@ -34,6 +34,7 @@ private:
 public:
 	Quaternion();
 	Quaternion(float w, float x, float y, float z);
+	Quaternion(const Quaternion &rhs);
 	~Quaternion();	
 
 	//accessors

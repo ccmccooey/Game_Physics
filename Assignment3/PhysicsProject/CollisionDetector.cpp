@@ -24,20 +24,20 @@ unsigned int CollisionDetector::PrimitiveAndPrimitive(CollisionPrimitive* a, Col
 	if (a->IsSphere())
 	{
 		if (b->IsSphere())
-			return SphereAndSphere(*((CollisionSphere*)a), *((CollisionSphere*)b), data);
+			return SphereAndSphere(*(static_cast<CollisionSphere*>(a)), *(static_cast<CollisionSphere*>(b)), data);
 		else if (b->IsPlane())
-			return SphereAndTruePlane(*((CollisionSphere*)a), *((CollisionPlane*)b), data);
+			return SphereAndTruePlane(*(static_cast<CollisionSphere*>(a)), *(static_cast<CollisionPlane*>(b)), data);
 		else if (b->IsHalfSpace())
-			return SphereAndHalfSpace(*((CollisionSphere*)a), *((CollisionPlane*)b), data);
+			return SphereAndHalfSpace(*(static_cast<CollisionSphere*>(a)), *(static_cast<CollisionPlane*>(b)), data);
 	}
 	else if (a->IsBox())
 	{
 		if (b->IsSphere())
-			return BoxAndSphere(*((CollisionBox*)a), *((CollisionSphere*)b), data);
+			return BoxAndSphere(*(static_cast<CollisionBox*>(a)), *(static_cast<CollisionSphere*>(b)), data);
 		else if (b->IsHalfSpace())
-			return BoxAndHalfSpace(*((CollisionBox*)a), *((CollisionPlane*)b), data);
+			return BoxAndHalfSpace(*(static_cast<CollisionBox*>(a)), *(static_cast<CollisionPlane*>(b)), data);
 		else if (b->IsBox())
-			return BoxAndBox(*((CollisionBox*)a), *((CollisionBox*)b), data);
+			return BoxAndBox(*(static_cast<CollisionBox*>(a)), *(static_cast<CollisionBox*>(b)), data);
 	}
 
 
@@ -313,7 +313,7 @@ unsigned int CollisionDetector::BoxAndHalfSpace(const CollisionBox &box, const C
             // plane - we multiply the direction by half the separation
             // distance and add the vertex location.
             contact->mContactPoint = plane.mNormal;
-            contact->mContactPoint *= (vertexDistance-plane.mOffset);
+            contact->mContactPoint *= (vertexDistance - plane.mOffset);
             contact->mContactPoint += vertexPos;
 			contact->mContactNormal = plane.mNormal;
             contact->mPenetrationDepth = plane.mOffset - vertexDistance;
