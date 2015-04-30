@@ -137,6 +137,20 @@ Vector3f Quaternion::getVectorRight() const
 //setters
 void Quaternion::normalize()
 {
+	float d = mW * mW + mX * mX + mY * mY + mZ * mZ;
+	if (d < FLT_EPSILON)
+	{
+		mW = 1.0f;
+		return;
+	}
+
+	d = 1.0f / (sqrtf(d));
+	mW *= d;
+	mX *= d;
+	mY *= d;
+	mZ *= d;
+
+	/*
 	float length = this->length();
 
 	//prevent division by zero
@@ -151,7 +165,7 @@ void Quaternion::normalize()
 		mX /= length;
 		mY /= length;
 		mZ /= length;
-	}
+	}*/
 	calculateEulerAngles();
 }
 
@@ -263,8 +277,9 @@ void Quaternion::rotateByVector(const Vector3f& vector)
 }
 void Quaternion::addScaledVector(const Vector3f& vector, float scale)
 {
-    Quaternion q(0, vector.x * scale, vector.y * scale, vector.z * scale);
+    Quaternion q(0.0f, vector.x * scale, vector.y * scale, vector.z * scale);
     q *= (*this);
+
     mW += q.mW * 0.5f; //r
     mX += q.mX * 0.5f; //i
     mY += q.mY * 0.5f; //j
@@ -274,10 +289,10 @@ void Quaternion::addScaledVector(const Vector3f& vector, float scale)
 //assignment operator
 Quaternion& Quaternion::operator=(const Quaternion &rhs)
 {
+	mW = rhs.mW;
 	mX = rhs.mX;
 	mY = rhs.mY;
-	mZ = rhs.mZ;
-	mW = rhs.mW;
+	mZ = rhs.mZ;	
 	mEulerAngles = rhs.mEulerAngles;
 	return *this;
 }

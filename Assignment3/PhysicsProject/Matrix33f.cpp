@@ -1,3 +1,15 @@
+/**********************************************************************
+*	Author:  Christopher McCooey
+*	Last Update : April 30, 2015
+* Filename : Matrix33f.cpp
+*
+*	Description :
+*	This class defines a 3x3 matrix of floats.
+*
+*	Certification of Authenticity :
+*I certify that this assignment is entirely my own work.
+**********************************************************************/
+
 #include "Matrix33f.h"
 #include <sstream>
 

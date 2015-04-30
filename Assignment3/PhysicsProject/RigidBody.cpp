@@ -8,7 +8,7 @@ RigidBody::RigidBody()
 	mAcceleration = Vector3f();
 	mPreviousAcceleration = Vector3f();
 	mAngularVelocity = Vector3f();
-	mRotation = Vector3f();
+	mAngularVelocity = Vector3f();
 	mOrientation = Quaternion();
 	mAccumulatedTorque = Vector3f();
 	mTransformMatrix = Matrix44f();
@@ -18,7 +18,7 @@ RigidBody::RigidBody()
 RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 {
 	mPosition = initialPosition;
-	mRotation = Vector3f();
+	mAngularVelocity = Vector3f();
 	mVelocity = Vector3f();
 	mAccumulatedForce = Vector3f();
 	mAcceleration = Vector3f();
@@ -82,11 +82,15 @@ Quaternion const& RigidBody::GetOrientation() const
 }
 Vector3f RigidBody::GetRotationVector() const
 {
-	return mRotation;
+	return mAngularVelocity;
 }
 Vector3f const& RigidBody::GetRotation() const
 {
-	return mRotation;
+	return mAngularVelocity;
+}
+Vector3f const& RigidBody::GetAngularAcceleration() const
+{
+	return mAngularAcceleration;
 }
 Vector3f RigidBody::GetPositionInWorldSpace(const Vector3f &position) const
 {
@@ -129,7 +133,7 @@ void RigidBody::CopyDataFrom(const RigidBody &other)
 	mAcceleration = other.mAcceleration;
 	mMass = other.mMass;
 	mInverseMass = other.mInverseMass;
-	mRotation = other.mRotation;
+	mAngularVelocity = other.mAngularVelocity;
 	mAccumulatedTorque = other.mAccumulatedTorque;
 	mOrientation = other.mOrientation;
 	mAngularVelocity = other.mAngularVelocity;
@@ -187,7 +191,7 @@ void RigidBody::AddAcceleration(const Vector3f &acceleration)
 }
 void RigidBody::AddRotation(const Vector3f &rotation)
 {
-	mRotation += rotation;
+	mAngularVelocity += rotation;
 	//CalculateTransformMatrix();
 }
 void RigidBody::AddTorque(const Vector3f &torque)
@@ -263,6 +267,7 @@ void RigidBody::FixedUpdate(double t)
 
 	//keep track of the acceleration on the previous frame
 	mPreviousAcceleration = mAcceleration;
+	//mPreviousAcceleration += mAccumulatedForce * mInverseMass;
 
 	//calculate linear acceleration
 	mAcceleration = mAccumulatedForce * mInverseMass;
@@ -271,20 +276,20 @@ void RigidBody::FixedUpdate(double t)
 	mAngularAcceleration = mInverseInertiaTensorWorld.Transform(mAccumulatedTorque);
 
 	//Calculate angular velocity
-	mRotation += mAngularAcceleration * (float)t;
+	mAngularVelocity += mAngularAcceleration * (float)t;
 
 	//Calculate linear velocity
 	mVelocity = mVelocity + mAcceleration * (float)t;
 
 	//drag
     //mVelocity *= powf(0.00001f, (float)t);
-    //mRotation *= powf(0.00001f, (float)t);
+    //mAngularVelocity *= powf(0.00001f, (float)t);
 
 	//move the object based on linear velocity
 	mPosition += mVelocity * (float)t;
 
 	//rotate the object based on angular velocity.
-    mOrientation.addScaledVector(mRotation, (float)t);
+    mOrientation.addScaledVector(mAngularVelocity, (float)t);
 
 	CalculateDerivedData();
 

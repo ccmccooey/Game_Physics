@@ -232,6 +232,11 @@ void MainApp::CheckGui()
 		case GuiOperationEnum::DebugInfo:
 			mGuiSystem->ToggleDebugText();
 			mDebugInfo = !mDebugInfo;
+			UpdateDebugInformation();
+			break;
+		case GuiOperationEnum::DebugNext:
+			mGame->SendGuiEvent(operation);
+			UpdateDebugInformation();
 			break;
 		default:
 			mGame->SendGuiEvent(operation);

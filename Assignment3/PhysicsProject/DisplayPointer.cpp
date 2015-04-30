@@ -44,7 +44,7 @@ void DisplayPointer::UnLatch()
 	}
 }
 
-void DisplayPointer::Update()
+void DisplayPointer::UpdatePosition()
 {
 	if (mObject != nullptr)
 	{

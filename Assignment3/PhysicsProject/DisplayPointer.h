@@ -19,7 +19,7 @@ public:
 	void LatchTo(GameObject *object);
 	void UnLatch();
 
-	void Update();
+	void UpdatePosition();
 };
 
 #endif

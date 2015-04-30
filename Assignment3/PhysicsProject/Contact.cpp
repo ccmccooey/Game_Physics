@@ -143,12 +143,12 @@ void Contact::CalculateDesiredDeltaVelocity(double duration)
 
 	
 	//velocityFromAcc += mBodies[0]->GetPreviousFrameAcceleration() * duration * mContactNormal;
-	velocityFromAcc += Vector3f::DotProduct(mBodies[0]->GetPreviousFrameAcceleration(), mContactNormal) * (float)duration;
+	velocityFromAcc += Vector3f::DotProduct(mBodies[0]->GetPreviousFrameAcceleration() * (float)duration, mContactNormal);
 	
 
 	if (mBodies[1] != nullptr)
 	{
-		velocityFromAcc += Vector3f::DotProduct(mBodies[1]->GetPreviousFrameAcceleration(), mContactNormal) * (float)duration;
+		velocityFromAcc -= Vector3f::DotProduct(mBodies[1]->GetPreviousFrameAcceleration() * (float)duration, mContactNormal);
 		//velocityFromAcc -= mBodies[1]->GetPreviousFrameAcceleration() * duration * mContactNormal;				
 	}
 	
@@ -458,8 +458,7 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
     }
     else
     {
-        // Otherwise we may have impulses that aren't in the direction of the
-        // contact, so we need the more complex version.
+        // Otherwise we may have impulses that aren't in the direction of the contact, so we need the more complex version.
         //impulseContact = CalculateFrictionImpulse(inverseInertiaTensor);
 		impulseContact = CalculateFrictionlessImpulse(inverseInertiaTensor);
     }

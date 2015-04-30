@@ -72,7 +72,7 @@ void Game::Update(double t)
 		mGameObjects[i]->LinkPositions();
 	}
 
-	mDisplayPointer->Update();
+	mDisplayPointer->UpdatePosition();
 }
 
 //cleanup
@@ -125,7 +125,8 @@ void Game::GetDebugInfo(std::string &info) const
 			"\nOrientation: " + rb->GetOrientation().toString() +
 			"\nLinear Velocity: " + rb->GetVelocity().ToString() +
 			"\nAngular Velocity: " + rb->GetAngularVelocity().ToString() +
-			"\nLinear Acceleration: " + rb->GetAcceleration().ToString();
+			"\nLinear Acceleration: " + rb->GetAcceleration().ToString() +
+			"\nAngular Acceleration: " + rb->GetAngularAcceleration().ToString();
 	}
 }
 float Game::GetObjectMass() const
@@ -153,6 +154,7 @@ void Game::SendGuiEvent(GuiOperationEnum ev)
 			if (mDisplayPointerIndex >= mGameObjects.size())
 				mDisplayPointerIndex = 0;
 			mDisplayPointer->LatchTo(mGameObjects[mDisplayPointerIndex]);
+			mDisplayPointer->UpdatePosition();
 		}
 		break;
 	case GuiOperationEnum::Set_Size_Small:

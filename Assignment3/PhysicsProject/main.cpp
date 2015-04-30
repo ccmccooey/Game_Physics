@@ -163,7 +163,7 @@ int main(int argc, char* argv[])
 	//glEnable(GL_TEXTURE);
 	glutInitWindowSize(800,600);
 
-	glutCreateWindow("Mass Aggregate System");
+	glutCreateWindow("Rigid Body System");
 	glutReshapeFunc(ChangeSize); //changing the size of the window
 	glutDisplayFunc(RenderScene); //rendering is all here
 	glutSpecialFunc(SpecialKeysDown); //special glut keyboard input when a key is down

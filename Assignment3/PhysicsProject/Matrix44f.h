@@ -1,3 +1,15 @@
+/**********************************************************************
+*	Author:  Christopher McCooey
+*	Last Update : April 30, 2015
+* Filename : Matrix44f.h
+*
+*	Description :
+*	This class defines a 4x4 matrix of floats.
+*
+*	Certification of Authenticity :
+*I certify that this assignment is entirely my own work.
+**********************************************************************/
+
 #ifndef _MATRIX_44_H
 #define _MATRIX_44_H
 
