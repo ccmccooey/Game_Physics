@@ -105,6 +105,7 @@ unsigned int CollisionDetector::SphereAndHalfSpace(const CollisionSphere &sphere
 
     // Create the contact - it has a normal in the plane direction.
     Contact* contact = data->mContacts;
+	contact[0] = Contact();
 	contact->SetBodyData(sphere.mBody, NULL, data->mGlobalFriction, data->mGlobalRestitution);
 	contact->mContactNormal = plane.mNormal;
 	contact->mPenetrationDepth = ballDistance * -1.0f;
@@ -148,6 +149,7 @@ unsigned int CollisionDetector::SphereAndTruePlane(const CollisionSphere &sphere
 
     // Create the contact - it has a normal in the plane direction.
     Contact* contact = data->mContacts;
+	contact[0] = Contact();
     contact->mContactNormal = normal;
 	contact->mPenetrationDepth = penetrationDepth;
 	contact->mContactPoint = position - plane.mNormal * centerDistance;
@@ -199,6 +201,7 @@ unsigned int CollisionDetector::BoxAndPoint(const CollisionBox &box, const Vecto
 
     // Compile the contact
     Contact* contact = data->mContacts;
+	contact[0] = Contact();
     contact->mContactNormal = normal;
     contact->mContactPoint = point;
     contact->mPenetrationDepth = minimumDepth;
@@ -258,6 +261,7 @@ unsigned int CollisionDetector::BoxAndSphere(const CollisionBox &box, const Coll
 	Vector3f closestPtWorld = box.GetTransformMatrix().Transform(closestPt);
 
     Contact* contact = data->mContacts;
+	contact[0] = Contact();
     contact->mContactNormal = (closestPtWorld - centre);
 	contact->mContactNormal.Normalize();
     contact->mContactPoint = closestPtWorld;
@@ -290,6 +294,8 @@ unsigned int CollisionDetector::BoxAndHalfSpace(const CollisionBox &box, const C
                                {1,1,-1},{-1,1,-1},{1,-1,-1},{-1,-1,-1}};
 
     Contact* contact = data->mContacts;
+	contact[0] = Contact();
+
     unsigned contactsUsed = 0;
     for (unsigned int i = 0; i < 8; i++)
 	{

@@ -34,6 +34,7 @@
     <ClCompile Include="ContactResolver.cpp" />
     <ClCompile Include="DebugLogger.cpp" />
     <ClCompile Include="DisplayObject3DManager.cpp" />
+    <ClCompile Include="DisplayPointer.cpp" />
     <ClCompile Include="DrawData.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -131,6 +132,7 @@
     <ClInclude Include="CollisionDetector.h" />
     <ClInclude Include="CollisionTest.h" />
     <ClInclude Include="Color.h" />
+    <ClInclude Include="DisplayPointer.h" />
     <ClInclude Include="ShaderTextureTileReplace.h" />
     <ClInclude Include="VisualContactSystem.h" />
     <None Include="Comments.txt" />

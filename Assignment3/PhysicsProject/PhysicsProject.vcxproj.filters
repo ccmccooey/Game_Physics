@@ -390,6 +390,9 @@
     <ClCompile Include="ShaderTextureTileReplace.cpp">
       <Filter>Source Files\Graphics\Shaders</Filter>
     </ClCompile>
+    <ClCompile Include="DisplayPointer.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -675,9 +678,6 @@
     <ClInclude Include="Ground.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionPrimitive.h">
-      <Filter>Header Files\Physics\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="CollisionPlane.h">
       <Filter>Header Files\Physics\Collision\CollisionPrimitives</Filter>
     </ClInclude>
@@ -707,6 +707,12 @@
     </ClInclude>
     <ClInclude Include="ShaderTextureTileReplace.h">
       <Filter>Header Files\Graphics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="DisplayPointer.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionPrimitive.h">
+      <Filter>Header Files\Physics\Collision\CollisionPrimitives</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

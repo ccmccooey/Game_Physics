@@ -196,21 +196,21 @@ Vector3f Matrix44f::TransformInverse(const Vector3f &vector) const
 	tmp.x -= mData[3];
 	tmp.y -= mData[7];
 	tmp.z -= mData[11];
-	return Vector3f(tmp.x * mData[0] + tmp.y * mData[4] * tmp.z * mData[8],
-					tmp.x * mData[1] + tmp.y * mData[5] * tmp.z * mData[9],
-					tmp.x * mData[2] + tmp.y * mData[6] * tmp.z * mData[10]);
+	return Vector3f(tmp.x * mData[0] + tmp.y * mData[4] + tmp.z * mData[8],
+					tmp.x * mData[1] + tmp.y * mData[5] + tmp.z * mData[9],
+					tmp.x * mData[2] + tmp.y * mData[6] + tmp.z * mData[10]);
 }
 Vector3f Matrix44f::TransformDirection(const Vector3f &direction) const
 {
-	return Vector3f(direction.x * mData[0] + direction.y * mData[1] * direction.z * mData[2],
-					direction.x * mData[4] + direction.y * mData[5] * direction.z * mData[6],
-					direction.x * mData[8] + direction.y * mData[9] * direction.z * mData[10]);
+	return Vector3f(direction.x * mData[0] + direction.y * mData[1] + direction.z * mData[2],
+					direction.x * mData[4] + direction.y * mData[5] + direction.z * mData[6],
+					direction.x * mData[8] + direction.y * mData[9] + direction.z * mData[10]);
 }
 Vector3f Matrix44f::TransformInverseDirection(const Vector3f &direction) const
 {
-	return Vector3f(direction.x * mData[0] + direction.y * mData[4] * direction.z * mData[8],
-					direction.x * mData[1] + direction.y * mData[5] * direction.z * mData[9],
-					direction.x * mData[2] + direction.y * mData[6] * direction.z * mData[10]);
+	return Vector3f(direction.x * mData[0] + direction.y * mData[4] + direction.z * mData[8],
+					direction.x * mData[1] + direction.y * mData[5] + direction.z * mData[9],
+					direction.x * mData[2] + direction.y * mData[6] + direction.z * mData[10]);
 }
 
 //accessors

@@ -249,7 +249,8 @@ void Vector3f::Lengthinize(float value)
 }
 float Vector3f::Length() const
 {
-	return sqrtf(powf(x, 2.0f) + powf(y, 2.0f) + powf(z, 2.0f));
+	//return sqrtf(powf(x, 2.0f) + powf(y, 2.0f) + powf(z, 2.0f));
+	return sqrtf(x * x + y * y + z * z);
 }
 float Vector3f::LengthSquared() const
 {

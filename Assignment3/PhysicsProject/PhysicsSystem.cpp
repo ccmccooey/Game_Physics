@@ -27,8 +27,6 @@ PhysicsSystem::PhysicsSystem()
 	mContactResolver = new ContactResolver();
 
 	mCollisionData = new CollisionData(MAX_CONTACTS);
-
-	AddNewCollider(new CollisionPlane(Vector3f::unitY, -30.0f, false)); //ground contact
 }
 PhysicsSystem::~PhysicsSystem()
 {

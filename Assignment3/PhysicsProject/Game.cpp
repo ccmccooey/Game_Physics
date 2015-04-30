@@ -2,10 +2,12 @@
 #include "MainApp.h"
 #include "PhysicsSystem.h"
 #include "GameObject.h"
+#include "RigidBody.h"
 #include "AssetLoader.h"
 #include "GroundForceGenerator.h"
 #include "Ground.h"
 #include "ObjectMaterial.h"
+#include "DisplayPointer.h"
 #include "Random.h"
 
 using namespace std;
@@ -43,6 +45,10 @@ void Game::Initialize()
 	//create the force generators
 	GroundForceGenerator* gfg = new GroundForceGenerator(10.0f);
 	MainApp::GetPhysicsSystem()->AddForceGenerator(gfg);
+
+	//create the display pointer
+	mDisplayPointer = new DisplayPointer();
+	mDisplayPointerIndex = 0;
 }
 
 //creating new objects
@@ -65,13 +71,13 @@ void Game::Update(double t)
 	{
 		mGameObjects[i]->LinkPositions();
 	}
+
+	mDisplayPointer->Update();
 }
 
 //cleanup
 void Game::CleanUp()
 {
-
-
 	unsigned int size = mGameObjects.size();
 	for (unsigned int i = 0; i < size; i++)
 	{
@@ -79,6 +85,7 @@ void Game::CleanUp()
 	}
 	mGameObjects.clear();
 
+	delete mDisplayPointer;
 	delete mObjectMaterial;
 	delete mGround;
 }
@@ -86,6 +93,8 @@ void Game::CleanUp()
 //reset the mass aggregates
 void Game::Reset()
 {
+	mDisplayPointer->UnLatch();
+
 	unsigned int size = mGameObjects.size();
 	for (unsigned int i = 0; i < size; i++)
 	{
@@ -105,8 +114,19 @@ void Game::GetDebugInfo(std::string &info) const
 		checksNeeded += (totalColliders - i);
 
 	info = "Number of rigid bodies: " +to_string(totalObjects)
-		+ "\nNumber of collision checks needed: " +to_string(checksNeeded)
-		;
+		+ "\nNumber of collision checks needed: " +to_string(checksNeeded);
+
+	if (mDisplayPointer->IsLatched())
+	{
+		RigidBody* rb = mGameObjects[mDisplayPointerIndex]->GetPhysicsObject();
+		info +=
+			"\nMass: " + to_string(rb->GetMass()) +
+			"\nPosition: " + rb->GetPosition().ToString() +
+			"\nOrientation: " + rb->GetOrientation().toString() +
+			"\nLinear Velocity: " + rb->GetVelocity().ToString() +
+			"\nAngular Velocity: " + rb->GetAngularVelocity().ToString() +
+			"\nLinear Acceleration: " + rb->GetAcceleration().ToString();
+	}
 }
 float Game::GetObjectMass() const
 {
@@ -126,6 +146,15 @@ void Game::SendGuiEvent(GuiOperationEnum ev)
 {
 	switch(ev)
 	{
+	case GuiOperationEnum::DebugNext:
+		if (mGameObjects.size() > 0)
+		{
+			mDisplayPointerIndex++;
+			if (mDisplayPointerIndex >= mGameObjects.size())
+				mDisplayPointerIndex = 0;
+			mDisplayPointer->LatchTo(mGameObjects[mDisplayPointerIndex]);
+		}
+		break;
 	case GuiOperationEnum::Set_Size_Small:
 		mObjectMaterial->mSize = SIZE_OBJECT_SMALL;
 		break;

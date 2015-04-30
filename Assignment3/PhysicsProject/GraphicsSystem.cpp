@@ -92,6 +92,7 @@ void GraphicsSystem::LoadContent()
 	LoadTextureAndAddMaterial("Content/ObjectTextures/Iron.png", "Iron");
 
 	LoadTextureAndAddMaterial("Content/ObjectTextures/ContactDisplay.png", "ContactDisplay");
+	LoadTextureAndAddMaterial("Content/ObjectTextures/DisplayPointer.png", "DisplayPointer");
 
 	LoadTextureAndAddMaterial("Content/OtherTextures/Grass.png", "Grass");
 	LoadTextureAndAddMaterial("Content/OtherTextures/Dirt.png", "Dirt");

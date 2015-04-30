@@ -102,17 +102,13 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
         // Resolve the penetration.
         contact[index].ApplyPositionChange(linearChange, angularChange, max);
 
-        // Again this action may have changed the penetration of other
-        // bodies, so we update contacts.
-		
-
+        // Again this action may have changed the penetration of other bodies, so we update contacts.
         for (i = 0; i < numContacts; i++)
         {
             // Check each rigid body in the contact
 			for (b = 0; b < 2; b++) if (contact[i].mBodies[b] != nullptr)
             {
-                // Check for a match with each rigid body in the newly
-                // resolved contact
+                // Check for a match with each rigid body in the newly resolved contact
                 for (d = 0; d < 2; d++)
                 {
                     if (contact[i].mBodies[b] == contact[index].mBodies[d])

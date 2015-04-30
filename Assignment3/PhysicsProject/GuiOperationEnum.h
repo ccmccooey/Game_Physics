@@ -10,6 +10,7 @@ enum GuiOperationEnum
 	Stop,
 	SingleStep,
 	Reset,
+	DebugNext,
 	DebugInfo,
 	Help,
 

@@ -359,16 +359,15 @@ void Contact::ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChan
         // The linear and angular movements required are in proportion to
         // the two inverse inertias.
         float sign = (i == 0)?1.0f:-1.0f;
-        angularMove[i] =
-            sign * penetration * (angularInertia[i] / totalInertia);
-        linearMove[i] =
-            sign * penetration * (linearInertia[i] / totalInertia);
+
+        angularMove[i] = sign * penetration * (angularInertia[i] / totalInertia);
+        linearMove[i] = sign * penetration * (linearInertia[i] / totalInertia);
 
         // To avoid angular projections that are too great (when mass is large
         // but inertia tensor is small) limit the angular move.
         Vector3f projection = mRelativeContactPosition[i];
         //projection.AddScaledVector(contactNormal, -relativeContactPosition[i].scalarProduct(contactNormal));
-		projection += mContactNormal * -Vector3f::DotProduct(mRelativeContactPosition[i], mContactNormal);
+		projection += (mContactNormal * -Vector3f::DotProduct(mRelativeContactPosition[i], mContactNormal));
 
         // Use the small angle approximation for the sine of the angle (i.e.
         // the magnitude would be sine(angularLimit) * projection.magnitude

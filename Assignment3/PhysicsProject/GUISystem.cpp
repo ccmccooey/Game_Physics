@@ -61,8 +61,9 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	AddButtonAndSprite(GuiOperationEnum::Stop, "StopButton", 32, 0, 32, 32, "Pause simulation");
 	AddButtonAndSprite(GuiOperationEnum::SingleStep, "SingleStep", 64, 0, 32, 32, "Take one single physics update");
 	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 96, 0, 32, 32, "Reset simulation");
-	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 128, 0, 32, 32, "Show debug information");
-	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 160, 0, 32, 32, "Move the camera with the arrow keys.\nRotate the camera by holding the left mouse button on the sides of the screen.");
+	AddButtonAndSprite(GuiOperationEnum::DebugNext, "DebugNextButton", 128, 0, 32, 32, "Debug the next rigid body");
+	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 160, 0, 32, 32, "Show debug information");
+	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 192, 0, 32, 32, "Move the camera with the arrow keys.\nRotate the camera by holding the left mouse button on the sides of the screen.");
 
 	//create all the simulation specific buttons and their assets
 	AddButtonAndSprite(GuiOperationEnum::Create_Sphere, "CreateSphere", 0, 64, 32, 32, "Create a sphere in front of the camera");
@@ -78,9 +79,9 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 
 	//debug text
 	mDebugText = new TextField();
-	mDebugText->SetPosition(0.0f, -400.0f, 0.0f);
-	mDebugText->SetSize(12.0f);
-	mDebugText->SetEolSpacing(-24.0f);
+	mDebugText->SetPosition(0.0f, -300.0f, 0.0f);
+	mDebugText->SetSize(8.0f);
+	mDebugText->SetEolSpacing(-16.0f);
 	mDrawDebugText = false;
 
 	//hud text

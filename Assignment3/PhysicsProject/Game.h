@@ -9,6 +9,7 @@
 class Ground;
 struct ObjectMaterial;
 class GameObject;
+class DisplayPointer;
 
 class Game
 {
@@ -16,6 +17,8 @@ private:
 	std::vector<GameObject*> mGameObjects;
 	Ground* mGround;
 	ObjectMaterial* mObjectMaterial;
+	DisplayPointer* mDisplayPointer;
+	unsigned int mDisplayPointerIndex;
 
 public:
 	Game();
