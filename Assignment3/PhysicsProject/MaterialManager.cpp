@@ -23,10 +23,17 @@ MaterialManager::MaterialManager()
 	Material* newMaterial = new Material();	
 	newMaterial->SetShader(ShaderType::SHADER_GREY_SOLID);
 	InsertMaterial("Default", newMaterial);
+
+	//null material
+	mNullMaterial = new Material();
+	newMaterial->SetShader(ShaderType::SHADER_COLOR_SOLID);
+	newMaterial->SetColor(1.0f, 0.125f, 1.0f);
 }
 MaterialManager::~MaterialManager()
 {
 	RemoveAllMaterials();
+
+	delete mNullMaterial;
 }
 
 //removing the materials
@@ -80,6 +87,18 @@ bool MaterialManager::AddMaterial(Texture *texture, const Color &color, const st
 	ok = true;	
 	return ok;
 }
+bool MaterialManager::AddMaterial(Texture *texture, const Color &color, ShaderType shader, const string &customKey)
+{
+	bool ok = true;
+
+	Material* newMaterial = new Material(texture);	
+	newMaterial->SetShader(shader);
+	newMaterial->SetColor(color);
+	InsertMaterial(customKey, newMaterial);
+
+	ok = true;	
+	return ok;
+}
 bool MaterialManager::AddMaterial(const Color &color, const string &customKey) //add a single material and use a custom key, returns if it is successful
 {
 	bool ok = true;
@@ -108,7 +127,15 @@ int MaterialManager::AddMaterialMany(Texture **textures, int count) //add multip
 //search functions
 Material* MaterialManager::FindMaterial(const string &key) const
 {
-	return mMaterialMap.find(key)->second;
+	std::map<string, Material*>::const_iterator iter = mMaterialMap.find(key);
+	if (iter != mMaterialMap.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		return mNullMaterial;
+	}
 }
 bool MaterialManager::MaterialExists(const string &key) const
 {

@@ -62,7 +62,7 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 	AddButtonAndSprite(GuiOperationEnum::SingleStep, "SingleStep", 64, 0, 32, 32, "Take one single physics update");
 	AddButtonAndSprite(GuiOperationEnum::Reset, "ResetButton", 96, 0, 32, 32, "Reset simulation");
 	AddButtonAndSprite(GuiOperationEnum::DebugInfo, "DebugInfoButton", 128, 0, 32, 32, "Show debug information");
-	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 160, 0, 32, 32, "Movement: <asdw keys>\nCamera Movement: <arrow keys>\nJump <space key>");
+	AddButtonAndSprite(GuiOperationEnum::Help, "HelpButton", 160, 0, 32, 32, "Move the camera with the arrow keys.\nRotate the camera by holding the left mouse button on the sides of the screen.");
 
 	//create all the simulation specific buttons and their assets
 	AddButtonAndSprite(GuiOperationEnum::Create_Sphere, "CreateSphere", 0, 64, 32, 32, "Create a sphere in front of the camera");
@@ -85,7 +85,7 @@ void GuiSystem::Initialize(int windowWidth, int windowHeight)
 
 	//hud text
 	mHudText = new TextField();
-	mHudText->SetPosition(0.0f, -32.0f, 0.0f);
+	mHudText->SetPosition(0.0f, -40.0f, 0.0f);
 	mHudText->SetSize(8.0f);
 	mHudText->SetEolSpacing(-16.0f);
 
@@ -207,6 +207,8 @@ void GuiSystem::DrawGUI(GLShaderManager* shaderManager, TextRenderer* textRender
 	{
 		textRenderer->DrawTextField(mDebugText, projection, mGuiViewMatrix);
 	}
+	textRenderer->DrawTextField(mHudText, projection, mGuiViewMatrix);
+
 	if (!mTooltip->IsEmptyText())
 	{
 		textRenderer->DrawTextField(mTooltip, projection, mGuiViewMatrix);
@@ -244,6 +246,10 @@ bool GuiSystem::IsDebugTextEnabled() const
 void GuiSystem::SetDebugText(const std::string &text)
 {
 	mDebugText->SetText(text);
+}
+void GuiSystem::SetHudText(const std::string &text)
+{
+	mHudText->SetText(text);
 }
 void GuiSystem::EnableDebugText()
 {

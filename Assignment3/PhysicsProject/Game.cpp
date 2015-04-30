@@ -41,7 +41,7 @@ void Game::Initialize()
 	//CreateObjectSphere(Vector3f::unitY * 25.0f);
 
 	//create the force generators
-	GroundForceGenerator* gfg = new GroundForceGenerator(5.0f);
+	GroundForceGenerator* gfg = new GroundForceGenerator(10.0f);
 	MainApp::GetPhysicsSystem()->AddForceGenerator(gfg);
 }
 
@@ -86,13 +86,27 @@ void Game::CleanUp()
 //reset the mass aggregates
 void Game::Reset()
 {
-	
+	unsigned int size = mGameObjects.size();
+	for (unsigned int i = 0; i < size; i++)
+	{
+		delete mGameObjects[i];
+	}
+	mGameObjects.clear();
 }
 
 //accessors
 void Game::GetDebugInfo(std::string &info) const
 {
-	info = "No info yet";
+	unsigned int checksNeeded = 0;
+	unsigned int totalObjects = mGameObjects.size();
+	unsigned int totalColliders = totalObjects + 1;
+
+	for (unsigned int i = 1; i < totalColliders; i++)
+		checksNeeded += (totalColliders - i);
+
+	info = "Number of rigid bodies: " +to_string(totalObjects)
+		+ "\nNumber of collision checks needed: " +to_string(checksNeeded)
+		;
 }
 float Game::GetObjectMass() const
 {
@@ -142,7 +156,7 @@ void Game::SendGuiEvent(GuiOperationEnum ev)
 		mObjectMaterial->mName = "Iron";
 		break;
 	case GuiOperationEnum::Create_Sphere:
-		this->CreateObjectSphere(Vector3f::unitY * 20.0f + (Vector3f::unitZ * Random::ArithmeticFloat()));
+		this->CreateObjectSphere(Vector3f::unitY * 20.0f + Vector3f(Random::ArithmeticFloat(), 0.0f, Random::ArithmeticFloat()));
 		break;
 	case GuiOperationEnum::Create_Box:
 		this->CreateObjectBox(Vector3f::unitY * 20.0f);

@@ -16,6 +16,7 @@
 class Material;
 class Texture;
 
+#include "ShaderType.h"
 #include <string>
 #include "Color.h"
 #include <map>
@@ -26,6 +27,7 @@ class MaterialManager
 {
 private:
 	map<string, Material*> mMaterialMap;
+	Material* mNullMaterial; //used when the material is not found
 	unsigned int mIDs;
 
 public:
@@ -37,6 +39,7 @@ public:
 	bool AddMaterial(Texture *texture); //add a single material and use the filepath as the key, returns if it is successful
 	bool AddMaterial(Texture *texture, const string &customKey); //add a single material and use a custom key, returns if it is successful
 	bool AddMaterial(Texture *texture, const Color &color, const string &customKey); //add a single material and use a custom key, returns if it is successful
+	bool AddMaterial(Texture *texture, const Color &color, ShaderType shader, const string &customKey); //add a single material using a shader and a custom key, returns if it is successful
 	bool AddMaterial(const Color &color, const string &customKey); //add a single material and use a custom key, returns if it is successful
 	int AddMaterialMany(Texture **texture, int count); //add multiple materials with a single function and use the filepath as the key, returns the number of materials that were successful loaded
 

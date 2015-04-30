@@ -6,7 +6,7 @@ Ground::Ground()
 {	
 	mElevation = -30.0f;
 	mDisplayObject = new DisplayObject3D(GraphicsSystem::GetModel("Quad"));
-	mDisplayObject->SetMaterial(GraphicsSystem::GetMaterial("Dirt"));
+	mDisplayObject->SetMaterial(GraphicsSystem::GetMaterial("DirtTerrain"));
 
 
 	float scale = 500.0f;

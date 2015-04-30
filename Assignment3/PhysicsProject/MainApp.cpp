@@ -68,7 +68,7 @@ void MainApp::Initialize()
 
 	//game
 	mGame = new Game();
-	//mGame->LatchCameraToPlayer(mCameraContainer);
+	UpdateHudInformation();
 
 	mDebugInfo = false;
 
@@ -166,6 +166,12 @@ void MainApp::UpdateDebugInformation()
 	mGame->GetDebugInfo(textOut);
 	mGuiSystem->SetDebugText(textOut);
 }
+void MainApp::UpdateHudInformation()
+{
+	std::string info;
+	mGame->GetObjectInfoString(info);
+	mGuiSystem->SetHudText(info);
+}
 
 //mouse input
 void MainApp::CheckMouseInput(int x, int y, bool mouseDown, bool mouseClicked)
@@ -230,6 +236,11 @@ void MainApp::CheckGui()
 		default:
 			mGame->SendGuiEvent(operation);
 			break;
+		}
+
+		if (operation >= GuiOperationEnum::Set_Size_Small && operation <= GuiOperationEnum::Set_Material_Iron)
+		{
+			UpdateHudInformation();
 		}
 	}
 }

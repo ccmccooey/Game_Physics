@@ -5,6 +5,7 @@
 #include "ShaderColorShaded.h"
 #include "ShaderTextureReplace.h"
 #include "ShaderTextureColor.h"
+#include "ShaderTextureTileReplace.h"
 
 ShaderManager::ShaderManager()
 {
@@ -55,9 +56,13 @@ void ShaderManager::CreateShaders()
 	ShaderTextureReplace* shaderTextureReplace = new ShaderTextureReplace();
 	AddShader(shaderTextureReplace);
 
-	//texture replace shader
+	//texture color replace shader
 	ShaderTextureColor* shaderTextureColor = new ShaderTextureColor();
 	AddShader(shaderTextureColor);
+
+	//texture tile replace shader
+	ShaderTextureTileReplace* shaderTextureTileReplace = new ShaderTextureTileReplace();
+	AddShader(shaderTextureTileReplace);
 }
 void ShaderManager::AddShader(ShaderBase* shader)
 {

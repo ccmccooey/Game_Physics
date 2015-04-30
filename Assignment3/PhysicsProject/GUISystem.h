@@ -54,6 +54,7 @@ public:
 
 	//setters
 	void SetDebugText(const std::string &text);
+	void SetHudText(const std::string &text);
 	void EnableDebugText();
 	void DisableDebugText();
 	void ToggleDebugText();

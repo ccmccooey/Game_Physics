@@ -1,6 +1,6 @@
 #include "ContactResolver.h"
 #include "Contact.h"
-
+#include "VisualContactSystem.h"
 
 ContactResolver::ContactResolver()
 {
@@ -12,10 +12,12 @@ ContactResolver::ContactResolver()
 
 	mPositionEpsilon = FLT_EPSILON;
 	mVelocityEpsilon = FLT_EPSILON;
+
+	mVisualContactSystem = new VisualContactSystem();
 }
 ContactResolver::~ContactResolver()
 {
-
+	delete mVisualContactSystem;
 }
 
 
@@ -37,16 +39,20 @@ void ContactResolver::SetEpsilon(float velocityEpsilon, float positionEpsilon)
 void ContactResolver::ResolveContacts(Contact *contacts, unsigned int numContacts, double duration)
 {
     // Make sure we have something to do.
-    if (numContacts == 0) return;
+    if (numContacts > 0)
+	{
+		//Prepare the contacts for processing
+		PrepareContacts(contacts, numContacts, (float)duration);
 
-    //Prepare the contacts for processing
-    PrepareContacts(contacts, numContacts, (float)duration);
+		//Resolve the interpenetration problems with the contacts.
+		ResolvePositions(contacts, numContacts, (float)duration);
 
-    //Resolve the interpenetration problems with the contacts.
-    ResolvePositions(contacts, numContacts, (float)duration);
+		//Resolve the velocity problems with the contacts.
+		ResolveVelocities(contacts, numContacts, (float)duration);
+	}
 
-    //Resolve the velocity problems with the contacts.
-    ResolveVelocities(contacts, numContacts, (float)duration);
+	//Update the visual contacts duration counters
+	mVisualContactSystem->Update(duration);
 }
 
 void ContactResolver::PrepareContacts(Contact* contacts, unsigned int numContacts, float duration)
@@ -57,6 +63,9 @@ void ContactResolver::PrepareContacts(Contact* contacts, unsigned int numContact
     {
         // Calculate the internal contact data (inertia, basis, etc).
         contact->CalculateInternals(duration);
+
+		//create the visual representation of the contacts
+		mVisualContactSystem->CreateContact(contact->mContactPoint.x, contact->mContactPoint.y, contact->mContactPoint.z);
     }
 }
 

@@ -267,9 +267,13 @@ void RigidBody::FixedUpdate(double t)
 
 	//Calculate angular velocity
 	mRotation += mAngularAcceleration * (float)t;
-	
+
 	//Calculate linear velocity
 	mVelocity = mVelocity + mAcceleration * (float)t;
+
+	//drag
+    //mVelocity *= powf(0.00001f, (float)t);
+    //mRotation *= powf(0.00001f, (float)t);
 
 	//move the object based on linear velocity
 	mPosition += mVelocity * (float)t;

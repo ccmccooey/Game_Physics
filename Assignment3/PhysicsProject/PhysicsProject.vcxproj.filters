@@ -384,6 +384,12 @@
     <ClCompile Include="ObjectMaterial.cpp">
       <Filter>Source Files\Game</Filter>
     </ClCompile>
+    <ClCompile Include="VisualContactSystem.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderTextureTileReplace.cpp">
+      <Filter>Source Files\Graphics\Shaders</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\gltools.lib" />
@@ -696,6 +702,12 @@
     <ClInclude Include="ObjectMaterial.h">
       <Filter>Header Files\Game</Filter>
     </ClInclude>
+    <ClInclude Include="VisualContactSystem.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="ShaderTextureTileReplace.h">
+      <Filter>Header Files\Graphics\Shaders</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Comments.txt">
@@ -741,6 +753,12 @@
       <Filter>Resource Files</Filter>
     </None>
     <None Include="shaders\textureShader.vp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\textureShaderTile.fp">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="shaders\textureShaderTile.vp">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

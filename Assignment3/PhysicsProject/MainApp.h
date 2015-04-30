@@ -44,6 +44,7 @@ public:
 	void DecreaseRunSpeed(double amount);
 	void CheckGui();
 	void UpdateDebugInformation();
+	void UpdateHudInformation();
 	void UpdateSkyboxPosition();
 
 	static PhysicsSystem* GetPhysicsSystem();

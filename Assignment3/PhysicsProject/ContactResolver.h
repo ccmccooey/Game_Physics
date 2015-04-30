@@ -1,6 +1,7 @@
 #ifndef _CONTACT_RESOLVER_H
 #define _CONTACT_RESOLVER_H
 
+class VisualContactSystem;
 class Contact;
 
 class ContactResolver
@@ -14,6 +15,8 @@ private:
 
 	float mVelocityEpsilon;
 	float mPositionEpsilon;
+
+	VisualContactSystem* mVisualContactSystem;
 
 public:
 	ContactResolver();

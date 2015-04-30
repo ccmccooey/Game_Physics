@@ -91,8 +91,12 @@ void GraphicsSystem::LoadContent()
 	LoadTextureAndAddMaterial("Content/ObjectTextures/Steel.png", "Steel");
 	LoadTextureAndAddMaterial("Content/ObjectTextures/Iron.png", "Iron");
 
+	LoadTextureAndAddMaterial("Content/ObjectTextures/ContactDisplay.png", "ContactDisplay");
+
 	LoadTextureAndAddMaterial("Content/OtherTextures/Grass.png", "Grass");
 	LoadTextureAndAddMaterial("Content/OtherTextures/Dirt.png", "Dirt");
+
+	mMaterialManager->AddMaterial(mTextureManager->FindTexture("Dirt"), Color::White, ShaderType::SHADER_TEXTURE_TILE_REPLACE, "DirtTerrain");
 }
 void GraphicsSystem::LoadTextureAndAddMaterial(const std::string &texturePath, const std::string key) //create both a texture and material asset
 {

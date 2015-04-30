@@ -26,7 +26,6 @@ private:
 	
 	ContactResolver* mContactResolver;
 	CollisionData* mCollisionData;
-	CollisionPlane* mGround;
 
 	static unsigned long msTotalPhysicsUpdates;
 
