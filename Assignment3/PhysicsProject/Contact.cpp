@@ -76,7 +76,7 @@ void Contact::CalculateContactBasis()
 		// The new Y-axis is at right angles to the new X- and Z- axes
 		contactTangent[1].x = mContactNormal.y * contactTangent[0].x;
 		contactTangent[1].y = mContactNormal.z * contactTangent[0].x - mContactNormal.x * contactTangent[0].z;
-		contactTangent[1].z = -mContactNormal.y * contactTangent[0].x;
+		contactTangent[1].z = -(mContactNormal.y) * contactTangent[0].x;
 	}
 	else
 	{
@@ -85,12 +85,12 @@ void Contact::CalculateContactBasis()
 
 		// The new X-axis is at right angles to the world X-axis
 		contactTangent[0].x = 0.0f;
-		contactTangent[0].y = -mContactNormal.z * s;
+		contactTangent[0].y = -(mContactNormal.z) * s;
 		contactTangent[0].z = mContactNormal.y * s;
 
 		// The new Y-axis is at right angles to the new X- and Z- axes
 		contactTangent[1].x = mContactNormal.y * contactTangent[0].z - mContactNormal.z * contactTangent[0].y;
-		contactTangent[1].y = -mContactNormal.x * contactTangent[0].z;
+		contactTangent[1].y = -(mContactNormal.x) * contactTangent[0].z;
 		contactTangent[1].z = mContactNormal.x * contactTangent[0].y;
 	}
 
@@ -105,6 +105,12 @@ void Contact::CalculateContactBasis()
 }
 void Contact::CalculateInternals(double duration) 
 {
+	if (mBodies[0] == nullptr)
+	{
+		RigidBody* tmp = mBodies[0];
+		mBodies[0] = mBodies[1];
+		mBodies[1] = tmp;
+	}
 
     // Calculate an set of axis at the contact point.
     CalculateContactBasis();
@@ -160,14 +166,15 @@ void Contact::CalculateDesiredDeltaVelocity(double duration)
 
 Vector3f Contact::CalculateLocalVelocity(unsigned int mBodyIndex, double duration)
 {
-    RigidBody *thisBody = mBodies[mBodyIndex];
+    RigidBody* thisBody = mBodies[mBodyIndex];
 
     // Work out the velocity of the contact point.
     
 	//Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[mBodyIndex];
     //velocity += thisBody->GetVelocity();
 
-	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[mBodyIndex]) + thisBody->GetVelocity();
+	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[mBodyIndex]);
+	velocity += thisBody->GetVelocity();
 
     // Returned velocity is in contact space - note transformTranspose.
     Vector3f mContactVelocity = mContactToWorld.TransformTranspose(velocity);
@@ -464,21 +471,17 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
     // Split in the impulse into linear and rotational components
     Vector3f impulsiveTorque = Vector3f::CrossProduct(mRelativeContactPosition[0], impulse);
     rotationChange[0] = inverseInertiaTensor[0].Transform(impulsiveTorque);
-    //velocityChange[0].Clear();
-    //velocityChange[0].AddScaledVector(impulse, mBodies[0]->getInverseMass());
 	velocityChange[0] = impulse * mBodies[0]->GetInverseMass();
 
     // Apply the changes
     mBodies[0]->AddVelocity(velocityChange[0]);
     mBodies[0]->AddRotation(rotationChange[0]);
 
-    if (mBodies[1])
+    if (mBodies[1] != nullptr)
     {
         // Work out mBodies one's linear and angular changes
         Vector3f impulsiveTorque = Vector3f::CrossProduct(impulse, mRelativeContactPosition[1]);
         rotationChange[1] = inverseInertiaTensor[1].Transform(impulsiveTorque);
-        //velocityChange[1].clear();
-        //velocityChange[1].addScaledVector(impulse, -mBodies[1]->getInverseMass());
 		velocityChange[1] = impulse * -mBodies[1]->GetInverseMass();
 
         // And apply them.

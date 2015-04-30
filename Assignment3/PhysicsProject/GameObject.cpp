@@ -63,7 +63,12 @@ void GameObject::CommonInit(const std::string &modelKey, const std::string &mate
 		sphere->mBody = mPhysicsObject;
 		sphere->mRadius = size;
 		
-		mCollider = (CollisionPrimitive*)sphere;
+		Matrix33f tensor;
+		float coeff = mPhysicsObject->GetMass()* size * size * 0.4f;
+		tensor.SetInertiaTensorCoeffs(coeff, coeff, coeff);
+		mPhysicsObject->SetIntertiaTensor(tensor);
+
+		mCollider = static_cast<CollisionPrimitive*>(sphere);
 	}
 	else if (shape == GameObjectShape::Box)
 	{
@@ -71,7 +76,11 @@ void GameObject::CommonInit(const std::string &modelKey, const std::string &mate
 		box->mBody = mPhysicsObject;
 		box->mHalfSize = Vector3f::one * size;
 		
-		mCollider = (CollisionPrimitive*)box;
+		Matrix33f tensor;
+		tensor.SetBlockInertiaTensor(box->mHalfSize, mPhysicsObject->GetMass());
+		mPhysicsObject->SetIntertiaTensor(tensor);
+
+		mCollider = static_cast<CollisionPrimitive*>(box);
 	}
 	else
 	{

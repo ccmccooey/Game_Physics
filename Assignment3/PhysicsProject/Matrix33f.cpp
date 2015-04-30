@@ -185,8 +185,9 @@ void Matrix33f::SetInertiaTensorCoeffs(float ix, float iy, float iz, float ixy, 
 void Matrix33f::SetBlockInertiaTensor(const Vector3f &halfSizes, float mass)
 {
 	//halfSizes.componentProduct(halfSizes);
-	Vector3f squares = Vector3f::CrossProduct(halfSizes, halfSizes);
+	//Vector3f squares = Vector3f::CrossProduct(halfSizes, halfSizes);
 	//squares.Power(2.0f);
+	Vector3f squares = halfSizes * halfSizes;
 
 	SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z), 0.3f * mass * (squares.x + squares.y));
 }

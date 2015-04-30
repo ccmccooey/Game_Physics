@@ -152,6 +152,11 @@ void RigidBody::SetMass(float mass)
 	mMass = mass;
 	mInverseMass = 1.0f / mass;
 }
+void RigidBody::SetIntertiaTensor(const Matrix33f &tensor)
+{
+	mInverseInertiaTensor.SetInverse(tensor);
+	//CheckInverseInertiaTensor();
+}
 void RigidBody::SetAngularVelocity(const Vector3f &angleVelocity)
 {
 	mAngularVelocity = angleVelocity;
@@ -183,7 +188,7 @@ void RigidBody::AddAcceleration(const Vector3f &acceleration)
 void RigidBody::AddRotation(const Vector3f &rotation)
 {
 	mRotation += rotation;
-	CalculateTransformMatrix();
+	//CalculateTransformMatrix();
 }
 void RigidBody::AddTorque(const Vector3f &torque)
 {

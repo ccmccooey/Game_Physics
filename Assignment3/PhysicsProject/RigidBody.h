@@ -75,6 +75,7 @@ public:
 	void SetAngularVelocity(const Vector3f &angleVelocity);
 	void SetOrientation(const Quaternion &orientation);
 	void SetMass(float mass);
+	void SetIntertiaTensor(const Matrix33f &intertiaTensor);
 	void CalculateDerivedData();
 
 	//movement
