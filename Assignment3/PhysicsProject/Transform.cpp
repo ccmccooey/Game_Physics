@@ -49,7 +49,9 @@ void Transform::UpdateModelMatrix()
 	//matrix multiplication
 	//m3dMatrixMultiply44(mModelMatrix, mTranslationMatrix, mRotationMatrix);
 	//m3dMatrixMultiply44(mModelMatrix, mScalingMatrix, mModelMatrix);
-	m3dMatrixMultiply44(mModelMatrix, mRotationMatrix, mScalingMatrix);
+
+	m3dMatrixMultiply44(mModelMatrix, mScalingMatrix ,mRotationMatrix);
+	//m3dMatrixMultiply44(mModelMatrix, mRotationMatrix, mScalingMatrix);
 	m3dMatrixMultiply44(mModelMatrix, mTranslationMatrix, mModelMatrix);
 }
 

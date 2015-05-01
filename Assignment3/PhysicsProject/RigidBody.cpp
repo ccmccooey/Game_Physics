@@ -16,6 +16,8 @@ RigidBody::RigidBody()
 	mTransformMatrix = Matrix44f();
 	mStatic = false;
 	SetMass(1.0f);
+
+	CalculateDerivedData();
 }
 RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 {
@@ -31,10 +33,13 @@ RigidBody::RigidBody(float mass, const Vector3f &initialPosition)
 	mTransformMatrix = Matrix44f();
 	mStatic = false;
 	SetMass(mass);
+
+	CalculateDerivedData();
 }
 RigidBody::RigidBody(const RigidBody &rhs)
 {
 	CopyDataFrom(rhs);
+	CalculateDerivedData();
 }
 RigidBody::~RigidBody()
 {
@@ -69,6 +74,10 @@ float RigidBody::GetMass() const
 float RigidBody::GetInverseMass() const
 {
 	return mInverseMass;
+}
+bool RigidBody::IsStatic() const
+{
+	return mStatic;
 }
 Matrix44f const& RigidBody::GetTransformMatrix() const
 {
@@ -159,6 +168,10 @@ void RigidBody::SetMass(float mass)
 {
 	mMass = mass;
 	mInverseMass = 1.0f / mass;
+}
+void RigidBody::SetStatic(bool isStatic)
+{
+	mStatic = isStatic;
 }
 void RigidBody::SetIntertiaTensor(const Matrix33f &tensor)
 {

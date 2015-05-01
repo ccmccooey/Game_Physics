@@ -52,6 +52,8 @@ public:
 	void LinkPositions(); //link the position of the graphics object from the physics object
 	void SetTag(const std::string &tag);
 	void SetMaterial(const std::string &material);
+	void SetStatic(bool isStatic);
+	void SetScale(const Vector3f &scale);
 
 private:
 	void CommonInit(const std::string &modelKey, const std::string &materialKey, const Vector3f &positionPhysics, GameObjectShape shape, float mass, float size);

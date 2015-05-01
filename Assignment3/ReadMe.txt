@@ -17,4 +17,4 @@ each rigid body that indicates the selected rigid body. There is a button that w
 Bugs: Right now there is a rotation bug where boxes continuosly spin on the ground.
 
 Blog Post: https://christophermccooey.wordpress.com/2015/05/01/rigid-body-simulation/
-Github Link: 
+Github Link: https://github.com/ccmccooey/Game_Physics/tree/462d897ef90d4fc0d192f42697ef5d1513d5ed52

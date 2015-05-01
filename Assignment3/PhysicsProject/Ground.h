@@ -1,6 +1,8 @@
 #ifndef _GROUND_H
 #define _GROUND_H
 
+#include <string>
+
 class DisplayObject3D;
 class CollisionPlane;
 
@@ -14,6 +16,8 @@ private:
 public:
 	Ground();
 	~Ground();
+
+	void SetMaterial(const std::string &name);
 };
 
 #endif

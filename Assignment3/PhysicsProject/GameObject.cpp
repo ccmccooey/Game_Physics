@@ -86,6 +86,9 @@ void GameObject::CommonInit(const std::string &modelKey, const std::string &mate
 	{
 		std::cerr << "ERROR: Tried to create a gameobject with an invalid shape" << std::endl;
 	}
+	mPhysicsObject->CalculateDerivedData();
+	LinkPositions();
+
 	mAdded = false;
 
 	AddToSystems();
@@ -167,6 +170,18 @@ void GameObject::SetTag(const std::string &tag)
 void GameObject::SetMaterial(const std::string &material)
 {
 	mGraphicsObject->SetMaterial(GraphicsSystem::GetMaterial(material));
+}
+void GameObject::SetStatic(bool isStatic)
+{
+	mPhysicsObject->SetStatic(isStatic);
+}
+void GameObject::SetScale(const Vector3f &scale)
+{
+	if (mCollider->IsBox())
+	{
+		CollisionBox* box = (CollisionBox*)mCollider;
+		box->mHalfSize = scale;
+	}
 }
 
 //cloning objects

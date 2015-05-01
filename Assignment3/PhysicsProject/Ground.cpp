@@ -25,3 +25,8 @@ Ground::~Ground()
 {
 	GraphicsSystem::RemoveDisplayObject(mDisplayObject);
 }
+
+void Ground::SetMaterial(const std::string &name)
+{
+	mDisplayObject->SetMaterial(GraphicsSystem::GetMaterial(name));
+}

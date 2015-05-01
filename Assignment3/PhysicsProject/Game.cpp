@@ -10,6 +10,8 @@
 #include "DisplayPointer.h"
 #include "Random.h"
 
+
+
 using namespace std;
 
 //constructors
@@ -36,9 +38,8 @@ void Game::Initialize()
 	mObjectMaterial = new ObjectMaterial();
 	mObjectMaterial->SetObjectType("Plastic", MASS_OBJECT_PLASTIC, SIZE_OBJECT_SMALL);
 
-	//create intial objects
-	//CreateObjectSphere(Vector3f::unitY * 10.0f);
-	//CreateObjectSphere(Vector3f::unitY * 25.0f);
+	//create intial scene
+	CreateInitialScene();
 
 	//create the force generators
 	GroundForceGenerator* gfg = new GroundForceGenerator(10.0f);
@@ -47,6 +48,40 @@ void Game::Initialize()
 	//create the display pointer
 	mDisplayPointer = new DisplayPointer();
 	mDisplayPointerIndex = 0;
+}
+void Game::CreateInitialScene()
+{
+	//change the ground
+	mGround->SetMaterial("GrassTerrain");
+
+	//create the buildings
+	std::string name = "BuildingSide";
+
+	Vector3f pos1 = Vector3f(-20.0f, -10.0f, 0.0f);
+	Vector3f pos2 = Vector3f(0.0f, -15.0f, 0.0f);
+	Vector3f pos3 = Vector3f(20.0f, -10.0f, 0.0f);
+
+	Vector3f scale1 = Vector3f(5.0f, 10.0f, 5.0f);
+	Vector3f scale2 = Vector3f(5.0f, 15.0f, 5.0f);
+	Vector3f scale3 = Vector3f(5.0f, 10.0f, 5.0f);
+
+	CreateObjectStaticBox(pos1, scale1, name);
+	CreateObjectStaticBox(pos2, scale1, name);
+	CreateObjectStaticBox(pos3, scale1, name);
+
+	//create the spheres
+	unsigned int countX = 5;
+	unsigned int countZ = 5;
+	Vector3f sphereSpacing = Vector3f(2.0f, 2.0f, 2.0f);
+	Vector3f sphereBegin = Vector3f(- ((float)countX * 0.5f), 25.0f, - ((float)countZ * 0.5f));
+	unsigned int i, j;
+	for (i = 0; i < countX; i++)
+	{
+		for (j = 0; j < countZ; j++)
+		{
+			CreateObjectSphere(sphereBegin + Vector3f(sphereSpacing.x * (float)i, 0.0f, sphereSpacing.z * (float)j));
+		}
+	}
 }
 
 //creating new objects
@@ -59,6 +94,14 @@ void Game::CreateObjectBox(const Vector3f &position)
 {
 	GameObject* box = new GameObject("Cube", mObjectMaterial->GetName(), position, GameObject::Box, mObjectMaterial->GetMass(), mObjectMaterial->GetSize());
 	mGameObjects.push_back(box);
+}
+void Game::CreateObjectStaticBox(const Vector3f &position, const Vector3f &scale, const std::string &materialName)
+{
+	GameObject* box = new GameObject("Cube", materialName, position, GameObject::Box, 10000, scale.x);
+	box->SetStatic(true);
+	box->SetScale(scale);
+	mGameObjects.push_back(box);
+	box->LinkPositions();
 }
 
 //update all the mass aggregate graphics
@@ -99,6 +142,9 @@ void Game::Reset()
 		delete mGameObjects[i];
 	}
 	mGameObjects.clear();
+
+	//recreate the initial scene
+	CreateInitialScene();
 }
 
 //accessors

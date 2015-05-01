@@ -42,6 +42,8 @@ public:
 private:
 	void CreateObjectSphere(const Vector3f &position);
 	void CreateObjectBox(const Vector3f &position);
+	void CreateObjectStaticBox(const Vector3f &position, const Vector3f &scale, const std::string &materialName);
+	void CreateInitialScene();
 
 	void Initialize();
 	void CleanUp();

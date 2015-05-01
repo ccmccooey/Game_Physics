@@ -43,7 +43,7 @@ void MainApp::Initialize()
 	//create the camera
 	mCamera = new Camera();
 	mCamera->setRotationAxis(0.0f, 1.0f, 0.0f);
-	mCamera->moveCamera(0.0f, 20.0f, 40.0f);
+	mCamera->moveCamera(0.0f, 0.0f, 100.0f);
 
 	mCameraContainer = new CameraContainer(mCamera);
 

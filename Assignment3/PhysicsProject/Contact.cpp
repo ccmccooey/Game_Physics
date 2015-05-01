@@ -411,20 +411,23 @@ void Contact::ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChan
         //mBodies[i]->GetPosition(&pos);
         //pos.addScaledVector(contactNormal, linearMove[i]);
         //mBodies[i]->setPosition(pos);
-		mBodies[i]->Translate(mContactNormal * linearMove[i]); //Translate is a forced movement
+		if (!mBodies[i]->IsStatic())
+		{
+			mBodies[i]->Translate(mContactNormal * linearMove[i]); //Translate is a forced movement
 
-        // And the change in orientation
-		Quaternion orientation = mBodies[i]->GetOrientation();
-        //mBodies[i]->getOrientation(&q);
-        orientation.addScaledVector(angularChange[i], 1.0f);
-        mBodies[i]->SetOrientation(orientation);
+			// And the change in orientation
+			Quaternion orientation = mBodies[i]->GetOrientation();
+			//mBodies[i]->getOrientation(&q);
+			orientation.addScaledVector(angularChange[i], 1.0f);
+			mBodies[i]->SetOrientation(orientation);
 
-        // We need to calculate the derived data for any body that is
-        // asleep, so that the changes are reflected in the object's
-        // data. Otherwise the resolution will not change the position
-        // of the object, and the next collision detection round will
-        // have the same penetration.
-		mBodies[i]->CalculateDerivedData();
+			// We need to calculate the derived data for any body that is
+			// asleep, so that the changes are reflected in the object's
+			// data. Otherwise the resolution will not change the position
+			// of the object, and the next collision detection round will
+			// have the same penetration.
+			mBodies[i]->CalculateDerivedData();
+		}
     }
 }
 

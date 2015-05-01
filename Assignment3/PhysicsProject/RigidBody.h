@@ -28,7 +28,7 @@ private:
 
 	float mMass;
 	float mInverseMass;
-	bool mStatic;
+	bool mStatic; //static objects do not move and are unaffected by the physics of other objects
 
 public:
 	RigidBody();
@@ -53,6 +53,7 @@ public:
 	Vector3f GetRotationVector() const;
 	float GetMass() const;
 	float GetInverseMass() const;
+	bool IsStatic() const;
 	Matrix44f const& GetTransformMatrix() const;
 	Matrix33f GetInertiaTensorWorld() const;
 	Vector3f GetPositionInWorldSpace(const Vector3f &position) const;
@@ -61,8 +62,6 @@ public:
 	//inertia tensor accessor functions using output variables
 	void GetInertiaTensorWorld(Matrix33f *inertiaTensorOut) const; 
 	void GetInverseInertiaTensorWorld(Matrix33f *inverseInertiaTensorOut) const;
-
-	
 
 	//conerting to a string
 	std::string ToString() const;	
@@ -75,6 +74,7 @@ public:
 	void SetAngularVelocity(const Vector3f &angleVelocity);
 	void SetOrientation(const Quaternion &orientation);
 	void SetMass(float mass);
+	void SetStatic(bool isStatic);
 	void SetIntertiaTensor(const Matrix33f &intertiaTensor);
 	void CalculateDerivedData();
 
