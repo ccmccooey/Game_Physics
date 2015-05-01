@@ -318,9 +318,6 @@
     <ClCompile Include="Contact.cpp">
       <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionTest.cpp">
-      <Filter>Source Files\Physics\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="ContactResolver.cpp">
       <Filter>Source Files\Physics\Collision</Filter>
     </ClCompile>
