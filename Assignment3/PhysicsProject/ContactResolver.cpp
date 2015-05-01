@@ -57,6 +57,8 @@ void ContactResolver::ResolveContacts(Contact *contacts, unsigned int numContact
 
 void ContactResolver::PrepareContacts(Contact* contacts, unsigned int numContacts, float duration)
 {
+	unsigned int iter = 0;
+
     // Generate contact velocity and axis information.
     Contact* lastContact = contacts + numContacts;
     for (Contact* contact = contacts; contact < lastContact; contact++)
@@ -66,6 +68,7 @@ void ContactResolver::PrepareContacts(Contact* contacts, unsigned int numContact
 
 		//create the visual representation of the contacts
 		mVisualContactSystem->CreateContact(contact->mContactPoint.x, contact->mContactPoint.y, contact->mContactPoint.z);
+		++iter;
     }
 }
 
@@ -96,8 +99,8 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
         }
         if (index == numContacts) break;
 
-        // Match the awake state at the contact
-        //contact[index].matchAwakeState();
+        //Match the awake state at the contact
+        //contact[index].MatchAwakeState();
 
         // Resolve the penetration.
         contact[index].ApplyPositionChange(linearChange, angularChange, max);
@@ -113,7 +116,6 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
                 {
                     if (contact[i].mBodies[b] == contact[index].mBodies[d])
                     {
-                        //deltaPosition = linearChange[d] + angularChange[d].vectorProduct(c[i].relativeContactPosition[b]);
 						deltaPosition = linearChange[d] + Vector3f::CrossProduct(angularChange[d], contact[i].GetRelativeContactPosition(b));
 
                         // The sign of the change is positive if we're
@@ -121,7 +123,6 @@ void ContactResolver::ResolvePositions(Contact *contact, unsigned int numContact
                         // and negative otherwise (because we're
                         // subtracting the resolution)..
                         
-						//contact[i].penetration += deltaPosition.scalarProduct(contact[i].contactNormal) * (b ? 1:-1);
 						if (b)
 							contact[i].mPenetrationDepth += Vector3f::DotProduct(deltaPosition, contact[i].mContactNormal);
 						else
@@ -159,7 +160,7 @@ void ContactResolver::ResolveVelocities(Contact *contact, unsigned numContacts, 
         if (index == numContacts) break;
 
         // Match the awake state at the contact
-        //contact[index].matchAwakeState();
+        //contact[index].MatchAwakeState();
 
         // Do the resolution on the contact that came out top.
         contact[index].ApplyVelocityChange(velocityChange, rotationChange);

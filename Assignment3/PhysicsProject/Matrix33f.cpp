@@ -199,9 +199,10 @@ void Matrix33f::SetBlockInertiaTensor(const Vector3f &halfSizes, float mass)
 	//halfSizes.componentProduct(halfSizes);
 	//Vector3f squares = Vector3f::CrossProduct(halfSizes, halfSizes);
 	//squares.Power(2.0f);
-	Vector3f squares = halfSizes * halfSizes;
+	Vector3f squares = halfSizes * halfSizes; //component product
+	float val = 1.0f;// 0.3f;
 
-	SetInertiaTensorCoeffs(0.3f * mass * (squares.y + squares.z), 0.3f * mass * (squares.x + squares.z), 0.3f * mass * (squares.x + squares.y));
+	SetInertiaTensorCoeffs(val * mass * (squares.y + squares.z), val * mass * (squares.x + squares.z), val * mass * (squares.x + squares.y));
 }
 void Matrix33f::SetSkewSymmetric(const Vector3f vector)
 {

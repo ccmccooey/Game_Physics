@@ -34,9 +34,7 @@ void Game::Initialize()
 
 	//create the object material
 	mObjectMaterial = new ObjectMaterial();
-	mObjectMaterial->mSize = SIZE_OBJECT_SMALL;
-	mObjectMaterial->mMass = MASS_OBJECT_PLASTIC;
-	mObjectMaterial->mName = "Plastic";
+	mObjectMaterial->SetObjectType("Plastic", MASS_OBJECT_PLASTIC, SIZE_OBJECT_SMALL);
 
 	//create intial objects
 	//CreateObjectSphere(Vector3f::unitY * 10.0f);
@@ -54,12 +52,12 @@ void Game::Initialize()
 //creating new objects
 void Game::CreateObjectSphere(const Vector3f &position)
 {
-	GameObject* sphere = new GameObject("Sphere", mObjectMaterial->mName, position, GameObject::Sphere, mObjectMaterial->mMass, mObjectMaterial->mSize );
+	GameObject* sphere = new GameObject("Sphere", mObjectMaterial->GetName(), position, GameObject::Sphere, mObjectMaterial->GetMass(), mObjectMaterial->GetSize() );
 	mGameObjects.push_back(sphere);
 }
 void Game::CreateObjectBox(const Vector3f &position)
 {
-	GameObject* box = new GameObject("Cube", mObjectMaterial->mName, position, GameObject::Box, mObjectMaterial->mMass, mObjectMaterial->mSize );
+	GameObject* box = new GameObject("Cube", mObjectMaterial->GetName(), position, GameObject::Box, mObjectMaterial->GetMass(), mObjectMaterial->GetSize());
 	mGameObjects.push_back(box);
 }
 
@@ -131,15 +129,15 @@ void Game::GetDebugInfo(std::string &info) const
 }
 float Game::GetObjectMass() const
 {
-	return mObjectMaterial->mMass;
+	return mObjectMaterial->GetMass();
 }
 float Game::GetObjectSize() const
 {
-	return mObjectMaterial->mSize;
+	return mObjectMaterial->GetSize();
 }
 void Game::GetObjectInfoString(std::string &info) const
 {
-	info = "Material: " +mObjectMaterial->mName + ", Mass: " +to_string(mObjectMaterial->mMass) + ", Size: " +to_string(mObjectMaterial->mSize);
+	info = "Material: " + mObjectMaterial->GetName() + ", Mass: " + to_string(mObjectMaterial->GetMass()) + ", Size: " + to_string(mObjectMaterial->GetSize());
 }
 
 //send gui events from the main app to the game
@@ -158,36 +156,36 @@ void Game::SendGuiEvent(GuiOperationEnum ev)
 		}
 		break;
 	case GuiOperationEnum::Set_Size_Small:
-		mObjectMaterial->mSize = SIZE_OBJECT_SMALL;
+		mObjectMaterial->SetSize(SIZE_OBJECT_SMALL);
 		break;
 	case GuiOperationEnum::Set_Size_Medium:
-		mObjectMaterial->mSize = SIZE_OBJECT_MEDIUM;
+		mObjectMaterial->SetSize(SIZE_OBJECT_MEDIUM);
 		break;
 	case GuiOperationEnum::Set_Size_Large:
-		mObjectMaterial->mSize = SIZE_OBJECT_LARGE;
+		mObjectMaterial->SetSize(SIZE_OBJECT_LARGE);
 		break;
 	case GuiOperationEnum::Set_Material_Airfilled:
-		mObjectMaterial->mMass = MASS_OBJECT_AIRFILLED;
-		mObjectMaterial->mName = "AirFilled";
+		mObjectMaterial->SetMassPerUnit(MASS_OBJECT_AIRFILLED);
+		mObjectMaterial->SetName("AirFilled");
 		break;
 	case GuiOperationEnum::Set_Material_Plastic:
-		mObjectMaterial->mMass = MASS_OBJECT_PLASTIC;
-		mObjectMaterial->mName = "Plastic";
+		mObjectMaterial->SetMassPerUnit(MASS_OBJECT_PLASTIC);
+		mObjectMaterial->SetName("Plastic");
 		break;
 	case GuiOperationEnum::Set_Material_Wood:
-		mObjectMaterial->mMass = MASS_OBJECT_WOOD;
-		mObjectMaterial->mName = "Wood";
+		mObjectMaterial->SetMassPerUnit(MASS_OBJECT_WOOD);
+		mObjectMaterial->SetName("Wood");
 		break;
 	case GuiOperationEnum::Set_Material_Steel:
-		mObjectMaterial->mMass = MASS_OBJECT_STEEL;
-		mObjectMaterial->mName = "Steel";
+		mObjectMaterial->SetMassPerUnit(MASS_OBJECT_STEEL);
+		mObjectMaterial->SetName("Steel");
 		break;
 	case GuiOperationEnum::Set_Material_Iron:
-		mObjectMaterial->mMass = MASS_OBJECT_IRON;
-		mObjectMaterial->mName = "Iron";
+		mObjectMaterial->SetMassPerUnit(MASS_OBJECT_IRON);
+		mObjectMaterial->SetName("Iron");
 		break;
 	case GuiOperationEnum::Create_Sphere:
-		this->CreateObjectSphere(Vector3f::unitY * 20.0f + Vector3f(Random::ArithmeticFloat(), 0.0f, Random::ArithmeticFloat()));
+		this->CreateObjectSphere(Vector3f::unitY * 20.0f +Vector3f(Random::ArithmeticFloat(), 0.0f, Random::ArithmeticFloat()));
 		break;
 	case GuiOperationEnum::Create_Box:
 		this->CreateObjectBox(Vector3f::unitY * 20.0f);

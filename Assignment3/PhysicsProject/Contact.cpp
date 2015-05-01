@@ -144,14 +144,11 @@ void Contact::CalculateDesiredDeltaVelocity(double duration)
 	
 	//velocityFromAcc += mBodies[0]->GetPreviousFrameAcceleration() * duration * mContactNormal;
 	velocityFromAcc += Vector3f::DotProduct(mBodies[0]->GetPreviousFrameAcceleration() * (float)duration, mContactNormal);
-	
 
 	if (mBodies[1] != nullptr)
-	{
-		velocityFromAcc -= Vector3f::DotProduct(mBodies[1]->GetPreviousFrameAcceleration() * (float)duration, mContactNormal);
-		//velocityFromAcc -= mBodies[1]->GetPreviousFrameAcceleration() * duration * mContactNormal;				
+	{	
+		velocityFromAcc -= Vector3f::DotProduct(mBodies[1]->GetPreviousFrameAcceleration() * (float)duration, mContactNormal);						
 	}
-	
 
 	// If the velocity is very slow, limit the restitution
 	float thisRestitution = mRestitution;
@@ -161,7 +158,7 @@ void Contact::CalculateDesiredDeltaVelocity(double duration)
 	}
 
 	// Combine the bounce velocity with the removed acceleration velocity.
-	mDesiredDeltaVelocity = -mContactVelocity.x - thisRestitution * (mContactVelocity.x - velocityFromAcc);
+	mDesiredDeltaVelocity = -mContactVelocity.x -thisRestitution * (mContactVelocity.x - velocityFromAcc);
 }
 
 Vector3f Contact::CalculateLocalVelocity(unsigned int mBodyIndex, double duration)
@@ -169,10 +166,6 @@ Vector3f Contact::CalculateLocalVelocity(unsigned int mBodyIndex, double duratio
     RigidBody* thisBody = mBodies[mBodyIndex];
 
     // Work out the velocity of the contact point.
-    
-	//Vector3f velocity = thisBody->GetRotation() % relativeContactPosition[mBodyIndex];
-    //velocity += thisBody->GetVelocity();
-
 	Vector3f velocity = Vector3f::CrossProduct(thisBody->GetRotation(), mRelativeContactPosition[mBodyIndex]);
 	velocity += thisBody->GetVelocity();
 
@@ -201,9 +194,7 @@ inline Vector3f Contact::CalculateFrictionlessImpulse(Matrix33f* inverseInertiaT
 {
     Vector3f impulseContact;
 
-    // Build a vector that shows the change in velocity in
-    // world space for a unit impulse in the direction of the contact
-    // normal.
+    // Build a vector that shows the change in velocity in world space for a unit impulse in the direction of the contact normal.
 	Vector3f deltaVelocityWorld = Vector3f::CrossProduct(mRelativeContactPosition[0], mContactNormal);
     deltaVelocityWorld = inverseInertiaTensor[0].Transform(deltaVelocityWorld);
 	deltaVelocityWorld = Vector3f::CrossProduct(deltaVelocityWorld, mRelativeContactPosition[0]);
@@ -433,7 +424,6 @@ void Contact::ApplyPositionChange(Vector3f linearChange[2], Vector3f angularChan
         // data. Otherwise the resolution will not change the position
         // of the object, and the next collision detection round will
         // have the same penetration.
-        //if (!mBodies[i]->getAwake()) mBodies[i]->calculateDerivedData();
 		mBodies[i]->CalculateDerivedData();
     }
 }
@@ -459,8 +449,8 @@ void Contact::ApplyVelocityChange(Vector3f velocityChange[2], Vector3f rotationC
     else
     {
         // Otherwise we may have impulses that aren't in the direction of the contact, so we need the more complex version.
-        //impulseContact = CalculateFrictionImpulse(inverseInertiaTensor);
-		impulseContact = CalculateFrictionlessImpulse(inverseInertiaTensor);
+        impulseContact = CalculateFrictionImpulse(inverseInertiaTensor);
+		//impulseContact = CalculateFrictionlessImpulse(inverseInertiaTensor);
     }
 
     // Convert impulse to world coordinates

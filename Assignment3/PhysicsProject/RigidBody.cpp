@@ -1,5 +1,7 @@
 #include "RigidBody.h"
 
+#define SLEEP_EPSILON 0.01f
+
 RigidBody::RigidBody()
 {
 	mPosition = Vector3f();
@@ -109,7 +111,7 @@ std::string RigidBody::ToString() const
 //inertia tensor accessors
 void RigidBody::GetInertiaTensorWorld(Matrix33f *inertiaTensor) const
 {
-    inertiaTensor->SetInverse(mInverseInertiaTensorWorld); //Matrix33f inverse function not implemented
+    inertiaTensor->SetInverse(mInverseInertiaTensorWorld);
 }
 void RigidBody::GetInverseInertiaTensorWorld(Matrix33f *inverseInertiaTensor) const
 {
@@ -119,6 +121,7 @@ void RigidBody::GetInverseInertiaTensorWorld(Matrix33f *inverseInertiaTensor) co
 // updating the transform
 void RigidBody::CalculateTransformMatrix()
 {
+	mOrientation.normalize();
 	mOrientation.toRotationMatrix(mTransformMatrix);
 	mTransformMatrix[3] = mPosition.x;
 	mTransformMatrix[7] = mPosition.y;
@@ -138,6 +141,7 @@ void RigidBody::CopyDataFrom(const RigidBody &other)
 	mOrientation = other.mOrientation;
 	mAngularVelocity = other.mAngularVelocity;
 	mTransformMatrix = other.mTransformMatrix;
+	mStatic = other.mStatic;
 }
 void RigidBody::SetVelocity(const Vector3f &velocity)
 {
@@ -168,6 +172,7 @@ void RigidBody::SetAngularVelocity(const Vector3f &angleVelocity)
 void RigidBody::SetOrientation(const Quaternion &orientation)
 {
 	mOrientation = orientation;
+	mOrientation.normalize();
 }
 void RigidBody::CalculateDerivedData()
 {
@@ -275,15 +280,16 @@ void RigidBody::FixedUpdate(double t)
 	//Calculate angular acceleration
 	mAngularAcceleration = mInverseInertiaTensorWorld.Transform(mAccumulatedTorque);
 
-	//Calculate angular velocity
-	mAngularVelocity += mAngularAcceleration * (float)t;
-
 	//Calculate linear velocity
 	mVelocity = mVelocity + mAcceleration * (float)t;
+
+	//Calculate angular velocity
+	mAngularVelocity += mAngularAcceleration * (float)t;
 
 	//drag
     //mVelocity *= powf(0.00001f, (float)t);
     //mAngularVelocity *= powf(0.00001f, (float)t);
+	mAngularVelocity *= 0.999999f;
 
 	//move the object based on linear velocity
 	mPosition += mVelocity * (float)t;

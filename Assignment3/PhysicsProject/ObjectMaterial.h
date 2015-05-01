@@ -16,19 +16,33 @@
 
 struct ObjectMaterial
 {
-public:
+private:
 	float mMass;
+	float mMassPerUnit;
 	float mSize;
 	std::string mName;
 
 public:
 	ObjectMaterial();
-	ObjectMaterial(float mass, float size, const std::string &name);
+	ObjectMaterial(float massPerUnit, float size, const std::string &name);
 	ObjectMaterial(const ObjectMaterial &rhs);
 	~ObjectMaterial();
 
+	//accessors
+	float GetMass() const;
+	float GetMassPerUnit() const;
+	float GetSize() const;
+	std::string const& GetName() const;
+
+	//setters
+	void SetMassPerUnit(float mass);
+	void SetSize(float size);
+	void SetName(const std::string &name);
 	ObjectMaterial& operator = ( const ObjectMaterial& rhs );
 	void SetObjectType(const std::string &name, float massPerUnit, float size);
+
+private:
+	void CalculateMass();
 
 };
 
